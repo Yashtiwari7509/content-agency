@@ -232,6 +232,9 @@
 #Marqee-slider {
   mask-image: linear-gradient(to right, transparent 10%, black 20%, black 80%, transparent 90%);
 }
+#Marqee-slider-vertical {
+  mask-image: linear-gradient(to bottom, transparent 10%, black 20%, black 80%, transparent 90%);
+}
 @layer base {
   * {
     @apply border-border outline-ring/50;

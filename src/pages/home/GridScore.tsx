@@ -2,11 +2,17 @@ import macPng from "../../../public/mac.png";
 import starSvg2 from "../../../public/roundstar.svg?url";
 import bgrays from "../../../public/bgrays.png?url";
 import hands from "../../../public/hands.png?url";
+import lh from "../../../public/eh-split (1).png";
+import rh from "../../../public/eh-split.png";
 import social from "../../../public/social.png";
 import start5 from "../../../public/5stars.png";
 import { AnimatedTooltip } from "@/components/ui/animated-tooltip";
 import ChatBubble from "@/components/ChatBubble";
 import HeroCard, { type CardStatsItem } from "@/components/HeroCard";
+import SectionLabel from "@/components/SectionLabel";
+import RevealAnimation from "@/components/ui/animationReveal";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 const CardStatsData: CardStatsItem[] = [
   {
     top: ["https://www.shutterstock.com/image-photo/close-head-shot-portrait-preppy-600nw-1433809418.jpg", hands],
@@ -58,14 +64,33 @@ const CardStatsData: CardStatsItem[] = [
   },
 ];
 const GridScore = () => {
+  useGSAP(() => {
+    gsap.from(".handds", {
+      opacity: 1,
+      ease: "power4.out",
+      x: (x) => (x === 0 ? -100 : 100),
+      scrollTrigger: {
+        trigger: ".container",
+        start: `top top`,
+        end: "30% top",
+        scrub: 5,
+      },
+    });
+  });
   return (
-    <div className="w-screen min-h-screen p-2 bg-white">
+    <div className="w-screen min-h-screen p-2 bg-white relative py-20">
+      <SectionLabel text="Score" />
       <div className="text-center mb-20">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our Success Score</h1>
-        <p className="text-sm text-gray-600 max-w-lg mx-auto leading-relaxed">
-          Each frame tells a story, capturing genuine moments that showcase my style and vision. Browse through my
-          favorite projects.
-        </p>
+        <RevealAnimation blurAmount={20} yPercent={0}>
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our Success Score</h1>
+        </RevealAnimation>
+
+        <RevealAnimation className="overflow-hidden">
+          <p className="text-sm text-gray-600 max-w-lg mx-auto leading-relaxed">
+            Each frame tells a story, capturing genuine moments that showcase my style and vision. Browse through my
+            favorite projects.
+          </p>
+        </RevealAnimation>
       </div>
       <div className="container max-w-5xl  mx-auto">
         <div className="top-left relative overflow-hidden">
@@ -106,11 +131,15 @@ const GridScore = () => {
         </div>
         <div className="middle">
           <div className="inner-grid w-full h-full relative overflow-hidden">
-            <img
+            <div className="size-full flex">
+              <img src={rh} className="h-full w-[50%] handds" alt="" />
+              <img src={lh} className="h-full w-[50%] handds" alt="" />
+            </div>
+            {/* <img
               src={hands}
               className="size-[100%] bottom-0 mt-1 hue-rotate-15 brightness-90 relative  object-cover rotate-0"
               alt=""
-            />
+            /> */}
             <h4 className="absolute text-center bottom-8 font-bold  text-3xl w-full">
               We <br /> DELIVERED
             </h4>

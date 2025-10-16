@@ -1,10 +1,6 @@
 import { cn } from "@/lib/utils";
-import { useGSAP } from "@gsap/react";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
-import gsap from "gsap";
-import { useLenis } from "lenis/react";
-
 import React, { useRef, useState } from "react";
 
 interface NavbarProps {
@@ -52,18 +48,6 @@ export const Navbar = ({ children, className }: NavbarProps) => {
     offset: ["start start", "end start"],
   });
   const [visible, setVisible] = useState<boolean>(false);
-  const { contextSafe } = useGSAP();
-
-  // Create context-safe animation functions OUTSIDE the callback
-  const animateUp = contextSafe(() => {
-    console.log("scrolling up");
-    gsap.to(".main-top-nav", { yPercent: -200, duration: 1, ease: "power2.out" });
-  });
-
-  const animateDown = contextSafe(() => {
-    console.log("scrolling down");
-    gsap.to(".main-top-nav", { yPercent: 0, duration: 0.3, ease: "power2.out" });
-  });
 
   // useLenis(({ direction }) => {
   //   if (direction === -1) {
@@ -189,7 +173,7 @@ export const MobileNavHeader = ({ children, className }: MobileNavHeaderProps) =
   return <div className={cn("flex w-full flex-row items-center justify-between", className)}>{children}</div>;
 };
 
-export const MobileNavMenu = ({ children, className, isOpen, onClose }: MobileNavMenuProps) => {
+export const MobileNavMenu = ({ children, className, isOpen }: MobileNavMenuProps) => {
   return (
     <AnimatePresence>
       {isOpen && (
@@ -232,20 +216,20 @@ export const NavbarLogo = () => {
   );
 };
 
-export const NavbarButton = ({
+export const NavbarButton = <T extends "a" | "button">({
   href,
-  as: Tag = "a",
+  as: Tag = "a" as T,
   children,
   className,
   variant = "primary",
   ...props
 }: {
-  href?: string;
-  as?: React.ElementType;
+  href?: T extends "a" ? string : never;
+  as?: T;
   children: React.ReactNode;
   className?: string;
   variant?: "primary" | "secondary" | "dark" | "gradient";
-} & (React.ComponentPropsWithoutRef<"a"> | React.ComponentPropsWithoutRef<"button">)) => {
+} & (T extends "a" ? Omit<React.ComponentPropsWithoutRef<"a">, "href"> : React.ComponentPropsWithoutRef<"button">)) => {
   const baseStyles =
     "px-4 py-2 rounded-md bg-white button bg-white text-black text-sm font-bold relative cursor-pointer hover:bg-black hover:text-white transition-colors duration-500 inline-block text-center";
 
@@ -258,9 +242,15 @@ export const NavbarButton = ({
       "bg-gradient-to-b from-blue-500 to-blue-700 text-white shadow-[0px_2px_0px_0px_rgba(255,255,255,0.3)_inset]",
   };
 
+  const TagName = Tag as any;
+
   return (
-    <Tag href={href || undefined} className={cn(baseStyles, variantStyles[variant], className)} {...props}>
+    <TagName
+      {...(Tag === "a" ? { href: href ?? undefined } : {})}
+      className={cn(baseStyles, variantStyles[variant], className)}
+      {...(props as any)}
+    >
       {children}
-    </Tag>
+    </TagName>
   );
 };

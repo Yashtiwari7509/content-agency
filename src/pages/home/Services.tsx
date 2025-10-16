@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { ArrowDown, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import { useRef } from "react";
 
 const services = [
@@ -117,7 +117,10 @@ const ServiceCard = ({ bgColor, title, description, src, setup }: any) => {
         className="w-[20rem] hidden lg:block object-cover h-[30rem] z-20 absolute left-[-40%] rounded-lg"
         alt=""
       />
-      <div ref={cardRef} className="relative bg-gray-50 w-full p-3 rounded-xl cursor-pointer lg:h-[106px] h-[250px]  overflow-hidden">
+      <div
+        ref={cardRef}
+        className="relative bg-gray-50 w-full p-3 rounded-xl cursor-pointer lg:h-[106px] h-[250px]  overflow-hidden"
+      >
         <div className="flex flex-col sm:flex-row gap-6">
           <div className={`w-full h-30 sm:w-30 sm:h-20 ${bgColor} rounded-lg flex-shrink-0 overflow-hidden`}>
             <img src={src} className="w-full h-full object-cover"></img>

@@ -23,7 +23,10 @@ const Icons = [
 ];
 const CardStatsData: CardStatsItem[] = [
   {
-    top: ["https://www.shutterstock.com/image-photo/close-head-shot-portrait-preppy-600nw-1433809418.jpg", image6],
+    top: [
+      "https://www.shutterstock.com/image-photo/close-head-shot-portrait-preppy-600nw-1433809418.jpg",
+      image6,
+    ],
     bottom: [
       {
         label: "views",
@@ -55,7 +58,10 @@ const CardStatsData: CardStatsItem[] = [
     alignmentCss: "70% 20%",
   },
   {
-    top: ["https://www.shutterstock.com/image-photo/close-head-shot-portrait-preppy-600nw-1433809418.jpg", image6],
+    top: [
+      "https://www.shutterstock.com/image-photo/close-head-shot-portrait-preppy-600nw-1433809418.jpg",
+      image6,
+    ],
     bottom: [
       {
         label: "views",
@@ -79,9 +85,7 @@ const Hero = () => {
       repeat: -1,
       ease: "none",
     });
-  }, {
-    
-  });
+  }, {});
 
   return (
     <div className="w-screen h-screen relative top-0 overflow-hidden">

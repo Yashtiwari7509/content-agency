@@ -1,11 +1,12 @@
 import * as THREE from "three";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import type { JSX } from "react";
 import { useGLTF, useVideoTexture } from "@react-three/drei";
 import type { GLTF } from "three-stdlib";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useThree } from "@react-three/fiber";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -73,10 +74,23 @@ type GLTFResult = GLTF & {
   };
 };
 
+// Video texture setup helper
+const setupVideoTexture = (texture: THREE.VideoTexture) => {
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.minFilter = THREE.LinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+  texture.generateMipmaps = false;
+  return texture;
+};
 export function Model(props: JSX.IntrinsicElements["group"]) {
   const modelRef = useRef<THREE.Group>(null);
   const { nodes, materials } = useGLTF("/i17x.glb") as unknown as GLTFResult;
   const [texIndex, setTexIndex] = useState(0);
+
+  const viewport = useThree((state) => state.viewport);
+
+  const screenPositionFactor = Math.min(window.innerWidth / 1700, 0.7);
+  console.log(screenPositionFactor, "screen");
 
   useGSAP(() => {
     if (!modelRef.current) return;
@@ -103,25 +117,20 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
         ease: "none",
       }
     );
-    gsap.fromTo(
-      modelRef.current.position,
-      {
-        y: 2,
-        x: 2,
+    console.log(viewport.width);
+
+    gsap.from(modelRef.current.position, {
+      y: 2,
+      x: 2,
+      scrollTrigger: {
+        trigger: "#video-page",
+        start: "-20% top",
+        end: "30% top",
+        scrub: 1,
+        invalidateOnRefresh: true,
       },
-      {
-        y: 0,
-        x: 0.7,
-        scrollTrigger: {
-          trigger: "#video-page",
-          start: "-20% top",
-          end: "30% top",
-          scrub: 1,
-          invalidateOnRefresh: true,
-        },
-        ease: "none",
-      }
-    );
+      ease: "none",
+    });
     gsap.fromTo(
       modelRef.current.rotation,
       {
@@ -149,7 +158,20 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
         },
         ease: "none",
       }
-    );
+    )
+
+    gsap.to(modelRef.current.position, {
+      y: 2,
+      x: 0,
+      scrollTrigger: {
+        trigger: "#lastPage",
+        start: "-20% top",
+        end: "30% top",
+        scrub: 1,
+        invalidateOnRefresh: true,
+      },
+      ease: "none",
+    });
     ScrollTrigger.refresh();
   }, []);
 
@@ -163,23 +185,30 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     loop: false,
     start: false,
   });
+
+  // Setup textures
+  useMemo(() => {
+    setupVideoTexture(videoTexture);
+    setupVideoTexture(videoTexture1);
+  }, [videoTexture, videoTexture1]);
+
   const textures = [videoTexture, videoTexture1];
+  const currentTexture = textures[texIndex];
+  const handlePointerEnter = () => {
+    if (videoTexture?.image && "play" in videoTexture.image) {
+      const videoEl = videoTexture.image as HTMLVideoElement;
+      videoEl.muted = false; // enable sound
+      videoEl.volume = 0.5; // set volume to 50%
+      videoEl.play();
+    }
 
- const handlePointerEnter = () => {
-   if (videoTexture?.image && "play" in videoTexture.image) {
-     const videoEl = videoTexture.image as HTMLVideoElement;
-     videoEl.muted = false; // enable sound
-     videoEl.volume = 0.5; // set volume to 50%
-     videoEl.play();
-   }
-
-   if (videoTexture1?.image && "play" in videoTexture1.image) {
-     const videoEl1 = videoTexture1.image as HTMLVideoElement;
-     videoEl1.muted = false;
-     videoEl1.volume = 0.5;
-     videoEl1.play();
-   }
- };
+    if (videoTexture1?.image && "play" in videoTexture1.image) {
+      const videoEl1 = videoTexture1.image as HTMLVideoElement;
+      videoEl1.muted = false;
+      videoEl1.volume = 0.5;
+      videoEl1.play();
+    }
+  };
 
   const handlePointerLeave = () => {
     if (videoTexture?.image && "pause" in videoTexture.image) {
@@ -193,14 +222,6 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
   // if (videoTexture?.image && "pause" in videoTexture.image) {
   //   (videoTexture.image as HTMLVideoElement).pause();
   // }
-  videoTexture.colorSpace = THREE.SRGBColorSpace;
-  videoTexture.minFilter = THREE.LinearFilter;
-  videoTexture.magFilter = THREE.LinearFilter;
-  videoTexture.generateMipmaps = false;
-  videoTexture1.colorSpace = THREE.SRGBColorSpace;
-  videoTexture1.minFilter = THREE.LinearFilter;
-  videoTexture1.magFilter = THREE.LinearFilter;
-  videoTexture1.generateMipmaps = false;
 
   const enableSound = () => {
     [videoTexture, videoTexture1].forEach((tex) => {
@@ -218,7 +239,12 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
       ref={modelRef}
       {...props}
       dispose={null}
-      position={[0, 0, 0]}
+      position={[
+        screenPositionFactor < 0.4 ? 0 : screenPositionFactor,
+        screenPositionFactor > 0.4 ? 0 : -screenPositionFactor,
+        0,
+      ]}
+      scale={Math.min(screenPositionFactor * 10, 3)}
     >
       <group scale={0.22} name="Scene">
         <group name="Sketchfab_model" rotation={[-Math.PI / 2, 0, 0]} scale={10.929}>
@@ -535,7 +561,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
                     rotation={[Math.PI / 2, 0, Math.PI]}
                     scale={[-0.511 * 0.071, -0.694 * 0.071, -1.118 * 0.071]}
                   >
-                    <meshBasicMaterial map={textures[texIndex]} side={THREE.DoubleSide} toneMapped={false} />
+                    <meshBasicMaterial map={currentTexture} side={THREE.DoubleSide} toneMapped={false} />
                   </mesh>
                 </group>
                 <group name="Screw_18">

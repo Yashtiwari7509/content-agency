@@ -1,7 +1,7 @@
-import Balloons from "@/components/Balloons";
+import SectionLabel from "@/components/SectionLabel";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { Heart, MessageCircle, Play, ArrowUpRight, PlayIcon } from "lucide-react";
+import { Heart, MessageCircle, ArrowUpRight, PlayIcon } from "lucide-react";
 import { useRef } from "react";
 
 const PortfolioCard = ({ bgColor, imageUrl, author, likes, comments }: any) => {
@@ -204,11 +204,7 @@ export default function PortfolioLayout() {
     <div className="min-h-screen bg-white p-8 md:p-16 relative">
       <div className="max-w-5xl mx-auto relative">
         {/* Portfolio Label */}
-        <div className="flex justify-center mb-8">
-          <span className="text-sm font-medium text-gray-700 bg-gray-100 px-6 py-2 rounded-full inline-block">
-            Portfolio
-          </span>
-        </div>
+        <SectionLabel text="Portfolio" />
 
         {/* Heading */}
         <div className="text-center mb-4">

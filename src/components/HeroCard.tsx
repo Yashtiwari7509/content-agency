@@ -1,6 +1,5 @@
 // import image5 from "../../public/shorts.svg?url";
 import { cn } from "@/lib/utils";
-import image6 from "../../public/reel.svg?url";
 // import profile from "../../public/profile.webp";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
