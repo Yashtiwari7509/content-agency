@@ -84,7 +84,7 @@ const setupVideoTexture = (texture: THREE.VideoTexture) => {
 };
 export function Model(props: JSX.IntrinsicElements["group"]) {
   const modelRef = useRef<THREE.Group>(null);
-  const { nodes, materials } = useGLTF("/public/i17x.glb") as unknown as GLTFResult;
+  const { nodes, materials } = useGLTF("./i17x.glb") as unknown as GLTFResult;
   const [texIndex, setTexIndex] = useState(0);
 
   const viewport = useThree((state) => state.viewport);
@@ -175,12 +175,12 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     ScrollTrigger.refresh();
   }, []);
 
-  const videoTexture = useVideoTexture("../../../public/video.mp4", {
+  const videoTexture = useVideoTexture("./video.mp4", {
     muted: true,
     loop: false,
     start: false,
   });
-  const videoTexture1 = useVideoTexture("../../../public/video2.mp4", {
+  const videoTexture1 = useVideoTexture("./video2.mp4", {
     muted: true,
     loop: false,
     start: false,
@@ -600,4 +600,4 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
   );
 }
 
-useGLTF.preload("/public/i17x.glb");
+useGLTF.preload("./i17x.glb");
