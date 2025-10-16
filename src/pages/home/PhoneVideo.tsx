@@ -94,9 +94,10 @@ const PhoneVideo = () => {
           className="w-screen absolute top-0 h-screen !pointer-events-auto  z-[999]"
           dpr={1}
           camera={{ position: [0, 0, 10], fov: 10 }}
+          shadows={false}
         >
           <Model />
-          <Environment preset="apartment" backgroundIntensity={0.2} />
+          <Environment preset="dawn" backgroundIntensity={10} />
         </Canvas>
       </div>
 

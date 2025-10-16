@@ -84,7 +84,7 @@ const setupVideoTexture = (texture: THREE.VideoTexture) => {
 };
 export function Model(props: JSX.IntrinsicElements["group"]) {
   const modelRef = useRef<THREE.Group>(null);
-  const { nodes, materials } = useGLTF("/i17x.glb") as unknown as GLTFResult;
+  const { nodes, materials } = useGLTF("../../../public/i17x.glb") as unknown as GLTFResult;
   const [texIndex, setTexIndex] = useState(0);
 
   const viewport = useThree((state) => state.viewport);
@@ -600,4 +600,4 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
   );
 }
 
-useGLTF.preload("/i17x.glb");
+useGLTF.preload("../../../public/i17x.glb");
