@@ -72,8 +72,8 @@ const VerticalSlider: FC = () => {
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="mb-8">
-          <h1 className="text-black text-4xl font-bold mb-3">Built to bring your business results</h1>
-          <p className="text-gray-500 text-lg">Designed to help turn website visits into actual sales.</p>
+          <h1 className="text-black text-3xl font-bold mb-3">Built to bring your business results</h1>
+          <p className="text-gray-500 text-md">Designed to help turn website visits into actual sales.</p>
         </div>
 
         <div id="Marqee-slider-vertical" className="h-96 overflow-hidden relative">

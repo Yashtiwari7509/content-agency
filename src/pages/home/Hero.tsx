@@ -77,7 +77,7 @@ const Hero = () => {
   const heroTlRef = useRef<GSAPTimeline>(null);
 
   useGSAP(() => {
-    const textLine = SplitText.create("#hero-h1");
+    const textLine = SplitText.create(".hero-h1");
     const { words } = textLine.split({ type: "words" });
     gsap.to(".center", {
       rotationZ: 360,
@@ -106,11 +106,15 @@ const Hero = () => {
         },
         "<"
       )
-      .from(".center", {
-        opacity : 0,
-        scale : 0,
-        duration: 3,
-      },'-=3')
+      .from(
+        ".center",
+        {
+          opacity: 0,
+          scale: 0,
+          duration: 3,
+        },
+        "-=3"
+      )
       .from(
         words,
         {
@@ -122,6 +126,9 @@ const Hero = () => {
         },
         "-=1"
       )
+      .from(".climax", {
+        opacity: 0,
+      })
       .from(
         "#heroCard",
         {
@@ -132,7 +139,7 @@ const Hero = () => {
         },
         "-=3"
       );
-  }, {});
+  }, []);
 
   return (
     <div className="w-screen h-screen relative top-0 overflow-hidden">
@@ -145,12 +152,10 @@ const Hero = () => {
       </div>
       <Balloons />
 
-      <h1
-        id="hero-h1"
-        className="relative px-4 text-black text-4xl mx-auto md:text-5xl lg:text-5xl md:max-w-1/2  text-center leading-tight font-semibold mt-[20vh] md:mt-[30vh] "
-      >
-        Creating visuals that <span className="font-[sans]">trends</span>
-      </h1>
+      <div className="relative px-4 text-black text-4xl mx-auto md:text-5xl lg:text-5xl md:max-w-1/2  text-center leading-tight font-semibold mt-[20vh] md:mt-[30vh] ">
+        <h1 className="hero-h1">Creating visuals that</h1>
+        <span className="font-[sans] climax">trends</span>
+      </div>
 
       <div className="absolute h-[80vh] w-screen top-40 md:top-0 center-con">
         <div className="center  relative flex items-center w-[30vw] shrink-0 aspect-square justify-center border-2 border-white  rounded-full overflow-visible">

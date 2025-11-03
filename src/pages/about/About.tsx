@@ -39,7 +39,7 @@ const About = () => {
       <div className="w-screen h-screen sticky top-0 ">
         <div className="w-full h-full relative  ">
           <div className="px-20 py-15 t-center border-white overflow-hidden  border backdrop-blur-sm rounded-full relative flex justify-center items-center">
-            <h1 className="text-7xl text-zinc-800  whitespace-nowrap font-black ">
+            <h1 className="text-4xl md:text-7xl text-zinc-800  whitespace-nowrap font-black ">
               The Xpro
               <img
                 id="ball"
@@ -48,7 +48,7 @@ const About = () => {
                 alt=""
               />
             </h1>
-            <h1 className="px-20 py-2   bottom-0 text-white  z-10  bg-black absolute ">Agency</h1>
+            <h1 className="px-10 md:px-20 py-2  bottom-0 text-white  z-10  bg-black absolute ">Agency</h1>
           </div>
           <SvgText id="maskone">
             <h1 className="text-4xl text-center overflow-hidden">

@@ -12,6 +12,7 @@ import {
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useState } from "react";
+import { NavLink } from "react-router";
 
 export function NavbarTop() {
   const navItems = [
@@ -115,14 +116,14 @@ export function NavbarTop() {
 
           <MobileNavMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)}>
             {navItems.map((item, idx) => (
-              <a
+              <NavLink
                 key={`mobile-link-${idx}`}
-                href={item.link}
+                to={item.link}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="relative w-full text-2xl text-center text-neutral-600 dark:text-neutral-300"
               >
                 <span className="block">{item.name}</span>
-              </a>
+              </NavLink>
             ))}
             <div className="flex w-full flex-col gap-4">
               <NavbarButton  onClick={() => setIsMobileMenuOpen(false)} variant="primary" className="w-full shadow-none border py-4 rounded-full">
