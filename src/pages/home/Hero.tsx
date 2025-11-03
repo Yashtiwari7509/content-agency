@@ -10,6 +10,8 @@ import Balloons from "@/components/Balloons";
 import HeroCard, { type CardStatsItem } from "@/components/HeroCard";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { useRef } from "react";
+import { SplitText } from "gsap/SplitText";
 
 const Icons = [
   { src: image1 },
@@ -23,10 +25,7 @@ const Icons = [
 ];
 const CardStatsData: CardStatsItem[] = [
   {
-    top: [
-      "https://www.shutterstock.com/image-photo/close-head-shot-portrait-preppy-600nw-1433809418.jpg",
-      image6,
-    ],
+    top: ["https://www.shutterstock.com/image-photo/close-head-shot-portrait-preppy-600nw-1433809418.jpg", image6],
     bottom: [
       {
         label: "views",
@@ -39,7 +38,7 @@ const CardStatsData: CardStatsItem[] = [
     ],
     heroCard: true,
     animation: true,
-    alignmentCss: "85% 50%",
+    alignmentCss: window.innerWidth < 600 ? "70% 50%" : "85% 50%",
   },
   {
     top: [image2, image6],
@@ -55,13 +54,10 @@ const CardStatsData: CardStatsItem[] = [
     ],
     heroCard: true,
     animation: true,
-    alignmentCss: "70% 20%",
+    alignmentCss: window.innerWidth < 600 ? "85% 20%" : "70% 20%",
   },
   {
-    top: [
-      "https://www.shutterstock.com/image-photo/close-head-shot-portrait-preppy-600nw-1433809418.jpg",
-      image6,
-    ],
+    top: ["https://www.shutterstock.com/image-photo/close-head-shot-portrait-preppy-600nw-1433809418.jpg", image6],
     bottom: [
       {
         label: "views",
@@ -74,36 +70,90 @@ const CardStatsData: CardStatsItem[] = [
     ],
     heroCard: true,
     animation: true,
-    alignmentCss: "70% 80%",
+    alignmentCss: window.innerWidth < 600 ? "85% 80%" : "70% 80%",
   },
 ];
 const Hero = () => {
+  const heroTlRef = useRef<GSAPTimeline>(null);
+
   useGSAP(() => {
+    const textLine = SplitText.create("#hero-h1");
+    const { words } = textLine.split({ type: "words" });
     gsap.to(".center", {
       rotationZ: 360,
       duration: 50,
       repeat: -1,
       ease: "none",
     });
+    heroTlRef.current = gsap.timeline({
+      defaults: { ease: "power4.out" },
+    });
+    const tl = heroTlRef.current;
+    tl.from(".clouds", {
+      filter: "blur(30px)",
+      y: 500,
+      ease: "power4.out",
+      duration: 3,
+      stagger: 0.2,
+    })
+      .from(
+        ".hero-text",
+        {
+          duration: 3,
+
+          filter: "blur(30px)",
+          ease: "power4.out",
+        },
+        "<"
+      )
+      .from(".center", {
+        opacity : 0,
+        scale : 0,
+        duration: 3,
+      },'-=3')
+      .from(
+        words,
+        {
+          filter: "blur(20px)",
+          yPercent: 100,
+          ease: "power4.out",
+          opacity: 0,
+          stagger: 0.1,
+        },
+        "-=1"
+      )
+      .from(
+        "#heroCard",
+        {
+          y: 500,
+          ease: "power4.out",
+          duration: 3,
+          stagger: 0.2,
+        },
+        "-=3"
+      );
   }, {});
 
   return (
     <div className="w-screen h-screen relative top-0 overflow-hidden">
       <div className="h-full w-full bg-background absolute top-0 z-0 hero-bg-mask"></div>
-      <div className="absolute top-5 left-1/3 z-0">
+      <div className="absolute clouds top-5 left-1/3 z-0">
         <img src={image} width={300} height={200} alt="" />
       </div>
-      <div className="absolute top-30 left-2/4 z-0">
+      <div className="absolute clouds top-32 left-2/4 z-20">
         <img src={image} width={300} height={200} alt="" />
       </div>
       <Balloons />
 
-      <h1 className="relative hero-text text-5xl justify-center text-center leading-14 font-medium  flex w-screen mt-[30vh]">
-        Agency that makes your <br /> videos & reels viral
+      <h1
+        id="hero-h1"
+        className="relative px-4 text-black text-4xl mx-auto md:text-5xl lg:text-5xl md:max-w-1/2  text-center leading-tight font-semibold mt-[20vh] md:mt-[30vh] "
+      >
+        Creating visuals that <span className="font-[sans]">trends</span>
       </h1>
 
-      <div className="absolute h-[80vh] w-screen top-0 center-con">
-        <div className="center relative flex items-center w-[50vw] shrink-0 aspect-square justify-center border-2 border-white  rounded-full overflow-visible">
+      <div className="absolute h-[80vh] w-screen top-40 md:top-0 center-con">
+        <div className="center  relative flex items-center w-[30vw] shrink-0 aspect-square justify-center border-2 border-white  rounded-full overflow-visible">
           {Array.from({ length: Icons.length / 2 }).map((_, i) => {
             const angle = i * (360 / (Icons.length / 3));
             const icon1 = Icons[i * 2];

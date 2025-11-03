@@ -13,6 +13,7 @@ import SectionLabel from "@/components/SectionLabel";
 import RevealAnimation from "@/components/ui/animationReveal";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { useRef } from "react";
 const CardStatsData: CardStatsItem[] = [
   {
     top: ["https://www.shutterstock.com/image-photo/close-head-shot-portrait-preppy-600nw-1433809418.jpg", hands],
@@ -64,7 +65,12 @@ const CardStatsData: CardStatsItem[] = [
   },
 ];
 const GridScore = () => {
+  const gridTlRef = useRef<GSAPTimeline>(null);
+
   useGSAP(() => {
+    gridTlRef.current = gsap.timeline({
+      
+    })
     gsap.from(".handds", {
       opacity: 1,
       ease: "power4.out",
@@ -80,12 +86,12 @@ const GridScore = () => {
   return (
     <div className="w-screen min-h-screen p-2 bg-white relative py-20">
       <SectionLabel text="Score" />
-      <div className="text-center mb-20">
-        <RevealAnimation blurAmount={20} yPercent={0}>
+      <div className="text-center mb-20 w-full">
+        <RevealAnimation yPercent={200} className="overflow-hidden">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our Success Score</h1>
         </RevealAnimation>
 
-        <RevealAnimation className="overflow-hidden">
+        <RevealAnimation blurAmount={1} yPercent={0}>
           <p className="text-sm text-gray-600 max-w-lg mx-auto leading-relaxed">
             Each frame tells a story, capturing genuine moments that showcase my style and vision. Browse through my
             favorite projects.
@@ -102,7 +108,9 @@ const GridScore = () => {
             >
               300
             </h1>
-            <h4 className="text-3xl tracking-tight font-semibold">Projects Completed</h4>
+            <RevealAnimation blurAmount={0} yPercent={200} className="overflow-hidden">
+              <h4 className="text-3xl tracking-tight font-semibold">Projects Completed</h4>
+            </RevealAnimation>
           </div>
           <div className="absolute -z-0 bottom-0 left-0 size-full">
             <img src={bgrays} className="size-full" alt="" />

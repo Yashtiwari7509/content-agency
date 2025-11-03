@@ -5,8 +5,7 @@ import { useGLTF, useVideoTexture } from "@react-three/drei";
 import type { GLTF } from "three-stdlib";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useThree } from "@react-three/fiber";
+// import { useThree } from "@react-three/fiber";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -84,20 +83,27 @@ const setupVideoTexture = (texture: THREE.VideoTexture) => {
 };
 export function Model(props: JSX.IntrinsicElements["group"]) {
   const modelRef = useRef<THREE.Group>(null);
+  const screenPositionFactor = Math.min(window.innerWidth / 1700, 0.7);
+  const [targetPos, ] = useState({
+    x: screenPositionFactor < 0.4 ? 0 : screenPositionFactor,
+    y: screenPositionFactor > 0.4 ? 0 : -screenPositionFactor,
+  });
   const { nodes, materials } = useGLTF("./i17x.glb") as unknown as GLTFResult;
   const [texIndex, setTexIndex] = useState(0);
 
-  const viewport = useThree((state) => state.viewport);
+  // let frameLoop = useThree((state) => state.frameloop);
+  // const viewPort = useThree((state) => state.viewport);
 
-  const screenPositionFactor = Math.min(window.innerWidth / 1700, 0.7);
-  console.log(screenPositionFactor, "screen");
+  // console.log(viewPort, "screen");
+  // Calculate the target position (where it should end up)
+  // const targetX = screenPositionFactor < 0.4 ? 0 : screenPositionFactor;
+  // const targetPos.y = screenPositionFactor > 0.4 ? 0 : -screenPositionFactor;
 
   useGSAP(() => {
     if (!modelRef.current) return;
 
     const initialRotationY = modelRef.current.rotation.y;
     const initialRotationZ = modelRef.current.rotation.z;
-    // Initial animation - entrance (using fromTo for better control)
     gsap.fromTo(
       modelRef.current.rotation,
       {
@@ -112,25 +118,32 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
           start: "-20% top",
           end: "30% top",
           scrub: 1,
-          invalidateOnRefresh: true,
         },
         ease: "none",
+        immediateRender: true, // <-- ADD THIS
       }
     );
-    console.log(viewport.width);
 
-    gsap.from(modelRef.current.position, {
-      y: 2,
-      x: 2,
-      scrollTrigger: {
-        trigger: "#video-page",
-        start: "-20% top",
-        end: "30% top",
-        scrub: 1,
-        invalidateOnRefresh: true,
+    gsap.fromTo(
+      modelRef.current.position,
+      {
+        x: targetPos.x + 2, // Start offset
+        y: targetPos.y + 2, // Start offset
       },
-      ease: "none",
-    });
+      {
+        x: targetPos.x, // End at target
+        y: targetPos.y, // End at target
+        scrollTrigger: {
+          trigger: "#video-page",
+          start: "-20% top",
+          end: "30% top",
+          scrub: 1,
+        },
+        ease: "none",
+        immediateRender: false, // <-- ADD THIS
+      }
+    );
+
     gsap.fromTo(
       modelRef.current.rotation,
       {
@@ -143,37 +156,44 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
           start: "top top",
           end: "20% top",
           scrub: 1,
-          invalidateOnRefresh: true,
-          // Change texture at 50% progress (middle of rotation)
           onUpdate: (self) => {
-            // Change to texture 1 when scrolling forward past 50%
-            // Change back to texture 0 when scrolling back below 50%
             if (self.progress > 0.5) {
               setTexIndex(1);
             } else {
               setTexIndex(0);
             }
           },
-          // markers: true,
         },
         ease: "none",
+        immediateRender: false, // <-- ADD THIS
       }
-    )
+    );
 
-    gsap.to(modelRef.current.position, {
-      y: 2,
-      x: 0,
-      scrollTrigger: {
-        trigger: "#lastPage",
-        start: "-20% top",
-        end: "30% top",
-        scrub: 1,
-        invalidateOnRefresh: true,
+    gsap.fromTo(
+      modelRef.current.position,
+      {
+        x: targetPos.x,
+        y: targetPos.y,
       },
-      ease: "none",
-    });
-    ScrollTrigger.refresh();
+      {
+        x: targetPos.x,
+        y: targetPos.y - 2,
+        scrollTrigger: {
+          trigger: "#lastPage",
+          start: "-20% top",
+          end: "30% top",
+          scrub: 1,
+        },
+        ease: "none",
+        immediateRender: false, // <-- ADD THIS
+      }
+    );
   }, []);
+  // useEffect(() => {
+  //   const update = () => ScrollTrigger.refresh();
+  //   window.addEventListener("resize", update);
+  //   return () => window.removeEventListener("resize", update);
+  // }, []);
 
   const videoTexture = useVideoTexture("./video.mp4", {
     muted: true,
@@ -240,8 +260,8 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
       {...props}
       dispose={null}
       position={[
-        screenPositionFactor < 0.4 ? 0 : screenPositionFactor,
-        screenPositionFactor > 0.4 ? 0 : -screenPositionFactor,
+        targetPos.x + 2, // Set initial "from" position (offset)
+        targetPos.y + 2, // Set initial "from" position (offset)
         0,
       ]}
       scale={Math.min(screenPositionFactor * 10, 3)}
@@ -261,6 +281,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
                       material={materials.Glass_Lens}
                     />
                   </group>
+
                   <mesh
                     name="Object_5"
                     castShadow

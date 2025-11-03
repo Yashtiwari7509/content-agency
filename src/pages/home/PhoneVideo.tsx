@@ -5,6 +5,7 @@ import { Environment } from "@react-three/drei";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
+import SectionLabel from "@/components/SectionLabel";
 
 const PhoneVideo = () => {
   const fixedVideoRef = useRef(null);
@@ -52,18 +53,30 @@ const PhoneVideo = () => {
       trigger: fixedVideoRef.current,
       start: "top top",
       end: () => "+=" + window.innerHeight * 4,
-      scrub: 2,
+      scrub: true,
       pin: true,
       pinSpacing: false,
+      anticipatePin: 1,
+      // markers: true,
     });
   });
 
   return (
     <>
-      <div ref={fixedVideoRef} id="video-page" className="w-screen h-screen relative overflow-hidden">
+      <div ref={fixedVideoRef} id="video-page" className="w-screen  bg-white h-screen relative overflow-x-hidden">
+        <div className="text-center  absolute mx-auto left-[50%] -translate-x-1/2 -translate-y-1/2  top-50">
+          <SectionLabel text="Top Works" />
+          <h1 className="text-3xl md:text-3xl font-bold text-gray-900 relative">Trending one's
+            <video className="w-[60rem] h-[30rem] -z-10 object-cover bg-amber-200 absolute  -top-[13.8rem] -right-[14rem]" muted autoPlay loop playsInline src="./wave.mp4"></video>
+          </h1>
+          {/* <p className="text-sm text-gray-600 max-w-lg mx-auto leading-relaxed">
+            Why businesses trust us? Read genuine feedback from our satisfied clients who have experienced
+            transformative results.
+          </p> */}
+        </div>
         {/* Fixed text container */}
         <div className="max-w-5xl t-center mx-auto h-screen top-0 absolute flex justify-start items-start">
-          <div className="absolute pl-[2vw] t-center rounded-2xl bg-transparent backdrop-blur-xs  pr-[22vw]  h-[50%] flex justify-start md:justify-center  items-start flex-col">
+          <div className="absolute pl-[2vw] t-center rounded-2xl bg-transparent backdrop-blur-x  pr-[22vw]  h-[50%] flex justify-start md:justify-center  items-start flex-col">
             <h3 id="text1" className="text-4xl  overflow-hidden md:text-6xl  whitespace-nowrap font-bold text-center">
               <p>Words that work</p>
             </h3>
@@ -95,9 +108,11 @@ const PhoneVideo = () => {
           dpr={1}
           camera={{ position: [0, 0, 10], fov: 10 }}
           shadows={false}
+          frameloop="always"
         >
           <Model />
-          <Environment preset="dawn" backgroundIntensity={10} />
+          <Environment preset="dawn" />
+          {/* <OrbitControls /> */}
         </Canvas>
       </div>
 

@@ -1,7 +1,7 @@
 import { Icons } from "@/components/ui/icons"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+// import { Input } from "@/components/ui/input"
+// import { Label } from "@/components/ui/label"
 import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react"
 
 function StackedCircularFooter() {
@@ -37,7 +37,7 @@ function StackedCircularFooter() {
               <span className="sr-only">LinkedIn</span>
             </Button>
           </div>
-          <div className="mb-8 w-full max-w-md">
+          {/* <div className="mb-8 w-full max-w-md">
             <form className="flex space-x-2">
               <div className="flex-grow">
                 <Label htmlFor="email" className="sr-only">Email</Label>
@@ -45,7 +45,7 @@ function StackedCircularFooter() {
               </div>
               <Button type="submit" className="rounded-full">Subscribe</Button>
             </form>
-          </div>
+          </div> */}
           <div className="text-center">
             <p className="text-sm text-muted-foreground">
               © 2024 Your Company. All rights reserved.

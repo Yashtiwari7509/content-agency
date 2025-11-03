@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
-import { IconMenu2, IconX } from "@tabler/icons-react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
+import { SquareMousePointerIcon,X } from "lucide-react";
 import React, { useRef, useState } from "react";
 
 interface NavbarProps {
@@ -51,12 +51,12 @@ export const Navbar = ({ children, className }: NavbarProps) => {
 
   // useLenis(({ direction }) => {
   //   if (direction === -1) {
-  //     animateDown?.(); 
+  //     animateDown?.();
   //   } else {
-  //     animateUp?.(); 
+  //     animateUp?.();
   //   }
   // });
-    useMotionValueEvent(scrollY, "change", (latest) => {
+  useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest > 20) {
       setVisible(true);
     } else {
@@ -182,7 +182,7 @@ export const MobileNavMenu = ({ children, className, isOpen }: MobileNavMenuProp
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className={cn(
-            "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white px-4 py-8 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] dark:bg-neutral-950",
+            "absolute inset-x-0 top-16 border-white border z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white/30 px-4 py-8 backdrop-blur-xl dark:bg-neutral-950",
             className
           )}
         >
@@ -195,15 +195,15 @@ export const MobileNavMenu = ({ children, className, isOpen }: MobileNavMenuProp
 
 export const MobileNavToggle = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }) => {
   return isOpen ? (
-    <IconX className="text-black dark:text-white" onClick={onClick} />
+    <X className="text-black dark:text-white" onClick={onClick} />
   ) : (
-    <IconMenu2 className="text-black dark:text-white" onClick={onClick} />
+    <SquareMousePointerIcon className="text-black dark:text-white" onClick={onClick} />
   );
 };
 
 export const NavbarLogo = () => {
   return (
-    <a href="#" className="relative z-20 mr-4 flex items-center  space-x-2 px-2 py-1 text-sm font-normal text-black">
+    <a href="/" className="relative z-20 mr-4 flex items-center  space-x-2 px-2 py-1 text-sm font-normal text-black">
       <img
         src="https://assets.aceternity.com/logo-dark.png"
         alt="logo"

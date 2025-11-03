@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { Check } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { useRef } from "react";
 
 const services = [
@@ -17,8 +17,8 @@ const services = [
       "Storyboarding",
       "Shot list creation",
       "Moodboard design",
-      "Casting & talent selection",
-      "Location scouting",
+      // "Casting & talent selection",
+      // "Location scouting",
     ],
   },
   {
@@ -33,10 +33,10 @@ const services = [
       "Sound setup & testing",
       "Directing talent & crew",
       "Wardrobe & makeup",
-      "Scene blocking & rehearsals",
-      "Filming / Principal photography",
-      "Continuity management",
-      "On-set monitoring & adjustments",
+      // "Scene blocking & rehearsals",
+      // "Filming / Principal photography",
+      // "Continuity management",
+      // "On-set monitoring & adjustments",
     ],
   },
   {
@@ -51,14 +51,14 @@ const services = [
       "Fine cut editing",
       "Visual effects (VFX)",
       "Motion graphics & animations",
-      "Color correction & grading",
-      "Sound design & audio mixing",
-      "Voice-over recording",
-      "Music composition & licensing",
-      "Subtitles & captions",
-      "Client review & feedback",
-      "Final export & delivery",
-      "Archiving project files",
+      // "Color correction & grading",
+      // "Sound design & audio mixing",
+      // "Voice-over recording",
+      // "Music composition & licensing",
+      // "Subtitles & captions",
+      // "Client review & feedback",
+      // "Final export & delivery",
+      // "Archiving project files",
     ],
   },
 ];
@@ -66,94 +66,145 @@ const services = [
 const ServiceCard = ({ bgColor, title, description, src, setup }: any) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    if (!cardRef.current || !imageRef.current) return;
+    if (!cardRef.current || !imageRef.current || !contentRef.current) return;
+
     const card = cardRef.current;
     const image = imageRef.current;
+    const content = contentRef.current;
+
+    // Get initial height for smooth transitions
+    const getCollapsedHeight = () => {
+      return window.innerWidth >= 768 ? 106 : 240;
+    };
+
+    const getExpandedHeight = () => {
+      // Calculate height based on content + padding
+      const contentHeight = content.scrollHeight;
+      return contentHeight + 24; // 24px for padding (p-3 = 12px top + 12px bottom)
+    };
 
     // Mouse enter animation
     const handleMouseEnter = () => {
-      gsap.to(card, { height: "200px", border: "1px solid black" });
-      gsap.to("#service-background", {
-        backdropFilter: "blur(4px)",
-        // backgroundColor: "rgba(0, 0, 0, 0.5)",
+      const isMobile = window.innerWidth < 768;
+
+      gsap.to(card, {
+        height: getExpandedHeight(),
+        border: "1px solid black",
+        duration: 0.4,
+        ease: "power2.out",
       });
-      gsap.to(image, {
-        left: "20%",
-        duration: 0.5,
-        filter: "blur(0px)",
-        skewX: "0deg",
-      });
+
+      if (!isMobile) {
+        gsap.to("#service-background", {
+          backdropFilter: "blur(4px)",
+          duration: 0.3,
+        });
+        gsap.to(image, {
+          left: "20%",
+          duration: 0.5,
+          filter: "blur(0px)",
+          skewX: "0deg",
+          ease: "power2.out",
+        });
+      }
     };
 
     // Mouse leave animation
     const handleMouseLeave = () => {
-      gsap.to(card, { height: "106px", border: "0px solid white" });
-      gsap.to("#service-background", {
-        backdropFilter: "blur(0px)",
-        // backgroundColor: "rgba(0, 0, 0, 0.0)",
+      const isMobile = window.innerWidth < 768;
+
+      gsap.to(card, {
+        height: getCollapsedHeight(),
+        border: "0px solid white",
+        duration: 0.4,
+        ease: "power2.in",
       });
-      gsap.to(image, {
-        left: "-40%",
-        duration: 0.5,
-        filter: "blur(4px)",
-        skewX: "10deg",
-      });
+
+      if (!isMobile) {
+        gsap.to("#service-background", {
+          backdropFilter: "blur(0px)",
+          duration: 0.3,
+        });
+        gsap.to(image, {
+          left: "-40%",
+          duration: 0.5,
+          filter: "blur(4px)",
+          skewX: "10deg",
+          ease: "power2.in",
+        });
+      }
+    };
+
+    // Handle resize to reset heights
+    const handleResize = () => {
+      gsap.set(card, { height: getCollapsedHeight() });
     };
 
     card.addEventListener("mouseenter", handleMouseEnter);
     card.addEventListener("mouseleave", handleMouseLeave);
+    window.addEventListener("resize", handleResize);
+
     return () => {
       card.removeEventListener("mouseenter", handleMouseEnter);
       card.removeEventListener("mouseleave", handleMouseLeave);
+      window.removeEventListener("resize", handleResize);
     };
   });
+
   return (
     <>
-      <img
+      {/* Floating preview card - desktop only */}
+      <div
         ref={imageRef}
-        src={src}
-        className="w-[20rem] hidden lg:block object-cover h-[30rem] z-20 absolute left-[-40%] rounded-lg"
-        alt=""
-      />
+        className="max-w-sm hidden lg:block absolute left-[-40%] top-50 bg-white border border-gray-200 rounded-xl shadow-2xl dark:bg-gray-800 dark:border-gray-700 pointer-events-none z-10"
+      >
+        <a href="#" className="pointer-events-none">
+          <img className="rounded-t-lg w-full" src={src} alt={title} />
+        </a>
+        <div className="p-5 flex items-center gap-2">
+          <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{title}</h5>
+          <ArrowRight/>
+        </div>
+      </div>
+
+      {/* Main card */}
       <div
         ref={cardRef}
-        className="relative bg-gray-50 w-full p-3 rounded-xl cursor-pointer lg:h-[106px] h-[250px]  overflow-hidden"
+        className="relative bg-gray-50 w-full p-3 rounded-xl cursor-pointer md:h-[106px] h-[240px] overflow-hidden transition-shadow hover:shadow-md"
       >
-        <div className="flex flex-col sm:flex-row gap-6">
-          <div className={`w-full h-30 sm:w-30 sm:h-20 ${bgColor} rounded-lg flex-shrink-0 overflow-hidden`}>
-            <img src={src} className="w-full h-full object-cover"></img>
+        <div ref={contentRef}>
+          {/* Card header - always visible */}
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+            <div className={`w-full h-32 sm:w-30 sm:h-20 ${bgColor} rounded-lg flex-shrink-0 overflow-hidden`}>
+              <img src={src} className="w-full h-full object-cover"></img>
+            </div>
+            <div className="flex-1">
+              <h3 className="text-lg font-normal text-gray-900 mb-1">{title}</h3>
+              <p className="text-xs text-gray-600 leading-relaxed">{description}</p>
+            </div>
           </div>
-          <div className="flex-1">
-            <h3 className="text-lg font-normal text-gray-900 mb-1">{title}</h3>
-            <p className="text-xs text-gray-600 leading-relaxed">{description}</p>
+
+          {/* Expandable content */}
+          <div className="mt-4">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {setup.map((item: string, index: number) => (
+                <li key={index} className="text-xs text-gray-600 leading-relaxed flex items-start gap-2">
+                  <span className="mt-1 flex-shrink-0">
+                    <Check size={12} />
+                  </span>
+                  <span className="flex-1 text-xs">{item}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
-
-        <div className="w-6 h-24 absolute right-2 top-1 border  flex items-center justify-center rounded-full  cursor-pointer text-xs">
-          <span className="text-gray-600" style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}>
-            read more
-          </span>
-        </div>
-
-        <div>
-          <ul className="grid grid-cols-1 sm:grid-cols-2  mt-4">
-            {setup.map((item: string, index: number) => (
-              <li key={index} className="text-xs text-gray-600 leading-relaxed flex items-start gap-2 mt-2">
-                <span className="mt-1">
-                  <Check size={10} />
-                </span>
-                {item}
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
     </>
   );
 };
-
 export default function ServicesLayout() {
   return (
     <div className="relative min-h-screen flex justify-center items-center  p-4 md:p-16">
@@ -163,28 +214,28 @@ export default function ServicesLayout() {
         {/* Services Label */}
         <div className="mb-5">
           <span className="text-xs font-medium text-gray-700 bg-gray-100 px-4 py-2 rounded-full inline-block">
-            Services
+            Production
           </span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
           {/* Left Column */}
-          <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">How can I help?</h1>
+          <div className="pb-20">
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 ">How can we elevate your brand?</h1>
 
             <p className="text-base text-gray-600 mb-10 leading-relaxed">
-              From editorial shoots to personal portraits, I bring your vision to life with precision, creativity, and a
-              deep understanding of light and composition.
+              From concept to final cut, we create and edit stunning videos that tell your story, engage your audience,
+              and make your brand unforgettable.
             </p>
 
             <div className="mb-10">
-              <h3 className="text-xs font-medium text-gray-700 mb-5">All services includes</h3>
+              <h3 className="text-xs font-medium text-gray-700 mb-5">Every project includes</h3>
 
               <div className="space-y-3">
                 {[
-                  { tick: true, text: "Professional Editing" },
-                  { tick: true, text: "Edited & Unedited (RAW) Images" },
-                  { tick: true, text: "Personal and Commercial Licensing" },
+                  { tick: true, text: "Creative direction & storyboarding" },
+                  { tick: true, text: "Professional video editing & color grading" },
+                  { tick: true, text: "High-quality exports optimized for all platforms" },
                 ].map((item, index) => (
                   <div key={index} className="flex items-center justify-start gap-3">
                     <div className="bg-gray-100 p-1 rounded-full">
@@ -197,12 +248,12 @@ export default function ServicesLayout() {
             </div>
 
             <Button variant={"default"} className="rounded-full px-8 py-6 font-normal">
-              Explore Services
+              Get Started Today
             </Button>
           </div>
 
           {/* Right Column - Service Cards */}
-          <div className="flex flex-col gap-1 justify-center items-cente">
+          <div className="flex flex-col gap-1 items-center ">
             {services.map((service, index) => (
               <ServiceCard
                 key={index}
@@ -218,4 +269,12 @@ export default function ServicesLayout() {
       </div>
     </div>
   );
+}
+
+{
+  /* <div className="w-6 h-24 absolute right-2 top-1 border  flex items-center justify-center rounded-full  cursor-pointer text-xs">
+          <span className="text-gray-600" style={{ writingMode: "vertical-rl", textOrientation: "mixed" }}>
+            read more
+          </span>
+        </div> */
 }

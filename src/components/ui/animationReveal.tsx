@@ -31,14 +31,15 @@ const RevealAnimation = ({
     if (ref.current) {
       // Animation with ScrollTrigger
       const textLine = SplitText.create(ref.current.children);
-      gsap.from(textLine.lines, {
+      const { words } = textLine.split({ type: "words" });
+      gsap.from(words, {
         opacity: 1,
         filter: `blur(${blurAmount}px)`,
         yPercent,
         duration,
         delay,
         ease: "power4.out",
-        stagger: 0.2,
+        stagger: 0.07,
         scrollTrigger: {
           trigger: ref.current,
           start: `top ${(1 - threshold) * 100}%`,

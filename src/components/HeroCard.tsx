@@ -2,7 +2,7 @@
 import { cn } from "@/lib/utils";
 // import profile from "../../public/profile.webp";
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+// import gsap from "gsap";
 
 type CardBottom = {
   label: string;
@@ -35,20 +35,21 @@ const HeroCard = ({ card }: { card: CardStatsItem }) => {
     //   ease: "none",
     // });
 
-    gsap.fromTo(
-      ".inner2 div > h2",
-      {
-        textContent: 1, // Start counting from 0
-      },
-      {
-        textContent: 100, // Start counting from 0
-        duration: 2, // Animation duration in seconds
-        snap: { textContent: 1 },
-      }
-    );
+    // gsap.fromTo(
+    //   ".inner2 div > h2",
+    //   {
+    //     textContent: 1,
+    //   },
+    //   {
+    //     textContent: 100, 
+    //     duration: 2, 
+    //     snap: { textContent: 1 },
+    //   }
+    // );
   });
   return (
     <div
+    id="heroCard"
       className={cn(
         "bg-white/10 w-fit h-fit t-center border-2 backdrop-blur-md rounded-2xl overflow-hidden border-white absolute"
       )}

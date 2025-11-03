@@ -1,45 +1,55 @@
 import "./App.css";
 import { NavbarTop } from "@/components/Navbar";
-import Hero from "@/pages/home/Hero";
-import FixedText from "./pages/home/FixedText";
-import ServicesLayout from "./pages/home/Services";
+import { useEffect, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useRef } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import PortfolioLayout from "./pages/home/Portfolio";
-import { ReactLenis } from "lenis/react";
-import PhoneVideo from "./pages/home/PhoneVideo";
-import GridScore from "./pages/home/GridScore";
+import { ReactLenis, type LenisRef } from "lenis/react";
 import { Draggable } from "gsap/Draggable";
-import { Footer } from "./pages/home/Footer";
-import FixedText2 from "./pages/home/FixedText2";
-
 import { InertiaPlugin } from "gsap/InertiaPlugin";
-import MarqueeReviews from "./pages/home/MarqueeReviews";
-import VerticalSlider from "./pages/home/VerticalSlider";
+import Home from "./pages/home";
+import { Route, Routes } from "react-router";
+import About from "./pages/about/About";
+import DrawSVGPlugin from "gsap/DrawSVGPlugin";
+import MotionPathPlugin from "gsap/MotionPathPlugin";
+import "lenis/dist/lenis.css";
+import Pricing from "./pages/pricing/Pricing";
 
-gsap.registerPlugin(useGSAP, ScrollTrigger, Draggable, InertiaPlugin);
+gsap.registerPlugin(useGSAP, ScrollTrigger, Draggable, InertiaPlugin, DrawSVGPlugin, MotionPathPlugin);
 
 function App() {
   const mainRef = useRef(null);
+   const lenisRef = useRef<LenisRef>(null)
+  
+  useEffect(() => {
+    function update(time : number) {
+      lenisRef.current?.lenis?.raf(time * 1000)
+    }
+  
+    gsap.ticker.add(update)
+  
+    return () => gsap.ticker.remove(update)
+  }, [])
+  
   return (
     <>
-      <ReactLenis root />
-      <div ref={mainRef} className="relative w-screen l-r-gradient">
+      <ReactLenis
+        ref={lenisRef}
+        options={{
+          autoRaf: false,
+          easing: function easeOutCubic(x: number): number {
+            return 1 - Math.pow(1 - x, 3);
+          },
+        }}
+        root
+      />
+      <div ref={mainRef} className="relative w-screen">
         <NavbarTop />
-        <div className="w-full">
-          <Hero />
-          <GridScore />
-          <FixedText />
-          <PortfolioLayout />
-          <PhoneVideo />
-          <ServicesLayout />
-          <MarqueeReviews /> 
-          <FixedText2 />
-          <VerticalSlider />
-          <Footer />
-        </div>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/pricing" element={<Pricing />} />
+        </Routes>
       </div>
     </>
   );
