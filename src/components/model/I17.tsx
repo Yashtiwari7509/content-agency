@@ -88,7 +88,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     x: screenPositionFactor < 0.4 ? 0 : screenPositionFactor,
     y: screenPositionFactor > 0.4 ? 0 : -screenPositionFactor,
   });
-  const { nodes, materials } = useGLTF("./i17x.glb") as unknown as GLTFResult;
+  const { nodes, materials } = useGLTF("./iphone.glb") as unknown as GLTFResult;
   const [texIndex, setTexIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMobile, setIsMobile] = useState(false);

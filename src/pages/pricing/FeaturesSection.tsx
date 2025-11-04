@@ -26,11 +26,11 @@ export const FeaturesSection = ({ features }: FeaturesSectionProps) => {
             return (
               <Card 
                 key={index}
-                className=" bg-transparent border shadow-none  hover:border-background/30 transition-all duration-300 hover:scale-105"
+                className="border-none bg-background/10 shadow-none  hover:border-background/30 transition-all duration-300 hover:scale-105"
               >
                 <CardContent className="p-6 flex flex-col items-center text-center gap-3">
-                  <div className="p-3 rounded-full bg-gradient-to-bl via-white  via-90% from-background  text-primary">
-                    {IconComponent && <IconComponent className="w-6 h-6  text-pink-900" />}
+                  <div className="p-5 rounded-full border-4 border-white bg-gradient-to-bl via-transparent  via-90% from-background  text-primary">
+                    {IconComponent && <IconComponent className="w-6 h-6 " />}
                   </div>
                   <p className="text-xl font-medium text-foreground">{feature.title}</p>
                 </CardContent>

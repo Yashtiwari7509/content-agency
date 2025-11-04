@@ -173,7 +173,7 @@ const ServiceCard = ({ bgColor, title, description, src, setup }: any) => {
       {/* Main card */}
       <div
         ref={cardRef}
-        className="relative bg-gray-50 w-full p-3 rounded-xl cursor-pointer md:h-[106px] h-[240px] overflow-hidden transition-shadow hover:shadow-md"
+        className="relative bg-background/10 w-full p-3 rounded-xl cursor-pointer md:h-[106px] h-[240px] overflow-hidden transition-shadow hover:shadow-md"
       >
         <div ref={contentRef}>
           {/* Card header - always visible */}
@@ -213,7 +213,7 @@ export default function ServicesLayout() {
       <div className="max-w-5xl mx-auto">
         {/* Services Label */}
         <div className="mb-5 flex justify-center lg:justify-start">
-          <span className="text-xs font-medium text-gray-700 bg-gray-100 px-4 py-2 rounded-full inline-block">
+          <span className="text-xs font-medium text-gray-700 bg-background/10 px-4 py-2 rounded-full inline-block">
             Production
           </span>
         </div>
