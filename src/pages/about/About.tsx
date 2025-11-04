@@ -2,12 +2,53 @@ import { cn } from "@/lib/utils";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import DrawSVGPlugin from "gsap/DrawSVGPlugin";
+import { useLenis } from "lenis/react";
+// import { SplitText } from "gsap/SplitText";
+import { useEffect, useRef } from "react";
 // import { useRef } from "react";
 gsap.registerPlugin(DrawSVGPlugin);
 
 const About = () => {
-  // const svgRef = useRef(null);
-  // const tl1 = useRef<gsap.core.Timeline | null>(null);
+  const heroTlRef = useRef<GSAPTimeline>(null);
+  const lenis = useLenis();
+  useEffect(() => {
+    lenis?.scrollTo(0, { immediate: true });
+  }, [lenis]);
+  useGSAP(() => {
+    // const textLine = SplitText.create(".hero-h1");
+    // const { words } = textLine.split({ type: "words" });
+
+    heroTlRef.current = gsap.timeline({
+      defaults: { ease: "power4.out" },
+    });
+    const tl = heroTlRef.current;
+    tl.from(".clouds", {
+      filter: "blur(30px)",
+      y: 500,
+      ease: "power4.out",
+      duration: 3,
+      stagger: 0.2,
+    })
+      .from(
+        "#about-text",
+        {
+          duration: 3,
+
+          filter: "blur(30px)",
+          ease: "power4.out",
+        },
+        "<"
+      )
+      .from(
+        ".center",
+        {
+          opacity: 0,
+          scale: 0,
+          duration: 3,
+        },
+        "-=3"
+      );
+  }, []);
 
   useGSAP(() => {
     const tl1 = gsap.timeline({
@@ -38,7 +79,10 @@ const About = () => {
       </section>
       <div className="w-screen h-screen sticky top-0 ">
         <div className="w-full h-full relative  ">
-          <div className="px-20 py-15 t-center border-white overflow-hidden  border backdrop-blur-sm rounded-full relative flex justify-center items-center">
+          <div
+            id="about-text"
+            className="px-20 py-15 t-center border-white overflow-hidden  border backdrop-blur-sm rounded-full relative flex justify-center items-center"
+          >
             <h1 className="text-4xl md:text-7xl text-zinc-800  whitespace-nowrap font-black ">
               The Xpro
               <img

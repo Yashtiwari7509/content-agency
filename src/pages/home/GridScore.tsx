@@ -9,11 +9,11 @@ import start5 from "../../../public/5stars.png";
 import { AnimatedTooltip } from "@/components/ui/animated-tooltip";
 import ChatBubble from "@/components/ChatBubble";
 import HeroCard, { type CardStatsItem } from "@/components/HeroCard";
-import SectionLabel from "@/components/SectionLabel";
 import RevealAnimation from "@/components/ui/animationReveal";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
+import SectionHeader from "@/components/SectionHeader";
 const CardStatsData: CardStatsItem[] = [
   {
     top: ["https://www.shutterstock.com/image-photo/close-head-shot-portrait-preppy-600nw-1433809418.jpg", hands],
@@ -84,24 +84,17 @@ const GridScore = () => {
     });
   });
   return (
-    <div className="w-screen min-h-screen p-2 bg-white relative py-20">
-      <SectionLabel text="Score" />
-      <div className="text-center mb-20 w-full">
-        <RevealAnimation yPercent={200} className="overflow-hidden">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our Success Score</h1>
-        </RevealAnimation>
+    <section id="score" className="w-screen min-h-screen p-2 bg-white relative py-20">
+      <SectionHeader
+        label="Score"
+        title="Our Success - Score"
+        description="We measure our success through results — impactful videos, happy clients - and brands."
+      />
 
-        <RevealAnimation blurAmount={1} yPercent={0}>
-          <p className="text-sm text-gray-600 max-w-lg mx-auto leading-relaxed">
-            Each frame tells a story, capturing genuine moments that showcase my style and vision. Browse through my
-            favorite projects.
-          </p>
-        </RevealAnimation>
-      </div>
       <div className="container max-w-5xl  mx-auto">
         <div className="top-left relative overflow-hidden">
           <div className="relative z-10 inner-grid w-full h-full flex flex-col justify-center items-center">
-            <img src={starSvg2} className="size-30 absolute brightness-110 top-10 right-12 rotate-0" alt="" />
+            <img src={starSvg2} className="size-30 absolute brightness-110 top-0 right-0 lg:top-10  lg:right-12 rotate-0" alt="" />
             <h1
               style={{ filter: "drop-shadow(1px -1px 10px skyblue)" }}
               className="c-text text-9xl font-black w-fit h-fit leading-none"
@@ -198,7 +191,7 @@ const GridScore = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

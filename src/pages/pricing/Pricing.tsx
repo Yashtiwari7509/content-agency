@@ -1,10 +1,18 @@
 import { PricingCard } from "./PricingCard";
 import { FeaturesSection } from "./FeaturesSection";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { SplitText } from "gsap/SplitText";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { useLenis } from "lenis/react";
 
 const Pricing = () => {
   const [selectedService, setSelectedService] = useState(0);
+   const lenis = useLenis();
+   useEffect(() => {
+     lenis?.scrollTo(0, { immediate: true });
+   }, [lenis]);
 
   const pricingData = [
     {
@@ -101,7 +109,54 @@ const Pricing = () => {
     { icon: "User", title: "Dedicated Editor" },
     { icon: "Clock", title: "Fast Turnaround" },
   ];
+  const heroTlRef = useRef<GSAPTimeline>(null);
 
+  useGSAP(() => {
+    const textLine = SplitText.create("#pricing");
+    const { words } = textLine.split({ type: "words" });
+    gsap.to(".center", {
+      rotationZ: 360,
+      duration: 50,
+      repeat: -1,
+      ease: "none",
+    });
+    heroTlRef.current = gsap.timeline({
+      defaults: { ease: "power4.out" },
+    });
+    const tl = heroTlRef.current;
+    tl.from(".clouds", {
+      filter: "blur(30px)",
+      y: 500,
+      ease: "power4.out",
+      duration: 3,
+      stagger: 0.2,
+    })
+
+      .from(
+        words,
+        {
+          filter: "blur(20px)",
+          yPercent: 100,
+          ease: "power4.out",
+          opacity: 0,
+          stagger: 0.1,
+        },
+        "-=1"
+      )
+      .from(".climax", {
+        opacity: 0,
+      })
+      .from(
+        "#heroCard",
+        {
+          y: 500,
+          ease: "power4.out",
+          duration: 3,
+          stagger: 0.2,
+        },
+        "-=3"
+      );
+  }, []);
   return (
     <div className="min-h-screen  ">
       <div className="absolute clouds top-10 left-1/3 z-10">
@@ -113,7 +168,7 @@ const Pricing = () => {
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-50 pb-20 px-4 bg-background hero-bg-mask ">
         <div className="relative max-w-7xl mx-auto text-center space-y-6">
-          <h1 className="text-5xl md:text-7xl h-20 font-bold">Pricing</h1>
+          <h1 id="pricing" className="text-5xl md:text-7xl h-20 font-bold">Pricing</h1>
           <p className="text-xl md:text-2xl text-black max-w-3xl mx-auto">
             Choose the perfect plan to elevate your content and grow your audience
           </p>

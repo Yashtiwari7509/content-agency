@@ -1,10 +1,11 @@
 import * as THREE from "three";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { JSX } from "react";
 import { useGLTF, useVideoTexture } from "@react-three/drei";
 import type { GLTF } from "three-stdlib";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+// import { useThree } from "@react-three/fiber";
 // import { useThree } from "@react-three/fiber";
 
 type GLTFResult = GLTF & {
@@ -72,7 +73,6 @@ type GLTFResult = GLTF & {
     ["Material.001"]: THREE.MeshStandardMaterial;
   };
 };
-
 // Video texture setup helper
 const setupVideoTexture = (texture: THREE.VideoTexture) => {
   texture.colorSpace = THREE.SRGBColorSpace;
@@ -84,20 +84,24 @@ const setupVideoTexture = (texture: THREE.VideoTexture) => {
 export function Model(props: JSX.IntrinsicElements["group"]) {
   const modelRef = useRef<THREE.Group>(null);
   const screenPositionFactor = Math.min(window.innerWidth / 1700, 0.7);
-  const [targetPos, ] = useState({
+  const [targetPos] = useState({
     x: screenPositionFactor < 0.4 ? 0 : screenPositionFactor,
     y: screenPositionFactor > 0.4 ? 0 : -screenPositionFactor,
   });
   const { nodes, materials } = useGLTF("./i17x.glb") as unknown as GLTFResult;
   const [texIndex, setTexIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  // let frameLoop = useThree((state) => state.setFrameloop);
 
-  // let frameLoop = useThree((state) => state.frameloop);
-  // const viewPort = useThree((state) => state.viewport);
-
-  // console.log(viewPort, "screen");
-  // Calculate the target position (where it should end up)
-  // const targetX = screenPositionFactor < 0.4 ? 0 : screenPositionFactor;
-  // const targetPos.y = screenPositionFactor > 0.4 ? 0 : -screenPositionFactor;
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768 || "ontouchstart" in window);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useGSAP(() => {
     if (!modelRef.current) return;
@@ -120,19 +124,19 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
           scrub: 1,
         },
         ease: "none",
-        immediateRender: true, // <-- ADD THIS
+        immediateRender: true,
       }
     );
 
     gsap.fromTo(
       modelRef.current.position,
       {
-        x: targetPos.x + 2, // Start offset
-        y: targetPos.y + 2, // Start offset
+        x: targetPos.x + 2,
+        y: targetPos.y + 2,
       },
       {
-        x: targetPos.x, // End at target
-        y: targetPos.y, // End at target
+        x: targetPos.x,
+        y: targetPos.y - 0.1,
         scrollTrigger: {
           trigger: "#video-page",
           start: "-20% top",
@@ -140,7 +144,14 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
           scrub: 1,
         },
         ease: "none",
-        immediateRender: false, // <-- ADD THIS
+        immediateRender: false,
+
+        // onStart: () => {
+        //   frameLoop("always");
+        // },
+        // onLeaveBack: () => {
+        // frameLoop("demand"); 
+        // },
       }
     );
 
@@ -165,7 +176,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
           },
         },
         ease: "none",
-        immediateRender: false, // <-- ADD THIS
+        immediateRender: false,
       }
     );
 
@@ -185,15 +196,10 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
           scrub: 1,
         },
         ease: "none",
-        immediateRender: false, // <-- ADD THIS
+        immediateRender: false,
       }
     );
   }, []);
-  // useEffect(() => {
-  //   const update = () => ScrollTrigger.refresh();
-  //   window.addEventListener("resize", update);
-  //   return () => window.removeEventListener("resize", update);
-  // }, []);
 
   const videoTexture = useVideoTexture("./video.mp4", {
     muted: true,
@@ -206,7 +212,6 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     start: false,
   });
 
-  // Setup textures
   useMemo(() => {
     setupVideoTexture(videoTexture);
     setupVideoTexture(videoTexture1);
@@ -214,56 +219,88 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
 
   const textures = [videoTexture, videoTexture1];
   const currentTexture = textures[texIndex];
-  const handlePointerEnter = () => {
-    if (videoTexture?.image && "play" in videoTexture.image) {
-      const videoEl = videoTexture.image as HTMLVideoElement;
-      videoEl.muted = false; // enable sound
-      videoEl.volume = 0.5; // set volume to 50%
-      videoEl.play();
-    }
 
-    if (videoTexture1?.image && "play" in videoTexture1.image) {
-      const videoEl1 = videoTexture1.image as HTMLVideoElement;
-      videoEl1.muted = false;
-      videoEl1.volume = 0.5;
-      videoEl1.play();
+  const handlePointerEnter = () => {
+    if (isMobile) return; // Skip hover on mobile
+
+    const currentVideo = currentTexture?.image as HTMLVideoElement;
+    if (currentVideo && "play" in currentVideo) {
+      // Stop all videos first
+      [videoTexture, videoTexture1].forEach((tex) => {
+        const vid = tex?.image as HTMLVideoElement;
+        if (vid && "pause" in vid) {
+          vid.pause();
+          vid.muted = true;
+        }
+      });
+      currentVideo.muted = false;
+      currentVideo.volume = 0.5;
+      currentVideo.play();
+      setIsPlaying(true);
     }
   };
 
   const handlePointerLeave = () => {
-    if (videoTexture?.image && "pause" in videoTexture.image) {
-      (videoTexture.image as HTMLVideoElement).pause();
-    }
-    if (videoTexture1?.image && "pause" in videoTexture1.image) {
-      (videoTexture1.image as HTMLVideoElement).pause();
-    }
-  };
-  // To ensure the video is stopped, you can also pause it explicitly:
-  // if (videoTexture?.image && "pause" in videoTexture.image) {
-  //   (videoTexture.image as HTMLVideoElement).pause();
-  // }
+    if (isMobile) return; // Skip hover on mobile
 
-  const enableSound = () => {
     [videoTexture, videoTexture1].forEach((tex) => {
-      const vid = tex.image as HTMLVideoElement;
-      vid.muted = false;
-      vid.play();
+      const vid = tex?.image as HTMLVideoElement;
+      if (vid && "pause" in vid) {
+        vid.pause();
+        vid.muted = true;
+      }
     });
+    setIsPlaying(false);
   };
+
+  const handleClick = () => {
+    if (!isMobile) return; // Skip click on desktop
+
+    const currentVideo = currentTexture?.image as HTMLVideoElement;
+    if (!currentVideo || !("play" in currentVideo)) return;
+
+    if (isPlaying) {
+      [videoTexture, videoTexture1].forEach((tex) => {
+        const vid = tex?.image as HTMLVideoElement;
+        if (vid && "pause" in vid) {
+          vid.pause();
+          vid.muted = true;
+        }
+      });
+      setIsPlaying(false);
+    } else {
+      [videoTexture, videoTexture1].forEach((tex) => {
+        const vid = tex?.image as HTMLVideoElement;
+        if (vid && "pause" in vid) {
+          vid.pause();
+          vid.muted = true;
+        }
+      });
+      currentVideo.muted = false;
+      currentVideo.volume = 0.5;
+      currentVideo.play();
+      setIsPlaying(true);
+    }
+  };
+
+  // const enableSound = () => {
+  //   const currentVideo = currentTexture?.image as HTMLVideoElement;
+  //   if (currentVideo && "play" in currentVideo) {
+  //     currentVideo.muted = false;
+  //     currentVideo.volume = 0.5;
+  //     currentVideo.play();
+  //   }
+  // };
 
   return (
     <group
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
-      onClick={enableSound}
+      onClick={handleClick}
       ref={modelRef}
       {...props}
       dispose={null}
-      position={[
-        targetPos.x + 2, // Set initial "from" position (offset)
-        targetPos.y + 2, // Set initial "from" position (offset)
-        0,
-      ]}
+      position={[targetPos.x + 2, targetPos.y + 2, 0]}
       scale={Math.min(screenPositionFactor * 10, 3)}
     >
       <group scale={0.22} name="Scene">
@@ -566,21 +603,14 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
                     geometry={nodes.Object_58.geometry}
                     material={materials.Glass_Tint}
                   />
-                  {/* <mesh
-                    name="Object_59"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_59.geometry}
-                    material={materials.Display}
-                  /> */}
                   <mesh
                     name="Plane"
                     castShadow
                     receiveShadow
                     geometry={nodes.Plane.geometry}
                     position={[0, 0, 0.003]}
-                    rotation={[Math.PI / 2, 0, Math.PI]}
-                    scale={[-0.511 * 0.071, -0.694 * 0.071, -1.118 * 0.071]}
+                    rotation={[Math.PI / 2, Math.PI, Math.PI]}
+                    scale={[0.511 * 0.071, 0, 1.118 * 0.071]}
                   >
                     <meshBasicMaterial map={currentTexture} side={THREE.DoubleSide} toneMapped={false} />
                   </mesh>

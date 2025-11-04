@@ -10,8 +10,9 @@ import Balloons from "@/components/Balloons";
 import HeroCard, { type CardStatsItem } from "@/components/HeroCard";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { SplitText } from "gsap/SplitText";
+import { useLenis } from "lenis/react";
 
 const Icons = [
   { src: image1 },
@@ -24,22 +25,6 @@ const Icons = [
   { src: image6 },
 ];
 const CardStatsData: CardStatsItem[] = [
-  {
-    top: ["https://www.shutterstock.com/image-photo/close-head-shot-portrait-preppy-600nw-1433809418.jpg", image6],
-    bottom: [
-      {
-        label: "views",
-        value: "700k",
-      },
-      {
-        label: "follower",
-        value: "40k",
-      },
-    ],
-    heroCard: true,
-    animation: true,
-    alignmentCss: window.innerWidth < 600 ? "70% 50%" : "85% 50%",
-  },
   {
     top: [image2, image6],
     bottom: [
@@ -72,10 +57,29 @@ const CardStatsData: CardStatsItem[] = [
     animation: true,
     alignmentCss: window.innerWidth < 600 ? "85% 80%" : "70% 80%",
   },
+  {
+    top: ["https://www.shutterstock.com/image-photo/close-head-shot-portrait-preppy-600nw-1433809418.jpg", image6],
+    bottom: [
+      {
+        label: "views",
+        value: "700k",
+      },
+      {
+        label: "follower",
+        value: "40k",
+      },
+    ],
+    heroCard: true,
+    animation: true,
+    alignmentCss: window.innerWidth < 600 ? "72% 50%" : "85% 50%",
+  },
 ];
 const Hero = () => {
   const heroTlRef = useRef<GSAPTimeline>(null);
-
+  const lenis = useLenis();
+useEffect(() => {
+  lenis?.scrollTo(0, { immediate: true });
+}, [lenis]);
   useGSAP(() => {
     const textLine = SplitText.create(".hero-h1");
     const { words } = textLine.split({ type: "words" });
@@ -96,16 +100,7 @@ const Hero = () => {
       duration: 3,
       stagger: 0.2,
     })
-      .from(
-        ".hero-text",
-        {
-          duration: 3,
 
-          filter: "blur(30px)",
-          ease: "power4.out",
-        },
-        "<"
-      )
       .from(
         ".center",
         {
@@ -152,9 +147,10 @@ const Hero = () => {
       </div>
       <Balloons />
 
-      <div className="relative px-4 text-black text-4xl mx-auto md:text-5xl lg:text-5xl md:max-w-1/2  text-center leading-tight font-semibold mt-[20vh] md:mt-[30vh] ">
-        <h1 className="hero-h1">Creating visuals that</h1>
-        <span className="font-[sans] climax">trends</span>
+      <div className="relative px-2 text-black text-4xl mx-auto md:text-5xl lg:text-5xl md:max-w-1/2  text-center leading-tight font-semibold mt-[25vh] md:mt-[30vh] ">
+        <h1 className="hero-h1 inline-block">Cookin</h1>
+        <span className="font-[sans] climax inline-block pr-2">'trends</span> <br />
+        <h1 className="hero-h1 font-normal inline-block text-zinc-800">that's build Brands</h1>
       </div>
 
       <div className="absolute h-[80vh] w-screen top-40 md:top-0 center-con">

@@ -12,7 +12,7 @@ function StackedCircularFooter() {
           <div className="mb-8 rounded-full  p-8 border ">
           <Icons.logo className="icon-class w-6" />
           </div>
-          <nav className="mb-8 flex flex-wrap justify-center gap-6">
+          <nav className="mb-8 flex text-xs md:text-sm flex-wrap justify-center gap-6">
             <a href="#" className="hover:text-primary">Home</a>
             <a href="#" className="hover:text-primary">About</a>
             <a href="#" className="hover:text-primary">Services</a>

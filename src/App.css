@@ -6,8 +6,8 @@
   font-family: "poppins", sans-serif;
 }
 @font-face {
-  font-family: 'sans';
-  src: url('/sans.woff2') format('woff2');
+  font-family: "sans";
+  src: url("/sans.woff2") format("woff2");
   font-weight: 100 900;
   font-style: italic;
   font-display: swap;
@@ -127,6 +127,11 @@
   }
   body {
     @apply !bg-white text-foreground;
+  }
+}
+@layer {
+  .title-text {
+    @apply text-4xl;
   }
 }
 .hero-bg-mask {
@@ -358,9 +363,12 @@
       "bottom"
       "bottom-right";
   }
-
 }
 
-span{
+span {
   font-family: "sans" !important;
+}
+
+.audio-mask {
+  mask-image: linear-gradient(to left, transparent 50% , black );
 }

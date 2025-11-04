@@ -1,7 +1,8 @@
 import { useRef, type FC } from "react";
-import { DollarSign, TrendingUp, type LucideIcon } from "lucide-react";
+import { Calendar, Camera, Film, ThumbsUp, TrendingUp, type LucideIcon } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import SectionHeader from "@/components/SectionHeader";
 
 // ---- Types ---- //
 type IconType = LucideIcon | string;
@@ -44,11 +45,11 @@ const VerticalSlider: FC = () => {
   const sliderRef = useRef<HTMLDivElement | null>(null);
 
   const notifications: Notification[] = [
-    { icon: DollarSign, iconBg: "blue-500", message: "You received $3,000 from John!" },
-    { icon: DollarSign, iconBg: "purple-600", message: "You received a payment of $4,989!" },
-    { icon: "Cal", iconBg: "gray-600", message: "You have a new meeting booked!" },
-    { icon: TrendingUp, iconBg: "purple-600", message: "Woohoo! You made a sale!" },
-    { icon: DollarSign, iconBg: "blue-500", message: "You received $3,000 from John!" },
+    { icon: Camera, iconBg: "blue-500", message: "Your latest video project just went live!" },
+    { icon: TrendingUp, iconBg: "purple-600", message: "Your client’s reel hit 50K views in 24 hours!" },
+    { icon: Calendar, iconBg: "gray-600", message: "A new content shoot has been scheduled!" },
+    { icon: ThumbsUp, iconBg: "purple-600", message: "Your recent campaign is gaining massive engagement!" },
+    { icon: Film, iconBg: "blue-500", message: "A new project brief just landed in your inbox!" },
   ];
 
   useGSAP(() => {
@@ -71,10 +72,11 @@ const VerticalSlider: FC = () => {
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <div className="mb-8">
-          <h1 className="text-black text-3xl font-bold mb-3">Built to bring your business results</h1>
-          <p className="text-gray-500 text-md">Designed to help turn website visits into actual sales.</p>
-        </div>
+        <SectionHeader
+          title="Videos that drive results"
+          description="From strategy to final edit, our content is built to amplify your reach and deliver measurable impact."
+          align="left"
+        />
 
         <div id="Marqee-slider-vertical" className="h-96 overflow-hidden relative">
           <div ref={sliderRef} className="absolute w-full">

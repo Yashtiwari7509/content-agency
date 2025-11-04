@@ -1,4 +1,4 @@
-import SectionLabel from "@/components/SectionLabel";
+import SectionHeader from "@/components/SectionHeader";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Heart, MessageCircle, ArrowUpRight, PlayIcon } from "lucide-react";
@@ -201,19 +201,13 @@ export default function PortfolioLayout() {
   ];
 
   return (
-    <div className="min-h-screen bg-white p-8 md:p-16 relative">
+    <section id="portfolio" className="min-h-screen bg-white p-2 md:p-16 relative">
       <div className="max-w-5xl mx-auto relative">
-        {/* Portfolio Label */}
-        <SectionLabel text="Portfolio" />
-
-        {/* Heading */}
-        <div className="text-center mb-4">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">A look through my lens</h1>
-          <p className="text-sm text-gray-600 max-w-lg mx-auto leading-relaxed">
-            Each frame tells a story, capturing genuine moments that showcase my style and vision. Browse through my
-            favorite projects.
-          </p>
-        </div>
+        <SectionHeader
+          label="Portfolio"
+          title="Where creativity meets - motion"
+          description="Dive into our work — bold visuals, sharp edits, and stories built to move your audience."
+        />
 
         {/* Portfolio Grid */}
         <div className="relative h-fit grid md:grid-cols-2 grid-cols-1 gap-y-10 gap-x-6 mt-12 z-10">
@@ -230,6 +224,6 @@ export default function PortfolioLayout() {
         </div>
       </div>
       {/* <Balloons /> */}
-    </div>
+    </section>
   );
 }

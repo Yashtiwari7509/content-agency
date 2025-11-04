@@ -212,7 +212,7 @@ export default function ServicesLayout() {
 
       <div className="max-w-5xl mx-auto">
         {/* Services Label */}
-        <div className="mb-5">
+        <div className="mb-5 flex justify-center lg:justify-start">
           <span className="text-xs font-medium text-gray-700 bg-gray-100 px-4 py-2 rounded-full inline-block">
             Production
           </span>
@@ -220,7 +220,7 @@ export default function ServicesLayout() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
           {/* Left Column */}
-          <div className="pb-20">
+          <div className="pb-20 text-center md:text-left">
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 ">How can we elevate your brand?</h1>
 
             <p className="text-base text-gray-600 mb-10 leading-relaxed">
@@ -229,15 +229,15 @@ export default function ServicesLayout() {
             </p>
 
             <div className="mb-10">
-              <h3 className="text-xs font-medium text-gray-700 mb-5">Every project includes</h3>
+              <h3 className="text-xs font-medium text-gray-700 mb-5">Every project includes -</h3>
 
               <div className="space-y-3">
                 {[
-                  { tick: true, text: "Creative direction & storyboarding" },
-                  { tick: true, text: "Professional video editing & color grading" },
                   { tick: true, text: "High-quality exports optimized for all platforms" },
+                  { tick: true, text: "Professional video editing & color grading" },
+                  { tick: true, text: "Creative direction & storyboarding" },
                 ].map((item, index) => (
-                  <div key={index} className="flex items-center justify-start gap-3">
+                  <div key={index} className="flex items-center lg:justify-start justify-center gap-3">
                     <div className="bg-gray-100 p-1 rounded-full">
                       <Check className="w-4 h-4 text-gray-900 mt-0.5 flex-shrink-0" />
                     </div>

@@ -174,7 +174,7 @@ const InfiniteSlider = ({ direction = "left" }: { direction: "left" | "right" })
                 style={{ transform: `translateX(${i * 350}px)`, willChange: "transform" }}
                 className="absolute h-[120px] w-[350px] px-4"
               >
-                <div className="cursor-pointer overflow-hidden rounded-xl border p-4">
+                <div className="cursor-pointer overflow-hidden rounded-xl bg-zinc-50  p-4">
                   <div className="flex flex-row items-center gap-2">
                     <img className="rounded-full" width="32" height="32" alt={review.name} src={review.img} />
                     <div className="flex flex-col">

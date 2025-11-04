@@ -2,7 +2,7 @@ import Hero from "./Hero";
 import GridScore from "./GridScore";
 import { Footer } from "./Footer";
 import PortfolioLayout from "./Portfolio";
-// import PhoneVideo from "./PhoneVideo";
+import PhoneVideo from "./PhoneVideo";
 import ServicesLayout from "./Services";
 import MarqueeReviews from "./MarqueeReviews";
 import VerticalSlider from "./VerticalSlider";
@@ -17,7 +17,7 @@ const Home = () => {
       <GridScore />
       <FixedText />
       <PortfolioLayout />
-      {/* <PhoneVideo /> */}
+      <PhoneVideo />
       <ServicesLayout />
       <FixedText2 />
       <VerticalSlider />

@@ -1,6 +1,6 @@
 import "./App.css";
 import { NavbarTop } from "@/components/Navbar";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -19,18 +19,18 @@ gsap.registerPlugin(useGSAP, ScrollTrigger, Draggable, InertiaPlugin, DrawSVGPlu
 
 function App() {
   const mainRef = useRef(null);
-   const lenisRef = useRef<LenisRef>(null)
-  
-  useEffect(() => {
-    function update(time : number) {
-      lenisRef.current?.lenis?.raf(time * 1000)
+  const lenisRef = useRef<LenisRef>(null);
+
+  useGSAP(() => {
+    function update(time: number) {
+      lenisRef.current?.lenis?.raf(time * 1000);
     }
-  
-    gsap.ticker.add(update)
-  
-    return () => gsap.ticker.remove(update)
-  }, [])
-  
+
+    gsap.ticker.add(update);
+    // lenisRef.current?.lenis?.scrollTo(0, { immediate: true });
+    return () => gsap.ticker.remove(update);
+  }, []);
+
   return (
     <>
       <ReactLenis
@@ -40,6 +40,7 @@ function App() {
           easing: function easeOutCubic(x: number): number {
             return 1 - Math.pow(1 - x, 3);
           },
+          duration: 2,
         }}
         root
       />
