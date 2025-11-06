@@ -10,9 +10,8 @@ import Balloons from "@/components/Balloons";
 import HeroCard, { type CardStatsItem } from "@/components/HeroCard";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { SplitText } from "gsap/SplitText";
-import { useLenis } from "lenis/react";
 
 const Icons = [
   { src: image1 },
@@ -76,13 +75,10 @@ const CardStatsData: CardStatsItem[] = [
 ];
 const Hero = () => {
   const heroTlRef = useRef<GSAPTimeline>(null);
-  const lenis = useLenis();
-useEffect(() => {
-  lenis?.scrollTo(0, { immediate: true });
-}, [lenis]);
+
   useGSAP(() => {
     const textLine = SplitText.create(".hero-h1");
-    const { words } = textLine.split({ type: "words" });
+    const { words } = textLine.split({ type: "words,lines", mask: "words" });
     gsap.to(".center", {
       rotationZ: 360,
       duration: 50,
@@ -93,7 +89,8 @@ useEffect(() => {
       defaults: { ease: "power4.out" },
     });
     const tl = heroTlRef.current;
-    tl.from(".clouds", {
+    tl.
+    from(".clouds", {
       filter: "blur(30px)",
       y: 500,
       ease: "power4.out",
@@ -113,7 +110,6 @@ useEffect(() => {
       .from(
         words,
         {
-          filter: "blur(20px)",
           yPercent: 100,
           ease: "power4.out",
           opacity: 0,
@@ -123,6 +119,7 @@ useEffect(() => {
       )
       .from(".climax", {
         opacity: 0,
+        scale: 0,
       })
       .from(
         "#heroCard",
@@ -137,7 +134,7 @@ useEffect(() => {
   }, []);
 
   return (
-    <div className="w-screen h-screen relative top-0 overflow-hidden">
+    <section id="hero-section"  className="w-screen h-screen relative top-0 overflow-hidden">
       <div className="h-full w-full bg-background absolute top-0 z-0 hero-bg-mask"></div>
       <div className="absolute clouds top-5 left-1/3 z-0">
         <img src={image} width={300} height={200} alt="" />
@@ -149,8 +146,8 @@ useEffect(() => {
 
       <div className="relative px-2 text-black text-4xl mx-auto md:text-5xl lg:text-5xl md:max-w-1/2  text-center leading-tight font-semibold mt-[25vh] md:mt-[30vh] ">
         <h1 className="hero-h1 inline-block">Cookin</h1>
-        <span className="font-[sans] climax inline-block pr-2">'trends</span> <br />
-        <h1 className="hero-h1 font-normal inline-block text-zinc-800">that's build Brands</h1>
+        <span className="font-[sans] climax inline-block pr-2">'trends.</span> <br />
+        <h1 className="hero-h1 font-normal inline-block text-zinc-800">that build Brands</h1>
       </div>
 
       <div className="absolute h-[80vh] w-screen top-40 md:top-0 center-con">
@@ -203,7 +200,7 @@ useEffect(() => {
       {CardStatsData.map((card, index) => (
         <HeroCard key={index + "hero"} card={card} />
       ))}
-    </div>
+    </section>
   );
 };
 

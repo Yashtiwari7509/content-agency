@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { JSX } from "react";
-import { useGLTF, useVideoTexture } from "@react-three/drei";
+import { Html, useGLTF, useVideoTexture } from "@react-three/drei";
 import type { GLTF } from "three-stdlib";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -86,7 +86,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
   const screenPositionFactor = Math.min(window.innerWidth / 1700, 0.7);
   const [targetPos] = useState({
     x: screenPositionFactor < 0.4 ? 0 : screenPositionFactor,
-    y: screenPositionFactor > 0.4 ? 0 : -screenPositionFactor,
+    y: screenPositionFactor > 0.4 ? -0.1 : -screenPositionFactor,
   });
   const { nodes, materials } = useGLTF("./iphone.glb") as unknown as GLTFResult;
   const [texIndex, setTexIndex] = useState(0);
@@ -136,7 +136,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
       },
       {
         x: targetPos.x,
-        y: targetPos.y - 0.1,
+        y: targetPos.y,
         scrollTrigger: {
           trigger: "#video-page",
           start: "-20% top",
@@ -150,7 +150,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
         //   frameLoop("always");
         // },
         // onLeaveBack: () => {
-        // frameLoop("demand"); 
+        // frameLoop("demand");
         // },
       }
     );
@@ -301,7 +301,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
       {...props}
       dispose={null}
       position={[targetPos.x + 2, targetPos.y + 2, 0]}
-      scale={Math.min(screenPositionFactor * 10, 3)}
+      scale={Math.min(screenPositionFactor * 12, 3.2)}
     >
       <group scale={0.22} name="Scene">
         <group name="Sketchfab_model" rotation={[-Math.PI / 2, 0, 0]} scale={10.929}>
@@ -310,334 +310,118 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
               <group name="Phone_21">
                 <group name="Back_Camera_module001_1">
                   <group name="Lens001_0">
-                    <mesh
-                      name="Object_11"
-                      castShadow
-                      receiveShadow
-                      geometry={nodes.Object_11.geometry}
-                      material={materials.Glass_Lens}
-                    />
+                    <mesh name="Object_11" geometry={nodes.Object_11.geometry} material={materials.Glass_Lens} />
                   </group>
 
-                  <mesh
-                    name="Object_5"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_5.geometry}
-                    material={materials.Metal_Camera_Frame}
-                  />
-                  <mesh
-                    name="Object_6"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_6.geometry}
-                    material={materials.Plastic_Camera_Frame}
-                  />
-                  <mesh
-                    name="Object_7"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_7.geometry}
-                    material={materials.Glass_Tint}
-                  />
-                  <mesh
-                    name="Object_8"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_8.geometry}
-                    material={materials.Glass}
-                  />
-                  <mesh
-                    name="Object_9"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_9.geometry}
-                    material={materials.Metal_Lens_Frame}
-                  />
+                  <mesh name="Object_5" geometry={nodes.Object_5.geometry} material={materials.Metal_Camera_Frame} />
+                  <mesh name="Object_6" geometry={nodes.Object_6.geometry} material={materials.Plastic_Camera_Frame} />
+                  <mesh name="Object_7" geometry={nodes.Object_7.geometry} material={materials.Glass_Tint} />
+                  <mesh name="Object_8" geometry={nodes.Object_8.geometry} material={materials.Glass} />
+                  <mesh name="Object_9" geometry={nodes.Object_9.geometry} material={materials.Metal_Lens_Frame} />
                 </group>
                 <group name="Back_Camera_module002_3">
                   <group name="Lens002_2">
-                    <mesh
-                      name="Object_19"
-                      castShadow
-                      receiveShadow
-                      geometry={nodes.Object_19.geometry}
-                      material={materials.Glass_Lens}
-                    />
+                    <mesh name="Object_19" geometry={nodes.Object_19.geometry} material={materials.Glass_Lens} />
                   </group>
-                  <mesh
-                    name="Object_13"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_13.geometry}
-                    material={materials.Metal_Camera_Frame}
-                  />
+                  <mesh name="Object_13" geometry={nodes.Object_13.geometry} material={materials.Metal_Camera_Frame} />
                   <mesh
                     name="Object_14"
-                    castShadow
-                    receiveShadow
                     geometry={nodes.Object_14.geometry}
                     material={materials.Plastic_Camera_Frame}
                   />
-                  <mesh
-                    name="Object_15"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_15.geometry}
-                    material={materials.Glass_Tint}
-                  />
-                  <mesh
-                    name="Object_16"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_16.geometry}
-                    material={materials.Glass}
-                  />
-                  <mesh
-                    name="Object_17"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_17.geometry}
-                    material={materials.Metal_Lens_Frame}
-                  />
+                  <mesh name="Object_15" geometry={nodes.Object_15.geometry} material={materials.Glass_Tint} />
+                  <mesh name="Object_16" geometry={nodes.Object_16.geometry} material={materials.Glass} />
+                  <mesh name="Object_17" geometry={nodes.Object_17.geometry} material={materials.Metal_Lens_Frame} />
                 </group>
                 <group name="Back_Camera_module003_5">
                   <group name="Lens003_4">
-                    <mesh
-                      name="Object_27"
-                      castShadow
-                      receiveShadow
-                      geometry={nodes.Object_27.geometry}
-                      material={materials.Glass_Lens}
-                    />
+                    <mesh name="Object_27" geometry={nodes.Object_27.geometry} material={materials.Glass_Lens} />
                   </group>
-                  <mesh
-                    name="Object_21"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_21.geometry}
-                    material={materials.Metal_Camera_Frame}
-                  />
+                  <mesh name="Object_21" geometry={nodes.Object_21.geometry} material={materials.Metal_Camera_Frame} />
                   <mesh
                     name="Object_22"
-                    castShadow
-                    receiveShadow
                     geometry={nodes.Object_22.geometry}
                     material={materials.Plastic_Camera_Frame}
                   />
-                  <mesh
-                    name="Object_23"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_23.geometry}
-                    material={materials.Glass_Tint}
-                  />
-                  <mesh
-                    name="Object_24"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_24.geometry}
-                    material={materials.Glass}
-                  />
-                  <mesh
-                    name="Object_25"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_25.geometry}
-                    material={materials.Metal_Lens_Frame}
-                  />
+                  <mesh name="Object_23" geometry={nodes.Object_23.geometry} material={materials.Glass_Tint} />
+                  <mesh name="Object_24" geometry={nodes.Object_24.geometry} material={materials.Glass} />
+                  <mesh name="Object_25" geometry={nodes.Object_25.geometry} material={materials.Metal_Lens_Frame} />
                 </group>
                 <group name="Back_Flash_6">
-                  <mesh
-                    name="Object_29"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_29.geometry}
-                    material={materials.Plastic_Flash}
-                  />
-                  <mesh
-                    name="Object_30"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_30.geometry}
-                    material={materials.material}
-                  />
-                  <mesh
-                    name="Object_31"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_31.geometry}
-                    material={materials.Plastic_Flash_Tint}
-                  />
+                  <mesh name="Object_29" geometry={nodes.Object_29.geometry} material={materials.Plastic_Flash} />
+                  <mesh name="Object_30" geometry={nodes.Object_30.geometry} material={materials.material} />
+                  <mesh name="Object_31" geometry={nodes.Object_31.geometry} material={materials.Plastic_Flash_Tint} />
                 </group>
                 <group name="Back_Glass_7">
-                  <mesh
-                    name="Object_33"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_33.geometry}
-                    material={materials.Frosted_Glass}
-                  />
-                  <mesh
-                    name="Object_34"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_34.geometry}
-                    material={materials.Frosted_Glass_Tint}
-                  />
+                  <mesh name="Object_33" geometry={nodes.Object_33.geometry} material={materials.Frosted_Glass} />
+                  <mesh name="Object_34" geometry={nodes.Object_34.geometry} material={materials.Frosted_Glass_Tint} />
                 </group>
                 <group name="Back_Mic_mesh_8">
-                  <mesh
-                    name="Object_36"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_36.geometry}
-                    material={materials.Display}
-                  />
+                  <mesh name="Object_36" geometry={nodes.Object_36.geometry} material={materials.Display} />
                 </group>
                 <group name="Body_9">
-                  <mesh
-                    name="Object_38"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_38.geometry}
-                    material={materials.Metal_Body}
-                  />
-                  <mesh
-                    name="Object_39"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_39.geometry}
-                    material={materials.Plastic_Body_Antena}
-                  />
-                  <mesh
-                    name="Object_40"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_40.geometry}
-                    material={materials.Metal}
-                  />
+                  <mesh name="Object_38" geometry={nodes.Object_38.geometry} material={materials.Metal_Body} />
+                  <mesh name="Object_39" geometry={nodes.Object_39.geometry} material={materials.Plastic_Body_Antena} />
+                  <mesh name="Object_40" geometry={nodes.Object_40.geometry} material={materials.Metal} />
                 </group>
                 <group name="Button_Action_10">
-                  <mesh
-                    name="Object_42"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_42.geometry}
-                    material={materials.Metal_Body}
-                  />
+                  <mesh name="Object_42" geometry={nodes.Object_42.geometry} material={materials.Metal_Body} />
                 </group>
                 <group name="Button_Power_OnOff_11">
-                  <mesh
-                    name="Object_44"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_44.geometry}
-                    material={materials.Metal_Body}
-                  />
+                  <mesh name="Object_44" geometry={nodes.Object_44.geometry} material={materials.Metal_Body} />
                 </group>
                 <group name="Button_Volume_Down_12">
-                  <mesh
-                    name="Object_46"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_46.geometry}
-                    material={materials.Metal_Body}
-                  />
+                  <mesh name="Object_46" geometry={nodes.Object_46.geometry} material={materials.Metal_Body} />
                 </group>
                 <group name="Button_Volume_Up_13">
-                  <mesh
-                    name="Object_48"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_48.geometry}
-                    material={materials.Metal_Body}
-                  />
+                  <mesh name="Object_48" geometry={nodes.Object_48.geometry} material={materials.Metal_Body} />
                 </group>
                 <group name="Camera_Control_14">
-                  <mesh
-                    name="Object_50"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_50.geometry}
-                    material={materials.Metal}
-                  />
+                  <mesh name="Object_50" geometry={nodes.Object_50.geometry} material={materials.Metal} />
                   <mesh
                     name="Object_51"
-                    castShadow
-                    receiveShadow
                     geometry={nodes.Object_51.geometry}
                     material={materials.Glass_Camera_Control}
                   />
                 </group>
                 <group name="Front_Camera_module_15">
-                  <mesh
-                    name="Object_53"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_53.geometry}
-                    material={materials.Glass_Lens}
-                  />
+                  <mesh name="Object_53" geometry={nodes.Object_53.geometry} material={materials.Glass_Lens} />
                   <mesh
                     name="Object_54"
-                    castShadow
-                    receiveShadow
                     geometry={nodes.Object_54.geometry}
                     material={materials.Plastic_Camera_Frame}
                   />
                 </group>
                 <group name="LIDAR_16">
-                  <mesh
-                    name="Object_56"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_56.geometry}
-                    material={materials.Metal_Lens_Frame}
-                  />
+                  <mesh name="Object_56" geometry={nodes.Object_56.geometry} material={materials.Metal_Lens_Frame} />
                 </group>
                 <group name="Screen_17">
                   <mesh
                     name="Object_58"
-                    castShadow
-                    receiveShadow
+                    // position={[0, 0, 0.003]}
                     geometry={nodes.Object_58.geometry}
                     material={materials.Glass_Tint}
                   />
                   <mesh
                     name="Plane"
-                    castShadow
-                    receiveShadow
                     geometry={nodes.Plane.geometry}
                     position={[0, 0, 0.003]}
-                    rotation={[Math.PI / 2, Math.PI, Math.PI]}
+                    rotation={[Math.PI / 2, Math.PI, 0]}
                     scale={[0.511 * 0.071, 0, 1.118 * 0.071]}
                   >
-                    <meshBasicMaterial map={currentTexture} side={THREE.DoubleSide} toneMapped={false} />
+                    <meshBasicMaterial map={currentTexture} toneMapped={true}  />
                   </mesh>
                 </group>
+
                 <group name="Screw_18">
-                  <mesh
-                    name="Object_62"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_62.geometry}
-                    material={materials.Metal}
-                  />
+                  <mesh name="Object_62" geometry={nodes.Object_62.geometry} material={materials.Metal} />
                 </group>
                 <group name="Speaker_mesh_19">
-                  <mesh
-                    name="Object_64"
-                    castShadow
-                    receiveShadow
-                    geometry={nodes.Object_64.geometry}
-                    material={materials.Display}
-                  />
+                  <mesh name="Object_64" geometry={nodes.Object_64.geometry} material={materials.Display} />
                 </group>
                 <group name="USB_C_port_20">
                   <mesh
                     name="Object_66"
-                    castShadow
-                    receiveShadow
                     geometry={nodes.Object_66.geometry}
                     material={materials.Plastic_Camera_Frame}
                   />

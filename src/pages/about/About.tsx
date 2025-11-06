@@ -81,7 +81,7 @@ const About = () => {
         <div className="w-full h-full relative  ">
           <div
             id="about-text"
-            className="px-20 py-15 t-center border-white overflow-hidden  border backdrop-blur-sm rounded-full relative flex justify-center items-center"
+            className="px-20 py-10 md:py-15 t-center border-white overflow-hidden  border backdrop-blur-sm rounded-full relative flex justify-center items-center"
           >
             <h1 className="text-4xl md:text-7xl text-zinc-800  whitespace-nowrap font-black ">
               The Xpro
@@ -92,7 +92,7 @@ const About = () => {
                 alt=""
               />
             </h1>
-            <h1 className="px-10 md:px-20 py-2  bottom-0 text-white  z-10  bg-black absolute ">Agency</h1>
+            <h1 className="px-10 md:px-20 py-2  bottom-0 text-white  z-10 text-xs md:text-lg  bg-black absolute ">Agency</h1>
           </div>
           <SvgText id="maskone">
             <h1 className="text-4xl text-center overflow-hidden">
@@ -144,7 +144,7 @@ const SvgText = ({
           width="739"
           height="508"
           viewBox="0 0 739 508"
-          className={cn("w-40 h-auto")}
+          className={cn("w-20 h-40 md:w-40")}
           preserveAspectRatio="xMidYMid meet"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"

@@ -9,36 +9,36 @@ import { useLenis } from "lenis/react";
 
 const Pricing = () => {
   const [selectedService, setSelectedService] = useState(0);
-   const lenis = useLenis();
-   useEffect(() => {
-     lenis?.scrollTo(0, { immediate: true });
-   }, [lenis]);
+  const lenis = useLenis();
+  useEffect(() => {
+    lenis?.scrollTo(0, { immediate: true });
+  }, [lenis]);
 
   const pricingData = [
     {
-      title: "Horizontal Video Editing",
+      title: "Horizontal Video (: Long-Form ",
       description: "Professional long-form video editing for YouTube, courses, and business content",
       quote: "Transform Your Content Into Cinematic Masterpieces",
       tiers: [
-        { name: "Starter", price: 150, period: "video", description: "Perfect for testing the waters with 1 video" },
+        { name: "Starter", price: 284, period: "video", description: "Perfect for testing the waters with 1 video" },
         {
           name: "Growth",
-          price: 135,
+          price: 261,
           period: "video",
-          description: "10 videos to scale your content",
-          discount: "10% OFF",
+          description: "4 videos to scale your content",
+          discount: "8% OFF",
         },
         {
           name: "Scale",
-          price: 120,
+          price: 239,
           period: "video",
-          description: "25 videos for serious creators",
-          discount: "20% OFF",
+          description: "8 videos for serious creators",
+          discount: "16% OFF",
         },
       ],
     },
     {
-      title: "Vertical Video Editing",
+      title: "Vertical Video (: Shorts",
       description: "Attention-grabbing shorts for TikTok, Instagram Reels, and YouTube Shorts",
       quote: "Go Viral With Every Frame",
       tiers: [
@@ -54,7 +54,7 @@ const Pricing = () => {
       ],
     },
     {
-      title: "Channel Management",
+      title: "Channel Management (:",
       description: "Full YouTube channel management to grow your audience and maximize views",
       quote: "Let Us Grow Your Channel While You Create",
       tiers: [
@@ -76,23 +76,15 @@ const Pricing = () => {
       ],
     },
     {
-      title: "Social Media Management",
+      title: "Social Media Management (:",
       description: "Complete social media strategy and content management across all platforms",
       quote: "Build Your Empire Across All Platforms",
       tiers: [
-        { name: "Essential", price: 750, period: "month", description: "2 platforms : 15 posts/month foundation" },
         {
-          name: "Professional",
-          price: 1250,
+          name: "Brand Builder",
+          price: 5000,
           period: "month",
-          description: "4 platforms : 30 posts/month dominance",
-          discount: "17% OFF",
-        },
-        {
-          name: "Enterprise",
-          price: 2000,
-          period: "month",
-          description: "All platforms : 60 posts/month supremacy",
+          description: "All platforms supremacy",
           discount: "33% OFF",
         },
       ],
@@ -168,7 +160,9 @@ const Pricing = () => {
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-50 pb-20 px-4 bg-background hero-bg-mask ">
         <div className="relative max-w-7xl mx-auto text-center space-y-6">
-          <h1 id="pricing" className="text-5xl md:text-7xl h-20 font-bold">Pricing</h1>
+          <h1 id="pricing" className="text-5xl md:text-7xl h-20 font-bold">
+            Pricing
+          </h1>
           <p className="text-xl md:text-2xl text-black max-w-3xl mx-auto">
             Choose the perfect plan to elevate your content and grow your audience
           </p>
@@ -185,7 +179,9 @@ const Pricing = () => {
                 onClick={() => setSelectedService(index)}
                 variant={selectedService === index ? "default" : "outline"}
                 className={
-                  selectedService === index ? " text-white rounded-full" : "hover:border-primary/50 font-thin text-xs"
+                  selectedService === index
+                    ? " text-white rounded-full"
+                    : "hover:border-primary/50 rounded-full font-thin text-xs"
                 }
               >
                 {plan.title}
@@ -196,7 +192,7 @@ const Pricing = () => {
       </section>
 
       {/* Pricing Cards */}
-      <section className="relative px-4 pb-20">
+      <section className="relative  px-4 pb-20">
         <PricingCard
           title={pricingData[selectedService].title}
           description={pricingData[selectedService].description}

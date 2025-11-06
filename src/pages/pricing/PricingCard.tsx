@@ -20,7 +20,7 @@ interface PricingCardProps {
   quote: string;
 }
 
-export const PricingCard = ({  tiers, quote }: PricingCardProps) => {
+export const PricingCard = ({ tiers, quote }: PricingCardProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const quoteRef = useRef<HTMLHeadingElement>(null);
 
@@ -67,18 +67,18 @@ export const PricingCard = ({  tiers, quote }: PricingCardProps) => {
       </div>
 
       {/* Tier Cards Grid */}
-      <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <div className="flex justify-center gap-8 w-full flex-wrap">
         {tiers.map((tier, index) => (
           <Card
             key={index}
             className={cn(
-              "pricing-tier-card relative  overflow-hidden backdrop-blur-sm transition-all duration-500 hover:scale-105 hover:shadow-2xl",
-              index === 1
+              "pricing-tier-card relative w-80  overflow-hidden backdrop-blur-sm transition-all duration-500 hover:scale-105 hover:shadow-2xl",
+              index === 2 || tier.name === "Brand Builder"
                 ? "bg-gradient-to-br from-background/40 via-white to-background/10 border-background md:scale-110"
                 : "bg-white hover:border-white"
             )}
           >
-            {index === 1 && (
+            {index === 2 && (
               <>
                 <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-black text-white text-xs font-bold">
                   POPULAR
@@ -86,7 +86,7 @@ export const PricingCard = ({  tiers, quote }: PricingCardProps) => {
               </>
             )}
 
-            {tier.discount && index !== 1 && (
+            {tier.discount && index !== 2 && (
               <div className="absolute top-4 right-4 px-3 py-1 rounded-full  border  text-xs font-bold">
                 {tier.discount}
               </div>
@@ -101,7 +101,8 @@ export const PricingCard = ({  tiers, quote }: PricingCardProps) => {
               <div className="text-center py-4">
                 <div className="flex items-baseline justify-center gap-1">
                   <span className="text-5xl font-bold">
-                    <sup className="text-md">$</sup>{tier.price}
+                    <sup className="text-md">$</sup>
+                    {tier.price}
                   </span>
                   <span className="text-lg text-muted-foreground">/{tier.period}</span>
                 </div>
@@ -109,10 +110,7 @@ export const PricingCard = ({  tiers, quote }: PricingCardProps) => {
 
               <Button
                 className={cn(
-                  "w-full font-semibold border rounded-full transition-all duration-300",
-                  index === 1
-                    ? "bg-hover:shadow-[0_0_30px_rgba(147,51,234,0.5)] hover:scale-105"
-                    : "bg-primary/90 hover:bg-primary hover:shadow-lg"
+                  "w-full font-semibold bg-transparent hover:bg-background text-black  hover:text-white border rounded-full transition-all duration-300"
                 )}
               >
                 Get Started

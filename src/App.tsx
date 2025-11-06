@@ -47,7 +47,7 @@ function App() {
       <div ref={mainRef} className="relative w-screen">
         <NavbarTop />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/"  element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/pricing" element={<Pricing />} />
         </Routes>

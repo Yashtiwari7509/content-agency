@@ -11,7 +11,7 @@ import {
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useState } from "react";
-import { NavLink, useLocation,  } from "react-router";
+import { NavLink, useLocation } from "react-router";
 import { ChevronDown } from "lucide-react";
 
 export function NavbarTop() {
@@ -19,7 +19,7 @@ export function NavbarTop() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [hovered, setHovered] = useState<string | number | null>(null);
   const location = useLocation();
-  const currentPath = location.pathname; 
+  const currentPath = location.pathname;
 
   const navItems = [
     {
@@ -100,7 +100,6 @@ export function NavbarTop() {
     }
     setIsDropdownOpen(false);
   };
-  
 
   return (
     <div className="w-screen flex justify-center items-center fixed z-50">
@@ -163,6 +162,7 @@ export function NavbarTop() {
                 className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300"
                 key={`link-${idx}`}
                 to={item.link}
+                viewTransition
               >
                 {hovered === idx && (
                   <div
@@ -179,7 +179,7 @@ export function NavbarTop() {
             <NavbarButton
               onMouseEnter={OnMouseEnter}
               onMouseLeave={OnMouseLeave}
-              className="py-3 px-10 transition-colors relative rounded-full overflow-hidden font-light shadow-none"
+              className="py-3 px-10 transition-colors hover:shadow-xl relative rounded-full overflow-hidden font-light shadow-none"
             >
               <h4 id="btn-txt" className="relative z-10">
                 Book call
@@ -209,6 +209,7 @@ export function NavbarTop() {
               <NavLink
                 key={`mobile-link-${idx}`}
                 to={item.link}
+                viewTransition
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="relative w-full text-2xl text-center text-neutral-600 dark:text-neutral-300"
               >
@@ -217,28 +218,42 @@ export function NavbarTop() {
             ))}
 
             {/* Mobile Contact Sections */}
-            <div className="w-full border-t border-neutral-200 dark:border-neutral-800 pt-4 mt-4">
-              {contactSections.map((section, idx) => (
-                <button
-                  key={`mobile-section-${idx}`}
-                  onClick={() => {
-                    handleSectionClick(section.link);
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="w-full text-xl text-center text-neutral-600 dark:text-neutral-300 py-2"
-                >
-                  {section.name}
-                </button>
-              ))}
-            </div>
+            {currentPath === "/" && (
+              <div className="w-full border-t border-neutral-200 dark:border-neutral-800 pt-4 mt-4">
+                {contactSections.map((section, idx) => (
+                  <button
+                    key={`mobile-section-${idx}`}
+                    onClick={() => {
+                      handleSectionClick(section.link);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="w-full text-xl text-center text-neutral-600 dark:text-neutral-300 py-2"
+                  >
+                    {section.name}
+                  </button>
+                ))}
+              </div>
+            )}
 
             <div className="flex w-full flex-col gap-4 mt-6">
               <NavbarButton
+                onMouseEnter={OnMouseEnter}
+                onMouseLeave={OnMouseLeave}
                 onClick={() => setIsMobileMenuOpen(false)}
-                variant="primary"
-                className="w-full shadow-none border py-4 rounded-full"
+                className="py-3 px-10 transition-colors hover:shadow-xl relative rounded-full overflow-hidden font-light shadow-none"
               >
-                Book a call
+                <h4 id="btn-txt" className="relative z-10">
+                  Book call
+                </h4>
+
+                <div id="bg" className="w-full h-full rounded-full -z-0 absolute top-[150%] -left-1/3">
+                  <img
+                    id="ball"
+                    src="./b.png"
+                    className="size-36 scale-150 brightness-125 blur-[3px] -rotate-45 aspect-square absolute top-0 right-0"
+                    alt=""
+                  />
+                </div>
               </NavbarButton>
             </div>
           </MobileNavMenu>

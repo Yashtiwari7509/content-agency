@@ -8,9 +8,14 @@ import MarqueeReviews from "./MarqueeReviews";
 import VerticalSlider from "./VerticalSlider";
 import FixedText2 from "./FixedText2";
 import FixedText from "./FixedText";
-
+import { useLenis } from "lenis/react";
+import { useEffect } from "react";
 
 const Home = () => {
+  const lenis = useLenis();
+  useEffect(() => {
+    lenis?.scrollTo(0, { immediate: true });
+  }, [lenis]);
   return (
     <div className="w-full">
       <Hero />

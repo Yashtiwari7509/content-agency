@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
 import SectionLabel from "@/components/SectionLabel";
 import * as THREE from "three";
+import { GemIcon, RocketIcon, SparkleIcon } from "lucide-react";
 
 const PhoneVideo = () => {
   const fixedVideoRef = useRef(null);
@@ -30,14 +31,15 @@ const PhoneVideo = () => {
     ];
 
     // Create timelines dynamically
-    animations.forEach(({ textId, paraId, trigger }) => {
+    animations.forEach(({ textId, paraId, trigger }, i) => {
       const tl = gsap
         .timeline({
           paused: true,
           defaults: { ease: "power1.out", duration: 0.3 },
         })
         .from(textId, { yPercent: 100 })
-        .from(paraId, { yPercent: -200 }, "<");
+        .from(paraId, { yPercent: -200 }, "<")
+        .from(`#block${i + 1}stats`, { filter: "blur(10px)", opacity: 0 }, "<");
 
       ScrollTrigger.create({
         trigger,
@@ -83,43 +85,44 @@ const PhoneVideo = () => {
                 autoPlay
                 loop
                 playsInline
-                src="./wave.mp4"
+                src="./wave1.mp4"
               />
             </div>
           </h1>
         </div>
         {/* Fixed text container */}
-        <div className="max-w-5xl t-center mx-auto  h-screen hidden lg:block absolute">
-          <div className="absolute pl-[2vw] t-center top-60  rounded-2xl  backdrop-blur-x  pr-[22vw]  h-[50%] flex justify-start md:justify-center  items-start flex-col">
-            <h3 id="text1" className="text-4xl  overflow-hidden md:text-6xl  whitespace-nowrap font-bold text-center">
-              <p>Words that work</p>
-            </h3>
-            <h3 id="para" className="overflow-hidden">
-              <p className="mt-5">
-                We craft copy that connects, content that converts, and ideas that inspire. Bold, clear, and made for
-                impact.
-              </p>
-            </h3>
-          </div>
-          <div className="absolute pl-[2vw] t-center rounded-2xl bg-transparent   pr-[22vw]  h-[50%] flex justify-start md:justify-center  items-start flex-col">
-            <h3
-              id="text3"
-              className="text-4xl leading-20 overflow-hidden md:text-6xl  whitespace-nowrap font-bold text-center"
-            >
-              <p>Create. Engage.</p>
-            </h3>
-            <h3 id="para1" className="overflow-hidden">
-              <p className="mt-5">
-                From brand voice to campaigns, we turn ideas into influence. Sharp strategy, smart storytelling, and
-                results that last.
-              </p>
-            </h3>
-          </div>
-        </div>
+        <InfoBlock
+          id="block1"
+          textId="text1"
+          paraId="para"
+          containerClass="top-60 backdrop-blur-x"
+          title="Content that captivates"
+          paragraph="We create scroll-stopping videos that build awareness, spark engagement, and turn audiences into loyal fans."
+          stats={[
+            { label: "Views", value: "12M+" },
+            { label: "Engagement", value: "450K+" },
+            { label: "Clients", value: "80+" },
+          ]}
+        />
+
+        <InfoBlock
+          id="block2"
+          textId="text3"
+          paraId="para1"
+          containerClass=""
+          title="Create. Connect. Convert."
+          paragraph="From strategy to final edit, we craft videos that drive conversations, build communities, and deliver measurable results."
+          stats={[
+            { label: "Campaigns", value: "300+" },
+            { label: "Brands", value: "100+" },
+            { label: "Satisfaction", value: "99%" },
+          ]}
+        />
+
         <Canvas
           id="canvas"
           className="w-screen absolute top-0 h-screen !pointer-events-auto  z-[999]"
-          dpr={[1,1.5]}
+          dpr={[1, 1.5]}
           camera={{ position: [0, 0, 10], fov: 10 }}
           shadows={false}
           gl={{
@@ -134,13 +137,66 @@ const PhoneVideo = () => {
         </Canvas>
       </div>
 
-      <div id="ndPage" className="w-screen h-screen relative pointer-events-none"></div>
+      <div id="ndPage" className="w-screen h-screen relative pointer-events-none -z-10"></div>
 
-      {/* <div className="w-screen h-screen relative pointer-events-none"></div>
-      <div className="w-screen h-screen relative pointer-events-none"></div> */}
-      <div id="lastPage" className="w-screen h-screen relative pointer-events-none"></div>
+      <div id="lastPage" className="w-screen h-screen relative pointer-events-none -z-10"></div>
     </>
   );
 };
 
 export default PhoneVideo;
+
+type Stat = { label: string; value: string };
+
+const Stats = ({ id, className = "", data = [] }: { id?: string; className?: string; data?: Stat[] }) => {
+  return (
+    <div id={id} className={`flex gap-6 flex-nowrap text-center  ${className}`}>
+      {data.map((item, i) => (
+        <>
+          <div key={i} className="flex flex-col items-center">
+            <span className="text-xl md:text-3xl font-bold">{item.value}</span>
+            <span className="text-gray-500 text-sm md:text-base">{item.label}</span>
+          </div>
+          <RocketIcon className="mt-4 text-background" />
+        </>
+      ))}
+    </div>
+  );
+};
+const InfoBlock = ({
+  id,
+  title,
+  paragraph,
+  stats = [],
+  containerClass = "",
+  textId,
+  paraId,
+}: {
+  id?: string;
+  title?: string;
+  paragraph?: string;
+  stats?: Stat[];
+  containerClass?: string;
+  textId?: string;
+  paraId?: string;
+}) => {
+  return (
+    <div
+      id={id}
+      className={`absolute w-[70vw] pl-[2vw] t-center pr-[26vw] h-[50%] flex justify-start md:justify-center items-start flex-col ${containerClass}`}
+    >
+      <h3
+        id={textId}
+        className="text-4xl leading-16 overflow-hidden md:text-5xl whitespace-nowrap font-bold text-center"
+      >
+        <p>{title}</p>
+      </h3>
+
+      <h3 id={paraId} className="overflow-hidden">
+        <p className="text-zinc-500 mt-5">{paragraph}</p>
+      </h3>
+
+      <div className="w-full justify-start">{stats.length > 0 && <Stats id={`${id}stats`} data={stats} className="mt-8" />}</div>
+    </div>
+  );
+};
