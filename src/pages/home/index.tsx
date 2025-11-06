@@ -16,6 +16,7 @@ const Home = () => {
   useEffect(() => {
     lenis?.scrollTo(0, { immediate: true });
   }, [lenis]);
+
   return (
     <div className="w-full">
       <Hero />

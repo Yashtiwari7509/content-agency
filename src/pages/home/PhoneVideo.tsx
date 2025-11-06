@@ -6,8 +6,7 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
 import SectionLabel from "@/components/SectionLabel";
-import * as THREE from "three";
-import { GemIcon, RocketIcon, SparkleIcon } from "lucide-react";
+import { RocketIcon} from "lucide-react";
 
 const PhoneVideo = () => {
   const fixedVideoRef = useRef(null);
@@ -125,15 +124,10 @@ const PhoneVideo = () => {
           dpr={[1, 1.5]}
           camera={{ position: [0, 0, 10], fov: 10 }}
           shadows={false}
-          gl={{
-            // antialias: false,
-            toneMapping: THREE.NoToneMapping,
-            // outputColorSpace: THREE.LinearSRGBColorSpace,
-          }}
           frameloop="demand"
         >
           <Model />
-          <Environment preset="dawn" resolution={126} />;
+          <Environment preset="dawn" resolution={64} />;
         </Canvas>
       </div>
 
@@ -196,7 +190,9 @@ const InfoBlock = ({
         <p className="text-zinc-500 mt-5">{paragraph}</p>
       </h3>
 
-      <div className="w-full justify-start">{stats.length > 0 && <Stats id={`${id}stats`} data={stats} className="mt-8" />}</div>
+      <div className="w-full justify-start">
+        {stats.length > 0 && <Stats id={`${id}stats`} data={stats} className="mt-8" />}
+      </div>
     </div>
   );
 };

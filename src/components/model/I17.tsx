@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { JSX } from "react";
-import { Html, useGLTF, useVideoTexture } from "@react-three/drei";
+import { useGLTF, useVideoTexture } from "@react-three/drei";
 import type { GLTF } from "three-stdlib";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -409,7 +409,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
                     rotation={[Math.PI / 2, Math.PI, 0]}
                     scale={[0.511 * 0.071, 0, 1.118 * 0.071]}
                   >
-                    <meshBasicMaterial map={currentTexture} toneMapped={true}  />
+                    <meshBasicMaterial map={currentTexture} toneMapped={true} />
                   </mesh>
                 </group>
 
