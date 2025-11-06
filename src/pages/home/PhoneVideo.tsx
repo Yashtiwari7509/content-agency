@@ -6,7 +6,7 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
 import SectionLabel from "@/components/SectionLabel";
-import { RocketIcon} from "lucide-react";
+import { RocketIcon } from "lucide-react";
 
 const PhoneVideo = () => {
   const fixedVideoRef = useRef(null);
@@ -30,26 +30,27 @@ const PhoneVideo = () => {
     ];
 
     // Create timelines dynamically
-    animations.forEach(({ textId, paraId, trigger }, i) => {
-      const tl = gsap
-        .timeline({
-          paused: true,
-          defaults: { ease: "power1.out", duration: 0.3 },
-        })
-        .from(textId, { yPercent: 100 })
-        .from(paraId, { yPercent: -200 }, "<")
-        .from(`#block${i + 1}stats`, { filter: "blur(10px)", opacity: 0 }, "<");
+    window.innerWidth > 768 &&
+      animations.forEach(({ textId, paraId, trigger }, i) => {
+        const tl = gsap
+          .timeline({
+            paused: true,
+            defaults: { ease: "power1.out", duration: 0.3 },
+          })
+          .from(textId, { yPercent: 100 })
+          .from(paraId, { yPercent: -200 }, "<")
+          .from(`#block${i + 1}stats`, { filter: "blur(10px)", opacity: 0 }, "<");
 
-      ScrollTrigger.create({
-        trigger,
-        start: "10% top",
-        end: "bottom top",
-        onEnter: () => tl.play(),
-        onEnterBack: () => tl.play(),
-        onLeaveBack: () => tl.reverse(),
-        onLeave: () => tl.reverse(),
+        ScrollTrigger.create({
+          trigger,
+          start: "10% top",
+          end: "bottom top",
+          onEnter: () => tl.play(),
+          onEnterBack: () => tl.play(),
+          onLeaveBack: () => tl.reverse(),
+          onLeave: () => tl.reverse(),
+        });
       });
-    });
 
     // Pin ScrollTrigger
     ScrollTrigger.create({
@@ -177,7 +178,7 @@ const InfoBlock = ({
   return (
     <div
       id={id}
-      className={`absolute w-[70vw] pl-[2vw] t-center pr-[26vw] h-[50%] flex justify-start md:justify-center items-start flex-col ${containerClass}`}
+      className={`absolute hidden md:flex w-[70vw] pl-[2vw] t-center pr-[26vw] h-[50%] justify-start md:justify-center items-start flex-col ${containerClass}`}
     >
       <h3
         id={textId}
