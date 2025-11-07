@@ -173,7 +173,7 @@ const ServiceCard = ({ bgColor, title, description, src, setup }: any) => {
       {/* Main card */}
       <div
         ref={cardRef}
-        className="relative bg-background/10 w-full p-3 rounded-xl cursor-pointer md:h-[106px] h-[240px] overflow-hidden transition-shadow hover:shadow-md"
+        className="relative bg-zinc-50 w-full p-3 rounded-xl cursor-pointer md:h-[106px] h-[240px] overflow-hidden transition-shadow hover:shadow-md"
       >
         <div ref={contentRef}>
           {/* Card header - always visible */}

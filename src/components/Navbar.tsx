@@ -142,7 +142,7 @@ export function NavbarTop() {
 
                 {/* Dropdown Content */}
                 {isDropdownOpen && (
-                  <div className="absolute top-full -left-[100%] p-4 mt-2 w-fit rounded-full bg-white/40 backdrop-blur-xl  border border-white overflow-hidden">
+                  <div className="absolute top-full -left-full p-4 mt-2 w-fit rounded-full bg-white/40 backdrop-blur-xl  border border-white overflow-hidden">
                     {contactSections.map((section, idx) => (
                       <span
                         key={`dropdown-${idx}`}
@@ -185,7 +185,7 @@ export function NavbarTop() {
                 Book call
               </h4>
 
-              <div id="bg" className="w-full h-full rounded-full -z-0 absolute top-[150%] -left-0">
+              <div id="bg" className="w-full h-full rounded-full z-0 absolute top-[150%] left-0">
                 <img
                   id="ball"
                   src="./b.png"
@@ -198,7 +198,7 @@ export function NavbarTop() {
         </NavBody>
 
         {/* Mobile Navigation */}
-        <MobileNav className="!rounded-full !px-4">
+        <MobileNav className="rounded-full">
           <MobileNavHeader>
             <NavbarLogo />
             <MobileNavToggle isOpen={isMobileMenuOpen} onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
@@ -211,7 +211,7 @@ export function NavbarTop() {
                 to={item.link}
                 viewTransition
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="relative w-full text-2xl text-center text-neutral-600 dark:text-neutral-300"
+                className="relative w-full text-2xl text-center top-0 text-neutral-600 dark:text-neutral-300"
               >
                 <span className="block">{item.name}</span>
               </NavLink>
@@ -246,11 +246,11 @@ export function NavbarTop() {
                   Book call
                 </h4>
 
-                <div id="bg" className="w-full h-full rounded-full -z-0 absolute top-[150%] -left-1/3">
+                <div className="w-full h-full rounded-full z-0 t-center">
                   <img
                     id="ball"
                     src="./b.png"
-                    className="size-36 scale-150 brightness-125 blur-[3px] -rotate-45 aspect-square absolute top-0 right-0"
+                    className="size-36  scale-200 brightness-125 blur-[3px]  aspect-square absolute top-0 right-0"
                     alt=""
                   />
                 </div>

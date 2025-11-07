@@ -54,7 +54,7 @@ const InfiniteSlider = ({ direction = "left" }: { direction: "left" | "right" })
   const numBoxes = 6;
   const boxWidth = 350;
   const boxHeight = 250;
-  
+
   // const imgWidth = boxWidth - 6;
   // const imgHeight = boxHeight - 14;
 
@@ -167,14 +167,14 @@ const InfiniteSlider = ({ direction = "left" }: { direction: "left" | "right" })
             left: "50%",
           }}
         >
-          <div ref={boxesRef} style={{ willChange: "transform" }} className="relative">
+          <div ref={boxesRef} style={{ willChange: "auto" }} className="relative">
             {reviews.map((review, i) => (
               <figure
                 key={review.username}
-                style={{ transform: `translateX(${i * 350}px)`, willChange: "transform" }}
+                style={{ transform: `translateX(${i * 350}px)`, willChange: "auto" }}
                 className="absolute h-[120px] w-[350px] px-4"
               >
-                <div className="cursor-pointer overflow-hidden rounded-xl bg-background/10  p-4">
+                <div className="cursor-pointer overflow-hidden rounded-xl bg-zinc-50  p-4">
                   <div className="flex flex-row items-center gap-2">
                     <img className="rounded-full" width="32" height="32" alt={review.name} src={review.img} />
                     <div className="flex flex-col">

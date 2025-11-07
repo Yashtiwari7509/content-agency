@@ -91,7 +91,7 @@ const PortfolioCard = ({ bgColor, imageUrl, author, likes, comments }: any) => {
   return (
     <div
       ref={cardRef}
-      className="flex flex-col sticky bg-gray-50 pb-6 rounded-2xl border-gray-50 border-10 overflow-hidden"
+      className="flex flex-col sticky  bg-gray-50 pb-6 rounded-2xl border-gray-50 border-10 overflow-hidden"
       style={{ top: "20vh" }}
     >
       <div

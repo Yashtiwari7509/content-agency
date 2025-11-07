@@ -85,7 +85,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
   const modelRef = useRef<THREE.Group>(null);
   const screenPositionFactor = Math.min(window.innerWidth / 1700, 0.7);
   const [targetPos] = useState({
-    x: screenPositionFactor < 0.4 ? 0 : screenPositionFactor,
+    x: screenPositionFactor < 0.5 ? 0 : screenPositionFactor,
     y: screenPositionFactor > 0.4 ? -0.1 : -screenPositionFactor,
   });
   const { nodes, materials } = useGLTF("./iphone.glb") as unknown as GLTFResult;

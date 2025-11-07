@@ -131,10 +131,6 @@ const PhoneVideo = () => {
           <Environment preset="dawn" resolution={64} />;
         </Canvas>
       </div>
-
-      <div id="ndPage" className="w-screen h-screen relative pointer-events-none -z-10"></div>
-
-      <div id="lastPage" className="w-screen h-screen relative pointer-events-none -z-10"></div>
     </>
   );
 };
@@ -192,7 +188,7 @@ const InfoBlock = ({
       </h3>
 
       <div className="w-full justify-start">
-        {stats.length > 0 && <Stats id={`${id}stats`} data={stats} className="mt-8" />}
+        {stats.length > 0 && <Stats key={`${id}stats`} id={`${id}stats`} data={stats} className="mt-8" />}
       </div>
     </div>
   );

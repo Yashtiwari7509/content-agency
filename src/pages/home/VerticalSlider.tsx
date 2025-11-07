@@ -17,25 +17,25 @@ interface NotificationItemProps extends Notification {}
 
 // ---- Constants ---- //
 const gradientMap = {
-  "blue-500": "from-white to-blue-500",
-  "purple-600": "from-white to-purple-600",
-  "gray-600": "from-white to-gray-600",
+  "blue-500": "from-white to-green-500",
+  "purple-600": "from-white to-pink-600",
+  "gray-600": "from-white to-red-600",
 } as const;
 
 // ---- Component: NotificationItem ---- //
 const NotificationItem: FC<NotificationItemProps> = ({ icon: Icon, iconBg, message }) => (
   <div className="flex items-center gap-3 mb-4">
     <div
-      className={`bg-gradient-to-tr ${gradientMap[iconBg]} w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0`}
+      className={`bg-gradient-to-br ${gradientMap[iconBg]} via-background shadow-lg w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0`}
     >
       {typeof Icon === "string" ? (
         <span className="text-white text-sm font-semibold">{Icon}</span>
       ) : (
-        <Icon className="w-5 h-5 text-white" />
+        <Icon className="w-5 h-5 text-white " />
       )}
     </div>
     <div className="bg-gray-50 border rounded-full px-4 py-3 flex-1">
-      <p className="text-black text-sm">{message}</p>
+      <p className="text-black text-xs">{message}</p>
     </div>
   </div>
 );
@@ -71,7 +71,7 @@ const VerticalSlider: FC = () => {
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
+      <div className="max-w-5xl">
         <SectionHeader
           title="Videos that drive results"
           description="From strategy to final edit, our content is built to amplify your reach and deliver measurable impact."

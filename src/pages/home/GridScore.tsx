@@ -68,20 +68,27 @@ const GridScore = () => {
   const gridTlRef = useRef<GSAPTimeline>(null);
 
   useGSAP(() => {
-    gridTlRef.current = gsap.timeline({
-      
-    })
+    gridTlRef.current = gsap.timeline({});
     gsap.from(".handds", {
       opacity: 1,
       ease: "power4.out",
       x: (x) => (x === 0 ? -100 : 100),
       scrollTrigger: {
-        trigger: ".container",
-        start: `top top`,
-        end: "30% top",
-        scrub: 5,
+        trigger: ".middle",
+        start: `-100% top`,
+        end: "top top",
+        scrub: 4,
       },
     });
+    gsap.from(
+      "#grid-num",
+
+      {
+        textContent: 1,
+        duration: 2,
+        snap: { textContent: 1 },
+      }
+    );
   });
   return (
     <section id="score" className="w-screen min-h-screen p-2 bg-white relative py-20">
@@ -94,8 +101,13 @@ const GridScore = () => {
       <div className="container max-w-5xl  mx-auto">
         <div className="top-left relative overflow-hidden">
           <div className="relative z-10 inner-grid w-full h-full flex flex-col justify-center items-center">
-            <img src={starSvg2} className="size-30 absolute brightness-110 top-0 right-0 lg:top-10  lg:right-12 rotate-0" alt="" />
+            <img
+              src={starSvg2}
+              className="size-30 absolute brightness-110 top-0 right-0 lg:top-10  lg:right-12 rotate-0"
+              alt=""
+            />
             <h1
+              id="grid-num"
               style={{ filter: "drop-shadow(1px -1px 10px skyblue)" }}
               className="c-text text-9xl font-black w-fit h-fit leading-none"
             >
@@ -105,7 +117,7 @@ const GridScore = () => {
               <h4 className="text-3xl tracking-tight font-semibold">Projects Completed</h4>
             </RevealAnimation>
           </div>
-          <div className="absolute -z-0 bottom-0 left-0 size-full">
+          <div className="absolute z-0 bottom-0 left-0 size-full">
             <img src={bgrays} className="size-full" alt="" />
           </div>
         </div>
@@ -136,11 +148,7 @@ const GridScore = () => {
               <img src={rh} className="h-full w-[50%] handds" alt="" />
               <img src={lh} className="h-full w-[50%] handds" alt="" />
             </div>
-            {/* <img
-              src={hands}
-              className="size-[100%] bottom-0 mt-1 hue-rotate-15 brightness-90 relative  object-cover rotate-0"
-              alt=""
-            /> */}
+
             <h4 className="absolute text-center bottom-8 font-bold  text-3xl w-full">
               We <br /> DELIVERED
             </h4>
@@ -153,7 +161,7 @@ const GridScore = () => {
             </div>
             <img
               src={social}
-              className="h-[45%] w-[100%] bottom-0 mt-48 brightness-95 relative  object-cover"
+              className="h-[45%] w-full bottom-0 mt-48 brightness-95 relative  object-cover"
               alt=""
               style={{ maskImage: "linear-gradient(to top , transparent 10%, black , transparent )" }}
             />
@@ -166,7 +174,7 @@ const GridScore = () => {
 
         <div className="bottom relative">
           <div className="inner-grid w-full h-full relative ">
-            <img src={start5} className="absolute h-[20%] w-[100%] top-6  object-contain" alt="" />
+            <img src={start5} className="absolute h-[20%] w-full top-6  object-contain" alt="" />
             <h1 className="absolute z-10  bottom-34 text-5xl font-bold text-center w-full">
               120<sup className="absolute top-1.5">+</sup>{" "}
             </h1>

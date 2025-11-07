@@ -24,6 +24,8 @@ const Home = () => {
       <FixedText />
       <PortfolioLayout />
       <PhoneVideo />
+      <div id="ndPage" className="w-screen h-screen relative pointer-events-none -z-10"></div>
+      <div id="lastPage" className="w-screen h-screen relative pointer-events-none -z-10"></div>
       <ServicesLayout />
       <FixedText2 />
       <VerticalSlider />

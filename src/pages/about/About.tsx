@@ -65,6 +65,11 @@ const About = () => {
         drawSVG: "100% 100%",
         duration: 2,
       })
+      .from(".text3", { yPercent: 100, duration: 3 })
+      .from("#maskthree", {
+        drawSVG: "0%",
+        duration: 2,
+      })
       .from(".text2", { yPercent: 100, duration: 3 });
   }, []);
   return (
@@ -92,26 +97,36 @@ const About = () => {
                 alt=""
               />
             </h1>
-            <h1 className="px-10 md:px-20 py-2  bottom-0 text-white  z-10 text-xs md:text-lg  bg-black absolute ">Agency</h1>
+            <h1 className="px-10 md:px-20 py-2  bottom-0 text-white  z-10 text-xs md:text-lg  bg-black absolute ">
+              Agency
+            </h1>
           </div>
-          <SvgText id="maskone">
-            <h1 className="text-4xl text-center overflow-hidden">
-              <span className="text block">200</span>
-            </h1>
-            <h1 className="overflow-hidden">
-              <span className="text block">Project Completed</span>
-            </h1>
-          </SvgText>
           <SvgText
             id="masktwo"
-            className="top-[25%] left-[20%]"
-            textClass="rotate-75  h-fit w-fit left-[10%] top-[150%]"
+            className="top-[25%] left-[10%] lg:left-[21%]"
+            textClass="rotate-75  h-fit w-fit left-15 lg:top-[150%] "
           >
             <h1 className="text-4xl text-center overflow-hidden">
               <span className="text2 block">40+</span>
             </h1>
             <h1 className="overflow-hidden">
               <span className="text2 block">Channel Handling</span>
+            </h1>
+          </SvgText>
+          <SvgText id="maskone" className="top-[20%] right-[10%] lg:right-[19%]" textClass="right-15">
+            <h1 className="text-4xl  text-center overflow-hidden">
+              <span className="text block">200</span>
+            </h1>
+            <h1 className="overflow-hidden">
+              <span className="text block">Project Completed</span>
+            </h1>
+          </SvgText>
+          <SvgText id="maskthree" className="bottom-[20%] right-[10%] lg:right-[19%]" textClass="right-15 -rotate-110 -top-[200%]">
+            <h1 className="text-4xl  text-center overflow-hidden">
+              <span className="text3 block">4+</span>
+            </h1>
+            <h1 className="overflow-hidden">
+              <span className="text3 block">Rated</span>
             </h1>
           </SvgText>
         </div>
@@ -135,16 +150,16 @@ const SvgText = ({
   children?: React.ReactNode;
 }) => {
   return (
-    <div className={cn("top-[25%] right-[20%] absolute", className)}>
-      <div className="w-fit h-fit">
+    <div className={cn("absolute", className)}>
+      <div className="w-fit ">
         {children} {/* 👈 Render whatever is passed */}
       </div>
-      <div className={cn("absolute -left-20", textClass)}>
+      <div className={cn("absolute", textClass)}>
         <svg
           width="739"
           height="508"
           viewBox="0 0 739 508"
-          className={cn("w-20 h-40 md:w-40")}
+          className={cn("w-28 h-40 hidden lg:w-40 lg:block")}
           preserveAspectRatio="xMidYMid meet"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
