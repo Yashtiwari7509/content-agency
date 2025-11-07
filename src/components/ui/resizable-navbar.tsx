@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Layers, LucideLayoutGrid, X } from "lucide-react";
+import { LucideLayoutGrid, X } from "lucide-react";
 import React, { useRef, useState, useEffect } from "react";
 import { Link, NavLink } from "react-router";
 import gsap from "gsap";
