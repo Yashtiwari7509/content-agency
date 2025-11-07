@@ -73,7 +73,7 @@ const PhoneVideo = () => {
 
   return (
     <>
-      <div ref={fixedVideoRef} id="video-page" className="w-screen  bg-white h-screen relative overflow-hidden">
+      <div ref={fixedVideoRef} id="video-page" className="w-screen bg-white h-screen relative overflow-x-hidden">
         <div className="text-center  absolute mx-auto left-[50%] -translate-x-1/2 -translate-y-1/2  top-44">
           <SectionLabel text="Top Works" />
           <h1 className="text-3xl md:text-3xl font-bold whitespace-nowrap text-gray-900 relative">

@@ -53,7 +53,7 @@ const FixedText2 = () => {
   }, []);
 
   return (
-    <div ref={fixedTextRef} className="relative w-screen h-screen flex justify-center items-center select-none">
+    <div ref={fixedTextRef} className="relative  w-screen h-screen flex justify-center items-center select-none">
       <div className="text-container md:w-[30rem] w-[19.5rem] text-2xl flex h-8 md:text-4xl md:h-10 font-medium relative">
         <div className="text-nowrap w-fit">We'll handle Your</div>
           <img src={brush} style={{color : 'red'}} className="absolute h-24 -bottom-8 -z-30 -right-10 " alt="" />

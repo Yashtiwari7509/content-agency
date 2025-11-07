@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Layers, X } from "lucide-react";
+import { Layers, LucideLayoutGrid, X } from "lucide-react";
 import React, { useRef, useState, useEffect } from "react";
 import { Link, NavLink } from "react-router";
 import gsap from "gsap";
@@ -172,7 +172,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
   );
 };
 
-export const MobileNav = ({ children, className, visible = false  }: MobileNavProps) => {
+export const MobileNav = ({ children, className, visible = false }: MobileNavProps) => {
   const mobileRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
@@ -237,7 +237,7 @@ export const MobileNavMenu = ({ children, className, isOpen }: MobileNavMenuProp
     <div
       ref={menuRef}
       className={cn(
-        "absolute inset-x-0 top-16 border-white border z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white/30 px-4 py-8 backdrop-blur-xl dark:bg-neutral-950",
+        "fixed inset-x-0 top-16 border-white border z-50 flex w-full overflow-hidden flex-col items-start justify-start gap-4 rounded-lg bg-white/30 px-4 py-8 backdrop-blur-xl dark:bg-neutral-950",
         className
       )}
     >
@@ -248,19 +248,23 @@ export const MobileNavMenu = ({ children, className, isOpen }: MobileNavMenuProp
 
 export const MobileNavToggle = ({ isOpen, onClick }: { isOpen: boolean; onClick: () => void }) => {
   return isOpen ? (
-    <X className="text-black dark:text-white cursor-pointer" onClick={onClick} />
+    <div className="p-3 border rounded-full">
+      <X className="text-black cursor-pointer" onClick={onClick} />
+    </div>
   ) : (
-    <Layers className="text-black dark:text-white cursor-pointer" onClick={onClick} />
+    <div className="p-3 border border-white rounded-full">
+      <LucideLayoutGrid size={20} className="text-zinc-800 cursor-pointer" onClick={onClick} />
+    </div>
   );
 };
 
 export const NavbarLogo = () => {
   return (
-    <Link to="/" className="relative z-20 mr-4  flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black">
+    <Link to="/" className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black">
       <img
-        src="https://assets.aceternity.com/logo-dark.png"
+        src="https://img.freepik.com/premium-vector/colorful-bird-wing-feather-logo-icon_23758-199.jpg?semt=ais_hybrid&w=740&q=80"
         alt="logo"
-        className="rounded-full"
+        className="rounded-full "
         width={30}
         height={30}
       />

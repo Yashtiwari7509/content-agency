@@ -18,7 +18,7 @@ const Home = () => {
   }, [lenis]);
 
   return (
-    <div className="w-full">
+    <div className="w-screen ">
       <Hero />
       <GridScore />
       <FixedText />

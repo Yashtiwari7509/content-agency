@@ -87,11 +87,16 @@ const GridScore = () => {
         textContent: 1,
         duration: 2,
         snap: { textContent: 1 },
+        scrollTrigger: {
+          trigger: ".container",
+          start: `-20% top`,
+          end: "top top",
+        },
       }
     );
   });
   return (
-    <section id="score" className="w-screen min-h-screen p-2 bg-white relative py-20">
+    <section id="score" className="w-screen min-h-screen p-2 overflow-x-hidden  bg-white relative py-20">
       <SectionHeader
         label="Score"
         title="Our Success - Score"
