@@ -13,6 +13,7 @@ import gsap from "gsap";
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router";
 import { ChevronDown } from "lucide-react";
+import { useContact } from "@/components/contact/ContactContext";
 
 export function NavbarTop() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -20,6 +21,7 @@ export function NavbarTop() {
   const [hovered, setHovered] = useState<string | number | null>(null);
   const location = useLocation();
   const currentPath = location.pathname;
+  const { openContact } = useContact();
 
   const navItems = [
     {
@@ -125,7 +127,10 @@ export function NavbarTop() {
                   setIsDropdownOpen(true);
                 }}
               >
-                <button className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300 flex items-center gap-1">
+                <button
+                  data-cursor="link"
+                  className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300 flex items-center gap-1"
+                >
                   {hovered === "Explore" && (
                     <div
                       className="absolute inset-0 h-full w-full rounded-full bg-white dark:bg-neutral-800"
@@ -142,12 +147,15 @@ export function NavbarTop() {
 
                 {/* Dropdown Content */}
                 {isDropdownOpen && (
-                  <div className="absolute top-full -left-full p-4 mt-2 w-fit rounded-full bg-white/40 backdrop-blur-xl  border border-white overflow-hidden">
+                  <div
+                    data-cursor="link"
+                    className="absolute top-full -left-full p-4 mt-2 w-fit rounded-full bg-white/90  backdrop-blur-3xl not-[]:  border border-white overflow-hidden"
+                  >
                     {contactSections.map((section, idx) => (
                       <span
                         key={`dropdown-${idx}`}
                         onClick={() => handleSectionClick(section.link)}
-                        className="w-full rounded-full text-left px-4 py-3 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-white/40 cursor-pointer dark:hover:bg-neutral-800 transition-colors"
+                        className="w-full rounded-full text-left px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:border-black/20 hover:border cursor-pointer dark:hover:bg-neutral-800 transition-colors"
                       >
                         {section.name}
                       </span>
@@ -163,6 +171,7 @@ export function NavbarTop() {
                 key={`link-${idx}`}
                 to={item.link}
                 viewTransition
+                data-cursor="link"
               >
                 {hovered === idx && (
                   <div
@@ -177,8 +186,12 @@ export function NavbarTop() {
 
           <div className="flex items-center gap-4">
             <NavbarButton
+              as="button"
+              type="button"
+              onClick={openContact}
               onMouseEnter={OnMouseEnter}
               onMouseLeave={OnMouseLeave}
+              data-cursor="link"
               className="py-3 px-10 transition-colors hover:shadow-xl relative rounded-full overflow-hidden font-light shadow-none"
             >
               <h4 id="btn-txt" className="relative z-10">
@@ -211,6 +224,7 @@ export function NavbarTop() {
                 to={item.link}
                 viewTransition
                 onClick={() => setIsMobileMenuOpen(false)}
+                data-cursor="link"
                 className="relative w-full text-2xl text-center top-0 text-neutral-600 dark:text-neutral-300"
               >
                 <span className="block">{item.name}</span>
@@ -219,7 +233,7 @@ export function NavbarTop() {
 
             {/* Mobile Contact Sections */}
             {currentPath === "/" && (
-              <div className="w-full border-t border-neutral-200 dark:border-neutral-800 pt-4 mt-4">
+              <div className="w-full border-t border-neutral-200 pt-4 mt-4">
                 {contactSections.map((section, idx) => (
                   <button
                     key={`mobile-section-${idx}`}
@@ -227,6 +241,7 @@ export function NavbarTop() {
                       handleSectionClick(section.link);
                       setIsMobileMenuOpen(false);
                     }}
+                    data-cursor="link"
                     className="w-full text-xl text-center text-neutral-600 dark:text-neutral-300 py-2"
                   >
                     {section.name}
@@ -237,9 +252,14 @@ export function NavbarTop() {
 
             <div className="flex w-full flex-col gap-4 mt-6">
               <NavbarButton
+                as="button"
+                type="button"
                 onMouseEnter={OnMouseEnter}
                 onMouseLeave={OnMouseLeave}
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  openContact();
+                }}
                 className="py-3 px-10 transition-colors hover:shadow-xl relative rounded-full overflow-hidden font-light shadow-none"
               >
                 <h4 id="btn-txt" className="relative z-10">

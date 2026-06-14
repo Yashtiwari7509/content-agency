@@ -1,157 +1,163 @@
-import image from "../../../public/img.png";
-import image1 from "../../../public/facebook.svg?url";
-import image2 from "../../../public/short.svg?url";
-import image3 from "../../../public/reels.svg?url";
-import image4 from "../../../public/vite.svg?url";
-import image5 from "../../../public/short.svg?url";
-import image6 from "../../../public/facebook.svg?url";
-
 import Balloons from "@/components/Balloons";
 import HeroCard, { type CardStatsItem } from "@/components/HeroCard";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
 import { SplitText } from "gsap/SplitText";
+import TypingLoop from "@/components/TypingEffect";
+import { Andrew, Nick, Thomas } from "@/assets/ClientImage";
+import { cloud, fb, reel, short } from "@/assets/Image";
 
-const Icons = [
-  { src: image1 },
-  { src: image2 },
-  { src: image3 },
-  { src: image4 },
-  { src: image5 },
-  { src: image6 },
-  { src: image5 },
-  { src: image6 },
-];
-const CardStatsData: CardStatsItem[] = [
+const Icons = [{ src: fb }, { src: fb }, { src: short }, { src: short }, { src: reel }, { src: reel }, { src: short }, { src: short }];
+export const CardStatsData: CardStatsItem[] = [
   {
-    top: [image2, image6],
+    top: [Thomas, short],
     bottom: [
       {
-        label: "views",
-        value: "170k",
+        label: "DeLauer",
+        value: "Thomas",
       },
       {
-        label: "subs",
-        value: "18k",
+        label: "Subscribe",
+        value: "4M+",
       },
     ],
     heroCard: true,
     animation: true,
-    alignmentCss: window.innerWidth < 600 ? "85% 20%" : "70% 20%",
+    alignmentCss: window.innerWidth < 600 ? "40% 20%" : "30% 15%",
   },
   {
-    top: ["https://www.shutterstock.com/image-photo/close-head-shot-portrait-preppy-600nw-1433809418.jpg", image6],
+    top: [Nick, short],
     bottom: [
       {
-        label: "views",
-        value: "170k",
+        label: "Norwitz",
+        value: "Nick",
       },
       {
-        label: "subs",
-        value: "18k",
+        label: "Subscribe",
+        value: "1M+",
       },
     ],
     heroCard: true,
     animation: true,
-    alignmentCss: window.innerWidth < 600 ? "85% 80%" : "70% 80%",
+    alignmentCss: window.innerWidth < 600 ? "40% 80%" : "30% 85%",
   },
   {
-    top: ["https://www.shutterstock.com/image-photo/close-head-shot-portrait-preppy-600nw-1433809418.jpg", image6],
+    top: [Andrew, reel],
     bottom: [
       {
-        label: "views",
-        value: "700k",
+        label: "Koutnik",
+        value: "Andrew",
       },
       {
         label: "follower",
-        value: "40k",
+        value: "80k+",
       },
     ],
     heroCard: true,
     animation: true,
-    alignmentCss: window.innerWidth < 600 ? "72% 50%" : "85% 50%",
+    alignmentCss: window.innerWidth < 600 ? "72% 50%" : "60% 50%",
   },
 ];
 const Hero = () => {
   const heroTlRef = useRef<GSAPTimeline>(null);
 
   useGSAP(() => {
-    const textLine = SplitText.create(".hero-h1");
-    const { words } = textLine.split({ type: "words,lines", mask: "words" });
-    gsap.to(".center", {
-      rotationZ: 360,
+    let splitInstance: ReturnType<typeof SplitText.create> | null = null;
+    let active = true;
+
+    gsap.from(".center", {
+      rotationZ: -360,
       duration: 50,
       repeat: -1,
       ease: "none",
+      delay: 3,
     });
-    heroTlRef.current = gsap.timeline({
-      defaults: { ease: "power4.out" },
-    });
-    const tl = heroTlRef.current;
-    tl.
-    from(".clouds", {
-      filter: "blur(30px)",
-      y: 500,
-      ease: "power4.out",
-      duration: 3,
-      stagger: 0.2,
-    })
 
-      .from(
-        ".center",
-        {
-          opacity: 0,
-          scale: 0,
-          duration: 3,
-        },
-        "-=3"
-      )
-      .from(
-        words,
-        {
-          yPercent: 100,
-          ease: "power4.out",
-          opacity: 0,
-          stagger: 0.1,
-        },
-        "-=1"
-      )
-      .from(".climax", {
-        opacity: 0,
-        scale: 0,
+    gsap.to(".hero-card", {
+      y: "20px",
+      yoyo: true,
+      repeat: -1,
+      duration: 1,
+      stagger: 0.4,
+      delay: 3,
+    });
+
+    document.fonts.ready.then(() => {
+      if (!active) return;
+
+      splitInstance = SplitText.create(".hero-h1");
+      const { words } = splitInstance.split({ type: "words,lines", mask: "words" });
+
+      heroTlRef.current = gsap.timeline({
+        defaults: { ease: "power4.out" },
+      });
+      const tl = heroTlRef.current;
+      tl.from(".clouds", {
+        filter: "blur(30px)",
+        y: 300,
+        ease: "power4.out",
+        duration: 2,
+        stagger: 0.2,
+        delay: 4,
       })
-      .from(
-        "#heroCard",
-        {
-          y: 500,
-          ease: "power4.out",
-          duration: 3,
-          stagger: 0.2,
-        },
-        "-=3"
-      );
-  }, []);
+        .from(
+          ".center",
+          {
+            opacity: 0,
+            scale: 0,
+            duration: 2,
+          },
+          "-=3",
+        )
+        .from(
+          words,
+          {
+            yPercent: 100,
+            ease: "power4.out",
+            opacity: 0,
+            stagger: 0.1,
+          },
+          "-=1",
+        )
+        .from(
+          ".climax",
+          {
+            opacity: 0,
+          },
+          "-=1",
+        );
+    });
 
+    return () => {
+      active = false;
+      splitInstance?.revert();
+      heroTlRef.current?.kill();
+    };
+  }, []);
   return (
-    <section id="hero-section"  className="w-screen h-screen relative top-0 overflow-hidden">
+    <section id="hero-section" className="w-screen h-[clamp(700px,100vh,800px)] relative top-0 overflow-hidden">
       <div className="h-full w-full bg-background absolute top-0 z-0 hero-bg-mask"></div>
       <div className="absolute clouds top-5 left-1/3 z-0">
-        <img src={image} width={300} height={200} alt="" />
+        <img src={cloud} width={300} height={200} alt="" />
       </div>
       <div className="absolute clouds top-32 left-2/4 z-20">
-        <img src={image} width={300} height={200} alt="" />
+        <img src={cloud} width={300} height={200} alt="" />
       </div>
       <Balloons />
 
-      <div className="relative px-2 text-black text-4xl mx-auto md:text-5xl lg:text-5xl md:max-w-1/2  text-center leading-tight font-semibold mt-[25vh] md:mt-[30vh] ">
-        <h1 className="hero-h1 inline-block">Cookin</h1>
-        <span className="font-[sans] climax inline-block pr-2">'trends.</span> <br />
-        <h1 className="hero-h1 font-normal inline-block text-zinc-800">that build Brands</h1>
+      <div className="absolute top-64! text-container text-5xl">
+        <h4 className="font-sans hero-h1 text-xl leading-none">We do</h4>
+        <TypingLoop
+          prefix="We Do"
+          words={["Video Editing", "Color Grading", "Motion Graphics", "Cinematic Reels"]}
+          cursorClassName=""
+          textClassName=""
+        />
       </div>
 
       <div className="absolute h-[80vh] w-screen top-40 md:top-0 center-con">
-        <div className="center  relative flex items-center w-[30vw] shrink-0 aspect-square justify-center border-2 border-white  rounded-full overflow-visible">
+        <div className="center  relative flex items-center w-[30vw] shrink-0 aspect-square justify-center border-2 border-white  rounded-full overflow-visible pointer-events-none">
           {Array.from({ length: Icons.length / 2 }).map((_, i) => {
             const angle = i * (360 / (Icons.length / 3));
             const icon1 = Icons[i * 2];
@@ -197,9 +203,11 @@ const Hero = () => {
           })}
         </div>
       </div>
-      {CardStatsData.map((card, index) => (
-        <HeroCard key={index + "hero"} card={card} />
-      ))}
+      <div className="w-[clamp(300px,100vw,1200px)] card-center h-80 relative">
+        {CardStatsData.map((card, index) => (
+          <HeroCard key={index + "hero"} card={card} id={"hero-card"} />
+        ))}
+      </div>
     </section>
   );
 };

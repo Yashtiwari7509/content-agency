@@ -16,7 +16,7 @@ const Pricing = () => {
 
   const pricingData = [
     {
-      title: "Horizontal Video (: Long-Form ",
+      title: "Horizontal Video",
       description: "Professional long-form video editing for YouTube, courses, and business content",
       quote: "Transform Your Content Into Cinematic Masterpieces",
       tiers: [
@@ -38,7 +38,7 @@ const Pricing = () => {
       ],
     },
     {
-      title: "Vertical Video (: Shorts",
+      title: "Vertical Video - Shorts",
       description: "Attention-grabbing shorts for TikTok, Instagram Reels, and YouTube Shorts",
       quote: "Go Viral With Every Frame",
       tiers: [
@@ -54,7 +54,7 @@ const Pricing = () => {
       ],
     },
     {
-      title: "Channel Management (:",
+      title: "Channel Management",
       description: "Full YouTube channel management to grow your audience and maximize views",
       quote: "Let Us Grow Your Channel While You Create",
       tiers: [
@@ -76,7 +76,7 @@ const Pricing = () => {
       ],
     },
     {
-      title: "Social Media Management (:",
+      title: "Manage Social Media",
       description: "Complete social media strategy and content management across all platforms",
       quote: "Build Your Empire Across All Platforms",
       tiers: [
@@ -172,12 +172,13 @@ const Pricing = () => {
       {/* Service Selector */}
       <section className="relative px-4 pb-8">
         <div className="max-w-4xl mx-auto">
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="grid grid-cols-2 gap-2 lg:grid-cols-4 ">
             {pricingData.map((plan, index) => (
               <Button
                 key={index}
                 onClick={() => setSelectedService(index)}
                 variant={selectedService === index ? "default" : "outline"}
+                data-cursor='link'
                 className={
                   selectedService === index
                     ? " text-white rounded-full"

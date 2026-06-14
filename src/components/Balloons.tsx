@@ -8,7 +8,7 @@ export default function Balloons() {
     { top: "10%", left: "20%" },
     { top: "25%", left: "40%" },
     { top: "40%", left: "80%" },
-    { top: "70%", left: "10%" },
+    { top: "50%", left: "10%" },
   ];
   const ref = useRef<HTMLSpanElement[]>([]);
 
@@ -16,11 +16,11 @@ export default function Balloons() {
     if (ref.current) {
       gsap.from(ref.current, {
         opacity: 0,
-
+        y: "random(100, 300)",
         ease: "power4.out",
-        stagger: 0.2,
-        duration: 2,
-        delay: 2,
+        stagger: 0.5,
+        duration: 4,
+        delay: .2,
       });
     }
   });

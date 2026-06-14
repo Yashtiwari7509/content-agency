@@ -63,7 +63,7 @@ export const Navbar = ({ children, className }: NavbarProps) => {
   }, []);
 
   return (
-    <div ref={ref} className={cn("sticky inset-x-0 top-20 z-40 w-full", className)}>
+    <div ref={ref} className={cn("fixed  t-center inset-x-0 top-12! z-40 w-full", className)}>
       {React.Children.map(children, (child) =>
         React.isValidElement(child)
           ? React.cloneElement(child as React.ReactElement<{ visible?: boolean }>, { visible })
@@ -93,8 +93,8 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
         minWidth: "800px",
       }}
       className={cn(
-        "relative main-top-nav z-60 mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full bg-transparent px-4 py-2 border-2 border-white lg:flex dark:bg-transparent",
-        visible && "bg-zinc-50/10 !border-blue-800/10 !border dark:bg-neutral-950/80",
+        "relative main-top-nav text-white! z-60 fading   mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full bg-transparent px-4 py-2 border-2 border-white lg:flex dark:bg-transparent",
+        visible && "bg-zinc-50/10 border-background-800/10! border! dark:bg-neutral-950/80",
         className
       )}
     >
@@ -237,8 +237,8 @@ export const MobileNavMenu = ({ children, className, isOpen }: MobileNavMenuProp
     <div
       ref={menuRef}
       className={cn(
-        "fixed inset-x-0 top-16 border-white border z-50 flex w-full overflow-hidden flex-col items-start justify-start gap-4 rounded-lg bg-white/30 px-4 py-8 backdrop-blur-xl dark:bg-neutral-950",
-        className
+        "fixed inset-x-0 top-16 opacity-0 border-white border z-50 flex w-full overflow-hidden flex-col items-start justify-start gap-4 rounded-lg bg-white/30 px-4 py-8 backdrop-blur-xl dark:bg-neutral-950",
+        className , !isOpen && 'pointer-events-none'
       )}
     >
       {children}

@@ -1,38 +1,46 @@
+import { useEffect, Suspense, lazy } from "react";
+import { useLenis } from "lenis/react";
 import Hero from "./Hero";
 import GridScore from "./GridScore";
-import { Footer } from "./Footer";
-import PortfolioLayout from "./Portfolio";
-import PhoneVideo from "./PhoneVideo";
-import ServicesLayout from "./Services";
-import MarqueeReviews from "./MarqueeReviews";
-import VerticalSlider from "./VerticalSlider";
-import FixedText2 from "./FixedText2";
-import FixedText from "./FixedText";
-import { useLenis } from "lenis/react";
-import { useEffect } from "react";
+import DonutSlider from "./DonutSlider";
+import PhoneVideo from "./new/PhoneVideo";
+import PhoneStats from "./PhoneStats";
+import Slider1 from "./new/slider1";
+
+// Dynamically imported components
+const Footer = lazy(() => import("./Footer"));
+const PortfolioLayout = lazy(() => import("./Portfolio"));
+const ServicesLayout = lazy(() => import("./Services"));
+const MarqueeReviews = lazy(() => import("./MarqueeReviews"));
+const VerticalSlider = lazy(() => import("./VerticalSlider"));
+const FixedText = lazy(() => import("./FixedText"));
 
 const Home = () => {
-  const lenis = useLenis();
-  useEffect(() => {
-    lenis?.scrollTo(0, { immediate: true });
-  }, [lenis]);
+    const lenis = useLenis();
 
-  return (
-    <div className="w-screen ">
-      <Hero />
-      <GridScore />
-      <FixedText />
-      <PortfolioLayout />
-      <PhoneVideo />
-      <div id="ndPage" className="w-screen h-screen relative pointer-events-none -z-10"></div>
-      <div id="lastPage" className="w-screen h-screen relative pointer-events-none -z-10"></div>
-      <ServicesLayout />
-      <FixedText2 />
-      <VerticalSlider />
-      <MarqueeReviews />
-      <Footer />
-    </div>
-  );
+    useEffect(() => {
+        lenis?.scrollTo(0, { immediate: true });
+    }, [lenis]);
+
+    return (
+        <div className="w-screen relative">
+            <PhoneVideo/>
+            <Hero />
+            <Slider1/>
+            <GridScore />
+            <PhoneStats/>
+            <FixedText />
+            <DonutSlider/>
+
+            <Suspense fallback={<div>Loading...</div>}>
+                <PortfolioLayout />
+                <ServicesLayout />
+                <VerticalSlider />
+                <MarqueeReviews />
+                <Footer />
+            </Suspense>
+        </div>
+    );
 };
 
 export default Home;

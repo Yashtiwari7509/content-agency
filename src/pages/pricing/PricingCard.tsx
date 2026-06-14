@@ -21,39 +21,38 @@ interface PricingCardProps {
 }
 
 export const PricingCard = ({ tiers, quote }: PricingCardProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const quoteRef = useRef<HTMLHeadingElement>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const quoteRef = useRef<HTMLHeadingElement | null>(null);
+  const cardRefs = useRef<HTMLDivElement[]>([]);
 
   useGSAP(() => {
     if (quoteRef.current) {
       gsap.fromTo(
         quoteRef.current,
-        { opacity: 0, y: 30 },
+        { opacity: 0},
         {
           opacity: 1,
           y: 0,
           duration: 1,
-          ease: "power3.out",
+          ease: "power4.out",
         }
       );
     }
 
-    const cards = containerRef.current?.querySelectorAll(".pricing-tier-card");
-    if (cards) {
-      gsap.fromTo(
-        cards,
-        { opacity: 0, y: -50, scale: 0.6, filter: "blur(10px)", rotateZ: 4 },
-        {
-          rotateZ: 0,
-          filter: "blur(0px)",
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.6,
-          stagger: 0.15,
-          ease: "power3.out",
-        }
-      );
+    if (cardRefs.current.length > 0) {
+    gsap.fromTo(
+      cardRefs.current,
+      { opacity: 0, y: -50, scale: 0.6 },
+      {
+        opacity: 1,
+        y: 0,
+        scale: (i) => (i === 2 ? 1.1 : 1), // highlight middle card
+        duration: 0.6,
+        stagger: { each: 0.15, from: "center" },
+        ease: "power3.out",
+      }
+    );
+
     }
   }, [tiers]);
 
@@ -61,7 +60,7 @@ export const PricingCard = ({ tiers, quote }: PricingCardProps) => {
     <div className="space-y-12" ref={containerRef}>
       {/* Animated Quote */}
       <div className="text-center max-w-3xl mx-auto h-20">
-        <h2 ref={quoteRef} className="text-3xl md:text-4xl font-black text-zinc-500">
+        <h2 ref={quoteRef} className="text-3xl md:text-4xl font-black text-zinc-700">
           {quote}
         </h2>
       </div>
@@ -70,11 +69,15 @@ export const PricingCard = ({ tiers, quote }: PricingCardProps) => {
       <div className="flex justify-center gap-8 w-full flex-wrap">
         {tiers.map((tier, index) => (
           <Card
+            ref={(el) => {
+              if (el) cardRefs.current[index] = el;
+            }}
             key={index}
+            data-card-index={index}
             className={cn(
               "pricing-tier-card relative w-80  overflow-hidden backdrop-blur-sm transition-all duration-500 hover:scale-105 hover:shadow-2xl",
               index === 2 || tier.name === "Brand Builder"
-                ? "bg-gradient-to-br from-background/40 via-white to-background/10 border-background md:scale-110"
+                ? "bg-linear-to-br from-background/40 via-white to-background/10 border-background "
                 : "bg-white hover:border-white"
             )}
           >

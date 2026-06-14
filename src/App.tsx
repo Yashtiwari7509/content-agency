@@ -1,6 +1,7 @@
 import "./App.css";
+import "lenis/dist/lenis.css";
 import { NavbarTop } from "@/components/Navbar";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -14,12 +15,18 @@ import DrawSVGPlugin from "gsap/DrawSVGPlugin";
 import MotionPathPlugin from "gsap/MotionPathPlugin";
 import "lenis/dist/lenis.css";
 import Pricing from "./pages/pricing/Pricing";
+import MouseMove from "./components/MouseMove";
+import TeamLineup from "./pages/home/new/Loader";
+import { ContactProvider } from "./components/contact/ContactContext";
+import { ContactModal } from "./components/contact/ContactModal";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, Draggable, InertiaPlugin, DrawSVGPlugin, MotionPathPlugin);
 
 function App() {
   const mainRef = useRef(null);
   const lenisRef = useRef<LenisRef>(null);
+  const [loading, setLoading] = useState(true);
+  const tl1Ref = useRef<GSAPTimeline>(null);
 
   useGSAP(() => {
     function update(time: number) {
@@ -27,31 +34,90 @@ function App() {
     }
 
     gsap.ticker.add(update);
-    // lenisRef.current?.lenis?.scrollTo(0, { immediate: true });
     return () => gsap.ticker.remove(update);
   }, []);
 
+  useEffect(() => {
+    const root = document.getElementById("root");
+    if (loading) {
+      root?.classList.add("is-loading");
+      lenisRef.current?.lenis?.stop();
+    } else {
+      root?.classList.remove("is-loading");
+      lenisRef.current?.lenis?.start();
+    }
+  }, [loading]);
+
+  useGSAP(() => {
+    tl1Ref.current = gsap
+      .timeline({})
+      .from(".img-side", {
+        delay: 1,
+        y: 600,
+        duration: 1,
+        ease: "power2.out",
+        stagger: {
+          each: 0.1,
+          from: "center",
+        },
+      })
+      .from(".img-side", {
+        onComplete: () => {
+          setLoading(false);
+        },
+      })
+      .to(".loader-bg-mask", {
+        duration: 0.5,
+        maskImage: "linear-gradient(to top, transparent, #00e3ff 0%, transparent )",
+      })
+      .to(".img-side", {
+        delay: 1,
+        y: 600,
+        duration: 1,
+        ease: "power2.in",
+        filter: "blur(10px)",
+        stagger: {
+          each: 0.01,
+          from: "edges",
+        },
+      })
+      .to(".loader-screen", {
+        delay: 0.5,
+        y: -600,
+        duration: 1,
+        ease: "power2.in",
+        onComplete: () => {
+          gsap.set(".loader-screen", {
+            display: "none",
+          });
+        },
+      });
+  });
+
   return (
     <>
+      <TeamLineup />
       <ReactLenis
         ref={lenisRef}
         options={{
           autoRaf: false,
-          easing: function easeOutCubic(x: number): number {
-            return 1 - Math.pow(1 - x, 3);
-          },
-          duration: 2,
+          duration: 1,
         }}
         root
       />
-      <div ref={mainRef} className="relative w-screen">
-        <NavbarTop />
-        <Routes>
-          <Route path="/"  element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/pricing" element={<Pricing />} />
-        </Routes>
-      </div>
+      <ContactProvider>
+        <div ref={mainRef} className="relative w-screen" style={{ visibility: loading ? "hidden" : "visible" }}>
+          <NavbarTop />
+          <MouseMove />
+          <ContactModal />
+
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/pricing" element={<Pricing />} />
+          </Routes>
+        </div>
+      </ContactProvider>
     </>
   );
 }
