@@ -54,10 +54,10 @@ function App() {
       .from(".img-side", {
         delay: 1,
         y: 600,
-        duration: 1,
-        ease: "power2.out",
+        duration: 1.5,
+        ease: "expo.out",
         stagger: {
-          each: 0.1,
+          each: 0.07,
           from: "center",
         },
       })
@@ -66,26 +66,12 @@ function App() {
           setLoading(false);
         },
       })
-      .to(".loader-bg-mask", {
-        duration: 0.5,
-        maskImage: "linear-gradient(to top, transparent, #00e3ff 0%, transparent )",
-      })
-      .to(".img-side", {
-        delay: 1,
-        y: 600,
-        duration: 1,
-        ease: "power2.in",
-        filter: "blur(10px)",
-        stagger: {
-          each: 0.01,
-          from: "edges",
-        },
-      })
+      .to(".loader-bg-mask", {})
       .to(".loader-screen", {
         delay: 0.5,
-        y: -600,
-        duration: 1,
-        ease: "power2.in",
+        y: -700,
+        duration: 1.5,
+        ease: "expo.in",
         onComplete: () => {
           gsap.set(".loader-screen", {
             display: "none",

@@ -1,54 +1,58 @@
 import { Andrew, Chris, Nick, Rahul, Thomas } from "@/assets/ClientImage";
 
 const members = [
-  { id: 1, src: Andrew, alt: "Member 1" },
-  { id: 2, src: Nick, alt: "Member 2" },
-  { id: 3, src: Rahul, alt: "Hero Member" }, // center
-  { id: 4, src: Thomas, alt: "Member 4" },
-  { id: 5, src: Chris, alt: "Member 5" },
+  {
+    src: Andrew,
+    alt: "Andrew",
+    className: "left-[10%] bottom-2 h-[580px] z-10 translate-y-10 scale-x-[-1]",
+  },
+  {
+    src: Thomas,
+    alt: "Thomas",
+    className: "left-[20%] bottom-0 h-[580px] z-20 translate-y-2",
+  },
+  {
+    src: Rahul,
+    alt: "Rahul",
+    className: "left-1/2 -translate-x-1/2 bottom-0 h-[620px] z-30",
+  },
+  {
+    src: Nick,
+    alt: "Nick",
+    className: "right-[20%] bottom-0 h-[570px] z-20 translate-y-2 scale-x-[-1]",
+  },
+  {
+    src: Chris,
+    alt: "Chris",
+    className: "right-[10%] bottom-0 h-[580px] z-10 translate-y-12 scale-x-[-1]",
+  },
 ];
 
 export default function TeamLineup() {
   return (
-    <section style={{ willChange: "auto" }} className="absolute top-0 w-screen  flex items-end z-999 h-screen bg-white p-0 loader-screen">
-      <div className="w-screen h-screen absolute bg-background bottom-0 loader-bg-mask"></div>
-      <div className="mx-auto max-w-7xl px-6 overflow-hidden translate-y-10">
-        <div className="flex items-end overflow-hidden justify-center loader-images">
+    <section style={{ willChange: "auto" }} className="absolute inset-0 z-999 flex items-end  bg-white loader-screen">
+      <div className="relative w-full h-full max-w-[1700px] mx-auto loader-images">
+        {members.map((member, index) => (
           <img
-            src={members[0].src}
-            alt={members[0].alt}
-            className="relative  z-10 h-[580px] w-200 object-contain translate-y-10 img-side"
-            style={{ transform: "scaleX(-1)" }}
+            key={index}
+            src={member.src}
+            alt={member.alt}
+            className={`
+              absolute
+              object-contain
+              w-auto
+              img-side
+              ${member.className}
+            `}
           />
-          <img
-            src={members[3].src}
-            alt={members[3].alt}
-            className="relative -ml-50 z-20 h-[580px] w-200 object-contain translate-y-2 img-side"
-          />
-          {/* Center Hero */}
-          <img
-            src={members[2].src}
-            alt={members[2].alt}
-            className="relative -ml-50 z-50 h-[620px] w-200 object-contain drop-shadow-xl img-side"
-          />
-
-          {/* Member 4 */}
-          <img
-            src={members[1].src}
-            alt={members[1].alt}
-            className="relative -ml-55 z-20 h-[570px] w-200 object-contain translate-y-2 img-side"
-            style={{ transform: "scaleX(-1)" }}
-          />
-          <img
-            src={members[4].src}
-            alt={members[4].alt}
-            className="relative -ml-50 z-10 h-[580px] translate-y-12 w-200 object-contain img-side"
-            style={{ transform: "scaleX(-1)" }}
-          />
-
-          {/* Member 5 */}
-        </div>
+        ))}
       </div>
+
+      {/* Bottom Blur */}
+      <div className="absolute bottom-0 left-0 z-60 w-full h-[20vh] prBlur" />
+
+      {/* Top Fade */}
+      <div className="absolute bottom-0 left-0 z-60 w-full h-[20vh] rotate-180 translate-y-full prBlur" />
     </section>
   );
 }
