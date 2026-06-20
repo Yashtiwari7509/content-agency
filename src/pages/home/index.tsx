@@ -41,7 +41,6 @@ const Home = () => {
 
     tl2Ref.current = gsap
       .timeline({ paused: true })
-      // 1. Loader slides up — expo.in feels like it's being pulled away
       .to(".loader-screen", {
         delay: 0.5,
         y: "-100vh",
@@ -51,25 +50,14 @@ const Home = () => {
           gsap.set(".loader-screen", { display: "none" });
         },
       })
-      // 2. Hero diamond → fullscreen clip-path reveal (starts 0.3s before loader fully exits)
       .fromTo(
         "#hero-section",
         { clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)" },
         { clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)", duration: 1.4, ease: "expo.out" },
         "-=0.5",
       )
-      // 3. Clouds drift in, overlapping with the expand
-      .from(
-        ".clouds",
-        { y: 80, opacity: 0, duration: 1.1, stagger: 0.18, ease: "power3.out" },
-        "-=0.8",
-      )
-      // 4. Center ring scales in, overlapping with clouds
-      .from(
-        ".center",
-        { opacity: 0, scale: 0, duration: 0.9, ease: "back.out(1.4)" },
-        "-=0.7",
-      );
+      .from(".clouds", { y: 80, opacity: 0, duration: 1.1, stagger: 0.18, ease: "power3.out" }, "-=0.8")
+      .from(".center", { opacity: 0, scale: 0, duration: 0.9, ease: "back.out(1.4)" }, "-=0.7");
   });
 
   return (
@@ -77,21 +65,18 @@ const Home = () => {
       {({ progress, ready }) => {
         return (
           <>
-            <div className="fixed left-2 top-2 z-2000  font-bold text-3xl">
-              {progress}
-              {ready &&
-                tl2Ref.current &&
-                (() => {
-                  tl2Ref.current!.paused(false);
-                  return null;
-                })()}
-            </div>
+            {ready &&
+              progress >= 99 &&
+              tl2Ref.current &&
+              (() => {
+                tl2Ref.current!.paused(false);
+                return null;
+              })()}
             <TeamLineup />
 
             <div
               className="w-screen relative"
               style={{
-                // Hidden until loader exits, but still rendered so assets preload
                 visibility: ready ? "visible" : "hidden",
                 pointerEvents: ready ? "auto" : "none",
               }}
