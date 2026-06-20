@@ -31,7 +31,7 @@ const members = [
 
 const TeamLineup = () => {
   return (
-    <section style={{ willChange: "transform,auto" }} className="top-0 h-screen w-screen inset-0 z-[2000] absolute bg-white loader-screen">
+    <section style={{ willChange: "transform,auto" }} className="top-0 h-screen w-screen inset-0 z-2000 fixed bg-white loader-screen">
       {/* Team images */}
       <div className="relative w-full h-full mx-auto loader-images overflow-hidden">
         {members.map((member, index) => (
