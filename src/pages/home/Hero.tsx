@@ -64,7 +64,6 @@ const Hero = () => {
 
   useGSAP(() => {
     let splitInstance: ReturnType<typeof SplitText.create> | null = null;
-    let active = true;
 
     gsap.from(".center", {
       rotationZ: -360,
@@ -83,58 +82,21 @@ const Hero = () => {
       delay: 3,
     });
 
-    document.fonts.ready.then(() => {
-      if (!active) return;
+    splitInstance = SplitText.create(".hero-h1");
+    const { words } = splitInstance.split({ type: "words,lines", mask: "words" });
 
-      splitInstance = SplitText.create(".hero-h1");
-      const { words } = splitInstance.split({ type: "words,lines", mask: "words" });
-
-      heroTlRef.current = gsap.timeline({
-        defaults: { ease: "power4.out" },
-      });
-      const tl = heroTlRef.current;
-      tl.from(".clouds", {
-        filter: "blur(30px)",
-        y: 300,
-        ease: "power4.out",
-        duration: 2,
-        stagger: 0.2,
-        delay: 4,
-      })
-        .from(
-          ".center",
-          {
-            opacity: 0,
-            scale: 0,
-            duration: 2,
-          },
-          "-=3",
-        )
-        .from(
-          words,
-          {
-            yPercent: 100,
-            ease: "power4.out",
-            opacity: 0,
-            stagger: 0.1,
-          },
-          "-=1",
-        )
-        .from(
-          ".climax",
-          {
-            opacity: 0,
-          },
-          "-=1",
-        );
+    heroTlRef.current = gsap.timeline({
+      defaults: { ease: "power4.out" },
     });
+    const tl = heroTlRef.current;
+    tl.from(words, {
+      yPercent: 100,
+      ease: "power4.out",
+      opacity: 0,
+      stagger: 0.1,
+    });
+  });
 
-    return () => {
-      active = false;
-      splitInstance?.revert();
-      heroTlRef.current?.kill();
-    };
-  }, []);
   return (
     <section id="hero-section" className="w-screen h-[clamp(700px,100vh,800px)] relative top-0 overflow-hidden">
       <div className="h-full w-full bg-background absolute top-0 z-0 hero-bg-mask"></div>
@@ -148,12 +110,7 @@ const Hero = () => {
 
       <div className="absolute top-64! text-container text-5xl">
         <h4 className="font-sans hero-h1 text-xl leading-none">We do</h4>
-        <TypingLoop
-          prefix="We Do"
-          words={["Video Editing", "Color Grading", "Motion Graphics", "Cinematic Reels"]}
-          cursorClassName=""
-          textClassName=""
-        />
+        <TypingLoop prefix="We Do" words={["Video Editing", "Color Grading", "Motion Graphics", "Cinematic Reels"]} />
       </div>
 
       <div className="absolute h-[80vh] w-screen top-40 md:top-0 center-con">

@@ -14,7 +14,7 @@ const PortfolioClientRow = ({ client }: PortfolioClientRowProps) => {
   const videos = <PortfolioVideosCard videos={client.videos} clientName={client.name} clientId={client.id} />;
 
   return (
-    <article className="flex flex-col sticky top-30 gap-6 p-4 bg-white mb-20 pb-0">
+    <article className="flex flex-col sticky top-30 gap-6 p-4 bg-white mb-10 pb-0">
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <div className="h-14 w-14 shrink-0 overflow-hidden rounded-full border-2 border-gray-100 ring-2">

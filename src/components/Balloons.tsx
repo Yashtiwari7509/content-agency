@@ -1,7 +1,4 @@
 import { cn } from "@/lib/utils";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { useRef } from "react";
 
 export default function Balloons() {
   const balloons = [
@@ -10,20 +7,6 @@ export default function Balloons() {
     { top: "40%", left: "80%" },
     { top: "50%", left: "10%" },
   ];
-  const ref = useRef<HTMLSpanElement[]>([]);
-
-  useGSAP(() => {
-    if (ref.current) {
-      gsap.from(ref.current, {
-        opacity: 0,
-        y: "random(100, 300)",
-        ease: "power4.out",
-        stagger: 0.5,
-        duration: 4,
-        delay: .2,
-      });
-    }
-  });
   return (
     <>
       {balloons.map((balloon, i) => {
@@ -39,9 +22,6 @@ export default function Balloons() {
         return (
           <span
             key={i}
-            ref={(el) => {
-              if (el) ref.current[i] = el;
-            }}
             className={cn("absolute rounded-full ellipse  bg-black z-0")}
             style={{
               top: balloon.top,

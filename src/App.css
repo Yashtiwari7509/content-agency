@@ -87,7 +87,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-white! text-foreground;
+    @apply bg-white text-foreground;
   }
 }
 @layer {
@@ -103,6 +103,10 @@
 .hero-bg-mask {
   mask-image: linear-gradient(to top, transparent 10%, white 40%);
 }
+
+#hero-section {
+  will-change: clip-path;
+}
 .loader-u-div {
   mask-image: linear-gradient(to top, transparent, white);
 }
@@ -117,6 +121,7 @@
 
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  
 
   background: linear-gradient(
     to bottom,
@@ -174,26 +179,6 @@
   transform: translate(-50%, 0%);
 }
 
-@keyframes wiggle {
-  0% {
-    transform: translate(0px, 0px) rotate(0deg);
-  }
-  20% {
-    transform: translate(0px, -15px) rotate(-2deg);
-  }
-  40% {
-    transform: translate(0px, 20px) rotate(2deg);
-  }
-  60% {
-    transform: translate(0px, -20px) rotate(-1deg);
-  }
-  80% {
-    transform: translate(0px, 15px) rotate(1deg);
-  }
-  100% {
-    transform: translate(0px, 0px) rotate(0deg);
-  }
-}
 .hero-text {
   background-image: linear-gradient(190deg, lab(100% 0.01 -0.01) 2%, hsl(0, 0%, 0%) 31%, hsl(0, 0%, 100%) 90%);
   background-clip: text;
@@ -220,17 +205,20 @@
 #Marqee-slider {
   mask-image: linear-gradient(to right, transparent 10%, black 20%, black 80%, transparent 90%);
 }
+.Service-slider-mask {
+  mask-image: linear-gradient(to right, transparent 10%, black 20%, black 80%, transparent 90%);
+}
 #Marqee-slider-vertical {
   mask-image: linear-gradient(to bottom, transparent 10%, black 20%, black 80%, transparent 90%);
 }
-@layer base {
+/* @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-white text-foreground;
   }
-}
+} */
 
 .container {
   display: grid;
@@ -248,30 +236,30 @@
   .container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 2fr 1.5fr;
     gap: 10px;
     grid-auto-flow: row;
     grid-template-areas:
       "top-left   top-right"
       "middle  middle"
-      "bottom-left  bottom-right"
       "bottom-left  bottom-right";
+    height: 250vh;
   }
 }
 @media (max-width: 650px) {
   .container {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 0.8fr 2fr 1.2fr 1fr 1fr 2fr;
+    grid-template-rows: 1fr 1.5fr 2fr 2fr 2fr;
     gap: 10px;
     grid-auto-flow: row;
     grid-template-areas:
       "top-left"
-      "bottom-left"
       "top-right"
       "middle"
-      "middle"
+      "bottom-left"
       "bottom-right";
+    height: 300vh;
   }
 }
 
@@ -402,4 +390,16 @@ span {
 img {
   user-select: none;
   pointer-events: none;
+}
+
+.glow {
+  text-shadow:
+    0 0 10px var(--background),
+    0 0 20px var(--background),
+    0 0 30px var(--background),
+    0 0 40px var(--background),
+    0 0 50px var(--background),
+    0 0 60px var(--background),
+    0 0 70px var(--background);
+  color: white;
 }

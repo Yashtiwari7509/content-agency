@@ -1,0 +1,360 @@
+import { useCallback, useRef, useState } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { cn } from "@/lib/utils";
+
+type SlotName = "far-left" | "left" | "center" | "right" | "far-right";
+
+interface CardData {
+  src: string;
+  ratio: "9/16" | "16/9";
+}
+
+interface SlotProps {
+  tx: number;
+  tz: number;
+  ry: number;
+  rot: number;
+  sc: number;
+  op: number;
+  bl: number;
+  z: number;
+}
+
+const DEFAULT_CARDS: CardData[] = [
+  {
+    src: "./video.mp4",
+    ratio: "9/16",
+  },
+  {
+    src: "https://res.cloudinary.com/decqmmcxq/video/upload/v1781610823/dorian_pod_ir9eke.mp4",
+    ratio: "16/9",
+  },
+  {
+    src: "./video2.mp4",
+    ratio: "9/16",
+  },
+  {
+    src: "https://res.cloudinary.com/decqmmcxq/video/upload/v1781610824/3_Engazing_Intro_yet9ws.mp4",
+    ratio: "16/9",
+  },
+];
+
+const DEFAULT_WORDS = ["Shorts Edit", "Reels Edit", "Podcasts Edit", "LongForm edit"];
+
+const SLOTS: Record<SlotName, SlotProps> = {
+  "far-left": {
+    tx: -370,
+    tz: -220,
+    ry: 42,
+    rot: -13,
+    sc: 0.7,
+    op: 0,
+    bl: 8,
+    z: 1,
+  },
+  left: { tx: -185, tz: -110, ry: 30, rot: -8, sc: 0.84, op: 1, bl: 3, z: 5 },
+  center: { tx: 0, tz: 0, ry: 0, rot: 0, sc: 1, op: 1, bl: 0, z: 10 },
+  right: { tx: 185, tz: -110, ry: -30, rot: 8, sc: 0.84, op: 1, bl: 3, z: 5 },
+  "far-right": {
+    tx: 370,
+    tz: -220,
+    ry: -42,
+    rot: 13,
+    sc: 0.7,
+    op: 0,
+    bl: 8,
+    z: 1,
+  },
+};
+
+const STEP = 2.2;
+
+function getSlot(index: number, current: number): SlotName {
+  const off = index - current;
+  if (off === -1) return "left";
+  if (off === 0) return "center";
+  if (off === 1) return "right";
+  return off < -1 ? "far-left" : "far-right";
+}
+
+// function CardCorner({ position }: { position: "tl" | "tr" | "bl" | "br" }) {
+//   const positionClasses = {
+//     tl: "left-2.5 top-2.5 border-t-2 border-l-2",
+//     tr: "right-2.5 top-2.5 border-t-2 border-r-2",
+//     bl: "bottom-2.5 left-2.5 border-b-2 border-l-2",
+//     br: "bottom-2.5 right-2.5 border-b-2 border-r-2",
+//   };
+
+//   return <div className={cn("pointer-events-none absolute z-4 h-4 w-4 border-white/80", positionClasses[position])} />;
+// }
+
+interface ApertureCardSliderProps {
+  cards?: CardData[];
+  words?: string[];
+  prefix?: string;
+  className?: string;
+}
+
+export default function ApertureCardSlider({
+  cards = DEFAULT_CARDS,
+  words = DEFAULT_WORDS,
+  prefix = "We'll handle Your's\u00A0",
+  className,
+}: ApertureCardSliderProps) {
+  const count = cards.length;
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const textBlockRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  const currentRef = useRef(0);
+  const pausedRef = useRef(false);
+  const masterTlRef = useRef<GSAPTimeline | null>(null);
+  const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const startXRef = useRef<number | null>(null);
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const activeWordRef = useRef<HTMLDivElement>(null);
+  const prevIndexRef = useRef(0);
+
+  const applySlot = useCallback((card: HTMLDivElement, slotName: SlotName, animate: boolean) => {
+    const slot = SLOTS[slotName];
+    const baseTransform = `translateX(${slot.tx}px) translateZ(${slot.tz}px) rotateY(${slot.ry}deg) rotate(${slot.rot}deg) scale(${slot.sc})`;
+
+    card.style.cursor = slotName === "left" || slotName === "right" ? "pointer" : "default";
+
+    const props = {
+      transform: baseTransform,
+      opacity: slot.op,
+      filter: `blur(${slot.bl}px)`,
+      zIndex: slot.z,
+    };
+
+    if (animate) {
+      gsap.killTweensOf(card);
+
+      gsap.to(card, {
+        ...props,
+        duration: 0.65,
+        ease: "back.out",
+        overwrite: true,
+      });
+    } else {
+      gsap.set(card, props);
+    }
+  }, []);
+
+  const renderSlider = useCallback(
+    (animate: boolean) => {
+      cardRefs.current.forEach((card, i) => {
+        if (!card) return;
+
+        applySlot(card, getSlot(i, currentRef.current), animate);
+      });
+
+      setCurrentIndex(currentRef.current);
+    },
+    [applySlot],
+  );
+
+  const buildTimeline = useCallback(() => {
+    masterTlRef.current?.kill();
+
+    const tl = gsap.timeline({
+      repeat: -1,
+      paused: pausedRef.current,
+    });
+
+    masterTlRef.current = tl;
+
+    for (let i = 0; i < count; i++) {
+      const next = (i + 1) % count;
+
+      tl.call(() => {
+        currentRef.current = next;
+        renderSlider(true);
+      });
+
+      tl.to({}, { duration: STEP });
+    }
+  }, [count, renderSlider]);
+
+  const goTo = useCallback(
+    (idx: number) => {
+      if (idx < 0 || idx >= count) return;
+
+      currentRef.current = idx;
+
+      renderSlider(true);
+    },
+    [count, renderSlider],
+  );
+
+  useGSAP(
+    () => {
+      if (!activeWordRef.current) return;
+
+      gsap.killTweensOf(activeWordRef.current);
+
+      gsap.fromTo(
+        activeWordRef.current,
+        {
+          y: 40,
+          opacity: 0,
+          filter: "blur(8px)",
+        },
+        {
+          y: 0,
+          opacity: 1,
+          filter: "blur(0px)",
+          duration: 0.45,
+          ease: "power3.out",
+        },
+      );
+
+      prevIndexRef.current = currentIndex;
+    },
+    { dependencies: [currentIndex] },
+  );
+
+  const handleCardClick = useCallback(
+    (index: number) => {
+      const slot = getSlot(index, currentRef.current);
+      if (slot === "left" || slot === "right") goTo(index);
+    },
+    [goTo],
+  );
+
+  const pauseOnHover = useCallback(() => {
+    if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
+    if (!pausedRef.current) {
+      pausedRef.current = true;
+      masterTlRef.current?.pause();
+    }
+  }, []);
+
+  const resumeOnLeave = useCallback(() => {
+    if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
+    hoverTimerRef.current = setTimeout(() => {
+      if (pausedRef.current) {
+        pausedRef.current = false;
+        masterTlRef.current?.resume();
+      }
+    }, 80);
+  }, []);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    startXRef.current = e.touches[0].clientX;
+  }, []);
+
+  const handleTouchEnd = useCallback(
+    (e: React.TouchEvent) => {
+      if (startXRef.current === null) return;
+      const dx = e.changedTouches[0].clientX - startXRef.current;
+      if (Math.abs(dx) > 40) {
+        goTo(dx < 0 ? currentRef.current + 1 : currentRef.current - 1);
+      }
+      startXRef.current = null;
+    },
+    [goTo],
+  );
+
+  useGSAP(
+    () => {
+      renderSlider(false);
+      buildTimeline();
+
+      return () => {
+        if (hoverTimerRef.current) {
+          clearTimeout(hoverTimerRef.current);
+        }
+
+        masterTlRef.current?.kill();
+        masterTlRef.current = null;
+      };
+    },
+    {
+      scope: containerRef,
+      dependencies: [buildTimeline, renderSlider],
+    },
+  );
+
+  return (
+    <section ref={containerRef} className={cn("min-h-[640px] overflow-hidden py-8 mt-20", className)}>
+      <div className="flex flex-col items-center gap-10">
+        <div ref={stageRef} className="relative flex h-[440px] w-full items-center justify-center perspective-distant scale-125">
+          <div className="relative h-[390px] w-[220px] transform-3d">
+            {cards.map((card, i) => {
+              const isLandscape = card.ratio === "16/9";
+
+              return (
+                <div
+                  key={card.src + i}
+                  ref={(el) => {
+                    cardRefs.current[i] = el;
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => handleCardClick(i)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      handleCardClick(i);
+                    }
+                  }}
+                  className={cn(
+                    "absolute overflow-hidden rounded-2xl will-change-[transform,filter,opacity] border",
+                    isLandscape ? "left-1/2 top-1/2 -ml-[170px] -mt-[95.5px] h-[191px] w-[340px] origin-center" : "inset-0 h-full w-full",
+                  )}
+                  onMouseEnter={pauseOnHover}
+                  onMouseLeave={resumeOnLeave}
+                  onTouchStart={handleTouchStart}
+                  onTouchEnd={handleTouchEnd}
+                >
+                  <video
+                    src={card.src}
+                    loop
+                    muted
+                    autoPlay
+                    draggable={false}
+                    className="pointer-events-none block h-full w-full select-none object-cover"
+                  />
+                  {/* <CardCorner position="tl" />
+                  <CardCorner position="tr" />
+                  <CardCorner position="bl" />
+                  <CardCorner position="br" /> */}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <div ref={textBlockRef} className="flex select-none items-center whitespace-nowrap text-[1.4rem] font-medium text-foreground mt-10">
+          <h1>{prefix}</h1>
+          <div className="relative h-8 w-[160px] overflow-hidden">
+            <h1 key={currentIndex} ref={activeWordRef} className="absolute inset-0 flex items-center font-semibold">
+              {words[currentIndex]}
+            </h1>
+          </div>
+        </div>
+        {/* <div className="flex items-center justify-center  gap-3">
+          <div className="flex gap-2">
+            {cards.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                aria-label={`Slide ${i + 1}`}
+                onClick={() => goTo(i)}
+                className={cn(
+                  "h-[7px] w-[7px] cursor-pointer rounded-full border-none bg-border p-0 transition-[background,transform] duration-200",
+                  i === currentIndex && "scale-[1.35] bg-foreground",
+                )}
+              />
+            ))}
+          </div>
+        </div> */}
+      </div>
+    </section>
+  );
+}

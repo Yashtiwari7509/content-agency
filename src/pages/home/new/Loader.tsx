@@ -1,58 +1,55 @@
-import { Andrew, Chris, Nick, Rahul, Thomas } from "@/assets/ClientImage";
+import { Andrew1, Chris1, Nick1, Rahul1, Thomas1 } from "@/assets/ClientImage";
+import { cn } from "@/lib/utils";
 
 const members = [
   {
-    src: Andrew,
+    src: Andrew1,
     alt: "Andrew",
-    className: "left-[10%] bottom-2 h-[580px] z-10 translate-y-10 scale-x-[-1]",
+    className: "left-[2%] bottom-2 h-[580px] z-10 w-110 translate-y-10 scale-x-[-1]",
   },
   {
-    src: Thomas,
+    src: Thomas1,
     alt: "Thomas",
-    className: "left-[20%] bottom-0 h-[580px] z-20 translate-y-2",
+    className: "left-[20%] bottom-0 h-[580px] w-120 z-20 translate-y-2",
   },
   {
-    src: Rahul,
+    src: Rahul1,
     alt: "Rahul",
-    className: "left-1/2 -translate-x-1/2 bottom-0 h-[620px] z-30",
+    className: "left-1/2 -translate-x-1/2 bottom-0 w-120 h-[620px] z-30",
   },
   {
-    src: Nick,
+    src: Nick1,
     alt: "Nick",
-    className: "right-[20%] bottom-0 h-[570px] z-20 translate-y-2 scale-x-[-1]",
+    className: "right-[20%] bottom-0 h-[570px] z-20 w-120 translate-y-2 scale-x-[-1]",
   },
   {
-    src: Chris,
+    src: Chris1,
     alt: "Chris",
-    className: "right-[10%] bottom-0 h-[580px] z-10 translate-y-12 scale-x-[-1]",
+    className: "right-[10%] bottom-0 h-[580px] z-10 w-120 translate-y-12 scale-x-[-1]",
   },
 ];
 
-export default function TeamLineup() {
+const TeamLineup = () => {
   return (
-    <section style={{ willChange: "auto" }} className="absolute inset-0 z-999 flex items-end  bg-white loader-screen">
-      <div className="relative w-full h-full max-w-[1700px] mx-auto loader-images">
+    <section style={{ willChange: "transform,auto" }} className="top-0 h-screen w-screen inset-0 z-[2000] absolute bg-white loader-screen">
+      {/* Team images */}
+      <div className="relative w-full h-full mx-auto loader-images overflow-hidden">
         {members.map((member, index) => (
           <img
             key={index}
             src={member.src}
             alt={member.alt}
-            className={`
-              absolute
-              object-contain
-              w-auto
-              img-side
-              ${member.className}
-            `}
+            className={cn(`absolute object-contain w-auto object-center img-side`, member.className)}
           />
         ))}
       </div>
 
       {/* Bottom Blur */}
-      <div className="absolute bottom-0 left-0 z-60 w-full h-[20vh] prBlur" />
-
+      <div className="absolute bottom-0 left-0 z-60 w-screen h-[20vh] prBlur" />
       {/* Top Fade */}
-      <div className="absolute bottom-0 left-0 z-60 w-full h-[20vh] rotate-180 translate-y-full prBlur" />
+      <div className="absolute bottom-0 left-0 z-60 w-screen h-[40vh] rotate-180 translate-y-[39vh] prBlur" />
     </section>
   );
-}
+};
+
+export default TeamLineup;

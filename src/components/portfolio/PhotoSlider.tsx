@@ -7,7 +7,11 @@ interface PhotoSliderProps {
   intervalMs?: number;
 }
 
-const PhotoSlider = ({ photos, altPrefix, intervalMs = 3500 }: PhotoSliderProps) => {
+const PhotoSlider = ({
+  photos,
+  altPrefix,
+  intervalMs = 3500,
+}: PhotoSliderProps) => {
   const [current, setCurrent] = useState(0);
   const count = photos.length;
 
@@ -32,13 +36,13 @@ const PhotoSlider = ({ photos, altPrefix, intervalMs = 3500 }: PhotoSliderProps)
   }
 
   return (
-    <div className="relative h-full w-full">
+    <div className="relative aspect-video w-full rounded-2xl overflow-hidden">
       {photos.map((src, i) => (
         <img
           key={src + i}
           src={src}
           alt={`${altPrefix} ${i + 1}`}
-          className="absolute inset-0 h-full w-full object-cover transition-opacity duration-700"
+          className="absolute inset-0 w-full object-cover transition-opacity duration-700 aspect-video"
           style={{ opacity: i === current ? 1 : 0 }}
         />
       ))}
@@ -69,7 +73,9 @@ const PhotoSlider = ({ photos, altPrefix, intervalMs = 3500 }: PhotoSliderProps)
                 type="button"
                 onClick={() => setCurrent(i)}
                 className={`rounded-full transition-all duration-300 ${
-                  i === current ? "h-2 w-2 scale-110 bg-white" : "h-1.5 w-1.5 bg-white/50"
+                  i === current
+                    ? "h-2 w-2 scale-110 bg-white"
+                    : "h-1.5 w-1.5 bg-white/50"
                 }`}
                 aria-label={`Go to photo ${i + 1}`}
               />

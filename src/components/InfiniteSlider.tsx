@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, Children } from "react";
 import { gsap } from "gsap";
 
 import { useGSAP } from "@gsap/react";
@@ -43,7 +43,22 @@ const reviews = [
   },
 ];
 
-const InfiniteSlider = ({ direction = "left" }: { direction: "left" | "right" }) => {
+interface InfiniteSliderProps {
+  direction?: "left" | "right";
+  /** Width of each slide slot in px. Must match the width of children. Default: 350 */
+  boxWidth?: number;
+  /** Height of the slider track in px. Default: 250 */
+  boxHeight?: number;
+  /** Custom slide items. When provided, replaces the default review cards. */
+  children?: React.ReactNode;
+}
+
+const InfiniteSlider = ({
+  direction = "left",
+  boxWidth: boxWidthProp,
+  boxHeight: boxHeightProp,
+  children,
+}: InfiniteSliderProps) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
   const boxesRef = useRef<HTMLDivElement>(null);
@@ -52,9 +67,12 @@ const InfiniteSlider = ({ direction = "left" }: { direction: "left" | "right" })
   const animationRef = useRef<gsap.core.Tween | null>(null);
   const draggableRef = useRef<any>(null);
 
-  const numBoxes = 6;
-  const boxWidth = 350;
-  const boxHeight = 250;
+  // Determine slide count from children or fallback to reviews
+  const childCount = children ? Children.count(children) : reviews.length;
+
+  const numBoxes = childCount;
+  const boxWidth = boxWidthProp ?? 350;
+  const boxHeight = boxHeightProp ?? 250;
 
   // const imgWidth = boxWidth - 6;
   // const imgHeight = boxHeight - 14;
@@ -168,7 +186,7 @@ const InfiniteSlider = ({ direction = "left" }: { direction: "left" | "right" })
   }, []);
 
   return (
-      <div className="h-fit w-screen overflow-hidden flex flex-col items-center justify-center py-8 px-4">
+      <div className="h-fit w-screen flex flex-col items-center justify-center py-8 px-4">
           <div className="relative w-full  h-[120px]!" style={{ height: `${boxHeight}px` }}>
               <div
                   data-cursor="drag"
@@ -181,29 +199,40 @@ const InfiniteSlider = ({ direction = "left" }: { direction: "left" | "right" })
                   }}
               >
                   <div ref={boxesRef} style={{ willChange: "auto" }} className="relative">
-                      {reviews.map((review, i) => (
-                          <figure
-                              key={review.username}
-                              style={{ transform: `translateX(${i * 350}px)`, willChange: "auto" }}
-                              className="absolute h-[120px]  w-[350px] px-4"
-                          >
+                      {children
+                          ? Children.map(children, (child, i) => (
                               <div
-                                  ref={(r) => {
-                                      if (r) insideRef.current[i] = r;
-                                  }}
-                                  className="cursor-pointer border inside-card overflow-hidden rounded-xl bg-white  p-4"
+                                  key={i}
+                                  style={{ transform: `translateX(${i * boxWidth}px)`, willChange: "auto", width: `${boxWidth}px` }}
+                                  className="absolute flex items-center justify-center"
                               >
-                                  <div className="flex flex-row items-center gap-2">
-                                      <img className="rounded-full" width="32" height="32" alt={review.name} src={review.img} />
-                                      <div className="flex flex-col">
-                                          <figcaption className="text-sm font-medium dark:text-white">{review.name}</figcaption>
-                                          <p className="text-xs font-light dark:text-white/40">{review.username}</p>
-                                      </div>
-                                  </div>
-                                  <blockquote className="mt-6 text-sm">{review.body}</blockquote>
+                                  {child}
                               </div>
-                          </figure>
-                      ))}
+                            ))
+                          : reviews.map((review, i) => (
+                              <figure
+                                  key={review.username}
+                                  style={{ transform: `translateX(${i * 350}px)`, willChange: "auto" }}
+                                  className="absolute h-[120px]  w-[350px] px-4"
+                              >
+                                  <div
+                                      ref={(r) => {
+                                          if (r) insideRef.current[i] = r;
+                                      }}
+                                      className="cursor-pointer border inside-card overflow-hidden rounded-xl bg-white  p-4"
+                                  >
+                                      <div className="flex flex-row items-center gap-2">
+                                          <img className="rounded-full" width="32" height="32" alt={review.name} src={review.img} />
+                                          <div className="flex flex-col">
+                                              <figcaption className="text-sm font-medium dark:text-white">{review.name}</figcaption>
+                                              <p className="text-xs font-light dark:text-white/40">{review.username}</p>
+                                          </div>
+                                      </div>
+                                      <blockquote className="mt-6 text-sm">{review.body}</blockquote>
+                                  </div>
+                              </figure>
+                            ))
+                      }
                   </div>
               </div>
 

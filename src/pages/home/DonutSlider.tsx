@@ -187,7 +187,7 @@ export default function DonutSlider() {
   const circumference = 2 * Math.PI * 80;
 
   return (
-    <section ref={sectionRef} className="relative h-[380vh] max-w-5xl mx-auto">
+    <section ref={sectionRef} className="relative h-[340vh] max-w-5xl mx-auto">
       <div className="pin-donut flex h-screen items-center">
         <div className="radial-blur-v size-50 absolute bottom-60 left-20 z-0 blur-xl "></div>
         <div className="mx-auto grid w-full  max-w-5xl grid-cols-1 md:grid-cols-2 items-center gap-20 px-10">
@@ -241,8 +241,8 @@ export default function DonutSlider() {
           {/* RIGHT CONTENT */}
           <div className="max-w-xl">
             <div ref={cardRef} className="rounded-[32px] border border-white/40 p-10 backdrop-blur-xl">
-              <div className="radial-blur-v size-50 absolute bottom-0  right-20 z-0 blur-xl "></div>
-              <div className="radial-blur-b size-80 absolute top-0  left-0 z-0 blur-xl "></div>
+              {/* <div className="radial-blur-v size-50 absolute bottom-0  right-20 z-0 blur-xl "></div> */}
+              <div className="radial-blur-b size-80 absolute top-0  left-0 -z-1 blur-2xl "></div>
               <div ref={badgeRef} className="mb-8 flex items-center gap-4">
                 <div
                   className="flex h-14 w-14 items-center justify-center rounded-2xl"

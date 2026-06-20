@@ -10,7 +10,7 @@ export const portfolioClients: PortfolioClient[] = [
     handle: "@ThomasDeLauer",
     role: "4M+ subscribers",
     avatar: Thomas,
-    gifUrl: "/video2.mp4",
+    gifUrl: "https://res.cloudinary.com/decqmmcxq/video/upload/v1781449073/2_Inrange_pod_intro_kp3oj3.mp4",
     photos: ["https://res.cloudinary.com/decqmmcxq/image/upload/v1781200920/main-sample.png", "/image.png", "/b.png", "/hands.png"],
     videos: [
       { src: "/video.mp4", title: "Brand campaign" },

@@ -28,10 +28,6 @@ export function NavbarTop() {
       name: "About",
       link: "/about",
     },
-    {
-      name: "Pricing",
-      link: "/pricing",
-    },
   ];
 
   const contactSections = [
@@ -127,10 +123,7 @@ export function NavbarTop() {
                   setIsDropdownOpen(true);
                 }}
               >
-                <button
-                  data-cursor="link"
-                  className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300 flex items-center gap-1"
-                >
+                <button data-cursor="link" className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300 flex items-center gap-1">
                   {hovered === "Explore" && (
                     <div
                       className="absolute inset-0 h-full w-full rounded-full bg-white dark:bg-neutral-800"
@@ -139,9 +132,7 @@ export function NavbarTop() {
                   )}
                   <span className="relative z-20">Explore</span>
                   <ChevronDown
-                    className={`relative z-20 w-4 h-4 transition-transform duration-200 ${
-                      isDropdownOpen ? "rotate-180" : ""
-                    }`}
+                    className={`relative z-20 w-4 h-4 transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`}
                   />
                 </button>
 

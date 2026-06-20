@@ -15,12 +15,18 @@ const PortfolioMediaCard = ({ gifUrl, photos, clientName }: PortfolioMediaCardPr
   // const useVideoPreview = isPlayableVideoSrc(gifUrl);
 
   return (
-    <div className="relative h-full min-h-120 w-full overflow-hidden rounded-2xl">
-      <div className="relative w-full h-full">
+    <div className="relative h-full min-h-120 w-full overflow-hidden ">
+      <div className="relative w-full">
         {showGallery ? (
           <PhotoSlider photos={photos} altPrefix={clientName} />
         ) : (
-          <video src={gifUrl} autoPlay muted loop className="h-full w-full object-cover" />
+          <video
+            src={gifUrl}
+            autoPlay
+            muted
+            loop
+            className="w-full object-cover aspect-video! rounded-2xl"
+          />
         )}
 
         <button

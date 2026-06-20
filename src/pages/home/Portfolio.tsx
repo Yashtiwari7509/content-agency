@@ -14,7 +14,7 @@ export default function PortfolioLayout() {
         />
 
         <VideoPlaybackProvider>
-          <div className="relative z-10 mt-12 flex flex-col gap-2">
+          <div className="relative z-10 mt-12 flex flex-col gap-2 min-h-screen">
             {portfolioClients.map((client, index) => (
               <PortfolioClientRow key={client.id} client={client} reverse={index % 2 === 1} />
             ))}
