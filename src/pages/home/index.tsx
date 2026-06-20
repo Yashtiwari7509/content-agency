@@ -22,6 +22,7 @@ const Home = () => {
   const lenis = useLenis();
   const tl1Ref = useRef<GSAPTimeline>(null);
   const tl2Ref = useRef<GSAPTimeline>(null);
+  const hasPlayedRef = useRef(false); // guards against re-triggering
 
   useEffect(() => {
     lenis?.scrollTo(0, { immediate: true });
@@ -33,10 +34,7 @@ const Home = () => {
       y: 600,
       duration: 2,
       ease: "expo.out",
-      stagger: {
-        each: 0.04,
-        from: "center",
-      },
+      stagger: { each: 0.04, from: "center" },
     });
 
     tl2Ref.current = gsap
@@ -63,17 +61,17 @@ const Home = () => {
   return (
     <Preloader minDuration={4000}>
       {({ progress, ready }) => {
+        // side effect lives here, not in the render body
+        useEffect(() => {
+          if (ready && progress >= 99 && tl2Ref.current && !hasPlayedRef.current) {
+            hasPlayedRef.current = true;
+            tl2Ref.current.paused(false);
+          }
+        }, [ready, progress]);
+
         return (
           <>
-            {ready &&
-              progress >= 99 &&
-              tl2Ref.current &&
-              (() => {
-                tl2Ref.current!.paused(false);
-                return null;
-              })()}
             <TeamLineup />
-
             <div
               className="w-screen relative"
               style={{
