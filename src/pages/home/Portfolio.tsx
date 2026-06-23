@@ -9,7 +9,8 @@ export default function PortfolioLayout() {
       <div className="relative mx-auto max-w-5xl">
         <SectionHeader
           label="Portfolio"
-          title="Where creativity meets — motion"
+          title="Where creativity meets —"
+          gradientWord="motion"
           description="Dive into our work — bold visuals, sharp edits, and stories built to move your audience."
         />
 

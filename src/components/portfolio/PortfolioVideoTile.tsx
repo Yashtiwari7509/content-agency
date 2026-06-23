@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type RefObject } from "react";
 import { Play } from "lucide-react";
 import VideoPlayer from "@/components/video/VideoPlayer";
 import { useVideoPlayback } from "@/components/video/VideoPlaybackContext";
@@ -18,15 +18,19 @@ interface PortfolioVideoTileProps {
   video: PortfolioVideo;
   playbackId: string;
   label: string;
+  /** Ref from the parent slider — if true at click time, suppress dialog open */
+  wasDragged?: RefObject<boolean>;
 }
 
-const PortfolioVideoTile = ({ video, playbackId, label }: PortfolioVideoTileProps) => {
+const PortfolioVideoTile = ({ video, playbackId, label, wasDragged }: PortfolioVideoTileProps) => {
   const [open, setOpen] = useState(false);
   const playback = useVideoPlayback();
   const thumbnail = getVideoThumbnail(video.src, video.poster);
   const isEmbed = getVideoProvider(video.src) !== "html5";
 
   const handleOpen = () => {
+    // Don't open if the parent slider was just dragged
+    if (wasDragged?.current) return;
     playback.pauseAll();
     setOpen(true);
   };
@@ -57,6 +61,7 @@ const PortfolioVideoTile = ({ video, playbackId, label }: PortfolioVideoTileProp
             <img
               src={thumbnail}
               alt=""
+              draggable={false}
               className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
             />
           ) : (
@@ -89,7 +94,14 @@ const PortfolioVideoTile = ({ video, playbackId, label }: PortfolioVideoTileProp
       <Dialog open={open} onOpenChange={handleOpenChange}>
         <DialogContent
           showCloseButton
-          className="max-w-4xl gap-0 overflow-hidden border-0 bg-black p-0 sm:max-w-4xl [&_[data-slot=dialog-close]]:text-white [&_[data-slot=dialog-close]]:opacity-90 [&_[data-slot=dialog-close]]:hover:opacity-100"
+          className={[
+            // Responsive width: full on mobile, capped at 4xl on desktop
+            "w-[calc(100vw-1rem)] sm:w-full sm:max-w-2xl md:max-w-4xl",
+            "gap-0 overflow-hidden border-0 bg-black p-0",
+            // Ensure close button is visible above the video
+            "[&_[data-slot=dialog-close]]:z-20 [&_[data-slot=dialog-close]]:text-white [&_[data-slot=dialog-close]]:opacity-90 [&_[data-slot=dialog-close]]:hover:opacity-100",
+            "[&_[data-slot=dialog-close]]:bg-black/40 [&_[data-slot=dialog-close]]:rounded-full [&_[data-slot=dialog-close]]:p-1",
+          ].join(" ")}
         >
           <DialogTitle className="sr-only">{video.title ?? label}</DialogTitle>
           <div className="aspect-video w-full bg-black">

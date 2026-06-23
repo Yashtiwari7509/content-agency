@@ -6,7 +6,8 @@ export default function MarqueeReviews() {
     <>
       <SectionHeader
         label="Reviews"
-        title="Trusted by - Who Value Quality"
+        title="Trusted by — Who Value"
+        gradientWord="Quality"
         description="We don't just make videos — we create results. See how our clients turned creative ideas into measurable success."
       />
 

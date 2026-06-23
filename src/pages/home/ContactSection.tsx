@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CheckCircle2, Loader2, ArrowRight } from "lucide-react";
 import { CONTACT_CONFIG } from "@/config/contact";
 import { cn } from "@/lib/utils";
+import SectionHeader from "@/components/SectionHeader";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -99,29 +100,13 @@ export default function ContactSection() {
       />
 
       {/* Section header */}
-      <div className="text-center mb-16 relative z-10">
-        <span
-          className="inline-block mb-3 px-4 py-1 rounded-full text-xs font-semibold tracking-widest uppercase"
-          style={{ background: `${bgAccent}55`, color: accentColor }}
-        >
-          Get in Touch
-        </span>
-        <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-          Ready to{" "}
-          <span
-            style={{
-              background: `linear-gradient(135deg, ${accentColor}, oklch(0.7 0.13 208.93))`,
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
-            Grow Together?
-          </span>
-        </h2>
-        <p className="mt-3 text-sm text-gray-500 max-w-md mx-auto font-light">
-          Tell us about your project and let's turn your vision into content that converts.
-        </p>
+      <div className="relative z-10">
+        <SectionHeader
+          label="Get in Touch"
+          title="Ready to"
+          gradientWord="Grow Together!"
+          description="Tell us about your project and let’s turn your vision into content that converts."
+        />
       </div>
 
       {/* Two-column layout */}

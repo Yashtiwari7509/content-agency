@@ -166,7 +166,12 @@ function MeasuredSlot({ words, children }: MeasuredSlotProps) {
   return (
     <span className="relative inline-flex items-center">
       {/* Invisible ruler */}
-      <span ref={rulerRef} aria-hidden="true" className="invisible absolute whitespace-nowrap pointer-events-none" style={{ left: 0 }}>
+      <span
+        ref={rulerRef}
+        aria-hidden="true"
+        className="invisible absolute whitespace-nowrap pointer-events-none"
+        style={{ left: 0, fontWeight: 800 }}
+      >
         {words.map((word, index) => (
           <span key={index} className="block">
             {word}
@@ -175,7 +180,11 @@ function MeasuredSlot({ words, children }: MeasuredSlotProps) {
       </span>
 
       {/* Visible content */}
-      <span ref={containerRef} className="inline-flex items-center whitespace-nowrap gradient-text leading-tight">
+      <span
+        ref={containerRef}
+        style={{ fontWeight: "700 !important" }}
+        className="inline-flex items-center whitespace-nowrap gradient-text leading-tight"
+      >
         {children}
       </span>
     </span>

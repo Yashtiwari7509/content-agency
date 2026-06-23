@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState, type FC } from "react";
 import { Camera, TrendingUp, Calendar, ThumbsUp, Video, BarChart2, Star, type LucideIcon } from "lucide-react";
+import SectionHeader from "@/components/SectionHeader";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -251,15 +252,13 @@ const VerticalSlider: FC = () => {
         <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Left — copy + notification feed */}
           <div className="flex flex-col gap-6">
-            <div>
-              <div className="mb-5 flex justify-center lg:justify-start">
-                <span className="text-xs font-medium text-gray-700 bg-background/10 px-4 py-2 rounded-full inline-block">Our impact</span>
-              </div>
-              <h2 className="text-3xl font-medium leading-tight text-gray-900">Videos that drive results</h2>
-              <p className="mt-3 text-sm leading-relaxed text-gray-500 max-w-sm">
-                From strategy to final edit, our content is built to amplify your reach and deliver measurable impact.
-              </p>
-            </div>
+            <SectionHeader
+              label="Our Impact"
+              title="Videos that drive"
+              gradientWord="results"
+              description="From strategy to final edit, our content is built to amplify your reach and deliver measurable impact."
+              align="left"
+            />
 
             <VerticalInfiniteScroll />
           </div>

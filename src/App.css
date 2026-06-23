@@ -370,9 +370,9 @@
   transform: translate(-50%, -50%);
 }
 
-span {
+/* span {
   font-family: "sans" !important;
-}
+} */
 
 .audio-mask {
   mask-image: linear-gradient(to left, transparent 50%, black);

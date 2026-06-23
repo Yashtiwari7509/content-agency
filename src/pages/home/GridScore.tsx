@@ -98,8 +98,9 @@ const GridScore = () => {
     <section id="score" className="w-screen  p-2 overflow-x-hidden relative py-20">
       <SectionHeader
         label="Score"
-        title="Our Success - Score"
-        description="We measure our success through results — impactful videos, happy clients - and brands."
+        title="Our Success—"
+        gradientWord="Score"
+        description="We edit for doctors, dietitians, and researchers who need their science communicated clearly and their channels growing."
       />
 
       <div className="container max-w-5xl min-h-screen lg:h-240  mx-auto">
@@ -111,10 +112,10 @@ const GridScore = () => {
               style={{ filter: "drop-shadow(1px -1px 10px skyblue)" }}
               className="c-text text-9xl font-black w-fit h-fit leading-none"
             >
-              300
+              40
             </h1>
             <RevealAnimation blurAmount={0} yPercent={200} className="overflow-hidden">
-              <h4 className="text-3xl tracking-tight font-semibold">Projects Completed</h4>
+              <h4 className="text-3xl tracking-tight font-semibold">Channels Managed</h4>
             </RevealAnimation>
           </div>
           <div className="absolute z-0 bottom-0 left-0 size-full">
@@ -127,7 +128,7 @@ const GridScore = () => {
             <img
               src={mac}
               style={{ filter: "drop-shadow(0px -1px 20px black)" }}
-              className=" size-[100%] absolute  top-6 -right-24  object-contain rotate-0"
+              className="size-full absolute top-6 -right-42  object-contain rotate-0"
               alt=""
             />
             <div className="pt-5">

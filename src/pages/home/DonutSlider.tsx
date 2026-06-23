@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { LaptopMinimalIcon, Smartphone, SwatchBookIcon } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import { SplitText } from "gsap/SplitText";
+import SectionHeader from "@/components/SectionHeader";
 
 const SEGMENTS = [
   {
@@ -97,7 +98,7 @@ export default function DonutSlider() {
         trigger: sectionRef.current,
         pin: ".pin-donut",
         start: "top top",
-        end: "+=2000",
+        end: () => `${window.innerHeight * 2.3}px`,
         scrub: 1,
         anticipatePin: 1,
       },
@@ -188,59 +189,70 @@ export default function DonutSlider() {
 
   return (
     <section ref={sectionRef} className="relative h-[340vh] max-w-5xl mx-auto">
-      <div className="pin-donut flex h-screen items-center">
+      <div className="pin-donut flex flex-col h-screen items-center justify-center pt-8">
+        <div className="w-full px-4 sm:px-6 md:px-10">
+          <SectionHeader
+            label="Our Services"
+            title="What we"
+            gradientWord="specialise in"
+            description="Three core pillars powering every creator we partner with."
+          />
+        </div>
         <div className="radial-blur-v size-50 absolute bottom-60 left-20 z-0 blur-xl "></div>
-        <div className="mx-auto grid w-full  max-w-5xl grid-cols-1 md:grid-cols-2 items-center gap-20 px-10">
+        <div className="mx-auto grid w-full max-w-5xl grid-cols-1 md:grid-cols-2 items-center gap-4 px-4 sm:px-6 md:px-10">
           {/* LEFT */}
-          <div className="relative flex justify-center">
-            <svg ref={wheelRef} viewBox={`0 0 ${size} ${size}`} width={size} height={size}>
-              {SEGMENTS.map((_, index) => {
-                const start = index * (SEGMENT_ANGLE + GAP_ANGLE);
+          <div className="relative flex justify-center align-bottom w-full">
+            <div className="relative w-full max-w-[320px] sm:max-w-[380px] md:max-w-[420px] mx-auto">
+              <svg ref={wheelRef} viewBox={`0 0 ${size} ${size}`} width="100%" height="100%" style={{ display: 'block' }}>
+                {SEGMENTS.map((_, index) => {
+                  const start = index * (SEGMENT_ANGLE + GAP_ANGLE);
 
-                const end = start + SEGMENT_ANGLE;
+                  const end = start + SEGMENT_ANGLE;
 
-                const fillEnd = start + SEGMENT_ANGLE * fills[index];
+                  const fillEnd = start + SEGMENT_ANGLE * fills[index];
 
-                const bgPath = arcPath(cx, cy, outerR, innerR, start, end);
+                  const bgPath = arcPath(cx, cy, outerR, innerR, start, end);
 
-                const fillPath = fills[index] > 0 ? arcPath(cx, cy, outerR, innerR, start, Math.max(start + 0.2, fillEnd)) : null;
+                  const fillPath = fills[index] > 0 ? arcPath(cx, cy, outerR, innerR, start, Math.max(start + 0.2, fillEnd)) : null;
 
-                return (
-                  <g key={index}>
-                    <path d={bgPath} fill="transparent" />
+                  return (
+                    <g key={index}>
+                      <path d={bgPath} fill="transparent" />
 
-                    {fillPath && <path d={fillPath} fill="none" />}
-                  </g>
-                );
-              })}
+                      {fillPath && <path d={fillPath} fill="none" />}
+                    </g>
+                  );
+                })}
 
-              <circle cx={cx} cy={cy} r={80} fill="none" stroke="white" strokeWidth="2" />
+                <circle cx={cx} cy={cy} r={80} fill="none" stroke="white" strokeWidth="2" />
 
-              <circle
-                cx={cx}
-                cy={cy}
-                r={80}
-                fill="none"
-                stroke={"skyblue"}
-                strokeWidth="4"
-                strokeLinecap="round"
-                strokeDasharray={circumference}
-                strokeDashoffset={circumference - circumference * progress}
-                transform={`rotate(-90 ${cx} ${cy})`}
-              />
-            </svg>
+                <circle
+                  cx={cx}
+                  cy={cy}
+                  r={80}
+                  fill="none"
+                  stroke={"skyblue"}
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  strokeDasharray={circumference}
+                  strokeDashoffset={circumference - circumference * progress}
+                  transform={`rotate(-90 ${cx} ${cy})`}
+                />
+              </svg>
 
-            {/* center icon */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="flex h-40 w-40 items-center backdrop-blur-xs justify-center rounded-full transition-all duration-500">
-                <ActiveIcon size={56} className="text-white" strokeWidth={2} />
+              {/* center icon */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="flex h-24 w-24 sm:h-32 sm:w-32 md:h-40 md:w-40 items-center backdrop-blur-xs justify-center rounded-full transition-all duration-500">
+                  <ActiveIcon size={40} className="text-black sm:text-black md:hidden" strokeWidth={2} />
+                  <ActiveIcon size={56} className="text-black hidden md:block" strokeWidth={2} />
+                </div>
               </div>
             </div>
           </div>
 
           {/* RIGHT CONTENT */}
-          <div className="max-w-xl">
-            <div ref={cardRef} className="rounded-[32px] border border-white/40 p-10 backdrop-blur-xl">
+          <div className="w-full">
+            <div ref={cardRef} className="rounded-3xl md:rounded-4xl border border-white/20 p-5 sm:p-7 md:p-10 backdrop-blur-xl">
               {/* <div className="radial-blur-v size-50 absolute bottom-0  right-20 z-0 blur-xl "></div> */}
               <div className="radial-blur-b size-80 absolute top-0  left-0 -z-1 blur-2xl "></div>
               <div ref={badgeRef} className="mb-8 flex items-center gap-4">
@@ -260,11 +272,11 @@ export default function DonutSlider() {
                 </div>
               </div>
 
-              <h2 ref={titleRef} className="mb-4 text-5xl font-bold leading-15 tracking-tight">
+              <h2 ref={titleRef} className="mb-4 text-3xl sm:text-4xl md:text-5xl font-bold leading-tight md:leading-15 tracking-tight">
                 {activeSegment.title}
               </h2>
 
-              <p ref={subtitleRef} className="mb-8 text-lg text-zinc-600">
+              <p ref={subtitleRef} className="mb-6 md:mb-8 text-base md:text-lg text-zinc-600">
                 {activeSegment.subtitle}
               </p>
 

@@ -16,16 +16,16 @@ export default function ServiceCard({
   DesignLabel,
 }: Props) {
   return (
-    <div className="w-72  overflow-hidden rounded-[28px] border-black relative">
+    <div className="w-72 img-side   overflow-hidden rounded-[28px] border-black relative">
       {/* Top visual section */}
       <div className="relative h-12 overflow-hidden">
         {/* Top right label */}
         <div className="absolute right-[18px] top-4 text-right">
-          <p className="m-0 text-xl font-semibold leading-[1.4] tracking-[0.01em] text-[#888] text-shadow-2xs">{appLabel}</p>
+          <span className="m-0 text-xl font-semibold leading-[1.4] tracking-[0.01em] text-black text-shadow-2xs">{appLabel}</span>
         </div>
 
         {/* Folder tab shape */}
-        <div className="absolute h-10 w-46 rounded-t-3xl border border-b-0 bottom-0"></div>
+        <div className="absolute h-10 w-46 bg-transparent rounded-t-3xl border border-b-0 bottom-0"></div>
       </div>
 
       {/* Bottom content */}

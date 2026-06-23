@@ -193,13 +193,13 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
       .timeline({
         defaults: {
           ease: "none",
-          
+
         },
         scrollTrigger: {
           trigger: ".PhoneStats",
           start: "-400px top",
           end: "bottom top",
-          scrub: 1.2,
+          scrub: .5,
           // markers: true,
           onUpdate: () => {
             invalidate();
@@ -232,13 +232,13 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
         },
       })
       .from(modelRef.current?.position, {
-        x: 2,
+        x: isMobile ? 0 : 2,
         y: 2,
         duration: 1,
       })
       .from(modelRef.current?.rotation, { y: Math.PI, duration: 1, ease: "none" }, 0)
       .to(modelRef.current?.position, {
-        x: -0.4,
+        x: isMobile ? 0 : -0.4,
         y: 0.8,
         duration: 1,
       })
@@ -249,11 +249,11 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
         duration: 1,
       })
 
-      .to(modelRef.current?.position, { x: -2, y: -1, duration: 1, ease: "none" }, "<");
+      .to(modelRef.current?.position, { x: isMobile ? 0 : -2, y: -1, duration: 1, ease: "none" }, "<");
     return () => {
       gsap.ticker.remove(tickerCallback);
     };
-  });
+  }, { dependencies: [] });
 
   return (
     <group

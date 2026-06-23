@@ -39,7 +39,7 @@ const PortfolioClientRow = ({ client }: PortfolioClientRowProps) => {
         </a>
       </header>
 
-      <div className="grid h-120 grid-cols-1 items-stretch gap-5 lg:grid-cols-2 lg:gap-8">
+      <div className="grid grid-cols-1 items-stretch gap-5 h-100 lg:h-80 lg:grid-cols-2 lg:gap-8">
         <div className={cn("min-h-0")}>{media}</div>
         <div className={cn("min-h-0")}>{videos}</div>
       </div>

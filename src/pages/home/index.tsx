@@ -13,6 +13,7 @@ import SiteFooter from "./SiteFooter";
 import Preloader from "./new/Preloader";
 import TeamLineup from "./new/Loader";
 import PortfolioLayout from "./Portfolio";
+import WorkflowSection from "./WorkflowSection";
 import VerticalSlider from "./VerticalSlider";
 import MarqueeReviews from "./MarqueeReviews";
 import { useGSAP } from "@gsap/react";
@@ -124,13 +125,18 @@ const Home = () => {
       })
       .fromTo(
         "#hero-section",
-        { clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)" },
-        { clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)", duration: 1.4, ease: "expo.out" },
-        "-=0.5",
+        {
+          clipPath: "circle(0% at 50% 50%)",
+        },
+        {
+          clipPath: "circle(100% at 50% 50%)",
+          duration: 1.5,
+          ease: "expo.out",
+        },
       )
+      .call(unlockScroll)
       .from(".clouds", { y: 80, opacity: 0, duration: 1.1, stagger: 0.18, ease: "power3.out" }, "-=0.8")
       .from(".center", { opacity: 0, scale: 0, duration: 0.9, ease: "back.out(1.4)" }, "-=0.7")
-      .call(unlockScroll);
   });
 
   return (
@@ -152,6 +158,7 @@ const Home = () => {
             <PhoneStats />
             <DonutSlider />
             <ServicesSlider />
+            <WorkflowSection />
             <PortfolioLayout />
             <VerticalSlider />
             <MarqueeReviews />

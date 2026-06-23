@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Andrew, Chris, Nick, Rahul, Thomas } from "@/assets/ClientImage";
 import { cn } from "@/lib/utils";
+import SectionHeader from "@/components/SectionHeader";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -57,31 +58,13 @@ export default function TeamSection() {
         }}
       />
 
-      {/* Section header */}
-      <div className="team-heading relative z-40 pt-24 pb-4 px-6 text-center">
-        <span
-          className="inline-block mb-3 px-4 py-1 rounded-full text-xs font-semibold tracking-widest uppercase"
-          style={{ background: "oklch(85.273% 0.13885 208.93 / 0.25)", color: "oklch(0.35 0.12 208.93)" }}
-        >
-          Our Clients
-        </span>
-        <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-          We've Worked With{" "}
-          <span
-            style={{
-              background: "linear-gradient(135deg, oklch(0.45 0.18 208.93), oklch(0.65 0.15 208.93))",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
-            the Best
-          </span>
-        </h2>
-        <p className="mt-3 text-sm text-gray-500 max-w-xl mx-auto font-light">
-          We've had the privilege of working with some incredible creators, helping them enhance their content and reach a wider audience.
-        </p>
-      </div>
+      <SectionHeader
+        label="Clients"
+        title="We've Worked With"
+        align="center"
+        description="We've had the privilege of working with some incredible creators, helping them enhance their content and reach a wider audience."
+        gradientWord="the Best"
+      />
 
       {/* Stacked images stage */}
       <div className="relative w-full translate-y-20" style={{ height: "clamp(420px, 72vh, 700px)" }}>

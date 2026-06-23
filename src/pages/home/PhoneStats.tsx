@@ -1,3 +1,4 @@
+import SectionLabel from "@/components/SectionLabel";
 import { useRef } from "react";
 
 const STATS = [
@@ -34,13 +35,7 @@ const accentStyles = {
   },
 };
 
-function StatPanel({
-  stat,
-  panelRef,
-}: {
-  stat: (typeof STATS)[number];
-  panelRef: React.RefObject<HTMLDivElement | null>;
-}) {
+function StatPanel({ stat, panelRef }: { stat: (typeof STATS)[number]; panelRef: React.RefObject<HTMLDivElement | null> }) {
   const theme = accentStyles[stat.accent];
   const isLeft = stat.align === "left";
 
@@ -55,17 +50,8 @@ function StatPanel({
         className={`pointer-events-none absolute ${isLeft ? "-left-24 top-1/2" : "-right-24 top-1/2"} size-64 -translate-y-1/2 rounded-full blur-3xl`}
         style={{ background: `radial-gradient(circle, ${theme.glow}, transparent 70%)` }}
       />
-
-      <span
-        className={`relative z-10 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] ${theme.badge}`}
-      >
-        Impact
-      </span>
-
       <div className="relative z-10 space-y-2">
-        <p className="text-sm font-medium uppercase tracking-widest text-gray-600">
-          {stat.label}
-        </p>
+        <SectionLabel text={stat.label} align={isLeft ? "left" : "right"} />
         <div
           className={`text-7xl font-black leading-none tracking-tight md:text-8xl lg:text-9xl bg-linear-to-br ${theme.number} bg-clip-text text-transparent`}
           style={{ WebkitTextStroke: "1.5px rgba(255,255,255,0.85)" }}
@@ -75,13 +61,9 @@ function StatPanel({
         </div>
       </div>
 
-      <div
-        className={`relative z-10 h-px w-24 bg-linear-to-r ${theme.line}`}
-      />
+      <div className={`relative z-10 h-px w-24 bg-linear-to-r ${theme.line}`} />
 
-      <p className="relative z-10 max-w-sm text-sm leading-relaxed text-gray-700 md:text-base">
-        {stat.description}
-      </p>
+      <p className="relative z-10 max-w-sm text-sm leading-relaxed text-gray-700 md:text-base">{stat.description}</p>
     </div>
   );
 }
@@ -92,10 +74,7 @@ const PhoneStats = () => {
   const panel2Ref = useRef<HTMLDivElement>(null);
 
   return (
-    <section
-      ref={sectionRef}
-      className="PhoneStats relative w-screen h-[300vh] pointer-events-none"
-    >
+    <section ref={sectionRef} className="PhoneStats relative w-screen h-[300vh] pointer-events-none">
       {/* First stat — left, cyan */}
       <div className="relative h-[150vh]">
         <div className="sticky top-0 flex h-screen items-center">

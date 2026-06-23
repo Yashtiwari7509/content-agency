@@ -1,28 +1,66 @@
-import SectionLabel from "./SectionLabel"; // keep this import if you already have it
+import SectionLabel from "./SectionLabel";
+
+interface SectionHeaderProps {
+  label?: string;           // small pill label above heading (e.g., "Portfolio")
+  title: string;            // main heading — supports plain text
+  gradientWord?: string;    // optional word(s) to render with gradient (appended after title)
+  description?: string;     // paragraph below heading
+  align?: "left" | "center" | "right";
+  className?: string;
+}
 
 const SectionHeader = ({
-  label, // small label above heading (e.g., "Portfolio")
-  title, // main heading text
-  description, // paragraph below heading
-  align = "center", // allows left or center alignment
-  className = "", // optional custom classes
-}:{
-    label?: string;
-    title: string;
-    description?: string;
-    align?: "left" | "center" | "right";
-    className?: string;
-}) => {
-  const alignment = align === "left" ? "text-left" : "text-center";
+  label,
+  title,
+  gradientWord,
+  description,
+  align = "center",
+  className = "",
+}: SectionHeaderProps) => {
+  const textAlign =
+    align === "left"
+      ? "text-left"
+      : align === "right"
+      ? "text-right"
+      : "text-center";
+
+  const descAlign =
+    align === "center" ? "mx-auto" : align === "right" ? "ml-auto" : "";
 
   return (
-    <div className={`w-full  mb-10 ${alignment} ${className}`}>
-      {label && <SectionLabel text={label} />}
+    <div className={`w-full mb-10 ${textAlign} ${className}`}>
+      {/* Pill label */}
+      {label && <SectionLabel text={label} align={align} />}
 
-      <div className={`${alignment} mb-4`}>
-        <h1 className="text-3xl text-center md:text-4xl font-bold text-gray-900 mb-4">{title}</h1>
-        {description && <p className="text-sm text-center text-gray-600 max-w-lg mx-auto leading-relaxed">{description}</p>}
-      </div>
+      {/* Heading */}
+      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
+        {title}
+        {gradientWord && (
+          <>
+            {" "}
+            <span
+              style={{
+                background:
+                  "linear-gradient(135deg, oklch(0.45 0.18 208.93), oklch(0.65 0.15 208.93))",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              {gradientWord}
+            </span>
+          </>
+        )}
+      </h2>
+
+      {/* Description */}
+      {description && (
+        <p
+          className={`mt-3 text-sm text-gray-500 max-w-xl font-light leading-relaxed ${descAlign}`}
+        >
+          {description}
+        </p>
+      )}
     </div>
   );
 };

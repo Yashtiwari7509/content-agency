@@ -40,7 +40,7 @@ const DEFAULT_CARDS: CardData[] = [
   },
 ];
 
-const DEFAULT_WORDS = ["Shorts Edit", "Reels Edit", "Podcasts Edit", "LongForm edit"];
+const DEFAULT_WORDS = ["Shorts Edit", "Podcasts Edit", "Reels Edit", "LongForm edit"];
 
 const SLOTS: Record<SlotName, SlotProps> = {
   "far-left": {
@@ -203,12 +203,10 @@ export default function ApertureCardSlider({
         {
           y: 40,
           opacity: 0,
-          filter: "blur(8px)",
         },
         {
           y: 0,
           opacity: 1,
-          filter: "blur(0px)",
           duration: 0.45,
           ease: "power3.out",
         },
@@ -333,9 +331,14 @@ export default function ApertureCardSlider({
         <div ref={textBlockRef} className="flex select-none items-center whitespace-nowrap text-[1.4rem] font-medium text-foreground mt-10">
           <h1>{prefix}</h1>
           <div className="relative h-8 w-[160px] overflow-hidden">
-            <h1 key={currentIndex} ref={activeWordRef} className="absolute inset-0 flex items-center font-semibold">
+            <span
+              key={currentIndex}
+              ref={activeWordRef}
+              style={{ fontWeight: 800 }}
+              className="absolute inset-0 text-sky-700 flex items-center"
+            >
               {words[currentIndex]}
-            </h1>
+            </span>
           </div>
         </div>
         {/* <div className="flex items-center justify-center  gap-3">
