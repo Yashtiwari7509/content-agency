@@ -1,13 +1,20 @@
+import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router";
+import { registerSW } from "virtual:pwa-register";
+
 import "./index.css";
 import App from "./App.tsx";
-import { BrowserRouter } from "react-router";
-import { StrictMode } from "react";
+
+// Register the service worker
+registerSW({
+  immediate: true,
+});
 
 createRoot(document.getElementById("root")!).render(
-    <StrictMode>
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
-    </StrictMode>,
+  <StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StrictMode>,
 );

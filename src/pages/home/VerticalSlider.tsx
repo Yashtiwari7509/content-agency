@@ -248,7 +248,7 @@ const ImageCarousel: FC = () => {
 
 const VerticalSlider: FC = () => {
     return (
-      <section className="bg-white px-8 py-10 mx-auto">
+      <section className="bg-white px-8 pb-40 mx-auto">
         <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Left — copy + notification feed */}
           <div className="flex flex-col gap-6">

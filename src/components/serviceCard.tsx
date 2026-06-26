@@ -29,7 +29,7 @@ export default function ServiceCard({
       </div>
 
       {/* Bottom content */}
-      <div className="backdrop-blur-2xl border border-t-0 rounded-tr-3xl px-4 pb-4! ">
+      <div className="border border-t-0 rounded-tr-3xl px-4 pb-4! ">
         {/* Title */}
         <div className="mb-8">
           <p className="mb-1 text-[20px] font-bold tracking-[-0.01em] text-black">{title}</p>

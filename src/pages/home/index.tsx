@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useLenis } from "lenis/react";
 import Hero from "./Hero";
 import GridScore from "./GridScore";
@@ -6,18 +6,19 @@ import DonutSlider from "./DonutSlider";
 import PhoneVideo from "./new/PhoneVideo";
 import PhoneStats from "./PhoneStats";
 import ApertureCardSlider from "@/components/ApertureCardSlider";
-import ServicesSlider from "./ServicesSlider";
-import TeamSection from "./TeamSection";
-import ContactSection from "./ContactSection";
-import SiteFooter from "./SiteFooter";
 import Preloader from "./new/Preloader";
 import TeamLineup from "./new/Loader";
-import PortfolioLayout from "./Portfolio";
-import WorkflowSection from "./WorkflowSection";
-import VerticalSlider from "./VerticalSlider";
-import MarqueeReviews from "./MarqueeReviews";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+
+const ServicesSlider = lazy(() => import("./ServicesSlider"));
+const WorkflowSection = lazy(() => import("./WorkflowSection"));
+const PortfolioLayout = lazy(() => import("./Portfolio"));
+const VerticalSlider = lazy(() => import("./VerticalSlider"));
+const MarqueeReviews = lazy(() => import("./MarqueeReviews"));
+const ContactSection = lazy(() => import("./ContactSection"));
+const TeamSection = lazy(() => import("./TeamSection"));
+const SiteFooter = lazy(() => import("./SiteFooter"));
 
 const Home = () => {
   const lenis = useLenis();
@@ -26,10 +27,6 @@ const Home = () => {
   const [locked, setLocked] = useState(true);
   const readyRef = useRef(false);
 
-  // 1. Disable native scroll restoration and force the page to the
-  //    top synchronously, BEFORE the lock effect reads window.scrollY.
-  //    useLayoutEffect runs before paint and before regular useEffects,
-  //    so this always wins the race against reload scroll restoration.
   useLayoutEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -136,7 +133,7 @@ const Home = () => {
       )
       .call(unlockScroll)
       .from(".clouds", { y: 80, opacity: 0, duration: 1.1, stagger: 0.18, ease: "power3.out" }, "-=0.8")
-      .from(".center", { opacity: 0, scale: 0, duration: 0.9, ease: "back.out(1.4)" }, "-=0.7")
+      .from(".center", { opacity: 0, scale: 0, duration: 0.9, ease: "back.out(1.4)" }, "-=0.7");
   });
 
   return (
@@ -157,14 +154,16 @@ const Home = () => {
             <GridScore />
             <PhoneStats />
             <DonutSlider />
-            <ServicesSlider />
-            <WorkflowSection />
-            <PortfolioLayout />
-            <VerticalSlider />
-            <MarqueeReviews />
-            <ContactSection />
-            <TeamSection />
-            <SiteFooter />
+            <Suspense fallback={null}>
+              <ServicesSlider />
+              <WorkflowSection />
+              <PortfolioLayout />
+              <VerticalSlider />
+              <MarqueeReviews />
+              <ContactSection />
+              <TeamSection />
+              <SiteFooter />
+            </Suspense>
           </div>
         </>
       )}
