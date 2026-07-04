@@ -168,12 +168,12 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768 || "ontouchstart" in window);
+      setIsMobile(window.innerWidth < 1000 || "ontouchstart" in window);
     };
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
-  }, [isMobile]);
+  }, []);
   useEffect(() => {
     if (!videos[activeIndexRef.current]) return;
     //     if (shaderMaterialRef.current) {
@@ -184,74 +184,59 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
   useGSAP(() => {
     const tickerCallback = () => invalidate();
     gsap.ticker.add(tickerCallback);
-    if (!modelRef.current) return;
+    const model = modelRef.current;
+    if (!model) return;
     if (!shaderMaterialRef.current) return;
     // shaderMaterialRef.current.transparent = true;
     // shaderMaterialRef.current.blending = THREE.AdditiveBlending;
 
-    tl1Ref.current = gsap
-      .timeline({
-        defaults: {
-          ease: "none",
+    const mm = gsap.matchMedia();
 
-        },
-        scrollTrigger: {
-          trigger: ".PhoneStats",
-          start: "-400px top",
-          end: "bottom top",
-          scrub: .5,
-          // markers: true,
-          onUpdate: () => {
-            invalidate();
+    mm.add({
+      isDesktop: "(min-width: 700px)",
+      isMobile: "(max-width: 699px)",
+    }, (context) => {
+      const { isMobile } = context.conditions as { isMobile: boolean };
+
+      tl1Ref.current = gsap
+        .timeline({
+          defaults: {
+            ease: "none",
           },
-          // onLeave: () => {
-          //     if (!shaderMaterialRef.current) return;
-          //     activeIndexRef.current = 1;
-          //     setTexIndex(1);
-          //     stopAllVideos();
-          //     setIsPlaying(false);
-          //     gsap.to(shaderMaterialRef.current.uniforms.uProgress, {
-          //         value: 1.3,
-          //         duration: 2.2,
-          //         ease: "power4.out",
-          //     });
-          // },
+          scrollTrigger: {
+            trigger: ".PhoneStats",
+            start: "-400px top",
+            end: "bottom top",
+            scrub: .5,
+            // markers: true,
+            onUpdate: () => {
+              invalidate();
+            },
+          },
+        })
+        .from(model.position, {
+          x: isMobile ? 0 : 2,
+          y: 4,
+          duration: 1,
+        })
+        .from(model.rotation, { y: Math.PI, duration: 1, ease: "none" }, 0)
+        .to(model.position, {
+          x: isMobile ? 0 : -0.4,
+          y: 0.8,
+          duration: 1,
+        })
+        .to(model.rotation, { y: -Math.PI * 2, duration: 1, ease: "none" }, "-=.7")
+        .to(model.rotation, { duration: 1, ease: "none" })
+        .to(model.rotation, {
+          y: -1 * Math.PI,
+          duration: 1,
+        })
+        .to(model.position, { x: isMobile ? 0 : -4, y: -1, duration: 1, ease: "none" }, "<");
+    });
 
-          // onEnterBack: () => {
-          //     if (!shaderMaterialRef.current) return;
-          //     activeIndexRef.current = 0;
-          //     setTexIndex(0);
-          //     stopAllVideos();
-          //     setIsPlaying(false);
-          //     gsap.to(shaderMaterialRef.current.uniforms.uProgress, {
-          //         value: -0.2,
-          //         duration: 2.2,
-          //         ease: "power4.out",
-          //     });
-          // },
-        },
-      })
-      .from(modelRef.current?.position, {
-        x: isMobile ? 0 : 2,
-        y: 2,
-        duration: 1,
-      })
-      .from(modelRef.current?.rotation, { y: Math.PI, duration: 1, ease: "none" }, 0)
-      .to(modelRef.current?.position, {
-        x: isMobile ? 0 : -0.4,
-        y: 0.8,
-        duration: 1,
-      })
-      .to(modelRef.current?.rotation, { y: -Math.PI * 2, duration: 1, ease: "none" }, "-=.7")
-      .to(modelRef.current?.rotation, { duration: 1, ease: "none" })
-      .to(modelRef.current?.rotation, {
-        y: -1 * Math.PI,
-        duration: 1,
-      })
-
-      .to(modelRef.current?.position, { x: isMobile ? 0 : -2, y: -1, duration: 1, ease: "none" }, "<");
     return () => {
       gsap.ticker.remove(tickerCallback);
+      mm.revert();
     };
   }, { dependencies: [] });
 
@@ -263,7 +248,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
       ref={modelRef}
       {...props}
       dispose={null}
-      position={[0.4, 0.8, 0]}
+      position={[0.0, 0.8, 0]}
       scale={3.5}
     >
       <group scale={0.22} name="Scene">

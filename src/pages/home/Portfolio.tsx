@@ -20,38 +20,44 @@ export default function PortfolioLayout() {
       const cards = cardsRef.current.filter(Boolean) as HTMLDivElement[];
       if (!cards.length) return;
 
-      cards.forEach((card, i) => {
-        // const isLast = i === cards.length - 1;
+      const mm = gsap.matchMedia();
 
-        // Pin each card at PIN_TOP from the top.
-        // pinSpacing: false keeps the DOM flow tight so the next card
-        // naturally scrolls up from below.
-        ScrollTrigger.create({
-          trigger: card,
-          start: () => `top ${PIN_TOP}`,
-          // Keep it pinned long enough for all remaining cards to scroll over it
-          end: () =>
-            `+=${(cards.length - 1 - i) * (card.offsetHeight)}`,
-          pin: true,
-          pinSpacing: false,
+      mm.add("(min-width: 1000px)", () => {
+        cards.forEach((card, i) => {
+          // const isLast = i === cards.length - 1;
+
+          // Pin each card at PIN_TOP from the top.
+          // pinSpacing: false keeps the DOM flow tight so the next card
+          // naturally scrolls up from below.
+          ScrollTrigger.create({
+            trigger: card,
+            start: () => `top ${PIN_TOP}`,
+            // Keep it pinned long enough for all remaining cards to scroll over it
+            end: () =>
+              `+=${(cards.length - 1 - i) * (card.offsetHeight)}`,
+            pin: true,
+            pinSpacing: false,
+          });
+
+          // As the NEXT card scrolls over this one: shrink + slight rotate
+          // if (!isLast) {
+          //   gsap.to(card, {
+          //     scale: 0.94,
+          //     rotate: -1.5,
+          //     transformOrigin: "50% 0%",
+          //     ease: "none",
+          //     scrollTrigger: {
+          //       trigger: cards[i + 1],
+          //       start: `top ${PIN_TOP + 80}`,
+          //       end: `top ${PIN_TOP}`,
+          //       scrub: true,
+          //     },
+          //   });
+          // }
         });
-
-        // As the NEXT card scrolls over this one: shrink + slight rotate
-        // if (!isLast) {
-        //   gsap.to(card, {
-        //     scale: 0.94,
-        //     rotate: -1.5,
-        //     transformOrigin: "50% 0%",
-        //     ease: "none",
-        //     scrollTrigger: {
-        //       trigger: cards[i + 1],
-        //       start: `top ${PIN_TOP + 80}`,
-        //       end: `top ${PIN_TOP}`,
-        //       scrub: true,
-        //     },
-        //   });
-        // }
       });
+
+      return () => mm.revert();
     },
     { scope: containerRef, dependencies: [] }
   );
