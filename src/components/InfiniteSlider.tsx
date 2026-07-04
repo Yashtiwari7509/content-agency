@@ -186,70 +186,69 @@ const InfiniteSlider = ({
   }, []);
 
   return (
-      <div className="h-fit w-screen flex flex-col items-center justify-center py-8 px-4">
-          <div className="relative w-full  h-[120px]!" style={{ height: `${boxHeight}px` }}>
-              <div
-                  data-cursor="drag"
-                  ref={wrapperRef}
-                  className="absolute  h-[120px]!  cursor-grab active:cursor-grabbing"
-                  style={{
-                      width: "100%",
-                      top: "0",
-                      left: "50%",
-                  }}
-              >
-                  <div ref={boxesRef} style={{ willChange: "auto" }} className="relative">
-                      {children
-                          ? Children.map(children, (child, i) => (
-                              <div
-                                  key={i}
-                                  style={{ transform: `translateX(${i * boxWidth}px)`, willChange: "auto", width: `${boxWidth}px` }}
-                                  className="absolute flex items-center justify-center"
-                              >
-                                  {child}
-                              </div>
-                            ))
-                          : reviews.map((review, i) => (
-                              <figure
-                                  key={review.username}
-                                  style={{ transform: `translateX(${i * 350}px)`, willChange: "auto" }}
-                                  className="absolute h-[120px]  w-[350px] px-4"
-                              >
-                                  <div
-                                      ref={(r) => {
-                                          if (r) insideRef.current[i] = r;
-                                      }}
-                                      className="cursor-pointer border inside-card overflow-hidden rounded-xl bg-white  p-4"
-                                  >
-                                      <div className="flex flex-row items-center gap-2">
-                                          <img className="rounded-full" width="32" height="32" alt={review.name} src={review.img} />
-                                          <div className="flex flex-col">
-                                              <figcaption className="text-sm font-medium dark:text-white">{review.name}</figcaption>
-                                              <p className="text-xs font-light dark:text-white/40">{review.username}</p>
-                                          </div>
-                                      </div>
-                                      <blockquote className="mt-6 text-sm">{review.body}</blockquote>
-                                  </div>
-                              </figure>
-                            ))
-                      }
+    <div className="h-fit w-screen flex flex-col items-center justify-center py-8 px-4">
+      <div className="relative w-full  h-[120px]!" style={{ height: `${boxHeight}px` }}>
+        <div
+          data-cursor="drag"
+          ref={wrapperRef}
+          className="absolute  h-[120px]!  cursor-grab active:cursor-grabbing"
+          style={{
+            width: "100%",
+            top: "0",
+            left: "50%",
+          }}
+        >
+          <div ref={boxesRef} style={{ willChange: "auto" }} className="relative">
+            {children
+              ? Children.map(children, (child, i) => (
+                  <div
+                    key={i}
+                    style={{ transform: `translateX(${i * boxWidth}px)`, willChange: "auto", width: `${boxWidth}px` }}
+                    className="absolute flex items-center justify-center"
+                  >
+                    {child}
                   </div>
-              </div>
-
-              <div
-                  ref={viewportRef}
-                  className="absolute pointer-events-none rounded-lg h-fit"
-                  style={{
-                      width: "calc(100% + 8px)",
-                      top: "0",
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                  }}
-              ></div>
-
-              <div ref={proxyRef} className="absolute" style={{ visibility: "hidden" }}></div>
+                ))
+              : reviews.map((review, i) => (
+                  <figure
+                    key={review.username}
+                    style={{ transform: `translateX(${i * 350}px)`, willChange: "auto" }}
+                    className="absolute h-[120px]  w-[350px] px-4 radial-blur-v"
+                  >
+                    <div
+                      ref={(r) => {
+                        if (r) insideRef.current[i] = r;
+                      }}
+                      className="cursor-pointer border inside-card overflow-hidden rounded-xl bg-white  p-4"
+                    >
+                      <div className="flex flex-row items-center gap-2">
+                        <img className="rounded-full" width="32" height="32" alt={review.name} src={review.img} />
+                        <div className="flex flex-col">
+                          <figcaption className="text-sm font-medium dark:text-white">{review.name}</figcaption>
+                          <p className="text-xs font-light dark:text-white/40">{review.username}</p>
+                        </div>
+                      </div>
+                      <blockquote className="mt-6 text-sm">{review.body}</blockquote>
+                    </div>
+                  </figure>
+                ))}
           </div>
+        </div>
+
+        <div
+          ref={viewportRef}
+          className="absolute pointer-events-none rounded-lg h-fit"
+          style={{
+            width: "calc(100% + 8px)",
+            top: "0",
+            left: "50%",
+            transform: "translateX(-50%)",
+          }}
+        ></div>
+
+        <div ref={proxyRef} className="absolute" style={{ visibility: "hidden" }}></div>
       </div>
+    </div>
   );
 };
 

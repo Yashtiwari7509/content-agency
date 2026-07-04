@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/resizable-navbar";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router";
 import { ChevronDown } from "lucide-react";
 import { useContact } from "@/components/contact/ContactContext";
@@ -32,20 +32,24 @@ export function NavbarTop() {
 
   const contactSections = [
     {
-      name: "Success",
+      name: "Our Score",
       link: "#score",
-    },
-    {
-      name: "Reviews",
-      link: "#Marqee-slider",
     },
     {
       name: "Portfolio",
       link: "#portfolio",
     },
+    {
+      name: "Reviews",
+      link: "#Marqee-slider",
+    },
   ];
 
   const { contextSafe } = useGSAP();
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [currentPath]);
+
   // const params = ();
   const handleEnter = contextSafe(() => {
     gsap.to("#bg", {
@@ -103,7 +107,7 @@ export function NavbarTop() {
     <div className="w-screen flex justify-center items-center fixed z-50">
       <Navbar className="max-w-5xl mt-5 ">
         {/* Desktop Navigation */}
-        <NavBody className="py-3 border-white backdrop-blur-[10px]">
+        <NavBody className="py-3 border-white backdrop">
           <NavbarLogo />
 
           {/* Nav Items with Dropdown - maintaining original structure */}
@@ -140,13 +144,13 @@ export function NavbarTop() {
                 {isDropdownOpen && (
                   <div
                     data-cursor="link"
-                    className="absolute top-full -left-full p-4 mt-2 w-fit rounded-full bg-white/90  backdrop-blur-3xl not-[]:  border border-white overflow-hidden"
+                    className="absolute top-full -left-full p-4 mt-2 w-fit rounded-full bg-white/90  backdrop border-white overflow-hidden"
                   >
                     {contactSections.map((section, idx) => (
                       <span
                         key={`dropdown-${idx}`}
                         onClick={() => handleSectionClick(section.link)}
-                        className="w-full rounded-full text-left px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:border-black/20 hover:border cursor-pointer dark:hover:bg-neutral-800 transition-colors"
+                        className="w-full rounded-full whitespace-nowrap text-left px-4 py-2 text-sm text-neutral-700  hover:border-black/20 hover:border cursor-pointer transition-colors"
                       >
                         {section.name}
                       </span>
@@ -218,7 +222,7 @@ export function NavbarTop() {
                 data-cursor="link"
                 className="relative w-full text-2xl text-center top-0 text-neutral-600 dark:text-neutral-300"
               >
-                <span className="block">{item.name}</span>
+                <span className="block whitespace-nowrap">{item.name}</span>
               </NavLink>
             ))}
 
@@ -226,17 +230,17 @@ export function NavbarTop() {
             {currentPath === "/" && (
               <div className="w-full border-t border-neutral-200 pt-4 mt-4">
                 {contactSections.map((section, idx) => (
-                  <button
+                  <span
                     key={`mobile-section-${idx}`}
                     onClick={() => {
                       handleSectionClick(section.link);
                       setIsMobileMenuOpen(false);
                     }}
                     data-cursor="link"
-                    className="w-full text-xl text-center text-neutral-600 dark:text-neutral-300 py-2"
+                    className="w-full text-xl text-center whitespace-nowrap text-neutral-600 dark:text-neutral-300 py-2 block"
                   >
                     {section.name}
-                  </button>
+                  </span>
                 ))}
               </div>
             )}

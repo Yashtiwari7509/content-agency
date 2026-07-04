@@ -52,7 +52,7 @@ const MouseMove = () => {
     transition-all duration-300 ease-[cubic-bezier(.19,1,.22,1)]
     ${variant === "default" && "w-4 h-4 bg-white"}
     ${variant === "link" && "w-15 h-15 bg-white"}
-    ${variant === "drag" && "w-20 h-20 border-dashed border backdrop-blur-xs border-white/40 "}
+    ${variant === "drag" && "w-20 h-20 border-dashed border backdrop border-white/40 "}
     ${variant === "product" && "w-28 h-28 border border-white "}
   `}
       style={{

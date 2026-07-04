@@ -35,7 +35,7 @@ export default function SiteFooter() {
           style={{ background: `radial-gradient(ellipse, ${ACCENT}, transparent 40%)` }}
         />
         {/* ── Top stripe: CTA + socials ── */}
-        <div className="ft-top-row relative z-10 mx-auto max-w-7xl px-8 pt-10 pb-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="ft-top-row relative z-10 mx-auto max-w-7xl px-4 pt-10 pb-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="space-y-1">
             <p className="text-[10px] uppercase tracking-[0.22em] font-medium" style={{ color: ACCENT }}>
               Let's collaborate
@@ -63,7 +63,7 @@ export default function SiteFooter() {
             {/* CTA button */}
             <a
               href="#contact-section"
-              className="group flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold text-white border border-white/20 transition-all duration-300 hover:opacity-85 active:scale-95"
+              className="group flex items-center whitespace-nowrap gap-2 px-6 py-3 rounded-full text-sm font-semibold text-white border border-white/20 transition-all duration-300 hover:opacity-85 active:scale-95"
             >
               Book a Call
               <ArrowUpRight

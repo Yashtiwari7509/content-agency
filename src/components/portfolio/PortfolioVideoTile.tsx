@@ -78,7 +78,7 @@ const PortfolioVideoTile = ({ video, playbackId, label, wasDragged }: PortfolioV
           <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/15 to-black/10" />
 
           <span className="absolute inset-0 flex items-center justify-center">
-            <span className="flex h-14 w-14 items-center justify-center rounded-full backdrop-blur-xs text-gray-900 border border-white/30 shadow-lg transition group-hover:scale-105">
+            <span className="flex h-14 w-14 items-center justify-center rounded-full backdrop text-gray-900 border border-white/30 shadow-lg transition group-hover:scale-105">
               <Play className="ml-1 h-6 w-6 text-white" />
             </span>
           </span>

@@ -11,37 +11,27 @@ const members = [
   {
     src: Andrew,
     alt: "Andrew",
-    name: "Andrew Koutnik",
-    role: "Fitness & Lifestyle",
-    className: "left-[2%] bottom-0 h-[580px] w-110 z-10 translate-y-10 scale-x-[-1]",
+    className: "left-[2%] bottom-2 h-[580px] hidden lg:block z-10 w-110 translate-y-10 scale-x-[-1]",
   },
   {
     src: Thomas,
     alt: "Thomas",
-    name: "Thomas DeLauer",
-    role: "Health & Nutrition",
-    className: "left-[19%] bottom-0 h-[600px] w-120 z-20 translate-y-2",
+    className: "lg:left-[20%] -left-20 bottom-0 w-72 lg:h-[580px] lg:w-120 z-20 translate-y-2",
   },
   {
     src: Rahul,
     alt: "Rahul",
-    name: "Rahul Malodia",
-    role: "Business & Finance",
-    className: "left-1/2 -translate-x-1/2 bottom-0 w-120 h-[640px] z-30",
+    className: "left-1/2 -translate-x-1/2 bottom-0 w-80 lg:w-120 lg:h-[620px] z-30",
   },
   {
     src: Nick,
     alt: "Nick",
-    name: "Nick Norwitz",
-    role: "Science & Research",
-    className: "right-[19%] bottom-0 h-[590px] z-20 w-120 translate-y-2 scale-x-[-1]",
+    className: "lg:right-[20%] -right-20 bottom-0  lg:h-[570px] z-20 w-70 lg:w-120 translate-y-2 scale-x-[-1]",
   },
   {
     src: Chris,
     alt: "Chris",
-    name: "Chris (Sponsor)",
-    role: "Tech & Innovation",
-    className: "right-[6%] bottom-0 h-[580px] z-10 w-120 translate-y-12 scale-x-[-1]",
+    className: "right-[10%] bottom-0 h-[580px] hidden lg:block z-10 w-120 translate-y-12 scale-x-[-1]",
   },
 ];
 
@@ -49,7 +39,7 @@ export default function TeamSection() {
   const sectionRef = useRef<HTMLElement>(null);
 
   return (
-    <section ref={sectionRef} className="relative w-full overflow-hidden" style={{ minHeight: "100vh" }}>
+    <section ref={sectionRef} className="relative w-full overflow-hidden h-[70vh] lg:h-screen">
       {/* Background gradient blob */}
       <div
         className="pointer-events-none absolute inset-0 z-0"
@@ -67,7 +57,7 @@ export default function TeamSection() {
       />
 
       {/* Stacked images stage */}
-      <div className="relative w-full translate-y-20" style={{ height: "clamp(420px, 72vh, 700px)" }}>
+      <div className="relative w-full -translate-y-40 lg:translate-y-20" style={{ height: "clamp(420px, 72vh, 700px)" }}>
         {members.map((member, index) => (
           <img
             key={index}
@@ -80,7 +70,7 @@ export default function TeamSection() {
       {/* ── Giant wordmark ── */}
       <div className="absolute bottom-0 text-center  w-full z-100">
         {/* overflow-hidden here clips the slide-up reveal only vertically */}
-        <h2 className="select-none font-black  text-[15vw] translate-y-6 leading-none tracking-tighter glow">xPro</h2>
+        <h2 className="select-none font-black  text-[clamp(8rem,20vw,14rem)] translate-y-6 leading-none tracking-tighter glow">xPro</h2>
       </div>
     </section>
   );

@@ -42,7 +42,7 @@ function StatPanel({ stat, panelRef }: { stat: (typeof STATS)[number]; panelRef:
   return (
     <div
       ref={panelRef}
-      className={`relative border-white/40 border backdrop-blur-sm p-10 rounded-2xl flex h-full w-full max-w-xl flex-col justify-center gap-5 px-6 md:px-10 ${
+      className={`relative border-white/40 border backdrop p-10 rounded-2xl flex h-full w-full max-w-xl flex-col justify-center gap-5 px-6 md:px-10 ${
         isLeft ? "items-start text-left" : "ml-auto items-end text-right"
       }`}
     >

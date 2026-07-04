@@ -14,22 +14,19 @@ const PortfolioVideosCard = ({ videos, clientName, clientId }: PortfolioVideosCa
   const { trackRef, current, goTo, onPointerDown, onPointerMove, wasDragged } = useGsapSlider(total);
 
   return (
-    <div className="flex h-full min-h-0 flex-col overflow-hidden select-none">
+    <div className="flex flex-col overflow-hidden select-none">
       {/* Slider viewport */}
-      <div className="relative min-h-0 flex-1 overflow-hidden rounded-2xl">
+      <div className="relative overflow-hidden rounded-2xl">
         {/* Track */}
         <div
           ref={trackRef}
-          className="flex h-full will-change-transform cursor-grab"
+          className="flex will-change-transform cursor-grab"
           style={{ touchAction: "pan-y" }}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
         >
           {videos.map((video, index) => (
-            <div
-              key={`${clientId}-${video.src}-${index}`}
-              className="h-full w-full shrink-0 px-0.5"
-            >
+            <div key={`${clientId}-${video.src}-${index}`} className="w-full shrink-0 px-0.5">
               <PortfolioVideoTile
                 video={video}
                 playbackId={`${clientId}-video-${index}`}
@@ -48,7 +45,7 @@ const PortfolioVideosCard = ({ videos, clientName, clientId }: PortfolioVideosCa
               onClick={() => goTo(current - 1)}
               disabled={current === 0}
               aria-label="Previous video"
-              className="absolute left-2 top-1/2 z-10 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white shadow-lg ring-1 ring-white/10 backdrop-blur-sm transition hover:bg-black/70 disabled:pointer-events-none disabled:opacity-30"
+              className="absolute left-2 top-1/2 z-10 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white shadow-lg ring-1 ring-white/10 backdrop transition hover:bg-black/70 disabled:pointer-events-none disabled:opacity-30"
             >
               <ChevronLeft className="h-5 w-5" />
             </button>
@@ -57,7 +54,7 @@ const PortfolioVideosCard = ({ videos, clientName, clientId }: PortfolioVideosCa
               onClick={() => goTo(current + 1)}
               disabled={current === total - 1}
               aria-label="Next video"
-              className="absolute right-2 top-1/2 z-10 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white shadow-lg ring-1 ring-white/10 backdrop-blur-sm transition hover:bg-black/70 disabled:pointer-events-none disabled:opacity-30"
+              className="absolute right-2 top-1/2 z-10 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white shadow-lg ring-1 ring-white/10 backdrop transition hover:bg-black/70 disabled:pointer-events-none disabled:opacity-30"
             >
               <ChevronRight className="h-5 w-5" />
             </button>

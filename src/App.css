@@ -362,6 +362,9 @@
 .radial-blur-b {
   background: radial-gradient(at center, var(--color-background), transparent);
 }
+.radial-blur-nav {
+  background: radial-gradient(at 0% 100%, var(--color-background) 40%, transparent );
+}
 
 .t-center {
   position: absolute;

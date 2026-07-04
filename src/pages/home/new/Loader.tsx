@@ -47,7 +47,7 @@ const TeamLineup = () => {
       {/* Bottom Blur */}
       <div className="absolute bottom-0 left-0 z-60 w-screen h-[20vh] prBlur" />
       {/* Top Fade */}
-      <div className="absolute bottom-0 left-0 z-60 w-screen h-[40vh] rotate-180 translate-y-[39vh] prBlur" />
+      {/* <div className="absolute bottom-0 left-0 z-60 w-screen h-[40vh] rotate-180 translate-y-[39vh] prBlur" /> */}
     </section>
   );
 };

@@ -1,11 +1,6 @@
 import ChatBubble from "@/components/ChatBubble";
 import HeroCard, { type CardStatsItem } from "@/components/HeroCard";
-import RevealAnimation from "@/components/ui/animationReveal";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { useRef } from "react";
 import SectionHeader from "@/components/SectionHeader";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ReviewSlider from "./ReviewSlider";
 import { mac, rays, reel, short, social, starSvg } from "@/assets/Image";
 import { Andrew, Nick, Thomas } from "@/assets/ClientImage";
@@ -62,38 +57,38 @@ const CardStatsData: CardStatsItem[] = [
 ];
 
 const GridScore = () => {
-  const gridTlRef = useRef<GSAPTimeline>(null);
+  // const gridTlRef = useRef<GSAPTimeline>(null);
 
-  useGSAP(() => {
-    gridTlRef.current = gsap.timeline({});
-    gsap.from(".handds", {
-      opacity: 1,
-      ease: "power4.out",
-      x: (x) => (x === 0 ? -100 : 100),
-      scrollTrigger: {
-        trigger: ".middle",
-        start: `-250% top`,
-        end: "top top",
-        scrub: 4,
-      },
-    });
-    gsap.from("#grid-num", {
-      textContent: 1,
-      duration: 1,
-      snap: { textContent: 1 },
-      scrollTrigger: {
-        trigger: ".container",
-        start: `-20% top`,
-        end: "top top",
-      },
-    });
-    ScrollTrigger.batch(".container > div", {
-      interval: 0.1,
-      batchMax: 3,
-      once: true,
-      onEnter: (elements) => gsap.from(elements, { y: 200, stagger: 0.15, clearProps: "transform", overwrite: "auto" }),
-    });
-  });
+  // useGSAP(() => {
+  //   gridTlRef.current = gsap.timeline({});
+  //   gsap.from(".handds", {
+  //     opacity: 1,
+  //     ease: "power4.out",
+  //     x: (x) => (x === 0 ? -100 : 100),
+  //     scrollTrigger: {
+  //       trigger: ".middle",
+  //       start: `-250% top`,
+  //       end: "top top",
+  //       scrub: 4,
+  //     },
+  //   });
+  //   gsap.from("#grid-num", {
+  //     textContent: 1,
+  //     duration: 1,
+  //     snap: { textContent: 1 },
+  //     scrollTrigger: {
+  //       trigger: ".container",
+  //       start: `-20% top`,
+  //       end: "top top",
+  //     },
+  //   });
+  //   ScrollTrigger.batch(".container > div", {
+  //     interval: 0.1,
+  //     batchMax: 3,
+  //     once: true,
+  //     onEnter: (elements) => gsap.from(elements, { y: 200, stagger: 0.15, clearProps: "transform", overwrite: "auto" }),
+  //   });
+  // });
   return (
     <section id="score" className="w-screen  p-2 overflow-x-hidden relative py-20">
       <SectionHeader
@@ -114,9 +109,7 @@ const GridScore = () => {
             >
               40
             </h1>
-            <RevealAnimation blurAmount={0} yPercent={200} className="overflow-hidden">
-              <h4 className="text-3xl tracking-tight font-semibold">Channels Managed</h4>
-            </RevealAnimation>
+            <h4 className="text-3xl tracking-tight font-semibold reveal-text">Channels Managed</h4>
           </div>
           <div className="absolute z-0 bottom-0 left-0 size-full">
             <img src={rays} className="size-full" alt="" />

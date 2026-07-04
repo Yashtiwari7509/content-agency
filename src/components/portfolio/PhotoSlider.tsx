@@ -57,7 +57,7 @@ const PhotoSlider = ({ photos, altPrefix, intervalMs = 3500 }: PhotoSliderProps)
             type="button"
             onClick={() => goTo(current - 1)}
             disabled={current === 0}
-            className="absolute left-3 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/40 text-white backdrop-blur-sm transition hover:bg-black/55 disabled:pointer-events-none disabled:opacity-30"
+            className="absolute left-3 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/40 text-white backdrop transition hover:bg-black/55 disabled:pointer-events-none disabled:opacity-30"
             aria-label="Previous photo"
           >
             <ChevronLeft className="h-5 w-5" />
@@ -66,7 +66,7 @@ const PhotoSlider = ({ photos, altPrefix, intervalMs = 3500 }: PhotoSliderProps)
             type="button"
             onClick={() => goTo(current + 1)}
             disabled={current === total - 1}
-            className="absolute right-3 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/40 text-white backdrop-blur-sm transition hover:bg-black/55 disabled:pointer-events-none disabled:opacity-30"
+            className="absolute right-3 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/40 text-white backdrop transition hover:bg-black/55 disabled:pointer-events-none disabled:opacity-30"
             aria-label="Next photo"
           >
             <ChevronRight className="h-5 w-5" />

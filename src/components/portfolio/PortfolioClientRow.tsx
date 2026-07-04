@@ -14,7 +14,7 @@ const PortfolioClientRow = ({ client }: PortfolioClientRowProps) => {
   const videos = <PortfolioVideosCard videos={client.videos} clientName={client.name} clientId={client.id} />;
 
   return (
-    <article className="flex flex-col sticky top-30 gap-6 p-4 bg-white mb-10 pb-0">
+    <article className="flex flex-col gap-6 p-4 bg-white mb-10 pb-0">
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <div className="h-14 w-14 shrink-0 overflow-hidden rounded-full border-2 border-gray-100 ring-2">
@@ -39,7 +39,7 @@ const PortfolioClientRow = ({ client }: PortfolioClientRowProps) => {
         </a>
       </header>
 
-      <div className="grid grid-cols-1 items-stretch gap-5 h-100 lg:h-80 lg:grid-cols-2 lg:gap-8">
+      <div className="grid grid-cols-1 items-stretch gap-5 lg:grid-cols-2 lg:gap-8">
         <div className={cn("min-h-0")}>{media}</div>
         <div className={cn("min-h-0")}>{videos}</div>
       </div>

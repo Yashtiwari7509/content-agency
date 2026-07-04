@@ -5,6 +5,9 @@ import { CheckCircle2, Loader2, ArrowRight } from "lucide-react";
 import { CONTACT_CONFIG } from "@/config/contact";
 import { cn } from "@/lib/utils";
 import SectionHeader from "@/components/SectionHeader";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,14 +15,7 @@ type FormStatus = "idle" | "submitting" | "success" | "error";
 
 const initialForm = { name: "", email: "", message: "", service: "" };
 
-const services = [
-  "Video Editing",
-  "Color Grading",
-  "Motion Graphics",
-  "Cinematic Reels",
-  "Thumbnail Design",
-  "Full Channel Management",
-];
+const services = ["Video Editing", "Color Grading", "Motion Graphics", "Cinematic Reels", "Thumbnail Design", "Full Channel Management"];
 
 // const contactInfo = [
 //   {
@@ -44,7 +40,6 @@ export default function ContactSection() {
   const [form, setForm] = useState(initialForm);
   const [status, setStatus] = useState<FormStatus>("idle");
   const [errorMessage, setErrorMessage] = useState("");
-
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -84,11 +79,7 @@ export default function ContactSection() {
   const bgAccent = "oklch(85.273% 0.13885 208.93)";
 
   return (
-    <section
-      ref={sectionRef}
-      id="contact-section"
-      className="relative w-full  bg-white py-24 px-6"
-    >
+    <section ref={sectionRef} id="contact-section" className="relative w-full  bg-white py-24 px-6">
       {/* Background decoration */}
       <div
         className="pointer-events-none absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full opacity-25 blur-3xl"
@@ -112,22 +103,18 @@ export default function ContactSection() {
       {/* Two-column layout */}
       <div className="max-w-xl mx-auto relative z-10">
         <div className="contact-right">
-          <div
-            className="rounded-3xl border p-8"
-          >
+          <div className="rounded-3xl border p-8">
             {status === "success" ? (
               <div className="flex flex-col items-center py-12 text-center">
-                <div
-                  className="w-16 h-16 rounded-full flex items-center justify-center mb-5"
-                  style={{ background: `${bgAccent}40` }}
-                >
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mb-5" style={{ background: `${bgAccent}40` }}>
                   <CheckCircle2 size={28} style={{ color: accentColor }} />
                 </div>
                 <h3 className="text-2xl font-semibold text-gray-900 mb-2">You're in!</h3>
                 <p className="text-sm text-gray-500 font-light max-w-xs">
                   We've received your message and will get back to you within 24 hours.
                 </p>
-                <button
+                <Button
+                  type="button"
                   onClick={() => {
                     setForm(initialForm);
                     setStatus("idle");
@@ -137,118 +124,90 @@ export default function ContactSection() {
                   style={{ background: `linear-gradient(135deg, ${accentColor}, oklch(0.7 0.13 208.93))` }}
                 >
                   Send another
-                </button>
+                </Button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   {/* Name */}
                   <div className="space-y-1.5">
-                    <label className="text-xs font-medium text-gray-600 uppercase tracking-wider">
+                    <Label htmlFor="contact-name" className="uppercase tracking-wider text-xs text-gray-600">
                       Name
-                    </label>
-                    <input
+                    </Label>
+                    <Input
+                      id="contact-name"
                       type="text"
                       required
                       placeholder="Your name"
                       value={form.name}
                       disabled={status === "submitting"}
                       onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
-                      className="w-full px-4 py-3 rounded-2xl text-sm border outline-none transition-all placeholder:text-gray-300 disabled:opacity-50"
-                      style={{
-                        borderColor: `${bgAccent}60`,
-                        background: `${bgAccent}10`,
-                      }}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = accentColor)}
-                      onBlur={(e) => (e.currentTarget.style.borderColor = `${bgAccent}60`)}
+                      className="bg-slate-50"
                     />
                   </div>
 
                   {/* Email */}
                   <div className="space-y-1.5">
-                    <label className="text-xs font-medium text-gray-600 uppercase tracking-wider">
+                    <Label htmlFor="contact-email" className="uppercase tracking-wider text-xs text-gray-600">
                       Email
-                    </label>
-                    <input
+                    </Label>
+                    <Input
+                      id="contact-email"
                       type="email"
                       required
                       placeholder="you@company.com"
                       value={form.email}
                       disabled={status === "submitting"}
                       onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
-                      className="w-full px-4 py-3 rounded-2xl text-sm border outline-none transition-all placeholder:text-gray-300 disabled:opacity-50"
-                      style={{
-                        borderColor: `${bgAccent}60`,
-                        background: `${bgAccent}10`,
-                      }}
-                      onFocus={(e) => (e.currentTarget.style.borderColor = accentColor)}
-                      onBlur={(e) => (e.currentTarget.style.borderColor = `${bgAccent}60`)}
+                      className="bg-slate-50"
                     />
                   </div>
                 </div>
 
                 {/* Service picker */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-gray-600 uppercase tracking-wider">
-                    Service you need
-                  </label>
+                  <Label className="uppercase tracking-wider text-xs text-gray-600">Service you need</Label>
                   <div className="flex flex-wrap gap-2 pt-1">
                     {services.map((s) => (
-                      <button
+                      <Button
                         key={s}
                         type="button"
+                        variant={form.service === s ? "default" : "outline"}
+                        size="sm"
+                        className={cn("rounded-full px-3 py-1.5 text-xs font-medium", form.service !== s && "text-gray-500")}
                         onClick={() => setForm((p) => ({ ...p, service: p.service === s ? "" : s }))}
-                        className={cn(
-                          "px-3 py-1.5 rounded-full text-xs font-medium border transition-all",
-                          form.service === s ? "text-white border-transparent" : "text-gray-500"
-                        )}
-                        style={
-                          form.service === s
-                            ? { background: accentColor, borderColor: accentColor }
-                            : { borderColor: `${bgAccent}80`, background: "transparent" }
-                        }
                       >
                         {s}
-                      </button>
+                      </Button>
                     ))}
                   </div>
                 </div>
 
                 {/* Message */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-medium text-gray-600 uppercase tracking-wider">
+                  <Label htmlFor="contact-message" className="uppercase tracking-wider text-xs text-gray-600">
                     Message
-                  </label>
+                  </Label>
                   <textarea
+                    id="contact-message"
                     required
                     rows={4}
                     placeholder="Tell us about your project…"
                     value={form.message}
                     disabled={status === "submitting"}
                     onChange={(e) => setForm((p) => ({ ...p, message: e.target.value }))}
-                    className="w-full px-4 py-3 rounded-2xl text-sm border outline-none transition-all resize-none placeholder:text-gray-300 disabled:opacity-50"
-                    style={{
-                      borderColor: `${bgAccent}60`,
-                      background: `${bgAccent}10`,
-                    }}
-                    onFocus={(e) => (e.currentTarget.style.borderColor = accentColor)}
-                    onBlur={(e) => (e.currentTarget.style.borderColor = `${bgAccent}60`)}
+                    className="min-h-[120px] w-full rounded-md border border-input bg-slate-50 px-3 py-2 text-sm outline-none transition-all resize-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
                   />
                 </div>
 
                 {status === "error" && errorMessage && (
-                  <p className="rounded-2xl bg-red-50 px-4 py-3 text-sm font-light text-red-600">
-                    {errorMessage}
-                  </p>
+                  <p className="rounded-2xl bg-red-50 px-4 py-3 text-sm font-light text-red-600">{errorMessage}</p>
                 )}
 
-                <button
+                <Button
                   type="submit"
+                  className="w-full rounded-full py-4 text-sm font-semibold flex items-center justify-center gap-2"
                   disabled={status === "submitting"}
-                  className="group w-full py-4 rounded-full text-sm font-semibold text-white flex items-center justify-center gap-2 transition-all hover:opacity-90 active:scale-[0.98] disabled:opacity-60"
-                  style={{
-                    background: `linear-gradient(135deg, ${accentColor}, oklch(0.7 0.13 208.93))`,
-                  }}
                 >
                   {status === "submitting" ? (
                     <>
@@ -258,12 +217,10 @@ export default function ContactSection() {
                   ) : (
                     <>
                       Send Message
-                      <ArrowRight
-                        className="size-4 transition-transform group-hover:translate-x-1"
-                      />
+                      <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                     </>
                   )}
-                </button>
+                </Button>
               </form>
             )}
           </div>

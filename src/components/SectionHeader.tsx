@@ -21,8 +21,8 @@ const SectionHeader = ({
     align === "left"
       ? "text-left"
       : align === "right"
-      ? "text-right"
-      : "text-center";
+        ? "text-right"
+        : "text-center";
 
   const descAlign =
     align === "center" ? "mx-auto" : align === "right" ? "ml-auto" : "";
@@ -33,18 +33,17 @@ const SectionHeader = ({
       {label && <SectionLabel text={label} align={align} />}
 
       {/* Heading */}
-      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
+      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight reveal-text">
         {title}
         {gradientWord && (
           <>
             {" "}
             <span
               style={{
-                background:
-                  "linear-gradient(135deg, oklch(0.45 0.18 208.93), oklch(0.65 0.15 208.93))",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
+                color: "oklch(0.45 0.18 208.93)",
+                // WebkitBackgroundClip: "text",
+                // WebkitTextFillColor: "transparent",
+                // backgroundClip: "text",
               }}
             >
               {gradientWord}
@@ -56,7 +55,7 @@ const SectionHeader = ({
       {/* Description */}
       {description && (
         <p
-          className={`mt-3 text-sm text-gray-500 max-w-xl font-light leading-relaxed ${descAlign}`}
+          className={`mt-3 text-sm text-gray-500 max-w-xl font-light leading-relaxed reveal-text ${descAlign}`}
         >
           {description}
         </p>

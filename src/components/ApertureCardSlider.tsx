@@ -40,7 +40,7 @@ const DEFAULT_CARDS: CardData[] = [
   },
 ];
 
-const DEFAULT_WORDS = ["Shorts Edit", "Podcasts Edit", "Reels Edit", "LongForm edit"];
+const DEFAULT_WORDS = ["Shorts", "Podcasts", "Reels", "LongForm"];
 
 const SLOTS: Record<SlotName, SlotProps> = {
   "far-left": {
@@ -99,7 +99,7 @@ interface ApertureCardSliderProps {
 export default function ApertureCardSlider({
   cards = DEFAULT_CARDS,
   words = DEFAULT_WORDS,
-  prefix = "We'll handle Your's\u00A0",
+  prefix = "We'll Edit Your's\u00A0",
   className,
 }: ApertureCardSliderProps) {
   const count = cards.length;
@@ -282,7 +282,7 @@ export default function ApertureCardSlider({
   return (
     <section ref={containerRef} className={cn("min-h-[640px] overflow-hidden py-8 mt-20", className)}>
       <div className="flex flex-col items-center gap-10">
-        <div ref={stageRef} className="relative flex h-[440px] w-full items-center justify-center perspective-distant scale-125">
+        <div ref={stageRef} className="relative flex h-[440px] w-full items-center justify-center perspective-distant lg:scale-125">
           <div className="relative h-[390px] w-[220px] transform-3d">
             {cards.map((card, i) => {
               const isLandscape = card.ratio === "16/9";
@@ -328,9 +328,9 @@ export default function ApertureCardSlider({
             })}
           </div>
         </div>
-        <div ref={textBlockRef} className="flex select-none items-center whitespace-nowrap text-[1.4rem] font-medium text-foreground mt-10">
+        <div ref={textBlockRef} className="flex select-none items-center justify-center whitespace-nowrap text-[1.4rem] font-medium text-foreground mt-10">
           <h1>{prefix}</h1>
-          <div className="relative h-8 w-[160px] overflow-hidden">
+          <div className="relative h-8 w-20 lg:w-30 overflow-hidden">
             <span
               key={currentIndex}
               ref={activeWordRef}

@@ -118,6 +118,7 @@ export default function DonutSlider() {
       tween.kill();
     };
   }, []);
+
   useGSAP(() => {
     if (!cardRef.current) return;
     const title = SplitText.create(titleRef.current, {
@@ -198,12 +199,11 @@ export default function DonutSlider() {
             description="Three core pillars powering every creator we partner with."
           />
         </div>
-        <div className="radial-blur-v size-50 absolute bottom-60 left-20 z-0 blur-xl "></div>
-        <div className="mx-auto grid w-full max-w-5xl grid-cols-1 md:grid-cols-2 items-center gap-4 px-4 sm:px-6 md:px-10">
+        <div className="mx-auto grid w-full max-w-5xl grid-rows-[.6fr,2fr] grid-cols-1 md:grid-cols-2 md:grid-rows-[.2fr,1fr] items-center gap-4 px-4 sm:px-6 md:px-10">
           {/* LEFT */}
           <div className="relative flex justify-center align-bottom w-full">
-            <div className="relative w-full max-w-[320px] sm:max-w-[380px] md:max-w-[420px] mx-auto">
-              <svg ref={wheelRef} viewBox={`0 0 ${size} ${size}`} width="100%" height="100%" style={{ display: 'block' }}>
+            <div className="relative w-full  max-w-[320px] sm:max-w-[380px] md:max-w-[420px] mx-auto">
+              <svg ref={wheelRef} viewBox={`0 0 ${size} ${size}`} width="100%" height="100%" style={{ display: "block" }}>
                 {SEGMENTS.map((_, index) => {
                   const start = index * (SEGMENT_ANGLE + GAP_ANGLE);
 
@@ -219,12 +219,12 @@ export default function DonutSlider() {
                     <g key={index}>
                       <path d={bgPath} fill="transparent" />
 
-                      {fillPath && <path d={fillPath} fill="none" />}
+                      {fillPath && <path d={fillPath} fill={_.color} />}
                     </g>
                   );
                 })}
 
-                <circle cx={cx} cy={cy} r={80} fill="none" stroke="white" strokeWidth="2" />
+                {/* <circle cx={cx} cy={cy} r={80} fill="black" className="hidden" stroke="white" strokeWidth="2" /> */}
 
                 <circle
                   cx={cx}
@@ -234,6 +234,7 @@ export default function DonutSlider() {
                   stroke={"skyblue"}
                   strokeWidth="4"
                   strokeLinecap="round"
+                  className="hidden md:block"
                   strokeDasharray={circumference}
                   strokeDashoffset={circumference - circumference * progress}
                   transform={`rotate(-90 ${cx} ${cy})`}
@@ -242,7 +243,7 @@ export default function DonutSlider() {
 
               {/* center icon */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="flex h-24 w-24 sm:h-32 sm:w-32 md:h-40 md:w-40 items-center backdrop-blur-xs justify-center rounded-full transition-all duration-500">
+                <div className="flex h-24 w-24 sm:h-32 sm:w-32 md:h-40 md:w-40 items-center backdrop justify-center rounded-full transition-all duration-500">
                   <ActiveIcon size={40} className="text-black sm:text-black md:hidden" strokeWidth={2} />
                   <ActiveIcon size={56} className="text-black hidden md:block" strokeWidth={2} />
                 </div>
@@ -252,10 +253,8 @@ export default function DonutSlider() {
 
           {/* RIGHT CONTENT */}
           <div className="w-full">
-            <div ref={cardRef} className="rounded-3xl md:rounded-4xl border border-white/20 p-5 sm:p-7 md:p-10 backdrop-blur-xl">
-              {/* <div className="radial-blur-v size-50 absolute bottom-0  right-20 z-0 blur-xl "></div> */}
-              <div className="radial-blur-b size-80 absolute top-0  left-0 -z-1 blur-2xl "></div>
-              <div ref={badgeRef} className="mb-8 flex items-center gap-4">
+            <div ref={cardRef} className="rounded-3xl md:rounded-4xl border border-white/20 p-5 sm:p-7 md:px-10">
+              {/* <div ref={badgeRef} className="mb-8 flex items-center gap-4">
                 <div
                   className="flex h-14 w-14 items-center justify-center rounded-2xl"
                   style={{
@@ -270,21 +269,21 @@ export default function DonutSlider() {
 
                   <h3 className="font-semibold">{activeSegment.title}</h3>
                 </div>
-              </div>
+              </div> */}
 
-              <h2 ref={titleRef} className="mb-4 text-3xl sm:text-4xl md:text-5xl font-bold leading-tight md:leading-15 tracking-tight">
+              <h2 ref={titleRef} className="mb-4 text-3xl text-center sm:text-4xl md:text-5xl md:text-start font-bold leading-tight md:leading-15 tracking-tight">
                 {activeSegment.title}
               </h2>
 
-              <p ref={subtitleRef} className="mb-6 md:mb-8 text-base md:text-lg text-zinc-600">
+              <p ref={subtitleRef} className="mb-6 text-center md:mb-8 text-base md:text-lg md:text-start text-zinc-600">
                 {activeSegment.subtitle}
               </p>
 
-              <div className="flex gap-3">
+              <div className="flex gap-3 justify-center md:justify-start">
                 {SEGMENTS.map((segment, index) => (
                   <div
                     key={segment.title}
-                    className={`h-2 rounded-full transition-all duration-500 ${index === activeIndex ? "w-16" : "w-6"}`}
+                    className={`h-2 rounded-full transition-all border duration-500 ${index === activeIndex ? "w-16" : "w-6"}`}
                     style={{
                       background: index === activeIndex ? segment.color : "white",
                     }}

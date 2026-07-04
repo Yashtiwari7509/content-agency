@@ -132,7 +132,7 @@ const Home = () => {
         },
       )
       .call(unlockScroll)
-      .from(".clouds", { y: 80, opacity: 0, duration: 1.1, stagger: 0.18, ease: "power3.out" }, "-=0.8")
+      .from(".clouds", { y: 80, opacity: 0, duration: 1.1, stagger: 0.18, ease: "power3.out" }, "-=2")
       .from(".center", { opacity: 0, scale: 0, duration: 0.9, ease: "back.out(1.4)" }, "-=0.7");
   });
 

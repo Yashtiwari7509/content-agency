@@ -137,7 +137,7 @@ const Hero = () => {
                       transform: `rotate(180deg)`,
                       transformOrigin: "center",
                     }}
-                    className="flex bg-background items-center justify-center size-14 border-2 border-white rounded-lg backdrop-blur-sm"
+                    className="flex bg-background items-center justify-center size-14 border-2 border-white rounded-lg backdrop"
                   >
                     <img src={icon1.src} className="w-6 h-6" alt="" />
                   </div>
@@ -150,7 +150,7 @@ const Hero = () => {
                       transform: `rotate(0deg)`,
                       transformOrigin: "center",
                     }}
-                    className="flex bg-background items-center justify-center size-14 border-2 border-white rounded-lg backdrop-blur-sm"
+                    className="flex bg-background items-center justify-center size-14 border-2 border-white rounded-lg backdrop"
                   >
                     <img src={icon2.src} className="w-6 h-6" alt="" />
                   </div>

@@ -50,19 +50,19 @@ export function usePageLoad({
       });
 
       // <video> / <audio> — wait for metadata (not full download)
-      document
-        .querySelectorAll<HTMLMediaElement>("video, audio")
-        .forEach((el) => {
-          if (el.readyState >= 1) return;
-          promises.push(
-            new Promise((resolve) => {
-              el.addEventListener("loadedmetadata", () => resolve(), {
-                once: true,
-              });
-              el.addEventListener("error", () => resolve(), { once: true });
-            })
-          );
-        });
+      // document
+      //   .querySelectorAll<HTMLMediaElement>("video, audio")
+      //   .forEach((el) => {
+      //     if (el.readyState >= 1) return;
+      //     promises.push(
+      //       new Promise((resolve) => {
+      //         el.addEventListener("loadedmetadata", () => resolve(), {
+      //           once: true,
+      //         });
+      //         el.addEventListener("error", () => resolve(), { once: true });
+      //       })
+      //     );
+      //   });
 
       return promises;
     }

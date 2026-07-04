@@ -4,6 +4,7 @@ import { X, CheckCircle2, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { CONTACT_CONFIG } from "@/config/contact";
 import { useContact } from "./ContactContext";
 
@@ -104,14 +105,14 @@ export function ContactModal() {
       <button
         type="button"
         aria-label="Close contact form"
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm animate-in fade-in-0 duration-300"
+        className="absolute inset-0 bg-black/40 backdrop animate-in fade-in-0 duration-300"
         onClick={handleClose}
       />
 
       <div
         className={cn(
-          "relative z-10 w-full max-w-lg overflow-hidden rounded-3xl border border-white/60 bg-white/95 shadow-2xl backdrop-blur-3xl",
-          "animate-in fade-in-0 zoom-in-95 slide-in-from-bottom-4 duration-300 sm:slide-in-from-bottom-0"
+          "relative z-10 w-full max-w-lg overflow-hidden rounded-3xl border border-white/60 bg-white/95 shadow-2xl backdrop",
+          "animate-in fade-in-0 zoom-in-95 slide-in-from-bottom-4 duration-300 sm:slide-in-from-bottom-0",
         )}
       >
         <div className="pointer-events-none absolute -right-16 -top-16 size-48 rounded-full bg-[oklch(85.273%_0.13885_208.93)] opacity-40 blur-3xl" />
@@ -151,9 +152,7 @@ export function ContactModal() {
                 <h2 id="contact-modal-title" className="text-2xl font-light text-neutral-800 sm:text-3xl">
                   Book a call
                 </h2>
-                <p className="mt-2 text-sm font-light text-neutral-500">
-                  Tell us a bit about your project and we&apos;ll be in touch.
-                </p>
+                <p className="mt-2 text-sm font-light text-neutral-500">Tell us a bit about your project and we&apos;ll be in touch.</p>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -170,7 +169,7 @@ export function ContactModal() {
                     value={form.name}
                     disabled={status === "submitting"}
                     onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
-                    className="h-11 rounded-full border-neutral-200 bg-white/80 font-light placeholder:font-light focus-visible:ring-[oklch(0.708_0.12_208.93)]"
+                    className="h-11 rounded-md border-neutral-200 bg-white/80 font-light placeholder:font-light focus-visible:ring-[oklch(0.708_0.12_208.93)]"
                   />
                 </div>
 
@@ -188,7 +187,7 @@ export function ContactModal() {
                     value={form.email}
                     disabled={status === "submitting"}
                     onChange={(e) => setForm((prev) => ({ ...prev, email: e.target.value }))}
-                    className="h-11 rounded-full border-neutral-200 bg-white/80 font-light placeholder:font-light focus-visible:ring-[oklch(0.708_0.12_208.93)]"
+                    className="h-11 rounded-md border-neutral-200 bg-white/80 font-light placeholder:font-light focus-visible:ring-[oklch(0.708_0.12_208.93)]"
                   />
                 </div>
 
@@ -196,7 +195,7 @@ export function ContactModal() {
                   <Label htmlFor="contact-message" className="font-light text-neutral-600">
                     Message
                   </Label>
-                  <textarea
+                  <Textarea
                     id="contact-message"
                     name="message"
                     required
@@ -205,7 +204,7 @@ export function ContactModal() {
                     value={form.message}
                     disabled={status === "submitting"}
                     onChange={(e) => setForm((prev) => ({ ...prev, message: e.target.value }))}
-                    className="flex min-h-[120px] w-full resize-none rounded-2xl border border-neutral-200 bg-white/80 px-4 py-3 text-sm font-light ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[oklch(0.708_0.12_208.93)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="resize-none rounded-md border-neutral-200 bg-white/80 px-4 py-3 text-sm font-light focus-visible:ring-[oklch(0.708_0.12_208.93)]"
                   />
                 </div>
 
@@ -233,6 +232,6 @@ export function ContactModal() {
         </div>
       </div>
     </div>,
-    document.body
+    document.body,
   );
 }

@@ -325,7 +325,7 @@ export default function WorkflowSection() {
                       }
                     : {}
                 }
-                onClick={() => activateStep(i)}
+                onMouseEnter={() => activateStep(i)}
                 aria-label={`Step ${s.id}: ${s.label}`}
               >
                 <span className="wf-pill-num" style={isActive ? { color: s.accentColor } : {}}>

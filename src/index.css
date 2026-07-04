@@ -770,3 +770,16 @@ img {
     border-top: 1px solid rgba(0, 0, 0, 0.06);
   }
 }
+
+.backdrop {
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* ── Reveal text animation ── */
+/* Hidden until GSAP takes over (prevents flash before animation starts).  */
+/* gsap.set(el, { visibility: "visible" }) is called in revealEl() in App.tsx */
+.reveal-text {
+  visibility: hidden;
+}
+

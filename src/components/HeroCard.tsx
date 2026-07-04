@@ -18,7 +18,7 @@ const HeroCard = ({ card, id }: { card: CardStatsItem; id: string }) => {
         <div
             id={id}
             className={cn(
-                "bg-white/10 overflow-hidden w-fit h-fit t-center border-2 backdrop-blur-md rounded-2xl  border-white absolute",
+                "bg-white/10 overflow-hidden w-fit h-fit t-center border-2 backdrop rounded-2xl  border-white absolute",
                 id,
             )}
             style={{ inset: card.alignmentCss }}

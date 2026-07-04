@@ -65,9 +65,7 @@ export const Navbar = ({ children, className }: NavbarProps) => {
   return (
     <div ref={ref} className={cn("fixed  t-center inset-x-0 top-12! z-40 w-full", className)}>
       {React.Children.map(children, (child) =>
-        React.isValidElement(child)
-          ? React.cloneElement(child as React.ReactElement<{ visible?: boolean }>, { visible })
-          : child
+        React.isValidElement(child) ? React.cloneElement(child as React.ReactElement<{ visible?: boolean }>, { visible }) : child,
       )}
     </div>
   );
@@ -95,7 +93,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
       className={cn(
         "relative main-top-nav text-white! z-60 fading   mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full bg-transparent px-4 py-2 border-2 border-white lg:flex dark:bg-transparent",
         visible && "bg-zinc-50/10 border-background-800/10! border! dark:bg-neutral-950/80",
-        className
+        className,
       )}
     >
       {children}
@@ -146,7 +144,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
       onMouseLeave={() => setHovered(null)}
       className={cn(
         "absolute inset-0 hidden transition-all flex-1  flex-row items-center justify-center space-x-2 text-sm font-light text-white duration-200 hover:text-zinc-800 lg:flex lg:space-x-2",
-        className
+        className,
       )}
     >
       <div
@@ -172,28 +170,15 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
   );
 };
 
-export const MobileNav = ({ children, className, visible = false }: MobileNavProps) => {
+export const MobileNav = ({ children, className }: MobileNavProps) => {
   const mobileRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(() => {
-    if (!mobileRef.current) return;
-
-    gsap.to(mobileRef.current, {
-      width: visible ? "90%" : "100%",
-      paddingRight: visible ? 12 : 0,
-      paddingLeft: visible ? 12 : 0,
-      y: visible ? 20 : 0,
-      duration: 0.6,
-    });
-  }, [visible]);
 
   return (
     <div
       ref={mobileRef}
       className={cn(
-        "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-transparent px-0 py-2 lg:hidden",
-        visible && "bg-white/80 dark:bg-neutral-950/80",
-        className
+        "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between backdrop-blur-xs border border-white/50 px-2 py-2 back lg:hidden",
+        className,
       )}
     >
       {children}
@@ -221,7 +206,7 @@ export const MobileNavMenu = ({ children, className, isOpen }: MobileNavMenuProp
           y: 0,
           duration: 0.3,
           ease: "power2.out",
-        }
+        },
       );
     } else {
       gsap.to(menuRef.current, {
@@ -237,10 +222,12 @@ export const MobileNavMenu = ({ children, className, isOpen }: MobileNavMenuProp
     <div
       ref={menuRef}
       className={cn(
-        "fixed inset-x-0 top-16 opacity-0 border-white border z-50 flex w-full overflow-hidden flex-col items-start justify-start gap-4 rounded-lg bg-white/30 px-4 py-8 backdrop-blur-xl dark:bg-neutral-950",
-        className , !isOpen && 'pointer-events-none'
+        "fixed inset-x-0 top-18 opacity-0 bg-white z-50 flex w-full overflow-hidden flex-col items-start justify-start gap-4 rounded-2xl px-4 py-8",
+        className,
+        !isOpen && "pointer-events-none",
       )}
     >
+      <div className="size-full absolute inset-0 backdrop -z-10 radial-blur-nav"></div>
       {children}
     </div>
   );
@@ -287,11 +274,11 @@ export const NavbarButton = <T extends "a" | "button">({
   variant?: "primary" | "secondary" | "dark" | "gradient";
 } & (T extends "a" ? Omit<React.ComponentPropsWithoutRef<"a">, "href"> : React.ComponentPropsWithoutRef<"button">)) => {
   const baseStyles =
-    "px-4 py-2  rounded-md bg-white button bg-white text-black text-sm font-bold relative cursor-pointer hover:bg-black hover:text-white transition-colors duration-500 inline-block text-center";
+    "px-4 py-2  rounded-md bg-white button bg-white shadow-none text-black text-sm font-bold relative cursor-pointer hover:bg-black hover:text-white transition-colors duration-500 inline-block text-center";
 
   const variantStyles = {
     primary: "",
-    secondary: "bg-transparent shadow-none dark:text-white",
+    secondary: "bg-transparent dark:text-white",
     dark: "bg-black text-white",
     gradient: "bg-gradient-to-b from-blue-500 to-blue-700 text-white",
   };
