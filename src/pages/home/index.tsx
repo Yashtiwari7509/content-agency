@@ -148,7 +148,7 @@ const Home = () => {
               pointerEvents: ready ? "auto" : "none",
             }}
           >
-            {/* <PhoneVideo /> */}
+            <PhoneVideo />
             <Hero />
             <ApertureCardSlider />
             <GridScore />
