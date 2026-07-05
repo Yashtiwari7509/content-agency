@@ -5,16 +5,21 @@
  * Returns a 0–100 progress value and a `ready` boolean.
  *
  * Strategy:
- *  1. Collect all <img>, <video>, <audio> elements + CSS background images
- *  2. Track each resource via PerformanceObserver (catches fonts, scripts, styles too)
- *  3. Falls back gracefully to window "load" event if PerformanceObserver unavailable
+ *  1. Wait for window "load" event (HTML, CSS, sync scripts)
+ *  2. Collect all <img>, <video>, <audio> elements and wait for them
+ *     - images: wait for `load` event (or already `.complete`)
+ *     - videos: wait for `canplaythrough` (enough data buffered to play)
+ *  3. Wait for any <canvas> elements to have non-empty content (3D models)
+ *  4. Safety timeout so we never hang forever
  */
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 interface UsePageLoadOptions {
   /** Minimum time (ms) the loader stays visible. Default: 1000 */
   minDuration?: number;
+  /** Maximum time (ms) to wait before force-completing. Default: 12000 */
+  maxWait?: number;
 }
 
 interface UsePageLoadResult {
@@ -26,157 +31,181 @@ interface UsePageLoadResult {
 
 export function usePageLoad({
   minDuration = 1000,
+  maxWait = 12000,
 }: UsePageLoadOptions = {}): UsePageLoadResult {
   const [progress, setProgress] = useState(0);
   const [ready, setReady] = useState(false);
   const startTime = useRef(performance.now());
+  const hasFinished = useRef(false);
+
+  const markDone = useCallback(() => {
+    if (hasFinished.current) return;
+    hasFinished.current = true;
+
+    setProgress(100);
+    const elapsed = performance.now() - startTime.current;
+    const wait = Math.max(0, minDuration - elapsed);
+    setTimeout(() => {
+      setReady(true);
+    }, wait);
+  }, [minDuration]);
 
   useEffect(() => {
     let isMounted = true;
 
-    // ── 1. Collect media elements already in the DOM ──────────────────────────
-    function collectMediaAssets(): Promise<void>[] {
-      const promises: Promise<void>[] = [];
+    // ── Tracker: count settled vs total assets ─────────────────────────────
+    let totalAssets = 0;
+    let loadedAssets = 0;
 
-      // <img> tags
-      document.querySelectorAll<HTMLImageElement>("img").forEach((img) => {
-        if (img.complete) return; // already loaded
-        promises.push(
-          new Promise((resolve) => {
-            img.addEventListener("load", () => resolve(), { once: true });
-            img.addEventListener("error", () => resolve(), { once: true }); // don't stall on broken imgs
-          })
-        );
-      });
-
-      // <video> / <audio> — wait for metadata (not full download)
-      // document
-      //   .querySelectorAll<HTMLMediaElement>("video, audio")
-      //   .forEach((el) => {
-      //     if (el.readyState >= 1) return;
-      //     promises.push(
-      //       new Promise((resolve) => {
-      //         el.addEventListener("loadedmetadata", () => resolve(), {
-      //           once: true,
-      //         });
-      //         el.addEventListener("error", () => resolve(), { once: true });
-      //       })
-      //     );
-      //   });
-
-      return promises;
-    }
-
-    // ── 2. PerformanceObserver — catches fonts, scripts, stylesheets, XHR ────
-    function observeResources(
-      onTick: (loaded: number, total: number) => void
-    ): () => void {
-      if (typeof PerformanceObserver === "undefined") return () => {};
-
-      // Snapshot what's already finished
-      const alreadyDone = performance.getEntriesByType("resource").length;
-      let loaded = alreadyDone;
-
-      // Estimate total from network requests initiated so far
-      // We'll grow `total` as new resources appear
-      let total = Math.max(
-        alreadyDone,
-        performance.getEntriesByType("resource").length + 5 // headroom
-      );
-
-      const obs = new PerformanceObserver((list) => {
-        const entries = list.getEntries();
-        loaded += entries.length;
-        total = Math.max(total, loaded + 1); // always leave room
-        onTick(loaded, total);
-      });
-
-      try {
-        obs.observe({ type: "resource", buffered: true });
-      } catch {
-        // Firefox private mode etc.
-      }
-
-      return () => obs.disconnect();
-    }
-
-    // ── 3. Main logic ─────────────────────────────────────────────────────────
-    let resourceLoaded = 0;
-    let resourceTotal = 1;
-    let mediaSettled = false;
-    let windowLoaded = document.readyState === "complete";
-
-    function computeProgress() {
-      if (!isMounted) return;
-
-      // Blend: 70% from PerformanceObserver resource count, 30% from window load
-      const resourcePct =
-        resourceTotal > 0
-          ? Math.min(1, resourceLoaded / resourceTotal)
-          : 0;
-
-      const windowPct = windowLoaded ? 1 : 0;
-      const mediaPct = mediaSettled ? 1 : 0;
-
-      const blended = resourcePct * 0.6 + windowPct * 0.25 + mediaPct * 0.15;
-      const pct = Math.min(99, Math.round(blended * 100)); // cap at 99 until truly done
-
+    function tick() {
+      if (!isMounted || hasFinished.current) return;
+      const pct = totalAssets > 0
+        ? Math.min(95, Math.round((loadedAssets / totalAssets) * 100))
+        : 0;
       setProgress(pct);
     }
 
-    function markDone() {
-      if (!isMounted) return;
-      setProgress(100);
-      const elapsed = performance.now() - startTime.current;
-      const wait = Math.max(0, minDuration - elapsed);
-      setTimeout(() => {
-        if (isMounted) setReady(true);
-      }, wait);
+    function onAssetLoaded() {
+      loadedAssets++;
+      tick();
+      checkAllDone();
     }
 
-    // Resource observer
-    const disconnectObs = observeResources((loaded, total) => {
-      resourceLoaded = loaded;
-      resourceTotal = total;
-      computeProgress();
-    });
-
-    // Media assets
-    const mediaPromises = collectMediaAssets();
-    mediaSettled = mediaPromises.length === 0;
-    if (mediaPromises.length > 0) {
-      Promise.allSettled(mediaPromises).then(() => {
-        mediaSettled = true;
-        computeProgress();
-      });
+    function checkAllDone() {
+      if (hasFinished.current) return;
+      if (loadedAssets >= totalAssets && windowLoaded) {
+        markDone();
+      }
     }
 
-    // Window load event (the ground truth)
+    // ── 1. Window load (baseline) ──────────────────────────────────────────
+    let windowLoaded = document.readyState === "complete";
+
     function onWindowLoad() {
       windowLoaded = true;
-      computeProgress();
-
-      // Give PerformanceObserver a tick to flush late entries, then mark done
-      setTimeout(markDone, 150);
+      // After window load, collect DOM assets that may still be loading
+      collectAssets();
+      tick();
+      checkAllDone();
     }
 
     if (document.readyState === "complete") {
-      // Already loaded before the hook mounted (e.g. HMR refresh)
-      windowLoaded = true;
-      setTimeout(markDone, 50);
+      // Already loaded (e.g. HMR refresh)
+      // Use a small delay to let React render the DOM first
+      setTimeout(() => {
+        if (!isMounted) return;
+        collectAssets();
+        tick();
+        checkAllDone();
+      }, 100);
     } else {
       window.addEventListener("load", onWindowLoad, { once: true });
     }
 
-    // Kick off an initial progress paint
-    computeProgress();
+    // ── 2. Collect all media assets from the DOM ───────────────────────────
+    function collectAssets() {
+      // Images
+      document.querySelectorAll<HTMLImageElement>("img").forEach((img) => {
+        totalAssets++;
+        if (img.complete && img.naturalWidth > 0) {
+          loadedAssets++;
+        } else {
+          img.addEventListener("load", onAssetLoaded, { once: true });
+          img.addEventListener("error", onAssetLoaded, { once: true });
+        }
+      });
 
+      // Videos — wait for canplaythrough (enough buffered to play smoothly)
+      document.querySelectorAll<HTMLVideoElement>("video").forEach((video) => {
+        totalAssets++;
+        if (video.readyState >= 4) {
+          // HAVE_ENOUGH_DATA
+          loadedAssets++;
+        } else {
+          video.addEventListener("canplaythrough", onAssetLoaded, { once: true });
+          video.addEventListener("error", onAssetLoaded, { once: true });
+          // Also accept loadeddata as a fallback (readyState >= 2)
+          // Some videos behind CDN may never reach canplaythrough quickly
+          const fallbackTimer = setTimeout(() => {
+            if (video.readyState >= 2) {
+              onAssetLoaded();
+            }
+          }, 5000);
+          video.addEventListener("canplaythrough", () => clearTimeout(fallbackTimer), { once: true });
+          video.addEventListener("error", () => clearTimeout(fallbackTimer), { once: true });
+        }
+      });
+
+      // Canvas elements (e.g. Three.js / WebGL) — wait until they have content
+      document.querySelectorAll<HTMLCanvasElement>("canvas").forEach((canvas) => {
+        totalAssets++;
+        // Check if the canvas already has rendered content
+        if (canvasHasContent(canvas)) {
+          loadedAssets++;
+        } else {
+          // Poll until canvas has content (Three.js renders asynchronously)
+          let attempts = 0;
+          const maxAttempts = 40; // 40 * 250ms = 10s
+          const pollInterval = setInterval(() => {
+            attempts++;
+            if (canvasHasContent(canvas) || attempts >= maxAttempts) {
+              clearInterval(pollInterval);
+              onAssetLoaded();
+            }
+          }, 250);
+        }
+      });
+
+      // If no assets were found, we're done immediately
+      if (totalAssets === 0) {
+        checkAllDone();
+      }
+
+      tick();
+    }
+
+    // ── 3. Periodic progress updates for smoother feel ─────────────────────
+    const progressInterval = setInterval(() => {
+      if (!isMounted || hasFinished.current) {
+        clearInterval(progressInterval);
+        return;
+      }
+      tick();
+    }, 200);
+
+    // ── 4. Safety timeout — never hang forever ─────────────────────────────
+    const safetyTimer = setTimeout(() => {
+      if (!isMounted) return;
+      markDone();
+    }, maxWait);
+
+    // ── Cleanup ────────────────────────────────────────────────────────────
     return () => {
       isMounted = false;
-      disconnectObs();
+      clearInterval(progressInterval);
+      clearTimeout(safetyTimer);
       window.removeEventListener("load", onWindowLoad);
     };
-  }, [minDuration]);
+  }, [minDuration, maxWait, markDone]);
 
   return { progress, ready };
+}
+
+/**
+ * Check if a canvas element has been initialized and rendered.
+ *
+ * For WebGL canvases (Three.js etc.), we can't call getContext without
+ * conflicting with the existing context. Instead, we check:
+ *  - The canvas has non-zero dimensions (Three.js has sized it)
+ *  - The canvas has a data attribute or we just check it's been mounted
+ *    for long enough that the renderer has had time to draw a frame.
+ */
+function canvasHasContent(canvas: HTMLCanvasElement): boolean {
+  // Canvas must be in the DOM and have real dimensions
+  if (!canvas.isConnected) return false;
+  if (canvas.width === 0 || canvas.height === 0) return false;
+  if (canvas.clientWidth === 0 || canvas.clientHeight === 0) return false;
+
+  // If the canvas has a rendered width > 1px, Three.js/WebGL has initialized
+  return true;
 }
