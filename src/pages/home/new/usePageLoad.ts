@@ -1,16 +1,17 @@
 /**
  * usePageLoad.ts
  *
- * Tracks real browser asset loading progress.
+ * Tracks real browser asset loading progress (images only).
  * Returns a 0–100 progress value and a `ready` boolean.
  *
  * Strategy:
  *  1. Wait for window "load" event (HTML, CSS, sync scripts)
- *  2. Collect all <img>, <video>, <audio> elements and wait for them
- *     - images: wait for `load` event (or already `.complete`)
- *     - videos: wait for `canplaythrough` (enough data buffered to play)
- *  3. Wait for any <canvas> elements to have non-empty content (3D models)
- *  4. Safety timeout so we never hang forever
+ *  2. Collect all <img> elements and wait for them to load
+ *  3. Safety timeout so we never hang forever
+ *
+ * Videos and 3D models (canvas/GLB) are intentionally excluded
+ * so the page becomes interactive as fast as possible.
+ * They continue loading in the background after the preloader finishes.
  */
 
 import { useState, useEffect, useRef, useCallback } from "react";
@@ -102,9 +103,9 @@ export function usePageLoad({
       window.addEventListener("load", onWindowLoad, { once: true });
     }
 
-    // ── 2. Collect all media assets from the DOM ───────────────────────────
+    // ── 2. Collect image assets from the DOM ───────────────────────────────
     function collectAssets() {
-      // Images
+      // Images only — videos and canvas/GLB load in the background
       document.querySelectorAll<HTMLImageElement>("img").forEach((img) => {
         totalAssets++;
         if (img.complete && img.naturalWidth > 0) {
@@ -112,47 +113,6 @@ export function usePageLoad({
         } else {
           img.addEventListener("load", onAssetLoaded, { once: true });
           img.addEventListener("error", onAssetLoaded, { once: true });
-        }
-      });
-
-      // Videos — wait for canplaythrough (enough buffered to play smoothly)
-      document.querySelectorAll<HTMLVideoElement>("video").forEach((video) => {
-        totalAssets++;
-        if (video.readyState >= 4) {
-          // HAVE_ENOUGH_DATA
-          loadedAssets++;
-        } else {
-          video.addEventListener("canplaythrough", onAssetLoaded, { once: true });
-          video.addEventListener("error", onAssetLoaded, { once: true });
-          // Also accept loadeddata as a fallback (readyState >= 2)
-          // Some videos behind CDN may never reach canplaythrough quickly
-          const fallbackTimer = setTimeout(() => {
-            if (video.readyState >= 2) {
-              onAssetLoaded();
-            }
-          }, 5000);
-          video.addEventListener("canplaythrough", () => clearTimeout(fallbackTimer), { once: true });
-          video.addEventListener("error", () => clearTimeout(fallbackTimer), { once: true });
-        }
-      });
-
-      // Canvas elements (e.g. Three.js / WebGL) — wait until they have content
-      document.querySelectorAll<HTMLCanvasElement>("canvas").forEach((canvas) => {
-        totalAssets++;
-        // Check if the canvas already has rendered content
-        if (canvasHasContent(canvas)) {
-          loadedAssets++;
-        } else {
-          // Poll until canvas has content (Three.js renders asynchronously)
-          let attempts = 0;
-          const maxAttempts = 40; // 40 * 250ms = 10s
-          const pollInterval = setInterval(() => {
-            attempts++;
-            if (canvasHasContent(canvas) || attempts >= maxAttempts) {
-              clearInterval(pollInterval);
-              onAssetLoaded();
-            }
-          }, 250);
         }
       });
 
@@ -189,23 +149,4 @@ export function usePageLoad({
   }, [minDuration, maxWait, markDone]);
 
   return { progress, ready };
-}
-
-/**
- * Check if a canvas element has been initialized and rendered.
- *
- * For WebGL canvases (Three.js etc.), we can't call getContext without
- * conflicting with the existing context. Instead, we check:
- *  - The canvas has non-zero dimensions (Three.js has sized it)
- *  - The canvas has a data attribute or we just check it's been mounted
- *    for long enough that the renderer has had time to draw a frame.
- */
-function canvasHasContent(canvas: HTMLCanvasElement): boolean {
-  // Canvas must be in the DOM and have real dimensions
-  if (!canvas.isConnected) return false;
-  if (canvas.width === 0 || canvas.height === 0) return false;
-  if (canvas.clientWidth === 0 || canvas.clientHeight === 0) return false;
-
-  // If the canvas has a rendered width > 1px, Three.js/WebGL has initialized
-  return true;
 }
