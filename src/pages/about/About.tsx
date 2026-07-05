@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import DrawSVGPlugin from "gsap/DrawSVGPlugin";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLenis } from "lenis/react";
 import { useEffect, useRef } from "react";
 gsap.registerPlugin(DrawSVGPlugin);
@@ -16,6 +17,11 @@ const About = () => {
   useGSAP(() => {
     // const textLine = SplitText.create(".hero-h1");
     // const { words } = textLine.split({ type: "words" });
+    ScrollTrigger.create({
+      trigger: ".about-text",
+      start: "top top",
+      end: () => (window.innerHeight * 2) + "px"
+    })
 
     heroTlRef.current = gsap.timeline({
       defaults: { ease: "power4.out" },

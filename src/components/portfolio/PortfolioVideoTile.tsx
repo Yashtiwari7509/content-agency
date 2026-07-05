@@ -69,7 +69,7 @@ const PortfolioVideoTile = ({ video, playbackId, label, wasDragged }: PortfolioV
               src={video.src}
               muted
               playsInline
-              preload="metadata"
+              preload="none"
               className="h-full w-full object-cover"
               aria-hidden
             />

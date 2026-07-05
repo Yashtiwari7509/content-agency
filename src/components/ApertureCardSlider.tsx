@@ -316,6 +316,8 @@ export default function ApertureCardSlider({
                     loop
                     muted
                     autoPlay
+                    playsInline
+                    preload="none"
                     draggable={false}
                     className="pointer-events-none block h-full w-full select-none object-cover"
                   />

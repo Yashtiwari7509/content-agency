@@ -20,7 +20,7 @@ const PortfolioMediaCard = ({ gifUrl, photos, clientName }: PortfolioMediaCardPr
         {showGallery ? (
           <PhotoSlider photos={photos} altPrefix={clientName} />
         ) : (
-          <video src={gifUrl} autoPlay muted loop className="w-full object-cover aspect-video! rounded-2xl" />
+          <video src={gifUrl} autoPlay muted loop playsInline preload="none" className="w-full object-cover aspect-video! rounded-2xl" />
         )}
 
         <button

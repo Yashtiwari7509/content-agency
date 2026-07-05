@@ -102,7 +102,7 @@ const Home = () => {
 
   useGSAP(() => {
     tl1Ref.current = gsap.timeline({}).from(".img-side", {
-      delay: 1,
+      delay: 0.3,
       y: 600,
       duration: 2,
       ease: "expo.out",
@@ -137,7 +137,7 @@ const Home = () => {
   });
 
   return (
-    <Preloader minDuration={4000} onReady={() => tl2Ref.current?.paused(false)}>
+    <Preloader minDuration={2000} onReady={() => tl2Ref.current?.paused(false)}>
       {({ ready }) => (
         <>
           <TeamLineup />
@@ -148,7 +148,7 @@ const Home = () => {
               pointerEvents: ready ? "auto" : "none",
             }}
           >
-            <PhoneVideo />
+            {/* <PhoneVideo /> */}
             <Hero />
             <ApertureCardSlider />
             <GridScore />
