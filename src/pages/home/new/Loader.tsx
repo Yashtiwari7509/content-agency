@@ -31,17 +31,20 @@ const members = [
 
 const TeamLineup = () => {
   return (
-    <section style={{ willChange: "transform,auto" }} className="top-0 h-screen w-screen inset-0 z-2000 fixed bg-white loader-screen">
+    <section style={{ willChange: "transform,auto" }} className="top-0 h-screen w-screen inset-0 z-2000 fixed bg-white loader-screen overflow-hidden">
       {/* Team images */}
-      <div className="relative w-full h-full mx-auto loader-images overflow-hidden">
-        {members.map((member, index) => (
-          <img
-            key={index}
-            src={member.src}
-            alt={member.alt}
-            className={cn(`absolute object-contain w-auto object-center img-side`, member.className)}
-          />
-        ))}
+      <div className="relative lg:max-w-[90rem] max-w-xl bg-green-300 h-full mx-auto loader-images">
+        <div className="w-full h-full absolute">
+
+          {members.map((member, index) => (
+            <img
+              key={index}
+              src={member.src}
+              alt={member.alt}
+              className={cn(`absolute object-contain w-auto object-center img-side`, member.className)}
+            />
+          ))}
+        </div>
       </div>
 
       {/* Bottom Blur */}

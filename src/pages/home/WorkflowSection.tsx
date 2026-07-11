@@ -303,12 +303,12 @@ export default function WorkflowSection() {
             title="From raw to"
             gradientWord="ready-to-upload"
             description="Five clean steps from raw footage to a polished, upload-ready video — every time."
-            align="left"
+            align="center"
           />
         </div>
 
         {/* ── Step Pill Nav ── */}
-        <div ref={pillsRowRef} className="wf-pills-row flex flex-wrap gap-2 mb-10">
+        <div ref={pillsRowRef} className="wf-pills-row flex flex-wrap justify-center gap-2 mb-10">
           {STEPS.map((s, i) => {
             const isActive = i === active;
             return (

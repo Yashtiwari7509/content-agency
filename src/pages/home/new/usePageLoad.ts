@@ -32,7 +32,7 @@ interface UsePageLoadResult {
 
 export function usePageLoad({
   minDuration = 1000,
-  maxWait = 5000,
+  maxWait = 3000,
 }: UsePageLoadOptions = {}): UsePageLoadResult {
   const [progress, setProgress] = useState(0);
   const [ready, setReady] = useState(false);

@@ -18,10 +18,13 @@ const About = () => {
     // const textLine = SplitText.create(".hero-h1");
     // const { words } = textLine.split({ type: "words" });
     ScrollTrigger.create({
-      trigger: ".about-text",
+      trigger: ".pin-about",
+      pin: true,
       start: "top top",
-      end: () => (window.innerHeight * 2) + "px"
-    })
+      end: () => `+=600`,
+      markers: true,
+      pinSpacing: false,
+    });
 
     heroTlRef.current = gsap.timeline({
       defaults: { ease: "power4.out" },
@@ -33,16 +36,15 @@ const About = () => {
       ease: "power4.out",
       duration: 3,
       stagger: 0.2,
-    })
-      .from(
-        ".center",
-        {
-          opacity: 0,
-          scale: 0,
-          duration: 3,
-        },
-        "-=3",
-      );
+    }).from(
+      ".center",
+      {
+        opacity: 0,
+        scale: 0,
+        duration: 3,
+      },
+      "-=3",
+    );
   }, []);
 
   useGSAP(() => {
@@ -77,8 +79,8 @@ const About = () => {
           <img src={cloud} width={300} height={200} alt="" />
         </div>
       </section>
-      <div className="w-screen h-screen sticky top-0 ">
-        <div className="w-full h-full relative  ">
+      <div className="w-screen h-screen top-0 pin-about">
+        <div className="w-full h-full relative">
           <div
             id="about-text"
             className="px-20 py-10 md:py-15 t-center border-white overflow-hidden  border rounded-full relative flex justify-center items-center"
@@ -160,7 +162,12 @@ const SvgText = ({
             />
           </mask>
           <g mask={`url(#mask${id})`}>
-            <path id={`${id}`} d="M0.0847168 506.09C152.918 491.59 514.385 370.09 737.585 0.0898361" stroke={`url(#grad${id})`} strokeWidth="49" />
+            <path
+              id={`${id}`}
+              d="M0.0847168 506.09C152.918 491.59 514.385 370.09 737.585 0.0898361"
+              stroke={`url(#grad${id})`}
+              strokeWidth="49"
+            />
           </g>
         </svg>
       </div>

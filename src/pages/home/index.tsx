@@ -102,7 +102,7 @@ const Home = () => {
 
   useGSAP(() => {
     tl1Ref.current = gsap.timeline({}).from(".img-side", {
-      delay: 0.3,
+      delay: 0.2,
       y: 600,
       duration: 2,
       ease: "expo.out",
@@ -112,7 +112,6 @@ const Home = () => {
     tl2Ref.current = gsap
       .timeline({ paused: true })
       .to(".loader-screen", {
-        delay: 0.5,
         y: "-100vh",
         duration: 1.2,
         ease: "expo.inOut",
@@ -120,24 +119,14 @@ const Home = () => {
           gsap.set(".loader-screen", { display: "none" });
         },
       })
-      .fromTo(
-        "#hero-section",
-        {
-          clipPath: "circle(0% at 50% 50%)",
-        },
-        {
-          clipPath: "circle(100% at 50% 50%)",
-          duration: 1.5,
-          ease: "expo.out",
-        },
-      )
       .call(unlockScroll)
-      .from(".clouds", { y: 80, opacity: 0, duration: 1.1, stagger: 0.18, ease: "power3.out" }, "-=2")
-      .from(".center", { opacity: 0, scale: 0, duration: 0.9, ease: "back.out(1.4)" }, "-=0.7");
+      .from(".clouds", { y: 200, duration: 1.6, ease: "power4.out" }, "-=.6")
+      .from(".text-container", { y: 250, duration: 1, ease: "power4.out" }, "<");
+      
   });
 
   return (
-    <Preloader minDuration={2000} onReady={() => tl2Ref.current?.paused(false)}>
+    <Preloader minDuration={1000} onReady={() => tl2Ref.current?.paused(false)}>
       {({ ready }) => (
         <>
           <TeamLineup />
