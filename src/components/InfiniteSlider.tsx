@@ -213,8 +213,9 @@ const InfiniteSlider = ({
                   <figure
                     key={review.username}
                     style={{ transform: `translateX(${i * 350}px)`, willChange: "auto" }}
-                    className="absolute h-[120px]  w-[350px] px-4 radial-blur-v"
-                  >
+                    className="absolute h-[120px]  w-[350px] px-4 "
+                  > 
+                  <div className="absolute -z-10 w-full h-full radial-blur-v blur"></div>
                     <div
                       ref={(r) => {
                         if (r) insideRef.current[i] = r;

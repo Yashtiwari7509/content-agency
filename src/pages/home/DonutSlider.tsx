@@ -9,7 +9,7 @@ const SEGMENTS = [
   {
     title: "Long-form Editing",
     subtitle: "YouTube, documentaries, podcasts",
-    color: "#7C3AE2", // Purple
+    color: "black", // Purple
     icon: LaptopMinimalIcon,
   },
   {
@@ -97,7 +97,7 @@ export default function DonutSlider() {
       scrollTrigger: {
         trigger: sectionRef.current,
         pin: ".pin-donut",
-        start: "top top",
+        start: "-10px top",
         end: () => `${window.innerHeight * 2.3}px`,
         scrub: 1,
         anticipatePin: 1,
@@ -283,7 +283,7 @@ export default function DonutSlider() {
                 {SEGMENTS.map((segment, index) => (
                   <div
                     key={segment.title}
-                    className={`h-2 rounded-full transition-all border duration-500 ${index === activeIndex ? "w-16" : "w-6"}`}
+                    className={`h-1 rounded-full transition-all border duration-500 ${index === activeIndex ? "w-16" : "w-6"}`}
                     style={{
                       background: index === activeIndex ? segment.color : "white",
                     }}

@@ -122,7 +122,6 @@ const Home = () => {
       .call(unlockScroll)
       .from(".clouds", { y: 200, duration: 1.6, ease: "power4.out" }, "-=.6")
       .from(".text-container", { y: 250, duration: 1, ease: "power4.out" }, "<");
-      
   });
 
   return (

@@ -2,6 +2,7 @@ import { useCallback, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { cn } from "@/lib/utils";
+import { brush } from "@/assets/Image";
 
 type SlotName = "far-left" | "left" | "center" | "right" | "far-right";
 
@@ -70,8 +71,19 @@ const SLOTS: Record<SlotName, SlotProps> = {
 
 const STEP = 2.2;
 
-function getSlot(index: number, current: number): SlotName {
-  const off = index - current;
+// Circular offset: instead of a raw `index - current` (which breaks once the
+// cycle wraps, e.g. jumping from -3 straight into a "far" slot), we normalize
+// the difference into the shortest signed distance around the ring. That
+// makes the slot assignment identical every single lap, so there's no
+// "reset" moment — it just keeps sliding.
+function getSlot(index: number, current: number, count: number): SlotName {
+  let off = index - current;
+
+  // wrap into [0, count)
+  off = ((off % count) + count) % count;
+  // shift into (-count/2, count/2] so it reads as a signed distance
+  if (off > count / 2) off -= count;
+
   if (off === -1) return "left";
   if (off === 0) return "center";
   if (off === 1) return "right";
@@ -99,7 +111,7 @@ interface ApertureCardSliderProps {
 export default function ApertureCardSlider({
   cards = DEFAULT_CARDS,
   words = DEFAULT_WORDS,
-  prefix = "We'll Edit Your's\u00A0",
+  prefix = "We specialise in\u00A0",
   className,
 }: ApertureCardSliderProps) {
   const count = cards.length;
@@ -130,6 +142,7 @@ export default function ApertureCardSlider({
       opacity: slot.op,
       filter: `blur(${slot.bl}px)`,
       zIndex: slot.z,
+      visibility: slotName === "far-left" || slotName === "far-right" ? "hidden" : "visible",
     };
 
     if (animate) {
@@ -151,12 +164,12 @@ export default function ApertureCardSlider({
       cardRefs.current.forEach((card, i) => {
         if (!card) return;
 
-        applySlot(card, getSlot(i, currentRef.current), animate);
+        applySlot(card, getSlot(i, currentRef.current, count), animate);
       });
 
       setCurrentIndex(currentRef.current);
     },
-    [applySlot],
+    [applySlot, count],
   );
 
   const buildTimeline = useCallback(() => {
@@ -181,11 +194,12 @@ export default function ApertureCardSlider({
     }
   }, [count, renderSlider]);
 
+  // idx no longer needs to stay inside [0, count) — any integer (including
+  // negative, or ones way past `count`) wraps correctly, so swiping/clicking
+  // past either end keeps looping instead of getting blocked.
   const goTo = useCallback(
     (idx: number) => {
-      if (idx < 0 || idx >= count) return;
-
-      currentRef.current = idx;
+      currentRef.current = ((idx % count) + count) % count;
 
       renderSlider(true);
     },
@@ -203,12 +217,14 @@ export default function ApertureCardSlider({
         {
           y: 40,
           opacity: 0,
+          filter: "blur(10px)",
         },
         {
           y: 0,
           opacity: 1,
           duration: 0.45,
           ease: "power3.out",
+          filter: "blur(0px)",
         },
       );
 
@@ -219,10 +235,10 @@ export default function ApertureCardSlider({
 
   const handleCardClick = useCallback(
     (index: number) => {
-      const slot = getSlot(index, currentRef.current);
+      const slot = getSlot(index, currentRef.current, count);
       if (slot === "left" || slot === "right") goTo(index);
     },
-    [goTo],
+    [count, goTo],
   );
 
   const pauseOnHover = useCallback(() => {
@@ -280,9 +296,26 @@ export default function ApertureCardSlider({
   );
 
   return (
-    <section ref={containerRef} className={cn("min-h-[640px] overflow-hidden py-8 mt-20", className)}>
-      <div className="flex flex-col items-center gap-10">
-        <div ref={stageRef} className="relative flex h-[440px] w-full items-center justify-center perspective-distant lg:scale-125">
+    <section ref={containerRef} className={cn("lg:min-h-[800px] overflow-hidden py-8 mt-20", className)}>
+      <div className="flex flex-col items-center gap-10 lg:gap-40">
+        <div
+          ref={textBlockRef}
+          className="flex select-none items-center justify-center whitespace-nowrap text-2xl lg:text-4xl font-medium text-foreground mt-10"
+        >
+          <h1>{prefix}</h1>
+          <div className="relative h-8 w-20 lg:w-40">
+            <img src={brush} className="absolute shrink-0 -top-10 -left-10 -z-10" alt="" />
+            <span
+              key={currentIndex}
+              ref={activeWordRef}
+              style={{ fontWeight: 800 }}
+              className="absolute inset-0 text-black flex items-center"
+            >
+              {words[currentIndex]}
+            </span>
+          </div>
+        </div>
+        <div ref={stageRef} className="relative flex h-[440px] w-full items-center justify-center perspective-distant lg:scale-150">
           <div className="relative h-[390px] w-[220px] transform-3d">
             {cards.map((card, i) => {
               const isLandscape = card.ratio === "16/9";
@@ -330,19 +363,7 @@ export default function ApertureCardSlider({
             })}
           </div>
         </div>
-        <div ref={textBlockRef} className="flex select-none items-center justify-center whitespace-nowrap text-[1.4rem] font-medium text-foreground mt-10">
-          <h1>{prefix}</h1>
-          <div className="relative h-8 w-20 lg:w-30 overflow-hidden">
-            <span
-              key={currentIndex}
-              ref={activeWordRef}
-              style={{ fontWeight: 800 }}
-              className="absolute inset-0 text-sky-700 flex items-center"
-            >
-              {words[currentIndex]}
-            </span>
-          </div>
-        </div>
+
         {/* <div className="flex items-center justify-center  gap-3">
           <div className="flex gap-2">
             {cards.map((_, i) => (

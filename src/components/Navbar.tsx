@@ -121,16 +121,16 @@ export function NavbarTop() {
             {/* Contact Dropdown */}
             {currentPath === "/" && (
               <div
-                className="relative"
+                className="relative cursor-pointer"
                 onMouseEnter={() => {
                   setHovered("Explore");
                   setIsDropdownOpen(true);
                 }}
               >
-                <button data-cursor="link" className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300 flex items-center gap-1">
+                <button data-cursor="link" className="relative px-4 py-2 text-neutral-600 flex items-center gap-1">
                   {hovered === "Explore" && (
                     <div
-                      className="absolute inset-0 h-full w-full rounded-full bg-white dark:bg-neutral-800"
+                      className="absolute inset-0 h-full w-full rounded-full bg-white"
                       style={{ transition: "all 0.2s" }}
                     />
                   )}
@@ -162,7 +162,7 @@ export function NavbarTop() {
             {navItems.map((item, idx) => (
               <NavLink
                 onMouseEnter={() => setHovered(idx)}
-                className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300"
+                className="relative px-4 py-2 text-neutral-600"
                 key={`link-${idx}`}
                 to={item.link}
                 viewTransition
@@ -170,7 +170,7 @@ export function NavbarTop() {
               >
                 {hovered === idx && (
                   <div
-                    className="absolute inset-0 h-full w-full rounded-full bg-white dark:bg-neutral-800"
+                    className="absolute inset-0 h-full w-full rounded-full bg-white"
                     style={{ transition: "all 0.2s" }}
                   />
                 )}
@@ -220,7 +220,7 @@ export function NavbarTop() {
                 viewTransition
                 onClick={() => setIsMobileMenuOpen(false)}
                 data-cursor="link"
-                className="relative w-full text-2xl text-center top-0 text-neutral-600 dark:text-neutral-300"
+                className="relative w-full text-2xl text-center top-0 text-neutral-600"
               >
                 <span className="block whitespace-nowrap">{item.name}</span>
               </NavLink>
@@ -237,7 +237,7 @@ export function NavbarTop() {
                       setIsMobileMenuOpen(false);
                     }}
                     data-cursor="link"
-                    className="w-full text-xl text-center whitespace-nowrap text-neutral-600 dark:text-neutral-300 py-2 block"
+                    className="w-full text-xl text-center whitespace-nowrap text-neutral-600 py-2 block"
                   >
                     {section.name}
                   </span>

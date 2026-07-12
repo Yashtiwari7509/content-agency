@@ -28,7 +28,7 @@ const SectionHeader = ({
     align === "center" ? "mx-auto" : align === "right" ? "ml-auto" : "";
 
   return (
-    <div className={`w-full mb-10 ${textAlign} ${className}`}>
+    <div className={`w-full mb-10 select-none ${textAlign} ${className}`}>
       {/* Pill label */}
       {label && <SectionLabel text={label} align={align} />}
 

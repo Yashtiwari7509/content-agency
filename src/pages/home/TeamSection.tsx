@@ -1,35 +1,35 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Andrew, Chris, Nick, Rahul, Thomas } from "@/assets/ClientImage";
 import { cn } from "@/lib/utils";
 import SectionHeader from "@/components/SectionHeader";
+import { Andrew1, Chris1, Nick1, Rahul1, Thomas1 } from "@/assets/ClientImage";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const members = [
   {
-    src: Andrew,
+    src: Andrew1,
     alt: "Andrew",
     className: "left-[2%] bottom-2 h-[580px] hidden lg:block z-10 w-110 translate-y-10 scale-x-[-1]",
   },
   {
-    src: Thomas,
+    src: Thomas1,
     alt: "Thomas",
     className: "lg:left-[20%] -left-20 bottom-0 w-72 lg:h-[580px] lg:w-120 z-20 translate-y-2",
   },
   {
-    src: Rahul,
+    src: Rahul1,
     alt: "Rahul",
     className: "left-1/2 -translate-x-1/2 bottom-0 w-80 lg:w-120 lg:h-[620px] z-30",
   },
   {
-    src: Nick,
+    src: Nick1,
     alt: "Nick",
     className: "lg:right-[20%] -right-20 bottom-0  lg:h-[570px] z-20 w-70 lg:w-120 translate-y-2 scale-x-[-1]",
   },
   {
-    src: Chris,
+    src: Chris1,
     alt: "Chris",
     className: "right-[10%] bottom-0 h-[580px] hidden lg:block z-10 w-120 translate-y-12 scale-x-[-1]",
   },
@@ -57,7 +57,7 @@ export default function TeamSection() {
       />
 
       {/* Stacked images stage */}
-      <div className="relative w-full -translate-y-40 lg:translate-y-20" style={{ height: "clamp(420px, 72vh, 700px)" }}>
+      <div className="relative lg:max-w-360 -translate-y-40 lg:translate-y-20 mx-auto" style={{ height: "clamp(420px, 72vh, 700px)" }}>
         {members.map((member, index) => (
           <img
             key={index}

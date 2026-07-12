@@ -33,7 +33,7 @@ const TeamLineup = () => {
   return (
     <section style={{ willChange: "transform,auto" }} className="top-0 h-screen w-screen inset-0 z-2000 fixed bg-white loader-screen overflow-hidden">
       {/* Team images */}
-      <div className="relative lg:max-w-[90rem] max-w-xl bg-green-300 h-full mx-auto loader-images">
+      <div className="relative lg:max-w-360 max-w-xl h-full mx-auto loader-images">
         <div className="w-full h-full absolute">
 
           {members.map((member, index) => (
@@ -49,8 +49,6 @@ const TeamLineup = () => {
 
       {/* Bottom Blur */}
       <div className="absolute bottom-0 left-0 z-60 w-screen h-[20vh] prBlur" />
-      {/* Top Fade */}
-      {/* <div className="absolute bottom-0 left-0 z-60 w-screen h-[40vh] rotate-180 translate-y-[39vh] prBlur" /> */}
     </section>
   );
 };

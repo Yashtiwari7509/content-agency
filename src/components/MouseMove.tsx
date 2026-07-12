@@ -50,9 +50,9 @@ const MouseMove = () => {
       ref={cursorRef}
       className={`fixed left-0 top-0 z-990 text-black pointer-events-none flex items-center justify-center rounded-full
     transition-all duration-300 ease-[cubic-bezier(.19,1,.22,1)]
-    ${variant === "default" && "w-4 h-4 bg-white"}
-    ${variant === "link" && "w-15 h-15 bg-white"}
-    ${variant === "drag" && "w-20 h-20 border-dashed border backdrop border-white/40 "}
+    ${variant === "default" && "w-4 h-4 border-white border"}
+    ${variant === "link" && "w-15 h-15 border-white border"}
+    ${variant === "drag" && "w-20 h-20 border backdrop border-white/40 "}
     ${variant === "product" && "w-28 h-28 border border-white "}
   `}
       style={{
