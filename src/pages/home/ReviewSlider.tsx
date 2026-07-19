@@ -1,4 +1,4 @@
-import { Andrew, Nick, Thomas } from "@/assets/ClientImage";
+import { A_dp, Andrew1, N_dp, Nick1, T_dp, Thomas1 } from "@/assets/ClientImage";
 import { useEffect, useState } from "react";
 
 export type ReviewItem = {
@@ -13,27 +13,30 @@ export type ReviewItem = {
 export const reviews: ReviewItem[] = [
   {
     id: 1,
-    image: Andrew,
-    review: "They took our YouTube channel from 2K to 40K subs in 6 months. Every video feels on-brand and the edits are cinematic.",
-    name: "Andrew",
+    image: Andrew1,
+    review:
+      "The podcast intros Xpro creates are excellent at hooking viewers right from the start and encouraging them to watch the full episode. One that particularly stood out was the intro for the episode featuring Max as a guest — it captured the moment perfectly and set the tone for the whole conversation.",
+    name: "Andrew Koutnik",
     designation: "YouTube Creator",
-    avatar: Andrew,
+    avatar: A_dp,
   },
   {
     id: 2,
-    image: Nick,
-    review: "Our brand reel hit 700K views in the first week. The team understood our vision & delivered beyond expectations.",
-    name: "Nick",
+    image: Nick1,
+    review:
+      "These guys came on board early in my YouTube journey, back when I had around 55K subscribers, and they've played a big role in helping me break down complex, nerdy concepts into something my audience can easily follow and stay engaged with. Their work is efficient, reliable, and always delivered on time.",
+    name: "Nick Norwitz",
     designation: "YouTube Creator",
-    avatar: Nick,
+    avatar: N_dp,
   },
   {
     id: 3,
-    image: Thomas,
-    review: "The social content they produce drives real engagement. Our Instagram grew 3× and the quality is consistently top-tier.",
-    name: "Thomas",
+    image: Thomas1,
+    review:
+      "The animations you guys created helped me explain complex concepts in a way that truly resonated with my audience. Their attention to detail and creativity is evident, and it's no surprise our community consistently praises their work in the comments.",
+    name: "Thomas Delauer",
     designation: "YouTube Creator",
-    avatar: Thomas,
+    avatar: T_dp,
   },
 ];
 

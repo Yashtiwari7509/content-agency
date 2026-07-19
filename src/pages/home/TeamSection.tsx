@@ -57,7 +57,7 @@ export default function TeamSection() {
       />
 
       {/* Stacked images stage */}
-      <div className="relative lg:max-w-360 -translate-y-40 lg:translate-y-20 mx-auto" style={{ height: "clamp(420px, 72vh, 700px)" }}>
+      <div className="relative lg:max-w-360 max-w-100 -translate-y-40 lg:translate-y-20 mx-auto" style={{ height: "clamp(420px, 72vh, 700px)" }}>
         {members.map((member, index) => (
           <img
             key={index}

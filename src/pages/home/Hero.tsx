@@ -5,13 +5,13 @@ import gsap from "gsap";
 import { useRef } from "react";
 import { SplitText } from "gsap/SplitText";
 import TypingLoop from "@/components/TypingEffect";
-import { Andrew, Nick, Thomas } from "@/assets/ClientImage";
 import { cloud, fb, reel, short } from "@/assets/Image";
+import { A_dp, N_dp, T_dp } from "@/assets/ClientImage";
 
 const Icons = [{ src: fb }, { src: fb }, { src: short }, { src: short }, { src: reel }, { src: reel }, { src: short }, { src: short }];
 export const CardStatsData: CardStatsItem[] = [
   {
-    top: [Thomas, short],
+    top: [T_dp, short],
     bottom: [
       {
         label: "DeLauer",
@@ -27,7 +27,7 @@ export const CardStatsData: CardStatsItem[] = [
     alignmentCss: window.innerWidth < 600 ? "40% 20%" : "30% 15%",
   },
   {
-    top: [Nick, short],
+    top: [N_dp, short],
     bottom: [
       {
         label: "Norwitz",
@@ -43,7 +43,7 @@ export const CardStatsData: CardStatsItem[] = [
     alignmentCss: window.innerWidth < 600 ? "40% 80%" : "30% 85%",
   },
   {
-    top: [Andrew, reel],
+    top: [A_dp, reel],
     bottom: [
       {
         label: "Koutnik",

@@ -4,8 +4,10 @@ import gsap from "gsap";
 /**
  * Shared GSAP drag-slider logic.
  * - Reads live x from GSAP at pointer-down (no stale state)
- * - Attaches pointerup on window so it's never missed
- * - Sets grab cursor during drag
+ * - ALL pointer tracking (move + up) is on window so drag works
+ *   even if the cursor leaves the element — no setPointerCapture needed
+ * - Bails on pointer-down from interactive children (buttons, links)
+ *   so play-icon clicks are never swallowed by the drag logic
  * - Rubber-bands at boundaries
  * - Exposes wasDragged so children can suppress click-after-drag
  */
@@ -47,37 +49,43 @@ export function useGsapSlider(total: number) {
     return () => window.removeEventListener("resize", onResize);
   }, [getOffset]);
 
-  /* ── Pointer handlers ── */
+  /* ── Pointer down: starts drag state ── */
   const onPointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    // Safety net: don't intercept taps on any interactive children
+    if ((e.target as HTMLElement).closest("button, a, [role='button']")) return;
+
     const track = trackRef.current;
     if (!track) return;
-    // Read live x from GSAP — never stale
+
+    // Read live x from GSAP — never stale even mid-tween
     const liveX = gsap.getProperty(track, "x") as number;
     ds.current = { startX: e.clientX, startOffset: liveX, active: true, moved: false, idx: ds.current.idx };
-    track.setPointerCapture(e.pointerId);
+    track.setPointerCapture(e.pointerId); // capture so drag tracks anywhere on screen
     track.style.cursor = "grabbing";
     track.style.userSelect = "none";
-    gsap.killTweensOf(track); // stop any in-flight tween on drag start
+    gsap.killTweensOf(track);
   }, []);
 
-  const onPointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
-    if (!ds.current.active) return;
-    const dx = e.clientX - ds.current.startX;
-    if (Math.abs(dx) > 5) ds.current.moved = true;
-    const track = trackRef.current;
-    if (!track) return;
-    const slideW = track.offsetWidth;
-    const maxScroll = (total - 1) * slideW;
-    const raw = ds.current.startOffset + dx;
-    // Rubber-band past edges
-    const rubber = (v: number, limit: number) => limit + (v - limit) * 0.25;
-    const bounded =
-      raw > 0 ? rubber(raw, 0) : raw < -maxScroll ? rubber(raw, -maxScroll) : raw;
-    gsap.set(track, { x: bounded });
-  }, [total]);
-
-  // Attach pointerup on window so it fires even if cursor leaves the element
+  /* ── Window-level move + up so tracking never drops ── */
   useEffect(() => {
+    const onMove = (e: PointerEvent) => {
+      if (!ds.current.active) return;
+      const track = trackRef.current;
+      if (!track) return;
+
+      const dx = e.clientX - ds.current.startX;
+      if (Math.abs(dx) > 5) ds.current.moved = true;
+
+      const slideW = track.offsetWidth;
+      const maxScroll = (total - 1) * slideW;
+      const raw = ds.current.startOffset + dx;
+      // Rubber-band past edges
+      const rubber = (v: number, limit: number) => limit + (v - limit) * 0.25;
+      const bounded =
+        raw > 0 ? rubber(raw, 0) : raw < -maxScroll ? rubber(raw, -maxScroll) : raw;
+      gsap.set(track, { x: bounded });
+    };
+
     const onUp = (e: PointerEvent) => {
       if (!ds.current.active) return;
       ds.current.active = false;
@@ -86,6 +94,7 @@ export function useGsapSlider(total: number) {
         track.style.cursor = "";
         track.style.userSelect = "";
       }
+
       const dx = e.clientX - ds.current.startX;
       const didMove = ds.current.moved;
 
@@ -106,7 +115,7 @@ export function useGsapSlider(total: number) {
           ease: "power3.out",
         });
       } else {
-        // snap back
+        // Snap back to current slide
         gsap.to(track, {
           x: -(ds.current.idx * (track?.offsetWidth ?? 0)),
           duration: 0.35,
@@ -114,9 +123,15 @@ export function useGsapSlider(total: number) {
         });
       }
     };
+
+    window.addEventListener("pointermove", onMove);
     window.addEventListener("pointerup", onUp);
-    return () => window.removeEventListener("pointerup", onUp);
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+    };
   }, [total]);
 
-  return { trackRef, current, goTo, onPointerDown, onPointerMove, wasDragged };
+  // onPointerMove prop is no longer needed — tracking is on window
+  return { trackRef, current, goTo, onPointerDown, wasDragged };
 }

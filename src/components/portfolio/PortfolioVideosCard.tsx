@@ -11,7 +11,7 @@ interface PortfolioVideosCardProps {
 
 const PortfolioVideosCard = ({ videos, clientName, clientId }: PortfolioVideosCardProps) => {
   const total = videos.length;
-  const { trackRef, current, goTo, onPointerDown, onPointerMove, wasDragged } = useGsapSlider(total);
+  const { trackRef, current, goTo, onPointerDown, wasDragged } = useGsapSlider(total);
 
   return (
     <div className="flex flex-col overflow-hidden select-none">
@@ -23,7 +23,6 @@ const PortfolioVideosCard = ({ videos, clientName, clientId }: PortfolioVideosCa
           className="flex will-change-transform cursor-grab"
           style={{ touchAction: "pan-y" }}
           onPointerDown={onPointerDown}
-          onPointerMove={onPointerMove}
         >
           {videos.map((video, index) => (
             <div key={`${clientId}-${video.src}-${index}`} className="w-full shrink-0 px-0.5">

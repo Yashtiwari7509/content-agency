@@ -60,8 +60,7 @@ const services = [
 
 export default function ServicesSlider() {
   return (
-    <section className="relative w-full py-0 lg:py-20 overflow-hidden  max-w-7xl mx-auto">
-      <div className="pointer-events-none absolute top-1/3 right-1/2 w-[200px] h-[200px] rounded-full opacity-25 blur-3xl bg-background" />{" "}
+    <section className="relative w-full py-0  max-w-7xl mx-auto">
       {/* Section header */}
       <div className="max-w-7xl mx-auto px-6">
         <SectionHeader
@@ -72,7 +71,7 @@ export default function ServicesSlider() {
         />
       </div>
       {/* Row 1 — left */}
-      <div className="mb-6 h-60 Service-slider-mask">
+      <div className="mb-6 h-70 Service-slider-mask">
         <InfiniteSlider direction="left" boxWidth={CARD_SLOT_WIDTH} boxHeight={CARD_HEIGHT}>
           {services.map((s, i) => (
             <div key={s.title} className="px-3">

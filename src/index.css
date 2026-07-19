@@ -64,7 +64,8 @@ span {
   animation-play-state: paused;
 }
 
-* {
+h1,
+h2 {
   font-family: "Poppins", sans-serif;
   font-weight: 500;
 }
@@ -782,4 +783,3 @@ img {
 .reveal-text {
   visibility: hidden;
 }
-

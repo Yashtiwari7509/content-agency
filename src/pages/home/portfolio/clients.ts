@@ -1,4 +1,4 @@
-import { Andrew, Nick, Thomas } from "@/assets/ClientImage";
+import { Andrew1, Nick1, Thomas1 } from "@/assets/ClientImage";
 import type { PortfolioClient } from "@/components/portfolio/types";
 
 
@@ -9,7 +9,7 @@ export const portfolioClients: PortfolioClient[] = [
     name: "Thomas DeLauer",
     handle: "@ThomasDeLauer",
     role: "4M+ subscribers",
-    avatar: Thomas,
+    avatar: Thomas1,
     gifUrl: "https://res.cloudinary.com/decqmmcxq/video/upload/v1781449073/2_Inrange_pod_intro_kp3oj3.mp4",
     photos: ["https://res.cloudinary.com/decqmmcxq/image/upload/v1781200920/main-sample.png", "/image.png", "/b.png", "/hands.png"],
     videos: [
@@ -26,7 +26,7 @@ export const portfolioClients: PortfolioClient[] = [
     name: "Nick Norwitz",
     handle: "@NickNorwitz",
     role: "1M+ subscribers",
-    avatar: Nick,
+    avatar: Nick1,
     gifUrl: "/video.mp4",
     photos: ["/utuber2.jpg", "/youtube.png", "/lh.png", "/rh.png"],
     videos: [
@@ -39,7 +39,7 @@ export const portfolioClients: PortfolioClient[] = [
     name: "Andrew Koutnik",
     handle: "@AndrewKoutnik",
     role: "80k+ followers",
-    avatar: Andrew,
+    avatar: Andrew1,
     gifUrl: "/video2.mp4",
     photos: ["/insta-andrew.jpg", "/abs.jpg", "/profile.webp", "/social.png"],
     videos: [

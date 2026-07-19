@@ -204,7 +204,7 @@ const InfiniteSlider = ({
                   <div
                     key={i}
                     style={{ transform: `translateX(${i * boxWidth}px)`, willChange: "auto", width: `${boxWidth}px` }}
-                    className="absolute flex items-center justify-center"
+                    className="absolute flex items-center justify-center "
                   >
                     {child}
                   </div>
@@ -214,13 +214,13 @@ const InfiniteSlider = ({
                     key={review.username}
                     style={{ transform: `translateX(${i * 350}px)`, willChange: "auto" }}
                     className="absolute h-[120px]  w-[350px] px-4 "
-                  > 
-                  <div className="absolute -z-10 w-full h-full radial-blur-v blur"></div>
+                  >
+                    <div className="absolute -z-10 w-full h-full radial-blur-b"></div>
                     <div
                       ref={(r) => {
                         if (r) insideRef.current[i] = r;
                       }}
-                      className="cursor-pointer border inside-card overflow-hidden rounded-xl bg-white  p-4"
+                      className="cursor-pointer inside-card overflow-hidden rounded-xl bg-white  p-4"
                     >
                       <div className="flex flex-row items-center gap-2">
                         <img className="rounded-full" width="32" height="32" alt={review.name} src={review.img} />

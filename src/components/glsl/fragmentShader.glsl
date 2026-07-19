@@ -11,7 +11,7 @@ varying vec2 vUv;
 ----------------------------- */
 
 float random(vec2 st) {
-  return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
+  return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
 }
 
 float noise(vec2 st) {
@@ -31,12 +31,11 @@ float noise(vec2 st) {
 }
 
 float fbm(vec2 st) {
-  float value = 0.;
-  float amplitude = .5;
+  float value     = 0.0;
+  float amplitude = 0.5;
   float frequency = 1.0;
-
-  for (int i = 0; i < 5; i++) {
-    value += amplitude * noise(st * frequency);
+  for (int i = 0; i < 6; i++) {
+    value     += amplitude * noise(st * frequency);
     frequency *= 2.0;
     amplitude *= 0.5;
   }
@@ -44,101 +43,126 @@ float fbm(vec2 st) {
 }
 
 /* -----------------------------
+   Domain-warped FBM for fluid
+   ink-in-water distortion
+----------------------------- */
+
+float warpedFbm(vec2 st) {
+  vec2 q = vec2(
+    fbm(st + vec2(0.0, 0.0)),
+    fbm(st + vec2(5.2, 1.3))
+  );
+  vec2 r = vec2(
+    fbm(st + 4.0 * q + vec2(1.7, 9.2)),
+    fbm(st + 4.0 * q + vec2(8.3, 2.8))
+  );
+  return fbm(st + 4.0 * r);
+}
+
+/* -----------------------------
    Main
 ----------------------------- */
 
 void main() {
-  vec4 tex1 = texture2D(uTexture, vUv);
+  vec4 tex1 = texture2D(uTexture,  vUv);
   vec4 tex2 = texture2D(uTexture2, vUv);
 
-  /* -----------------------------
-     Vertical paper burn mask
-  ----------------------------- */
+  /* --------------------------------------------------
+     DIAGONAL LIQUID-CHROME WIPE
+     
+     Sweep front travels top-left → bottom-right.
+     Domain-warped FBM creates a fluid ink-in-water
+     look, replacing the centre-burn radial effect.
+  -------------------------------------------------- */
 
-  // Top → bottom wipe
-  float verticalMask = length(vUv - 0.5);
-  // float verticalMask = 1. - vUv.x;
-  // float verticalMask = vUv.x ;
+  // Diagonal base: dot with normalised (1,1) → range [0, 1]
+  float diagonal = dot(vUv, vec2(0.707, 0.707)) * 0.707;
 
-  // Static organic burn noise (no flicker)
-  float burnNoise = fbm(vUv * 250.0);
-  // float burnNoise = noise(vUv * 1.0);
+  // Large-scale fluid warp
+  float warp   = warpedFbm(vUv * 3.5);
+  // Fine surface grain
+  float detail = fbm(vUv * 12.0) * 0.5;
 
-  // Distorted burn edge
-  float burnEdge = verticalMask + (burnNoise - .5);
+  // Combined wipe field
+  float wipeField = diagonal
+                  + (warp   - 0.5) * 0.22
+                  + (detail - 0.5) * 0.06;
 
-  
+  /* --------------------------------------------------
+     Soft transition mask
+  -------------------------------------------------- */
 
-  // Final transition
+  float softness       = 0.10;
   float transitionMask = smoothstep(
-    uProgress - 0.08,
-    uProgress + 0.08,
-    burnEdge
+    uProgress - softness,
+    uProgress + softness,
+    wipeField
   );
 
-  /* -----------------------------
-     Edge detection for glow
-  ----------------------------- */
+  /* --------------------------------------------------
+     Prismatic chromatic-aberration edge
+     
+     RGB channels are sampled with a slight offset
+     along the sweep direction so the edge shimmers
+     with split iridescent colour.
+  -------------------------------------------------- */
 
-//   float edge = smoothstep(0.48, 0.52, transitionMask);
-//   float edgeMask = edge * (1.0 - edge);
+  float edgeDist = abs(wipeField - uProgress);
+  float edgeMask = 1.0 - smoothstep(0.0, softness * 1.4, edgeDist);
 
-    // Distance from burn front
-    float edgeDist = abs(burnEdge - uProgress);
+  // Max aberration offset at the edge (~0.012 UV units)
+  float aberration = edgeMask * 0.012;
+  vec2  shift      = vec2(0.707, 0.707) * aberration;
 
-    // Pixel-aware edge width
-    float edgeWidth = fwidth(burnEdge) ;
+  // Split-sample both textures for a shimmer on both sides
+  float r1 = texture2D(uTexture,  vUv + shift).r;
+  float g1 = texture2D(uTexture,  vUv        ).g;
+  float b1 = texture2D(uTexture,  vUv - shift).b;
 
-    // Proper edge mask
-    float edgeMask = 1.0 - smoothstep(0.0, 1.-edgeWidth, edgeDist * 8.);
+  float r2 = texture2D(uTexture2, vUv + shift).r;
+  float g2 = texture2D(uTexture2, vUv        ).g;
+  float b2 = texture2D(uTexture2, vUv - shift).b;
 
+  vec3 splitTex1 = vec3(r1, g1, b1);
+  vec3 splitTex2 = vec3(r2, g2, b2);
 
-  /* -----------------------------
-     Glow (only mid transition)
-  ----------------------------- */
+  vec3 mixedVideo = mix(splitTex1, splitTex2, transitionMask);
 
-    float glowStrength =
-    smoothstep(0.05, 0.2, uProgress) *
-    (1.0 - smoothstep(0.8, 1.0, uProgress));
+  /* --------------------------------------------------
+     Three-layer iridescent edge glow
+  -------------------------------------------------- */
 
-    float innerGlow = pow(edgeMask, 1.) * 2.0;
-    float midGlow   = pow(edgeMask, 3.0) * .5;
-    float outerGlow = pow(edgeMask, 2.0) * 1.0;
+  float glowStrength =
+    smoothstep(0.04, 0.18, uProgress) *
+    (1.0 - smoothstep(0.82, 1.0, uProgress));
 
-    vec3 glowColor =
-        vec3(0.0, 0.48, 1.0) * innerGlow +
-        vec3(.0, 0.0, 0.08) * midGlow +
-        vec3(1., 0.5, .8) * outerGlow;
+  float inner = pow(edgeMask, 1.2) * 2.4;
+  float mid   = pow(edgeMask, 3.0) * 0.8;
+  float outer = pow(edgeMask, 1.8) * 1.2;
 
-    glowColor *= glowStrength;
+  // Electric cyan → violet → hot rose
+  vec3 glowColor =
+      vec3(0.0,  0.85, 1.0 ) * inner   // cyan core
+    + vec3(0.45, 0.0,  0.9 ) * mid     // violet mid
+    + vec3(1.0,  0.25, 0.55) * outer;  // rose halo
 
+  glowColor *= glowStrength;
 
-  /* -----------------------------
-     Final color
-  ----------------------------- */
+  /* --------------------------------------------------
+     Specular flash — sharp bright pulse at the
+     leading edge of the sweep
+  -------------------------------------------------- */
 
-  // vec3 mixedVideo = mix(vec3(.0),vec3(0.), transitionMask);
-  vec3 mixedVideo = mix(tex1.rgb, tex2.rgb, transitionMask);
+  float flash      = pow(max(0.0, 1.0 - edgeDist * 22.0), 4.0);
+  float flashPulse = glowStrength * flash * 1.6;
+  vec3  flashColor = vec3(1.0) * flashPulse;
 
-  vec3 finalColor = mixedVideo + glowColor ;
+  /* --------------------------------------------------
+     Final composite
+  -------------------------------------------------- */
 
-  float band =
-    smoothstep(uProgress - 0.05, uProgress, burnEdge) -
-    smoothstep(uProgress, uProgress + 0.05, burnEdge);
+  vec3 finalColor = mixedVideo + glowColor + flashColor;
 
-    // float cloud = burnEdge;
-
-
-  gl_FragColor = vec4(finalColor * 1.2, 1.0);
-  // gl_FragColor = vec4(vec3(burnEdge), 1.0);
-  // gl_FragColor = vec4(vec3(verticalMask + burnNoise - .9), 1.0);
-
-// float cloud = fbm(vUv * 50.0);
-
-// cloud = smoothstep(0.3, 0.7, cloud);
-
-// gl_FragColor = vec4(vec3(1.0), cloud);
-
-
-
+  gl_FragColor = vec4(finalColor * 1.1, 1.0);
 }
+

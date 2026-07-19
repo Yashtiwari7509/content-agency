@@ -56,8 +56,8 @@ function StatPanel({ stat, panelRef }: { stat: (typeof STATS)[number]; panelRef:
           className={`text-7xl font-black leading-none tracking-tight md:text-8xl lg:text-9xl bg-linear-to-br ${theme.number} bg-clip-text text-transparent`}
           style={{ WebkitTextStroke: "1.5px rgba(255,255,255,0.85)" }}
         >
-          <h4 className="stat-value inline-block">{stat.value}</h4>
-          <span className="text-5xl md:text-6xl lg:text-7xl">{stat.suffix}</span>
+          <h1 className="stat-value inline-block">{stat.value}</h1>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl inline">{stat.suffix}</h2>
         </div>
       </div>
 

@@ -50,11 +50,9 @@ const PortfolioVideoTile = ({ video, playbackId, label, wasDragged }: PortfolioV
 
   return (
     <>
-      <button
-        type="button"
-        onClick={handleOpen}
-        className="group relative flex w-full flex-col overflow-hidden rounded-xl bg-gray-950 text-left ring-1 ring-gray-200/80 transition hover:ring-pink-300/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500"
-        aria-label={`Play ${label}`}
+      {/* Plain div — not a button — so the slider can drag anywhere on the tile */}
+      <div
+        className="group relative flex w-full flex-col overflow-hidden rounded-xl bg-gray-950 text-left ring-1 ring-gray-200/80 transition hover:ring-pink-300/60"
       >
         <div className="relative aspect-video w-full overflow-hidden">
           {thumbnail ? (
@@ -69,27 +67,36 @@ const PortfolioVideoTile = ({ video, playbackId, label, wasDragged }: PortfolioV
               src={video.src}
               muted
               playsInline
-              preload="none"
+              preload="metadata"
               className="h-full w-full object-cover"
               aria-hidden
             />
           )}
 
-          <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/15 to-black/10" />
+          {/* {<div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/15 to-black/10" />} */}
 
+          {/* Play button — the ONLY interactive element; stops propagation so
+              the slider track never sees this pointer-down as a drag start */}
           <span className="absolute inset-0 flex items-center justify-center">
-            <span className="flex h-14 w-14 items-center justify-center rounded-full backdrop text-gray-900 border border-white/30 shadow-lg transition group-hover:scale-105">
+            <button
+              type="button"
+              aria-label={`Play ${label}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleOpen();
+              }}
+              onPointerDown={(e) => e.stopPropagation()}
+              className="flex h-14 w-14 items-center justify-center rounded-full backdrop text-gray-900 border border-white/30 shadow-lg transition group-hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500"
+            >
               <Play className="ml-1 h-6 w-6 text-white" />
-            </span>
+            </button>
           </span>
 
           {video.title && (
-            <span className="absolute bottom-0 left-0 right-0 px-3 py-2.5 text-sm font-medium text-white">
-              {video.title}
-            </span>
+            <span className="absolute bottom-0 left-0 right-0 px-3 py-2.5 text-sm font-medium text-white">{video.title}</span>
           )}
         </div>
-      </button>
+      </div>
 
       <Dialog open={open} onOpenChange={handleOpenChange}>
         <DialogContent
@@ -99,8 +106,8 @@ const PortfolioVideoTile = ({ video, playbackId, label, wasDragged }: PortfolioV
             "w-[calc(100vw-1rem)] sm:w-full sm:max-w-2xl md:max-w-4xl",
             "gap-0 overflow-hidden border-0 bg-black p-0",
             // Ensure close button is visible above the video
-            "[&_[data-slot=dialog-close]]:z-20 [&_[data-slot=dialog-close]]:text-white [&_[data-slot=dialog-close]]:opacity-90 [&_[data-slot=dialog-close]]:hover:opacity-100",
-            "[&_[data-slot=dialog-close]]:bg-black/40 [&_[data-slot=dialog-close]]:rounded-full [&_[data-slot=dialog-close]]:p-1",
+            "**:data-[slot=dialog-close]:z-20 **:data-[slot=dialog-close]:text-white **:data-[slot=dialog-close]:opacity-90 **:data-[slot=dialog-close]:hover:opacity-100",
+            "**:data-[slot=dialog-close]:bg-black/40 **:data-[slot=dialog-close]:rounded-full **:data-[slot=dialog-close]:p-1",
           ].join(" ")}
         >
           <DialogTitle className="sr-only">{video.title ?? label}</DialogTitle>
@@ -122,11 +129,7 @@ const PortfolioVideoTile = ({ video, playbackId, label, wasDragged }: PortfolioV
           {video.title && (
             <p className="border-t border-white/10 px-4 py-3 text-sm font-medium text-white">
               {video.title}
-              {isEmbed && (
-                <span className="mt-0.5 block text-xs font-normal text-white/50">
-                  Press play to start
-                </span>
-              )}
+              {isEmbed && <span className="mt-0.5 block text-xs font-normal text-white/50">Press play to start</span>}
             </p>
           )}
         </DialogContent>

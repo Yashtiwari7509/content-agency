@@ -102,8 +102,8 @@ const Home = () => {
 
   useGSAP(() => {
     tl1Ref.current = gsap.timeline({}).from(".img-side", {
-      delay: 0.2,
-      y: 600,
+      delay: 0.5,
+      y: 700,
       duration: 2,
       ease: "expo.out",
       stagger: { each: 0.04, from: "center" },

@@ -16,7 +16,7 @@ export default function ServiceCard({
   DesignLabel,
 }: Props) {
   return (
-    <div className="w-72 overflow-hidden rounded-[28px] border bg-white/20 backdrop border-black/10 relative">
+    <div className="w-72 rounded-[28px] border-black/10 relative will-change-transform">
       {/* Top visual section */}
       <div className="relative h-12">
         {/* Top right label */}

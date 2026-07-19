@@ -22,7 +22,7 @@ const clientsStatsData = [
       { mo: "May", k: 510 },
       { mo: "Jun", k: 700 },
     ],
-    maxK: 700,
+    maxK: 300,
   },
   {
     id: "NN",
@@ -39,7 +39,7 @@ const clientsStatsData = [
       { mo: "May", k: 380 },
       { mo: "Jun", k: 420 },
     ],
-    maxK: 500,
+    maxK: 300,
   },
   {
     id: "AK",
@@ -57,23 +57,6 @@ const clientsStatsData = [
       { mo: "Jun", k: 280 },
     ],
     maxK: 300,
-  },
-  {
-    id: "CP",
-    name: "Chris Palmer",
-    niche: "Brain health · 190k views",
-    colorClass: "bg-indigo-100 text-indigo-800",
-    peakViews: "190k",
-    newFollowers: "12k",
-    barData: [
-      { mo: "Jan", k: 50 },
-      { mo: "Feb", k: 80 },
-      { mo: "Mar", k: 120 },
-      { mo: "Apr", k: 150 },
-      { mo: "May", k: 170 },
-      { mo: "Jun", k: 190 },
-    ],
-    maxK: 200,
   },
 ];
 
@@ -198,10 +181,10 @@ const GridScore = () => {
               alt=""
             />
             <div className="pt-5">
-              <h3 style={{ WebkitTextStroke: "1px black" }} className="text-8xl ml-[4rem] font-bold text-transparent">
+              <h2 style={{ WebkitTextStroke: "1px black" }} className="text-8xl ml-16 font-bold text-transparent">
                 2500+
-              </h3>
-              <h4 className="text-6xl ml-[4rem] font-bold">
+              </h2>
+              <h4 className="text-6xl ml-16 font-bold">
                 Raw <br />
                 Video <br />
                 Edited
@@ -216,15 +199,15 @@ const GridScore = () => {
         </div>
         <div className="bottom-left overflow-hidden">
           <div className="inner-grid w-full h-full px-4">
-            <h4 className="absolute z-10 px-4 text-left top-12 font-semibold text-3xl w-full">Platform handled by our Agency</h4>
-            <div className="grid grid-cols-4 gap-1 top-40 absolute">
-              {[, youtube, insta, facebook, linkedIn].map((link, index) => {
+            <div className="grid grid-cols-4 grid-rows-2 gap-3 top-65 absolute">
+              {[youtube, insta, facebook, linkedIn, youtube, insta, facebook, linkedIn].map((link, index) => {
                 return <img key={index} src={link} className="relative h-18 icon_png rounded-full object-cover" />;
               })}
             </div>
-            <div className="absolute px-3 bottom-0 left-0 w-full flex justify-center ">
+            <div id="Marqee-slider-vertical" className="absolute px-3 -top-6 left-0 w-full flex justify-center">
               <VerticalInfiniteScroll />
             </div>
+            <h4 className="absolute z-10 px-4 text-left bottom-10 font-semibold text-3xl w-full">Platform handled by our Agency</h4>
             <div className="radial-blur-v size-50 absolute bottom-0  -right-20 z-0 blur-xl "></div>
           </div>
         </div>
@@ -254,7 +237,7 @@ const GridScore = () => {
                 {selectedClient.barData.map((d, i) => (
                   <div key={i} className="flex-1 flex flex-col items-center gap-1.5 h-full justify-end group">
                     <div
-                      className="w-full rounded-t-[4px] bg-background/80 group-hover:bg-background cursor-pointer relative transition-colors duration-200"
+                      className="w-full rounded-t-lg bg-background/80 group-hover:bg-background cursor-pointer relative transition-colors duration-200"
                       style={{ height: `${Math.round((d.k / selectedClient.maxK) * 100)}%` }}
                     >
                       <h2 className="absolute -top-6 left-1/2 -translate-x-1/2 text-[11px] font-bold text-sky-700 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
@@ -280,17 +263,16 @@ const GridScore = () => {
                     onMouseEnter={() => handleMouseEnter(client.id)}
                     onMouseLeave={() => handleMouseLeave(client.id)}
                     onMouseMove={(e) => handleMouseMove(e, client.id)}
-                    className={`w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold cursor-pointer border-2 border-white relative transition-transform duration-200 hover:scale-110 hover:z-30 group shadow-sm ${client.colorClass} ${selectedClientIndex === idx ? "ring-2 ring-offset-2 ring-sky-300" : ""}`}
+                    className={`w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold cursor-pointer border-2 border-white relative transition-transform duration-200 hover:scale-110 hover:z-30 group shadow-sm ${client.colorClass} ${selectedClientIndex === idx ? "ring-2 ring-offset-2 ring-background" : ""}`}
                   >
                     {client.id}
                     <div
                       ref={(el) => {
                         tooltipRefs.current[client.id] = el;
                       }}
-                      className="absolute bottom-[130%] left-1/2 -translate-x-1/2 bg-white border border-gray-200 rounded-lg px-3 py-2 whitespace-nowrap z-50 shadow-xl flex flex-col items-center pointer-events-none"
+                      className="absolute bottom-[130%] left-1/2 -translate-x-1/2 backdrop-blur-xs whitespace-nowrap p-3 border border-white rounded-2xl"
                     >
-                      <h4 className="font-bold text-gray-900 text-sm mb-0.5">{client.name}</h4>
-                      <h4 className="text-sky-600 font-medium text-xs">{client.niche}</h4>
+                      <p className="text-gray-900 text-sm mb-0.5">{client.name}</p>
                     </div>
                   </div>
                 ))}

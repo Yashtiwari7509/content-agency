@@ -34,7 +34,7 @@ export default function TypingLoop({
   className = "",
   typeSpeed = 0.07,
   deleteSpeed = 0.04,
-  pauseAfterType = 1.4,
+  pauseAfterType = 1,
   pauseAfterDelete = 0.2,
   cursorChar = "|",
   cursorClassName = "",

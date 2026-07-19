@@ -9,19 +9,22 @@ const SEGMENTS = [
   {
     title: "Long-form Editing",
     subtitle: "YouTube, documentaries, podcasts",
-    color: "black", // Purple
+    color: "#86EFAC", // Emerald 300
+    lightColor: "#DCFCE7", // Emerald 100
     icon: LaptopMinimalIcon,
   },
   {
     title: "Short-form Editing",
     subtitle: "Reels, Shorts, TikToks",
-    color: "#14E5E2", // Cyan
+    color: "#67E8F9", // Cyan 300
+    lightColor: "#CFFAFE", // Cyan 100
     icon: Smartphone,
   },
   {
     title: "Social Media Management",
     subtitle: "Growth, strategy & distribution",
-    color: "#F977b2", // Soft Pink
+    color: "#F9A8D4", // Pink 300
+    lightColor: "#FCE7F3", // Pink 100
     icon: SwatchBookIcon,
   },
 ];
@@ -183,7 +186,7 @@ export default function DonutSlider() {
   const size = 420;
   const cx = 210;
   const cy = 210;
-  const outerR = 100;
+  const outerR = 120;
   const innerR = 70;
 
   const circumference = 2 * Math.PI * 80;
@@ -217,14 +220,14 @@ export default function DonutSlider() {
 
                   return (
                     <g key={index}>
-                      <path d={bgPath} fill="transparent" />
+                      <path d={bgPath} fill={_.lightColor} />
 
                       {fillPath && <path d={fillPath} fill={_.color} />}
                     </g>
                   );
                 })}
 
-                {/* <circle cx={cx} cy={cy} r={80} fill="black" className="hidden" stroke="white" strokeWidth="2" /> */}
+                <circle cx={cx} cy={cy} r={80} fill="black" className="hidden" stroke="white" strokeWidth="2" />
 
                 <circle
                   cx={cx}
@@ -253,7 +256,7 @@ export default function DonutSlider() {
 
           {/* RIGHT CONTENT */}
           <div className="w-full">
-            <div ref={cardRef} className="rounded-3xl md:rounded-4xl border border-white/20 p-5 sm:p-7 md:px-10">
+            <div ref={cardRef} className="rounded-3xl md:rounded-4xl p-5 sm:p-7 md:px-10">
               {/* <div ref={badgeRef} className="mb-8 flex items-center gap-4">
                 <div
                   className="flex h-14 w-14 items-center justify-center rounded-2xl"
@@ -271,7 +274,10 @@ export default function DonutSlider() {
                 </div>
               </div> */}
 
-              <h2 ref={titleRef} className="mb-4 text-3xl text-center sm:text-4xl md:text-5xl md:text-start font-bold leading-tight md:leading-15 tracking-tight">
+              <h2
+                ref={titleRef}
+                className="mb-4 text-3xl text-center sm:text-4xl md:text-5xl md:text-start font-bold leading-tight md:leading-15 tracking-tight"
+              >
                 {activeSegment.title}
               </h2>
 
