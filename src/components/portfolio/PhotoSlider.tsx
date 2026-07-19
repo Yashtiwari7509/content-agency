@@ -10,7 +10,7 @@ interface PhotoSliderProps {
 
 const PhotoSlider = ({ photos, altPrefix, intervalMs = 3500 }: PhotoSliderProps) => {
   const total = photos.length;
-  const { trackRef, current, goTo, onPointerDown, onPointerMove } = useGsapSlider(total);
+  const { trackRef, current, goTo, onPointerDown } = useGsapSlider(total);
 
   // Auto-advance
   useEffect(() => {
@@ -37,16 +37,10 @@ const PhotoSlider = ({ photos, altPrefix, intervalMs = 3500 }: PhotoSliderProps)
         className="flex h-full will-change-transform cursor-grab"
         style={{ touchAction: "pan-y" }}
         onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
       >
         {photos.map((src, i) => (
           <div key={src + i} className="relative h-full w-full shrink-0">
-            <img
-              src={src}
-              alt={`${altPrefix} ${i + 1}`}
-              className="h-full w-full object-cover"
-              draggable={false}
-            />
+            <img src={src} alt={`${altPrefix} ${i + 1}`} className="h-full w-full object-cover" draggable={false} />
           </div>
         ))}
       </div>

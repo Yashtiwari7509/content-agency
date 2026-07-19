@@ -1,4 +1,4 @@
-import { useRef, useEffect, useLayoutEffect, type FC } from "react";
+import { useRef, useLayoutEffect, type FC } from "react";
 import { Camera, TrendingUp, Calendar, ThumbsUp, Video, BarChart2, Star, type LucideIcon } from "lucide-react";
 import { gsap } from "gsap";
 

@@ -39,7 +39,7 @@ export default function TeamSection() {
   const sectionRef = useRef<HTMLElement>(null);
 
   return (
-    <section ref={sectionRef} className="relative w-full overflow-hidden h-[70vh] lg:h-screen">
+    <section ref={sectionRef} className="relative w-full h-[80vh]">
       {/* Background gradient blob */}
       <div
         className="pointer-events-none absolute inset-0 z-0"
@@ -57,7 +57,10 @@ export default function TeamSection() {
       />
 
       {/* Stacked images stage */}
-      <div className="relative lg:max-w-360 max-w-100 -translate-y-40 lg:translate-y-20 mx-auto" style={{ height: "clamp(420px, 72vh, 700px)" }}>
+      <div
+        className="relative lg:max-w-360 max-w-100 mx-auto  -translate-y-40 md:-translate-y-10 mt-20"
+        style={{ height: "clamp(420px, 72vh, 800px)" }}
+      >
         {members.map((member, index) => (
           <img
             key={index}
@@ -66,11 +69,6 @@ export default function TeamSection() {
             className={cn("team-section-img absolute object-contain object-center w-auto", member.className)}
           />
         ))}
-      </div>
-      {/* ── Giant wordmark ── */}
-      <div className="absolute bottom-0 text-center  w-full z-100">
-        {/* overflow-hidden here clips the slide-up reveal only vertically */}
-        <h2 className="select-none font-black  text-[clamp(8rem,20vw,14rem)] translate-y-6 leading-none tracking-tighter glow">xPro</h2>
       </div>
     </section>
   );

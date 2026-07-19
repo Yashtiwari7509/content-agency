@@ -33,10 +33,10 @@ export default function PortfolioLayout() {
             trigger: card,
             start: () => `top ${PIN_TOP}`,
             // Keep it pinned long enough for all remaining cards to scroll over it
-            end: () =>
-              `+=${(cards.length - 1 - i) * (card.offsetHeight)}`,
+            end: () => `+=${(cards.length - 1 - i) * card.offsetHeight}`,
             pin: true,
             pinSpacing: false,
+            anticipatePin: 1,
           });
 
           // As the NEXT card scrolls over this one: shrink + slight rotate
@@ -59,7 +59,7 @@ export default function PortfolioLayout() {
 
       return () => mm.revert();
     },
-    { scope: containerRef, dependencies: [] }
+    { scope: containerRef, dependencies: [] },
   );
 
   return (
@@ -82,10 +82,7 @@ export default function PortfolioLayout() {
                 }}
                 className="pb-2 bg-white"
               >
-                <PortfolioClientRow
-                  client={client}
-                  reverse={index % 2 === 1}
-                />
+                <PortfolioClientRow client={client} reverse={index % 2 === 1} />
               </div>
             ))}
           </div>

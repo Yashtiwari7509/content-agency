@@ -111,7 +111,7 @@ interface ApertureCardSliderProps {
 export default function ApertureCardSlider({
   cards = DEFAULT_CARDS,
   words = DEFAULT_WORDS,
-  prefix = "We specialise in\u00A0",
+  prefix = "We specialize in\u00A0",
   className,
 }: ApertureCardSliderProps) {
   const count = cards.length;
@@ -304,7 +304,7 @@ export default function ApertureCardSlider({
         >
           <h1>{prefix}</h1>
           <div className="relative h-8 w-20 lg:w-40">
-            <img src={brush} className="absolute shrink-0 lg:-top-10 -top-2 left-4 -z-10" alt="" />
+            <img src={brush} className="absolute shrink-0 lg:-top-10 -top-2 left-2 -z-10" alt="" />
             <span
               key={currentIndex}
               ref={activeWordRef}

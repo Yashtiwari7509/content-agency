@@ -70,7 +70,7 @@ const ReviewSlider = () => {
         {reviews.map((item, i) => (
           <blockquote
             key={item.id}
-            className="absolute inset-0 text-sm leading-relaxed text-gray-600 transition-opacity duration-700 ease-in-out"
+            className="absolute inset-0 text-sm leading-relaxed line-clamp-3 text-gray-600 transition-opacity duration-700 ease-in-out"
             style={{ opacity: i === current ? 1 : 0 }}
           >
             &ldquo;{item.review}&rdquo;

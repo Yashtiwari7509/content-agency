@@ -1,31 +1,18 @@
 import SectionLabel from "./SectionLabel";
 
 interface SectionHeaderProps {
-  label?: string;           // small pill label above heading (e.g., "Portfolio")
-  title: string;            // main heading — supports plain text
-  gradientWord?: string;    // optional word(s) to render with gradient (appended after title)
-  description?: string;     // paragraph below heading
+  label?: string; // small pill label above heading (e.g., "Portfolio")
+  title: string; // main heading — supports plain text
+  gradientWord?: string; // optional word(s) to render with gradient (appended after title)
+  description?: string; // paragraph below heading
   align?: "left" | "center" | "right";
   className?: string;
 }
 
-const SectionHeader = ({
-  label,
-  title,
-  gradientWord,
-  description,
-  align = "center",
-  className = "",
-}: SectionHeaderProps) => {
-  const textAlign =
-    align === "left"
-      ? "text-left"
-      : align === "right"
-        ? "text-right"
-        : "text-center";
+const SectionHeader = ({ label, title, gradientWord, description, align = "center", className = "" }: SectionHeaderProps) => {
+  const textAlign = align === "left" ? "text-left" : align === "right" ? "text-right" : "text-center";
 
-  const descAlign =
-    align === "center" ? "mx-auto" : align === "right" ? "ml-auto" : "";
+  const descAlign = align === "center" ? "mx-auto" : align === "right" ? "ml-auto" : "";
 
   return (
     <div className={`w-full mb-10 select-none ${textAlign} ${className}`}>
@@ -38,27 +25,14 @@ const SectionHeader = ({
         {gradientWord && (
           <>
             {" "}
-            <span
-              style={{
-                color: "oklch(0.45 0.18 208.93)",
-                // WebkitBackgroundClip: "text",
-                // WebkitTextFillColor: "transparent",
-                // backgroundClip: "text",
-              }}
-            >
-              {gradientWord}
-            </span>
+            <span className="leading-13 text-primary">{gradientWord}</span>
           </>
         )}
       </h2>
 
       {/* Description */}
       {description && (
-        <p
-          className={`mt-3 text-sm text-gray-500 max-w-xl font-light leading-relaxed reveal-text ${descAlign}`}
-        >
-          {description}
-        </p>
+        <p className={`mt-3 text-sm text-gray-500 max-w-xl font-light leading-none reveal-text ${descAlign}`}>{description}</p>
       )}
     </div>
   );

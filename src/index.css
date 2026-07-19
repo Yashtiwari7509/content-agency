@@ -1,7 +1,9 @@
-/* ── Dancing Script variable font — loaded from local /public/font ── */
+/* ── Belgiano Serif variable font — loaded from local /public/font ── */
 @font-face {
   font-family: "Dancing Script";
-  src: url("/font/belgiano_serif/Belgiano Serif 2.otf") format("otf-variations");
+  src:
+    /* Modern browsers: variable font with weight axis */
+    url("/public/font/DancingScript-Variable.woff2") format("opentype") tech("variations");
   font-weight: 400 700; /* covers full variable axis */
   font-style: normal;
   font-display: swap; /* show fallback immediately, swap when ready */

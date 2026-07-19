@@ -4,7 +4,7 @@ import { useGSAP } from "@gsap/react";
 import VerticalInfiniteScroll from "@/components/VerticalInfiniteScroll";
 import SectionHeader from "@/components/SectionHeader";
 import ReviewSlider from "./ReviewSlider";
-import { facebook, insta, linkedIn, mac, rays, starSvg, youtube } from "@/assets/Image";
+import { facebook, insta, linkedIn, mac, rays, reel, short, starSvg, youtube } from "@/assets/Image";
 
 const clientsStatsData = [
   {
@@ -199,9 +199,9 @@ const GridScore = () => {
         </div>
         <div className="bottom-left overflow-hidden">
           <div className="inner-grid w-full h-full px-4">
-            <div className="grid grid-cols-4 grid-rows-2 gap-3 top-65 absolute">
-              {[youtube, insta, facebook, linkedIn, youtube, insta, facebook, linkedIn].map((link, index) => {
-                return <img key={index} src={link} className="relative h-18 icon_png rounded-full object-cover" />;
+            <div className="grid mx-auto w-60 grid-cols-3 grid-rows-3 gap-3 top-65 absolute -translate-x-1/2 left-1/2">
+              {[youtube, insta, facebook, short, reel, linkedIn].map((link, index) => {
+                return <img key={index} src={link} className="relative h-18 icon_png object-cover" />;
               })}
             </div>
             <div id="Marqee-slider-vertical" className="absolute px-3 -top-6 left-0 w-full flex justify-center">
@@ -263,27 +263,27 @@ const GridScore = () => {
                     onMouseEnter={() => handleMouseEnter(client.id)}
                     onMouseLeave={() => handleMouseLeave(client.id)}
                     onMouseMove={(e) => handleMouseMove(e, client.id)}
-                    className={`w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold cursor-pointer border-2 border-white relative transition-transform duration-200 hover:scale-110 hover:z-30 group shadow-sm ${client.colorClass} ${selectedClientIndex === idx ? "ring-2 ring-offset-2 ring-background" : ""}`}
+                    className={`w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold cursor-pointer border-2 border-white relative transition-transform hover:z-30 group shadow-sm ${selectedClientIndex === idx ? "ring-2 ring-offset-2 ring-background" : ""}`}
                   >
                     {client.id}
                     <div
                       ref={(el) => {
                         tooltipRefs.current[client.id] = el;
                       }}
-                      className="absolute bottom-[130%] left-1/2 -translate-x-1/2 backdrop-blur-xs whitespace-nowrap p-3 border border-white rounded-2xl"
+                      className="absolute bottom-[130%] left-1/2 -translate-x-1/2 whitespace-nowrap p-3 backdrop-blur-xs border border-white rounded-2xl"
                     >
                       <p className="text-gray-900 text-sm mb-0.5">{client.name}</p>
                     </div>
                   </div>
                 ))}
-                <span className="text-xs font-medium text-gray-500 ml-2">+ 36 more</span>
+                <span className="text-xs font-medium text-black ml-2">+ 36 more</span>
               </div>
 
-              <p className="font-bold text-3xl text-gray-900 leading-tight mt-5 tracking-tighter">
+              <h1 className="text-3xl text-gray-900 leading-tight mt-5 tracking-tighter">
                 Our clients
                 <br />
                 speak for us.
-              </p>
+              </h1>
             </div>
 
             <div className="radial-blur-v size-50 absolute bottom-0 right-0 z-0 blur-xl opacity-80 pointer-events-none"></div>

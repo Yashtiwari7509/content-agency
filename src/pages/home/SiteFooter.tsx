@@ -27,7 +27,7 @@ export default function SiteFooter() {
   // const marqueeRef = useRef<HTMLDivElement>(null);
 
   return (
-    <footer ref={footerRef} className="relative w-full overflow-hidden" style={{ background: "#050508" }}>
+    <footer ref={footerRef} className="relative w-full overflow-hidden bg-white">
       <div className="max-w-6xl mx-auto">
         {/* Ambient glow */}
         <div
@@ -40,7 +40,7 @@ export default function SiteFooter() {
             <p className="text-[10px] uppercase tracking-[0.22em] font-medium" style={{ color: ACCENT }}>
               Let's collaborate
             </p>
-            <p className="text-white text-2xl md:text-3xl font-semibold tracking-tight leading-snug">Ready to scale your content?</p>
+            <p className="text-black text-2xl md:text-3xl font-semibold tracking-tight leading-snug">Ready to scale your content?</p>
           </div>
           <div className="flex items-center gap-5">
             {/* Social icons */}
@@ -50,20 +50,16 @@ export default function SiteFooter() {
                   key={s.label}
                   href={s.href}
                   aria-label={s.label}
-                  className="group w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
-                  style={{
-                    background: "rgba(255,255,255,0.05)",
-                    border: "1px solid rgba(255,255,255,0.09)",
-                  }}
+                  className="group w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 bg-gray-100"
                 >
-                  <s.icon size={14} className="text-gray-500 group-hover:text-white transition-colors duration-200" />
+                  <s.icon size={14} className="text-gray-500 group-hover:text-black transition-colors duration-200" />
                 </a>
               ))}
             </div>
             {/* CTA button */}
             <a
               href="#contact-section"
-              className="group flex items-center whitespace-nowrap gap-2 px-6 py-3 rounded-full text-sm font-semibold text-white border border-white/20 transition-all duration-300 hover:opacity-85 active:scale-95"
+              className="group flex items-center whitespace-nowrap gap-2 px-6 py-3 rounded-full text-sm font-semibold text-black border border-black/20 transition-all duration-300 hover:opacity-85 active:scale-95"
             >
               Book a Call
               <ArrowUpRight
@@ -107,7 +103,7 @@ export default function SiteFooter() {
               <a
                 key={link.label}
                 href={link.href}
-                className="text-xs text-gray-600 hover:text-white transition-colors duration-200 tracking-wide"
+                className="text-xs text-gray-600 hover:text-black transition-colors duration-200 tracking-wide"
               >
                 {link.label}
               </a>
