@@ -1,9 +1,7 @@
 /* ── Belgiano Serif variable font — loaded from local /public/font ── */
 @font-face {
-  font-family: "Dancing Script";
-  src:
-    /* Modern browsers: variable font with weight axis */
-    url("/public/font/DancingScript-Variable.woff2") format("opentype") tech("variations");
+  font-family: "Cursive";
+  src: url("/cursive.woff2") format("woff2");
   font-weight: 400 700; /* covers full variable axis */
   font-style: normal;
   font-display: swap; /* show fallback immediately, swap when ready */
@@ -14,8 +12,8 @@
 
 /* Apply Dancing Script to every <span> with smooth rendering */
 span {
-  font-family: "Dancing Script", cursive;
-  font-weight: 500;
+  font-family: "Cursive", cursive;
+  font-weight: 700;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
