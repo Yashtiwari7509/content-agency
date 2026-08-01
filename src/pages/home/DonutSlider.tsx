@@ -102,7 +102,7 @@ export default function DonutSlider() {
         pin: ".pin-donut",
         start: "-10px top",
         end: () => `${window.innerHeight * 2.3}px`,
-        scrub: 1,
+        scrub: 2,
         anticipatePin: 1,
       },
 
@@ -122,52 +122,28 @@ export default function DonutSlider() {
     };
   }, []);
 
-  useGSAP(() => {
-    if (!cardRef.current) return;
-    const title = SplitText.create(titleRef.current, {
-      type: "words,lines",
-      mask: "lines",
-    });
-    const subtitle = SplitText.create(subtitleRef.current, {
-      type: "words,lines",
-      mask: "lines",
-    });
+  useGSAP(
+    () => {
+      if (!cardRef.current) return;
+      const title = SplitText.create(titleRef.current, {
+        type: "words,lines",
+        mask: "lines",
+      });
+      const subtitle = SplitText.create(subtitleRef.current, {
+        type: "words,lines",
+        mask: "lines",
+      });
 
-    const tl = gsap.timeline({
-      defaults: {
-        ease: "power4.out",
-      },
-    });
+      const tl = gsap.timeline({
+        defaults: {
+          ease: "power4.out",
+        },
+      });
 
-    tl.fromTo(
-      badgeRef.current,
-      {
-        y: 30,
-        opacity: 0,
-      },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.4,
-      },
-    )
-      .fromTo(
-        title.lines,
+      tl.fromTo(
+        badgeRef.current,
         {
-          y: 50,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.5,
-        },
-        "-=0.15",
-      )
-      .fromTo(
-        subtitle.lines,
-        {
-          y: 20,
+          y: 30,
           opacity: 0,
         },
         {
@@ -175,9 +151,44 @@ export default function DonutSlider() {
           opacity: 1,
           duration: 0.4,
         },
-        "-=0.25",
-      );
-  }, [activeIndex]);
+      )
+        .fromTo(
+          title.lines,
+          {
+            y: 50,
+            opacity: 0,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.5,
+          },
+          "-=0.15",
+        )
+        .fromTo(
+          subtitle.lines,
+          {
+            y: 20,
+            opacity: 0,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.4,
+          },
+          "-=0.25",
+        );
+      return () => {
+        tl.kill();
+        title.revert();
+        subtitle.revert();
+      };
+    },
+    {
+      dependencies: [activeIndex],
+      revertOnUpdate: true,
+    },
+  );
 
   const activeSegment = SEGMENTS[activeIndex];
 
@@ -257,41 +268,28 @@ export default function DonutSlider() {
           {/* RIGHT CONTENT */}
           <div className="w-full">
             <div ref={cardRef} className="rounded-3xl md:rounded-4xl p-5 sm:p-7 md:px-10">
-              {/* <div ref={badgeRef} className="mb-8 flex items-center gap-4">
-                <div
-                  className="flex h-14 w-14 items-center justify-center rounded-2xl"
-                  style={{
-                    background: activeSegment.color,
-                  }}
-                >
-                  <ActiveIcon size={24} className="text-white" />
-                </div>
-
-                <div>
-                  <p className="text-xs uppercase tracking-widest text-zinc-400">Active Segment</p>
-
-                  <h3 className="font-semibold">{activeSegment.title}</h3>
-                </div>
-              </div> */}
-
               <h2
+                key={activeIndex}
                 ref={titleRef}
                 className="mb-4 text-3xl text-center sm:text-4xl md:text-5xl md:text-start font-bold leading-tight md:leading-15 tracking-tight"
               >
                 {activeSegment.title}
               </h2>
 
-              <p ref={subtitleRef} className="mb-6 text-center md:mb-8 text-base md:text-lg md:text-start text-zinc-600">
+              <p
+                key={`subtitle-${activeIndex}`}
+                ref={subtitleRef}
+                className="mb-6 text-center md:mb-8 text-base md:text-lg md:text-start text-zinc-600"
+              >
                 {activeSegment.subtitle}
               </p>
-
-              <div className="flex gap-3 justify-center md:justify-start">
+              <div className="flex gap-2 justify-center md:justify-start">
                 {SEGMENTS.map((segment, index) => (
                   <div
                     key={segment.title}
-                    className={`h-1 rounded-full transition-all border duration-500 ${index === activeIndex ? "w-16" : "w-6"}`}
+                    className={`h-2 rounded-full transition-all border duration-500 ${index === activeIndex ? "w-6" : "w-2"}`}
                     style={{
-                      background: index === activeIndex ? segment.color : "white",
+                      background: index === activeIndex ? "black" : "rgb(0,0,0,.2)",
                     }}
                   />
                 ))}

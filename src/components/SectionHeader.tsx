@@ -25,7 +25,7 @@ const SectionHeader = ({ label, title, gradientWord, description, align = "cente
         {gradientWord && (
           <>
             {" "}
-            <span className="leading-13 text-primary">{gradientWord}</span>
+            <span className="leading-12 text-primary">{gradientWord}</span>
           </>
         )}
       </h2>

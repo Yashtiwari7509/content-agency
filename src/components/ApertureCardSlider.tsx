@@ -296,7 +296,7 @@ export default function ApertureCardSlider({
   );
 
   return (
-    <section ref={containerRef} className={cn("lg:min-h-[800px] overflow-hidden py-8 mt-20", className)}>
+    <section ref={containerRef} className={cn("lg:min-h-[800px] overflow-hidden bg-transparent py-8 mt-20", className)}>
       <div className="flex flex-col items-center gap-10 lg:gap-40">
         <div
           ref={textBlockRef}

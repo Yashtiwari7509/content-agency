@@ -10,6 +10,7 @@ import { invalidate } from "@react-three/fiber";
 import vertexShader from "@/components/glsl/vertexShader.glsl";
 // @ts-ignore
 import fragmentShader from "@/components/glsl/fragmentShader.glsl";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -91,12 +92,10 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
   const planeRef = useRef<THREE.PlaneGeometry>(null);
 
   const { nodes, materials } = useGLTF("./iphone.glb") as unknown as GLTFResult;
-  // const [texIndex, setTexIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  // const imageSizeRef = useRef(new THREE.Vector2(1, 1));
-  // const planeSizeRef = useRef(new THREE.Vector2(1, 1));
   const activeIndexRef = useRef(0);
+  const mountedRef = useRef(true);
 
   const videoTexture = useVideoTexture("./video.mp4", {
     muted: true,
@@ -118,8 +117,12 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
       uTexSize: { value: new THREE.Vector2(1, 1) },
       uPlaneSize: { value: new THREE.Vector2(1, 1) },
     }),
-    [],
+    [videoTexture, videoTexture1],
   );
+  // Keep a stable ref to the uniforms so GSAP callbacks always write to the
+  // same object that the ShaderMaterial holds (avoids stale-closure issues).
+  const uniformsRef = useRef(uniforms);
+  uniformsRef.current = uniforms;
   const videos = [videoTexture?.image as HTMLVideoElement, videoTexture1?.image as HTMLVideoElement];
 
   const stopAllVideos = () => {
@@ -135,23 +138,42 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     const vid = videos[activeIndexRef.current];
     if (!vid) return;
 
-    stopAllVideos();
+    const otherVid = videos[activeIndexRef.current === 0 ? 1 : 0];
+    if (otherVid && !otherVid.paused) {
+      otherVid.pause();
+      otherVid.muted = true;
+    }
+
     vid.muted = false;
     vid.volume = 0.5;
-    vid.currentTime = 0; // optional, remove if not wanted
-    vid.play();
+    if (vid.paused) {
+      vid.currentTime = 0; // only reset when actually starting fresh
+      vid.play().catch(() => { }); // swallow AbortError from rapid play/pause races
+    }
   };
+
+  const hoverTimeoutRef = useRef<number | null>(null);
 
   const handlePointerEnter = () => {
     if (isMobile) return;
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+    if (isPlaying) return; // already playing — don't restart
     playActiveVideo();
     setIsPlaying(true);
   };
 
   const handlePointerLeave = () => {
     if (isMobile) return;
-    stopAllVideos();
-    setIsPlaying(false);
+    // Debounce: only actually stop if the pointer hasn't re-entered
+    // within this window (filters out raycast seam flicker).
+    hoverTimeoutRef.current = window.setTimeout(() => {
+      stopAllVideos();
+      setIsPlaying(false);
+      hoverTimeoutRef.current = null;
+    }, 120);
   };
 
   const handleClick = () => {
@@ -174,81 +196,171 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
+  // Stop all videos and mark as unmounted when navigating away
   useEffect(() => {
-    if (!videos[activeIndexRef.current]) return;
-    //     if (shaderMaterialRef.current) {
-    // shaderMaterialRef.current.uTexSize.
-    //     }
-  }, [activeIndexRef, videos]);
-
-  useGSAP(() => {
-    const tickerCallback = () => invalidate();
-    gsap.ticker.add(tickerCallback);
-    const model = modelRef.current;
-    if (!model) return;
-    if (!shaderMaterialRef.current) return;
-    // shaderMaterialRef.current.transparent = true;
-    // shaderMaterialRef.current.blending = THREE.AdditiveBlending;
-
-    const mm = gsap.matchMedia();
-
-    mm.add({
-      isDesktop: "(min-width: 700px)",
-      isMobile: "(max-width: 699px)",
-    }, (context) => {
-      const { isMobile } = context.conditions as { isMobile: boolean };
-
-      tl1Ref.current = gsap
-        .timeline({
-          defaults: {
-            ease: "none",
-          },
-          scrollTrigger: {
-            trigger: ".PhoneStats",
-            start: "-400px top",
-            end: "bottom top",
-            scrub: .5,
-            // markers: true,
-            onUpdate: () => {
-              invalidate();
-            },
-          },
-        })
-        .from(model.position, {
-          x: isMobile ? 0 : 2,
-          y: 4,
-          duration: 1,
-        })
-        .from(model.rotation, { y: Math.PI, duration: 1, ease: "none" }, 0)
-        .to(model.position, {
-          x: isMobile ? 0 : -0.4,
-          y: 0.8,
-          duration: 1,
-        })
-        .to(model.rotation, { y: -Math.PI * 2, duration: 1, ease: "none" }, "-=.7")
-        .to(model.rotation, { duration: 1, ease: "none" })
-        .to(model.rotation, {
-          y: -1 * Math.PI,
-          duration: 1,
-        })
-        .to(model.position, { x: isMobile ? 0 : -4, y: -1, duration: 1, ease: "none" }, "<");
-    });
-
+    mountedRef.current = true;
     return () => {
-      gsap.ticker.remove(tickerCallback);
-      mm.revert();
+      mountedRef.current = false;
+      stopAllVideos();
+      if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
     };
-  }, { dependencies: [] });
+  }, []);
+
+  useGSAP(
+    () => {
+      const tickerCallback = () => invalidate();
+      gsap.ticker.add(tickerCallback);
+      const model = modelRef.current;
+      if (!model) return;
+      if (!shaderMaterialRef.current) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add(
+        {
+          isDesktop: "(min-width: 700px)",
+          isMobile: "(max-width: 699px)",
+        },
+        (context) => {
+          const { isMobile } = context.conditions as { isMobile: boolean };
+
+          tl1Ref.current = gsap
+            .timeline({
+              defaults: {
+                ease: "none",
+              },
+              scrollTrigger: {
+                trigger: ".PhoneStats",
+                start: "-700px top",
+                end: "bottom top",
+                scrub: 0.5,
+                // markers: true,
+                onUpdate: () => {
+                  invalidate();
+                },
+              },
+            })
+            .from(model.position, {
+              x: isMobile ? 0 : 2,
+              y: 4,
+              duration: 1,
+            })
+            .from(model.rotation, { y: Math.PI, duration: 1, ease: "none" }, 0)
+            .from("ho", { duration: 1 })
+            .to(model.position, {
+              x: isMobile ? 0 : -0.7,
+              y: 0,
+              duration: 1,
+            })
+            .to(model.rotation, { y: -Math.PI * 2, duration: 1, ease: "none" }, "-=.7")
+            .to(model.rotation, { duration: 1, ease: "none" })
+            .to(model.rotation, {
+              y: -1 * Math.PI,
+              duration: 1,
+            })
+            .to(model.position, { x: isMobile ? 0 : -4, y: -1, duration: 1, ease: "none" }, "<");
+        },
+      );
+      const tabbedPageST = ScrollTrigger.create({
+        trigger: ".tabbedPage",
+        start: "-20% top",
+        end: "-10% top",
+        scrub: false,
+        // --------------------------------
+        // Entering tabbedPage
+        // uProgress: current → 1
+        // --------------------------------
+        onEnter: () => {
+          if (!mountedRef.current) return;
+          const progress = shaderMaterialRef.current?.uniforms.uProgress;
+
+          if (!progress) return;
+          gsap.to(progress, {
+            value: 1,
+            duration: 0.5,
+            ease: "power2.inOut",
+            onUpdate: invalidate,
+          });
+
+          activeIndexRef.current = 1;
+
+          stopAllVideos();
+        },
+
+        // --------------------------------
+        // Leaving tabbedPage from bottom
+        // --------------------------------
+        onLeave: () => {
+          if (!mountedRef.current) return;
+
+          stopAllVideos();
+          setIsPlaying(false);
+        },
+
+        // --------------------------------
+        // Coming back into tabbedPage
+        // uProgress: current → 1
+        // --------------------------------
+        onEnterBack: () => {
+          if (!mountedRef.current) return;
+
+          const progress = shaderMaterialRef.current?.uniforms.uProgress;
+
+          if (!progress) return;
+          gsap.to(progress, {
+            value: 1,
+            duration: 0.5,
+            ease: "power2.inOut",
+            onUpdate: invalidate,
+          });
+
+          activeIndexRef.current = 1;
+
+          stopAllVideos();
+        },
+
+        // --------------------------------
+        // Scrolling back above tabbedPage
+        // uProgress: current → 0
+        // --------------------------------
+        onLeaveBack: () => {
+          if (!mountedRef.current) return;
+
+          const progress = shaderMaterialRef.current?.uniforms.uProgress;
+
+          if (!progress) return;
+          gsap.to(progress, {
+            value: 0,
+            duration: 0.5,
+            ease: "power2.inOut",
+            onUpdate: invalidate,
+          });
+
+          activeIndexRef.current = 0;
+
+          stopAllVideos();
+        },
+      });
+
+      return () => {
+        stopAllVideos();
+        gsap.ticker.remove(tickerCallback);
+        tabbedPageST.kill(); // <-- critical
+        mm.revert();
+      };
+    },
+    { dependencies: [] },
+  );
 
   return (
     <group
-      onPointerEnter={handlePointerEnter}
-      onPointerLeave={handlePointerLeave}
+      onPointerOver={handlePointerEnter}
+      onPointerOut={handlePointerLeave}
       onClick={handleClick}
       ref={modelRef}
       {...props}
       dispose={null}
-      position={[0.0, 0.8, 0]}
+      position={[0.7, 0, 0]}
       scale={3.5}
     >
       <group scale={0.22} name="Scene">
@@ -344,9 +456,9 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
                   >
                     <shaderMaterial
                       ref={shaderMaterialRef}
-                      uniforms={{
-                        ...uniforms,
-                      }}
+                      // Pass the object directly — NOT spread — so GSAP callbacks
+                      // mutate the exact same uniform objects the GPU holds.
+                      uniforms={uniforms}
                       vertexShader={vertexShader}
                       fragmentShader={fragmentShader}
                       transparent={false}

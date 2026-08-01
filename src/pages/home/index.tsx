@@ -138,6 +138,7 @@ const Home = () => {
           >
             <PhoneVideo />
             <Hero />
+            {/* <Compare firstImage={Nick1} secondImage={Andrew1} showHandlebar={true} /> */}
             <ApertureCardSlider />
             <GridScore />
             <PhoneStats />

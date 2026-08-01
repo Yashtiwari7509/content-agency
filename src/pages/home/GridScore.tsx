@@ -136,13 +136,12 @@ const GridScore = () => {
         end: "top top",
       },
     });
-    gsap.to(".icon_png", {
-      y: "20px",
-      yoyo: true,
+    gsap.to(".grid-circle", {
+      rotate: 360,
       repeat: -1,
-      duration: 1,
-      stagger: 0.2,
+      duration: 20,
       delay: 3,
+      ease: 'none'
     });
   });
   return (
@@ -192,23 +191,46 @@ const GridScore = () => {
             </div>
           </div>
         </div>
-        <div className="middle">
-          <div className="inner-grid w-full h-full relative overflow-hidden">
-            <ReviewSlider />
-          </div>
-        </div>
+
         <div className="bottom-left overflow-hidden">
-          <div className="inner-grid w-full h-full px-4">
-            <div className="grid mx-auto w-60 grid-cols-3 grid-rows-3 gap-3 top-65 absolute -translate-x-1/2 left-1/2">
-              {[youtube, insta, facebook, short, reel, linkedIn].map((link, index) => {
-                return <img key={index} src={link} className="relative h-18 icon_png object-cover" />;
-              })}
+          <div className="inner-grid w-full h-full">
+            
+            <div className="grid-bg-mask">
+              <div className="relative grid-circle w-full h-120 mx-auto top-70 absolute -translate-x-1/2 left-1/2">
+                {[youtube, insta, facebook, short, reel, linkedIn, youtube, insta, facebook, short, reel, linkedIn].map((link, index, arr) => {
+                  const total = arr.length;
+                  const radius = 180; // distance from center to each icon
+                  const angle = (360 / total) * index - 90; // start from top, go clockwise
+                  const rad = (angle * Math.PI) / 180;
+                  const x = radius * Math.cos(rad);
+                  const y = radius * Math.sin(rad);
+                  // rotate icon so its "up" points away from center (tangent to circle)
+                  const rotation = angle + 90;
+                  return (
+                    <img
+                      key={index}
+                      src={link}
+                      className="absolute h-18 w-18 icon_png object-cover"
+                      style={{
+                        top: "50%",
+                        left: "50%",
+                        transform: `translate(-50%, -50%) translate(${x}px, ${y}px) rotate(${rotation}deg)`,
+                      }}
+                    />
+                  );
+                })}
+              </div>
             </div>
             <div id="Marqee-slider-vertical" className="absolute px-3 -top-6 left-0 w-full flex justify-center">
               <VerticalInfiniteScroll />
             </div>
             <h4 className="absolute z-10 px-4 text-left bottom-10 font-semibold text-3xl w-full">Platform handled by our Agency</h4>
             <div className="radial-blur-v size-50 absolute bottom-0  -right-20 z-0 blur-xl "></div>
+          </div>
+        </div>
+        <div className="middle">
+          <div className="inner-grid w-full h-full relative overflow-hidden">
+            <ReviewSlider />
           </div>
         </div>
         <div className="bottom-right relative">

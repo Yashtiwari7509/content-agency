@@ -3,13 +3,12 @@ import HeroCard, { type CardStatsItem } from "@/components/HeroCard";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
-import { SplitText } from "gsap/SplitText";
 import TypingLoop from "@/components/TypingEffect";
-import { cloud, fb, reel, short } from "@/assets/Image";
+import { cloud, fb, gradient, reel, short } from "@/assets/Image";
 import { A_dp, N_dp, T_dp } from "@/assets/ClientImage";
 
 const Icons = [{ src: fb }, { src: fb }, { src: short }, { src: short }, { src: reel }, { src: reel }, { src: short }, { src: short }];
-export const CardStatsData: CardStatsItem[] = [
+const CardStatsData: CardStatsItem[] = [
   {
     top: [T_dp, short],
     bottom: [
@@ -60,46 +59,43 @@ export const CardStatsData: CardStatsItem[] = [
   },
 ];
 const Hero = () => {
+  const heroRef = useRef(null);
   const heroTlRef = useRef<GSAPTimeline>(null);
 
-  useGSAP(() => {
-    let splitInstance: ReturnType<typeof SplitText.create> | null = null;
+  useGSAP(
+    () => {
+      gsap.from(".center", {
+        rotationZ: -360,
+        duration: 50,
+        repeat: -1,
+        ease: "none",
+        delay: 1,
+        repeatRefresh: true,
+      });
 
-    gsap.from(".center", {
-      rotationZ: -360,
-      duration: 50,
-      repeat: -1,
-      ease: "none",
-      delay: 3,
-    });
-
-    gsap.to(".hero-card", {
-      y: "20px",
-      yoyo: true,
-      repeat: -1,
-      duration: 1,
-      stagger: 0.4,
-      delay: 3,
-    });
-
-    splitInstance = SplitText.create(".hero-h1");
-    const { words } = splitInstance.split({ type: "words,lines", mask: "words" });
-
-    heroTlRef.current = gsap.timeline({
-      defaults: { ease: "power4.out" },
-    });
-    const tl = heroTlRef.current;
-    tl.from(words, {
-      yPercent: 100,
-      ease: "power4.out",
-      opacity: 0,
-      stagger: 0.1,
-    });
-  });
+      gsap.to(".hero-card", {
+        y: "20px",
+        yoyo: true,
+        repeat: -1,
+        duration: 1,
+        stagger: 0.4,
+        delay: 2,
+      });
+      return () => {
+        heroTlRef.current?.kill();
+      };
+    },
+    {
+      dependencies: [],
+    },
+  );
 
   return (
-    <section id="hero-section" className="w-screen h-[clamp(700px,100vh,800px)] relative top-0 overflow-hidden">
-      <div className="h-full w-full bg-background absolute top-0 z-0 hero-bg-mask"></div>
+    <section ref={heroRef} id="hero-section" className="w-screen h-[clamp(700px,100vh,800px)] relative top-0 overflow-hidden">
+      {/* <div className="h-full w-full bg-background absolute top-0 z-0 hero-bg-mask"></div> */}
+      <div className="w-screen h-screen absolute top-0 -z-10">
+        <img src={gradient} className="w-full h-full rotate-image2 rotate-180" alt="" />
+      </div>
       <div className="absolute clouds top-5 left-1/3 z-0">
         <img src={cloud} width={300} height={200} alt="" />
       </div>
@@ -109,11 +105,11 @@ const Hero = () => {
       <Balloons />
 
       <div className="absolute top-64! text-container text-5xl">
-        <h4 className="font-sans hero-h1 text-xl leading-none">We do</h4>
-        <TypingLoop prefix="We Do" words={["Video Editing", "Color Grading", "Motion Graphics", "Cinematic Reels"]} />
+        <h4 className="font-sans text-xl leading-none">We do</h4>
+        <TypingLoop words={["Video Editing", "Color Grading", "Motion Graphics", "Cinematic Reels"]} />
       </div>
 
-      <div className="absolute h-[80vh] w-screen top-40 md:top-0 center-con">
+      <div className="absolute h-screen w-screen top-40 md:top-0 center-con">
         <div className="center  relative flex items-center w-[30vw] shrink-0 aspect-square justify-center border-2 border-white  rounded-full overflow-visible pointer-events-none">
           {Array.from({ length: Icons.length / 2 }).map((_, i) => {
             const angle = i * (360 / (Icons.length / 3));

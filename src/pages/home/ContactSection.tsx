@@ -79,7 +79,7 @@ export default function ContactSection() {
   const bgAccent = "oklch(85.273% 0.13885 208.93)";
 
   return (
-    <section ref={sectionRef} id="contact-section" className="relative w-full  bg-white py-24 px-6">
+    <section ref={sectionRef} id="contact-section" className="relative w-full  py-24 px-6">
       {/* Background decoration */}
       <div
         className="pointer-events-none absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full opacity-25 blur-3xl"

@@ -4,44 +4,12 @@ import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { Draggable } from "gsap/Draggable";
 
-const reviews = [
-  {
-    name: "Jack",
-    username: "@jack",
-    body: "I've never seen anything like this before. It's amazing. I love it.",
-    img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&h=200&q=80",
-  },
-  {
-    name: "Jill",
-    username: "@jill",
-    body: "I don't know what to say. I'm speechless. This is amazing.",
-    img: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=200&h=200&q=80",
-  },
-  {
-    name: "John",
-    username: "@john",
-    body: "I'm at a loss for words. This is amazing. I love it.",
-    img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&h=200&q=80",
-  },
-  {
-    name: "Jane",
-    username: "@jane",
-    body: "I'm at a loss for words. This is amazing. I love it.",
-    img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=200&h=200&q=80",
-  },
-  {
-    name: "Jenny",
-    username: "@jenny",
-    body: "I'm at a loss for words. This is amazing. I love it.",
-    img: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=200&h=200&q=80",
-  },
-  {
-    name: "James",
-    username: "@james",
-    body: "I'm at a loss for words. This is amazing. I love it.",
-    img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&h=200&q=80",
-  },
-];
+interface review {
+  name: string;
+  username: string;
+  img: string;
+  body: string;
+}
 
 interface InfiniteSliderProps {
   direction?: "left" | "right";
@@ -51,6 +19,7 @@ interface InfiniteSliderProps {
   boxHeight?: number;
   /** Custom slide items. When provided, replaces the default review cards. */
   children?: React.ReactNode;
+  reviews?: any;
 }
 
 const InfiniteSlider = ({
@@ -58,6 +27,7 @@ const InfiniteSlider = ({
   boxWidth: boxWidthProp,
   boxHeight: boxHeightProp,
   children,
+  reviews,
 }: InfiniteSliderProps) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -66,6 +36,9 @@ const InfiniteSlider = ({
   const proxyRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<gsap.core.Tween | null>(null);
   const draggableRef = useRef<any>(null);
+  if (!reviews) {
+    return;
+  }
 
   // Determine slide count from children or fallback to reviews
   const childCount = children ? Children.count(children) : reviews.length;
@@ -117,7 +90,6 @@ const InfiniteSlider = ({
     });
 
     animationRef.current = animation;
-
 
     // Draggable implementation to follow pointer; resume left after inertia
     const draggableInstance = Draggable.create(proxy, {
@@ -206,10 +178,11 @@ const InfiniteSlider = ({
                     style={{ transform: `translateX(${i * boxWidth}px)`, willChange: "auto", width: `${boxWidth}px` }}
                     className="absolute flex items-center justify-center "
                   >
+                    <div className="absolute -z-10 w-full h-full radial-blur-b"></div>
                     {child}
                   </div>
                 ))
-              : reviews.map((review, i) => (
+              : reviews.map((review: review, i: number) => (
                   <figure
                     key={review.username}
                     style={{ transform: `translateX(${i * 350}px)`, willChange: "auto" }}

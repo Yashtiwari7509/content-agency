@@ -84,7 +84,7 @@
 }
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-ring/50 select-none;
   }
   body {
     @apply bg-white text-foreground;
@@ -102,6 +102,9 @@
 
 .hero-bg-mask {
   mask-image: linear-gradient(to top, transparent 10%, white 40%);
+}
+.grid-bg-mask {
+  mask-image: linear-gradient(to top, transparent 10%, white 30%);
 }
 
 #hero-section {

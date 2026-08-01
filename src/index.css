@@ -687,6 +687,153 @@ img {
 }
 
 /* ══════════════════════════════════════
+         COLOR & AUDIO VISUAL SLIDER
+      ══════════════════════════════════════ */
+
+/* Outer wrapper fills the visual area */
+.wf-ca-slider {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px;
+}
+
+/* Viewport clips overflowing slides */
+.wf-ca-viewport {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+/* Track: flex row, full width per slide */
+.wf-ca-track {
+  display: flex;
+  cursor: grab;
+  will-change: transform;
+}
+
+/* Each slide is full viewport width */
+.wf-ca-slide {
+  width: 100%;
+  flex-shrink: 0;
+  padding: 6px;
+  box-sizing: border-box;
+}
+
+/* Card */
+.wf-ca-card {
+  border: 1px solid;
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(4px);
+}
+
+.wf-ca-card-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: "Poppins", sans-serif;
+}
+
+.wf-ca-card-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 90px;
+}
+
+/* 4K Export card elements */
+.wf-ca-export {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.wf-ca-export-badge {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: #14E5E2;
+}
+
+.wf-ca-export-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+}
+
+.wf-ca-export-bar {
+  height: 6px;
+  border-radius: 100px;
+  background: linear-gradient(90deg, #14E5E2, #7C3AE2);
+  animation: wf-bar-pulse 1.4s ease-in-out infinite alternate;
+}
+
+/* ── Arrow buttons (shared with dots) ── */
+.wf-vs-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.8);
+  color: rgba(0, 0, 0, 0.65);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wf-vs-arrow:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.98);
+  transform: translateY(-50%) scale(1.06);
+}
+
+.wf-vs-arrow:disabled {
+  opacity: 0.2;
+  cursor: default;
+}
+
+.wf-vs-arrow--left { left: 8px; }
+.wf-vs-arrow--right { right: 8px; }
+
+/* ── Dot indicators ── */
+.wf-vs-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.wf-vs-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 100px;
+  background: rgba(0, 0, 0, 0.15);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.wf-vs-dot:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+
+/* ══════════════════════════════════════
            ANIMATIONS
         ══════════════════════════════════════ */
 @keyframes wf-float {

@@ -72,7 +72,7 @@ export default function ServicesSlider() {
       </div>
       {/* Row 1 — left */}
       <div className="mb-6 h-70 Service-slider-mask">
-        <InfiniteSlider direction="left" boxWidth={CARD_SLOT_WIDTH} boxHeight={CARD_HEIGHT}>
+        <InfiniteSlider reviews={services} direction="left" boxWidth={CARD_SLOT_WIDTH} boxHeight={CARD_HEIGHT}>
           {services.map((s, i) => (
             <div key={s.title} className="px-3">
               <ServiceCard title={s.title} subtitle={s.subtitle} appLabel={s.appLabel} docs={i} DesignLabel={s.Icon} />
