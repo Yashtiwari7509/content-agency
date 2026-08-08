@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import { ChevronDown, LayoutGrid, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useContact } from "@/components/contact/ContactContext";
+import AuroraFlair from "./AuroraFlair";
 
 const navItems = [{ name: "About", link: "/about" }];
 
@@ -25,7 +26,6 @@ export function NavbarTop() {
   const underlineRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
-  const ballRef = useRef<HTMLDivElement>(null);
   const linkRefs = useRef<Record<string, HTMLElement | null>>({});
 
   const { contextSafe } = useGSAP();
@@ -87,8 +87,16 @@ export function NavbarTop() {
     if (mobileOpen) {
       mobileMenuRef.current.style.visibility = "visible";
       mobileMenuRef.current.style.pointerEvents = "all";
-      gsap.fromTo(mobileMenuRef.current, { opacity: 0, y: -16 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out", overwrite: "auto" });
-      gsap.fromTo(items, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.35, stagger: 0.05, delay: 0.1, ease: "power2.out", overwrite: "auto" });
+      gsap.fromTo(
+        mobileMenuRef.current,
+        { opacity: 0, y: -16 },
+        { opacity: 1, y: 0, duration: 0.35, ease: "power3.out", overwrite: "auto" },
+      );
+      gsap.fromTo(
+        items,
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.35, stagger: 0.05, delay: 0.1, ease: "power2.out", overwrite: "auto" },
+      );
     } else {
       gsap.to(mobileMenuRef.current, {
         opacity: 0,
@@ -129,13 +137,6 @@ export function NavbarTop() {
     gsap.to(underlineRef.current, { opacity: 0, duration: 0.2, ease: "power2.inOut", overwrite: "auto" });
   });
 
-  const onButtonEnter = contextSafe(() => {
-    gsap.to(ballRef.current, { top: "-40%", duration: 0.9, ease: "power3.out" });
-  });
-  const onButtonLeave = contextSafe(() => {
-    gsap.to(ballRef.current, { top: "150%", duration: 0.7, ease: "power2.in" });
-  });
-
   const scrollToSection = (link: string) => {
     document.querySelector(link)?.scrollIntoView({ behavior: "smooth", block: "start" });
     setDropdownOpen(false);
@@ -147,7 +148,7 @@ export function NavbarTop() {
       <div
         className={cn(
           "hidden w-full max-w-5xl items-center backdrop justify-between rounded-full px-6 py-3.5 sm:flex border border-white",
-          "transition-[background-color,border-color,box-shadow,color] duration-700 ease-out",
+          "duration-700 ease-out",
         )}
       >
         <Link to="/" className="relative z-20 flex shrink-0 items-center">
@@ -238,18 +239,15 @@ export function NavbarTop() {
             </NavLink>
           ))}
         </div>
-
-        <button
-          onClick={openContact}
-          onMouseEnter={onButtonEnter}
-          onMouseLeave={onButtonLeave}
+        <AuroraFlair
           className={cn(
-            "relative shrink-0 overflow-hidden rounded-full px-6 py-2.5 text-[13px] font-semibold transition-colors duration-700",
-            scrolled ? "bg-neutral-900 text-white" : "bg-white text-neutral-900",
+            "relative shrink-0 cursor-pointer border-white border overflow-hidden rounded-full px-6 py-2.5 text-[13px] font-semibold transition-colors duration-700",
           )}
         >
-          <span className="relative z-10">Book call</span>
-        </button>
+          <h1 onClick={openContact} className="relative z-10">
+            Book call
+          </h1>
+        </AuroraFlair>
       </div>
 
       {/* Mobile */}
@@ -319,7 +317,7 @@ export function NavbarTop() {
               setMobileOpen(false);
               openContact();
             }}
-            className="mt-3 rounded-full w-full cursor-pointer bg-neutral-900 px-6 py-3 text-sm font-semibold text-white"
+            className="mt-3 rounded-full w-full cursor-pointer bg-neutral-900 px-6 py-3 text-sm  text-white"
           >
             Book call
           </button>

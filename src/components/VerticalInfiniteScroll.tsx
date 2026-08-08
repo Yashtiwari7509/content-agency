@@ -132,7 +132,7 @@ const VerticalInfiniteScroll: FC = () => {
   }, []);
 
   return (
-    <div className="h-90 overflow-hidden relative">
+    <div className="h-90 overflow-hidden relative w-full">
       <div ref={trackRef} className="flex flex-col will-change-transform" style={{ gap: GAP }}>
         {tripled.map(({ notification, index }, i) => (
           <div key={i} data-notif-item="">

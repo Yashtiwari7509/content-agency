@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { Video, Scissors, Film, Palette, CheckCircle2, ChevronRight } from "lucide-react";
+import StackedCardSlider from "@/components/StackedCardSlider";
 import SectionHeader from "@/components/SectionHeader";
 import SectionLabel from "@/components/SectionLabel";
 
@@ -116,30 +117,7 @@ const STEPS: Step[] = [
     metricLabel: "Delivery standard",
     visual: (
       <div className="wf-visual-color">
-        <div className="wf-color-wheel">
-          {["#7C3AE2", "#14E5E2", "#F977B2", "#F59E0B"].map((c, i) => (
-            <div
-              key={i}
-              className="wf-color-seg"
-              style={{
-                background: c,
-                transform: `rotate(${i * 90}deg) skewX(30deg)`,
-              }}
-            />
-          ))}
-        </div>
-        <div className="wf-waveform">
-          {Array.from({ length: 20 }).map((_, i) => (
-            <div
-              key={i}
-              className="wf-wave-bar"
-              style={{
-                height: `${20 + Math.abs(Math.sin(i * 0.8)) * 55}%`,
-                animationDelay: `${i * 0.06}s`,
-              }}
-            />
-          ))}
-        </div>
+        <StackedCardSlider />
       </div>
     ),
   },
@@ -179,26 +157,30 @@ export default function WorkflowSection() {
   const pillsRowRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
+  // contextSafe wraps imperative GSAP calls so they are registered to the
+  // component's GSAP context and cleaned up on unmount.
+  const { contextSafe } = useGSAP({ scope: sectionRef });
+
   const [active, setActive] = useState(0);
 
   const stepsCount = STEPS.length;
 
-  // Animate step content on change
+  // Animate step content on change — wrapped in contextSafe so all tweens are
+  // registered to this component's GSAP context and cleaned up on unmount.
   const activateStep = useCallback(
-    (index: number) => {
+    contextSafe((index: number) => {
       if (index === active) return;
 
-      const outDir = index > active ? -24 : 24;
+      // const outDir = index > active ? -24 : 24;
 
       gsap.to(".wf-step-body", {
-        opacity: 0,
-        y: outDir,
+        filter: "blur(10px)",
         duration: 0.22,
         ease: "power2.in",
-        onComplete: () => {
+        onComplete: contextSafe(() => {
           setActive(index);
-          gsap.fromTo(".wf-step-body", { opacity: 0, y: -outDir }, { opacity: 1, y: 0, duration: 0.38, ease: "power3.out" });
-        },
+          gsap.fromTo(".wf-step-body", { filter: "blur(10px)" }, { filter: "blur(0px)", duration: 0.38, ease: "power3.out" });
+        }),
       });
 
       // Animate progress bar
@@ -207,8 +189,8 @@ export default function WorkflowSection() {
         duration: 0.5,
         ease: "power2.out",
       });
-    },
-    [active, stepsCount],
+    }),
+    [active, stepsCount, contextSafe],
   );
 
   // Scroll-triggered entrance
@@ -319,10 +301,10 @@ export default function WorkflowSection() {
                 style={
                   isActive
                     ? {
-                        background: s.tagBg,
-                        color: s.tagColor,
-                        borderColor: s.accentColor + "66",
-                      }
+                      background: s.tagBg,
+                      color: s.tagColor,
+                      borderColor: s.accentColor + "66",
+                    }
                     : {}
                 }
                 onMouseEnter={() => activateStep(i)}

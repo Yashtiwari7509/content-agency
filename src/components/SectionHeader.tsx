@@ -32,7 +32,7 @@ const SectionHeader = ({ label, title, gradientWord, description, align = "cente
 
       {/* Description */}
       {description && (
-        <p className={`mt-3 text-sm text-gray-500 max-w-xl font-light leading-none reveal-text ${descAlign}`}>{description}</p>
+        <p className={`mt-3 text-sm text-gray-500 max-w-xl font-light leading-5 reveal-text ${descAlign}`}>{description}</p>
       )}
     </div>
   );

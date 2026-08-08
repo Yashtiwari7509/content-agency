@@ -5,14 +5,22 @@ import VerticalInfiniteScroll from "@/components/VerticalInfiniteScroll";
 import SectionHeader from "@/components/SectionHeader";
 import ReviewSlider from "./ReviewSlider";
 import { facebook, insta, linkedIn, mac, rays, reel, short, starSvg, youtube } from "@/assets/Image";
+// Thomas Delauer - 1.2M peak views/month
+// +18% - Watchtime
+
+// Nick Norwitz - 420k peak views/mo
+//  350k new subscribers
+
+// Andrew Koutnik - +2x - Click-Through Rate
+// +3x - Watchtime
 
 const clientsStatsData = [
   {
     id: "TD",
     name: "Thomas DeLauer",
-    niche: "Metabolic health · 700k views",
+    niche: "1.2M peak views/month",
     colorClass: "bg-slate-100 text-slate-800",
-    peakViews: "700k",
+    peakViews: "1.2M",
     newFollowers: "40k",
     barData: [
       { mo: "Jan", k: 170 },
@@ -27,7 +35,7 @@ const clientsStatsData = [
   {
     id: "NN",
     name: "Nick Norwitz",
-    niche: "Keto research · 420k views",
+    niche: "420k peak views/month",
     colorClass: "bg-sky-100 text-sky-800",
     peakViews: "420k",
     newFollowers: "25k",
@@ -44,7 +52,7 @@ const clientsStatsData = [
   {
     id: "AK",
     name: "Andrew Koutnick",
-    niche: "Nutrition · 280k views",
+    niche: "+2x - Click-Through Rate",
     colorClass: "bg-blue-100 text-blue-800",
     peakViews: "280k",
     newFollowers: "18k",

@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 export default function Balloons() {
   const balloons = [
     { top: "10%", left: "20%" },
-    { top: "25%", left: "40%" },
+    { top: "20%", left: "80%" },
     { top: "40%", left: "80%" },
     { top: "50%", left: "10%" },
   ];

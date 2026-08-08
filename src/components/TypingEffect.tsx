@@ -185,6 +185,7 @@ function MeasuredSlot({ words, children }: MeasuredSlotProps) {
         style={{ fontWeight: "700 !important" }}
         className="inline-flex items-center whitespace-nowrap gradient-text leading-tight"
       >
+        <div className="w-full h-full bg-background blur-2xl absolute -z-50"></div>
         {children}
       </span>
     </span>

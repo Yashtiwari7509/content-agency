@@ -16,7 +16,7 @@ export default function ServiceCard({
   DesignLabel,
 }: Props) {
   return (
-    <div className="w-72 rounded-[28px] bg-white border-black/10 relative will-change-transform">
+    <div className="w-72 rounded-[28px] bg-white border-zinc/10 relative will-change-transform border">
       {/* Top visual section */}
       <div className="relative h-12">
         {/* Top right label */}
@@ -28,16 +28,16 @@ export default function ServiceCard({
       {/* Bottom content */}
       <div className="px-4 pb-4!">
         {/* Title */}
-        <div className="mb-8">
-          <p className="mb-1 text-[20px] font-bold tracking-[-0.01em] text-black">{title}</p>
-          <p className="text-[14px] font-normal text-black">{subtitle}</p>
+        <div className="mb-4">
+          <p className="mb-1 text-2xl font-bold tracking-[-0.01em] text-black">{title}</p>
+          <p className="text-md font-normal text-black">{subtitle}</p>
         </div>
 
         {/* Stats */}
         <div className="flex items-center justify-between">
           <div className="flex items-baseline gap-1.5">
-            <span className="text-[36px] font-bold leading-none tracking-[-0.02em] text-black">{"0" + (docs + 1)}</span>
-            <span className="text-[14px] font-normal text-black">+</span>
+            {/* <span className="text-[36px] font-bold leading-none tracking-[-0.02em] text-black">{"0" + (docs + 1)}</span>
+            <span className="text-[14px] font-normal text-black">+</span> */}
           </div>
           <div>{DesignLabel && <DesignLabel className="size-6 font-light text-black" />}</div>
         </div>

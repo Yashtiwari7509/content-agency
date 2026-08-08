@@ -82,7 +82,7 @@ const ReviewSlider = () => {
         {reviews.map((item, i) => (
           <div
             key={item.id}
-            className="absolute inset-0 flex items-center gap-3 transition-opacity duration-700 ease-in-out hero-bg-mask"
+            className="absolute inset-0 flex items-center gap-3 transition-opacity duration-100 ease-out hero-bg-mask"
             style={{ opacity: i === current ? 1 : 0 }}
           >
             <img src={item.avatar} alt={item.name} className="size-10 rounded-full object-cover border-2 border-white shadow-sm" />

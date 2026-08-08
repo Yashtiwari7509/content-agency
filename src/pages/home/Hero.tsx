@@ -4,7 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
 import TypingLoop from "@/components/TypingEffect";
-import { cloud, fb, gradient, reel, short } from "@/assets/Image";
+import { cloud, fb, reel, short } from "@/assets/Image";
 import { A_dp, N_dp, T_dp } from "@/assets/ClientImage";
 
 const Icons = [{ src: fb }, { src: fb }, { src: short }, { src: short }, { src: reel }, { src: reel }, { src: short }, { src: short }];
@@ -92,10 +92,7 @@ const Hero = () => {
 
   return (
     <section ref={heroRef} id="hero-section" className="w-screen h-[clamp(700px,100vh,800px)] relative top-0 overflow-hidden">
-      {/* <div className="h-full w-full bg-background absolute top-0 z-0 hero-bg-mask"></div> */}
-      <div className="w-screen h-screen absolute top-0 -z-10">
-        <img src={gradient} className="w-full h-full rotate-image2 rotate-180" alt="" />
-      </div>
+      <div className="h-full w-full bg-background absolute top-0 z-0 hero-bg-mask"></div>
       <div className="absolute clouds top-5 left-1/3 z-0">
         <img src={cloud} width={300} height={200} alt="" />
       </div>

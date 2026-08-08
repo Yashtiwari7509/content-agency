@@ -2,9 +2,11 @@
 @font-face {
   font-family: "Cursive";
   src: url("/cursive.woff2") format("woff2");
-  font-weight: 400 700; /* covers full variable axis */
+  font-weight: 400 700;
+  /* covers full variable axis */
   font-style: normal;
-  font-display: swap; /* show fallback immediately, swap when ready */
+  font-display: swap;
+  /* show fallback immediately, swap when ready */
   unicode-range:
     U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212,
     U+2215, U+FEFF, U+FFFD;
@@ -607,45 +609,141 @@ img {
 }
 
 /* ══════════════════════════════════════
-           VISUAL: Color & Audio
+           VISUAL: Color & Audio — Stacked Card Slider
         ══════════════════════════════════════ */
 .wf-visual-color {
+  /* Fills the parent wf-panel-right naturally */
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+/* ── Stacked Slider container ── */
+.stacked-slider {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 16px;
-}
-
-.wf-color-wheel {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  overflow: hidden;
   position: relative;
-  animation: wf-spin 8s linear infinite;
+  padding: 12px 0 8px;
+  user-select: none;
 }
 
-.wf-color-seg {
-  position: absolute;
-  width: 50%;
-  height: 50%;
-  transform-origin: 100% 100%;
-}
-
-.wf-waveform {
+/* ── Track: the 3-card stage ── */
+.stacked-slider__track {
+  position: relative;
+  width: 100%;
+  flex: 1;
   display: flex;
   align-items: center;
-  gap: 2px;
-  height: 40px;
-  width: 180px;
+  justify-content: center;
+  overflow: visible;
 }
 
-.wf-wave-bar {
-  flex: 1;
-  border-radius: 2px;
-  background: linear-gradient(to top, #7c3ae2, #c4b5fd);
-  animation: wf-wave 1.4s ease-in-out infinite alternate;
+/* ── Individual card ── */
+.stacked-slider__card {
+  position: absolute;
+  /* center card ≈ 86% container width; height auto from aspect-ratio */
+  width: 86%;
+  aspect-ratio: 16 / 9;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(6px) saturate(1.4);
+  -webkit-backdrop-filter: blur(6px) saturate(1.4);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.22),
+    0 2px 8px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  will-change: transform, opacity;
+  transform-origin: center center;
+  transition: box-shadow 0.3s ease;
 }
+
+.stacked-slider__card:focus-visible {
+  outline: 2px solid rgba(124, 58, 226, 0.6);
+  outline-offset: 2px;
+}
+
+/* Slightly elevated shadow on center card (handled by z-index + GSAP) */
+.stacked-slider__track:has(.stacked-slider__card[aria-hidden="false"]) {
+  /* Native :has targeting — progressive enhancement only */
+}
+
+/* ── Controls row ── */
+.stacked-slider__controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 4px;
+  flex-shrink: 0;
+}
+
+/* ── Prev / Next buttons ── */
+.stacked-slider__btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(170, 0, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease,
+    border-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.stacked-slider__btn:hover {
+  background: rgba(124, 58, 226, 0.3);
+  border-color: rgba(124, 58, 226, 0.55);
+  color: #fff;
+  transform: scale(1.08);
+}
+
+.stacked-slider__btn:active {
+  transform: scale(0.96);
+}
+
+/* ── Dot indicators ── */
+.stacked-slider__dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stacked-slider__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.25);
+  border: none;
+  cursor: pointer;
+  transition:
+    width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background 0.25s ease, ;
+  padding: 0;
+}
+
+.stacked-slider__dot--active {
+  width: 20px;
+  border-radius: 4px;
+  background: rgba(124, 58, 226, 0.85);
+}
+
+
 
 /* ══════════════════════════════════════
            VISUAL: Delivery
@@ -806,8 +904,13 @@ img {
   cursor: default;
 }
 
-.wf-vs-arrow--left { left: 8px; }
-.wf-vs-arrow--right { right: 8px; }
+.wf-vs-arrow--left {
+  left: 8px;
+}
+
+.wf-vs-arrow--right {
+  right: 8px;
+}
 
 /* ── Dot indicators ── */
 .wf-vs-dots {
@@ -837,6 +940,7 @@ img {
            ANIMATIONS
         ══════════════════════════════════════ */
 @keyframes wf-float {
+
   0%,
   100% {
     transform: translateY(0);
@@ -860,6 +964,7 @@ img {
 }
 
 @keyframes wf-layer-shift {
+
   0%,
   100% {
     transform: translate(0, 0) rotate(0deg);
@@ -871,6 +976,7 @@ img {
 }
 
 @keyframes wf-layer-shift2 {
+
   0%,
   100% {
     transform: translate(0, 0) rotate(0deg);

@@ -50,7 +50,7 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(85.273% 0.13885 208.93);
+  --background: oklch(74.652% 0.12961 211.03);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -374,10 +374,6 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
-/* span {
-  font-family: "sans" !important;
-} */
 
 .audio-mask {
   mask-image: linear-gradient(to left, transparent 50%, black);
