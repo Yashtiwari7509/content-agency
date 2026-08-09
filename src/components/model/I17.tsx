@@ -148,7 +148,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     vid.volume = 0.5;
     if (vid.paused) {
       vid.currentTime = 0; // only reset when actually starting fresh
-      vid.play().catch(() => {}); // swallow AbortError from rapid play/pause races
+      vid.play().catch(() => { }); // swallow AbortError from rapid play/pause races
     }
   };
 
@@ -206,152 +206,146 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     };
   }, []);
 
-  useGSAP(() => {
-    const tickerCallback = () => invalidate();
-    gsap.ticker.add(tickerCallback);
-    const model = modelRef.current;
-    if (!model) return;
-    if (!shaderMaterialRef.current) return;
+  useGSAP(
+    () => {
+      const tickerCallback = () => invalidate();
+      gsap.ticker.add(tickerCallback);
+      const model = modelRef.current;
+      if (!model) return;
+      if (!shaderMaterialRef.current) return;
 
-    const mm = gsap.matchMedia();
+      const mm = gsap.matchMedia();
 
-    mm.add(
-      {
-        isDesktop: "(min-width: 700px)",
-        isMobileGSAP: "(max-width: 699px)",
-      },
-      (context) => {
-        const { isMobileGSAP } = context.conditions as { isMobileGSAP: boolean };
+      mm.add(
+        {
+          isDesktop: "(min-width: 700px)",
+          isMobileGSAP: "(max-width: 699px)",
+        },
+        (context) => {
+          const { isMobileGSAP } = context.conditions as { isMobileGSAP: boolean };
 
-        tl1Ref.current = gsap
-          .timeline({
-            defaults: {
-              ease: "none",
-            },
-            scrollTrigger: {
-              trigger: ".PhoneStats",
-              start: "-700px top",
-              end: "bottom top",
-              scrub: 0.5,
-              // markers: true,
-              onUpdate: () => {
-                invalidate();
+          tl1Ref.current = gsap
+            .timeline({
+              defaults: {
+                ease: "none",
               },
-            },
-          })
-          .to(model.position, {
-            x: isMobileGSAP ? 0 : 0.7,
-            y: 0,
-            duration: 1,
-          })
-          .from(model.rotation, { y: "+=" + 2 * Math.PI, duration: 1, ease: "none" }, 0)
-          .from("ho", { duration: 1 })
-          .to(model.position, {
-            x: isMobileGSAP ? 0 : -0.7,
-            y: 0,
-            duration: 1,
-          })
-          .to(model.rotation, { y: "-=" + Math.PI * 2, duration: 1, ease: "none" }, "-=.7")
-          .to(model.rotation, { duration: 1, ease: "none" })
-          .to(model.position, { x: isMobileGSAP ? 0 : -2, y: -2, duration: 1, ease: "none" })
-          .to(
-            model.rotation,
-            {
-              y: "-=" + 2 * Math.PI,
+              scrollTrigger: {
+                trigger: ".PhoneStats",
+                start: "-500px top",
+                end: "bottom top",
+                scrub: true,
+                onUpdate: () => {
+                  invalidate();
+                },
+              },
+            })
+            .to(model.position, {
+              x: isMobileGSAP ? 0 : 0.7,
+              y: 0,
               duration: 1,
-            },
-            "<",
-          );
-      },
-    );
-    const tabbedPageST = ScrollTrigger.create({
-      trigger: ".tabbedPage",
-      start: "-20% top",
-      end: "-10% top",
-      scrub: false,
-      // --------------------------------
-      // Entering tabbedPage
-      // uProgress: current → 1
-      // --------------------------------
-      onEnter: () => {
-        if (!mountedRef.current) return;
-        const progress = shaderMaterialRef.current?.uniforms.uProgress;
+            })
+            .from(model.rotation, { y: "+=" + 2 * Math.PI, duration: 1, ease: "none" }, 0)
+            .from("ho", { duration: 1 })
+            .to(model.position, {
+              x: isMobileGSAP ? 0 : -0.7,
+              y: 0,
+              duration: 1,
+            })
+            .to(model.rotation, { y: "-=" + Math.PI * 2, duration: 1, ease: "none" }, "<")
+            .to(model.rotation, { duration: 1, ease: "none" })
+            .to(model.position, { x: isMobileGSAP ? 0 : -.7, y: 1.7, duration: 2, ease: "none" })
+        },
+      );
+      const tabbedPageST = ScrollTrigger.create({
+        trigger: ".tabbedPage",
+        start: "-20% top",
+        end: "-10% top",
+        scrub: false,
+        // --------------------------------
+        // Entering tabbedPage
+        // uProgress: current → 1
+        // --------------------------------
+        onEnter: () => {
+          if (!mountedRef.current) return;
+          const progress = shaderMaterialRef.current?.uniforms.uProgress;
 
-        if (!progress) return;
-        gsap.to(progress, {
-          value: 1,
-          duration: 0.5,
-          ease: "power2.inOut",
-          onUpdate: invalidate,
-        });
+          if (!progress) return;
+          gsap.to(progress, {
+            value: 1,
+            duration: 0.5,
+            ease: "power2.inOut",
+            onUpdate: invalidate,
+          });
 
-        activeIndexRef.current = 1;
+          activeIndexRef.current = 1;
 
+          stopAllVideos();
+        },
+
+        // --------------------------------
+        // Leaving tabbedPage from bottom
+        // --------------------------------
+        onLeave: () => {
+          if (!mountedRef.current) return;
+
+          stopAllVideos();
+          setIsPlaying(false);
+        },
+
+        // --------------------------------
+        // Coming back into tabbedPage
+        // uProgress: current → 1
+        // --------------------------------
+        onEnterBack: () => {
+          if (!mountedRef.current) return;
+
+          const progress = shaderMaterialRef.current?.uniforms.uProgress;
+
+          if (!progress) return;
+          gsap.to(progress, {
+            value: 1,
+            duration: 0.5,
+            ease: "power2.inOut",
+            onUpdate: invalidate,
+          });
+
+          activeIndexRef.current = 1;
+
+          stopAllVideos();
+        },
+
+        // --------------------------------
+        // Scrolling back above tabbedPage
+        // uProgress: current → 0
+        // --------------------------------
+        onLeaveBack: () => {
+          if (!mountedRef.current) return;
+
+          const progress = shaderMaterialRef.current?.uniforms.uProgress;
+
+          if (!progress) return;
+          gsap.to(progress, {
+            value: 0,
+            duration: 0.5,
+            ease: "power2.inOut",
+            onUpdate: invalidate,
+          });
+
+          activeIndexRef.current = 0;
+
+          stopAllVideos();
+        },
+      });
+
+      return () => {
         stopAllVideos();
-      },
-
-      // --------------------------------
-      // Leaving tabbedPage from bottom
-      // --------------------------------
-      onLeave: () => {
-        if (!mountedRef.current) return;
-
-        stopAllVideos();
-        setIsPlaying(false);
-      },
-
-      // --------------------------------
-      // Coming back into tabbedPage
-      // uProgress: current → 1
-      // --------------------------------
-      onEnterBack: () => {
-        if (!mountedRef.current) return;
-
-        const progress = shaderMaterialRef.current?.uniforms.uProgress;
-
-        if (!progress) return;
-        gsap.to(progress, {
-          value: 1,
-          duration: 0.5,
-          ease: "power2.inOut",
-          onUpdate: invalidate,
-        });
-
-        activeIndexRef.current = 1;
-
-        stopAllVideos();
-      },
-
-      // --------------------------------
-      // Scrolling back above tabbedPage
-      // uProgress: current → 0
-      // --------------------------------
-      onLeaveBack: () => {
-        if (!mountedRef.current) return;
-
-        const progress = shaderMaterialRef.current?.uniforms.uProgress;
-
-        if (!progress) return;
-        gsap.to(progress, {
-          value: 0,
-          duration: 0.5,
-          ease: "power2.inOut",
-          onUpdate: invalidate,
-        });
-
-        activeIndexRef.current = 0;
-
-        stopAllVideos();
-      },
-    });
-
-    return () => {
-      stopAllVideos();
-      gsap.ticker.remove(tickerCallback);
-      tabbedPageST.kill(); // <-- critical
-      mm.revert();
-    };
-  });
+        gsap.ticker.remove(tickerCallback);
+        tabbedPageST.kill(); // <-- critical
+        mm.revert();
+      };
+    },
+    { dependencies: [] },
+  );
 
   return (
     <group
@@ -361,7 +355,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
       ref={modelRef}
       {...props}
       dispose={null}
-      position={[2, 2, 0]}
+      position={[2, 0, 0]}
       scale={3.5}
     >
       <group scale={0.22} name="Scene">

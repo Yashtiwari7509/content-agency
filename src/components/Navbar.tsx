@@ -12,7 +12,7 @@ const navItems = [{ name: "About", link: "/about" }];
 const contactSections = [
   { name: "Our Score", link: "#score" },
   { name: "Portfolio", link: "#portfolio" },
-  { name: "Reviews", link: "#Marqee-slider" },
+  { name: "Reviews", link: "#Marqee-Tag" },
 ];
 
 export function NavbarTop() {

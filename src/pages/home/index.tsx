@@ -10,7 +10,6 @@ import Preloader from "./new/Preloader";
 import TeamLineup from "./new/Loader";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import ProductCardGrid from "./Product";
 
 const ServicesSlider = lazy(() => import("./ServicesSlider"));
 const WorkflowSection = lazy(() => import("./WorkflowSection"));
@@ -122,7 +121,8 @@ const Home = () => {
       })
       .call(unlockScroll)
       .from(".clouds", { y: 200, duration: 1.6, ease: "power4.out" }, "-=.6")
-      .from(".text-container", { y: 250, duration: 1, ease: "power4.out" }, "<");
+      .from(".text-container", { y: 250, duration: 1, ease: "power4.out" }, "<")
+      .from(".center", { y: 250, scale : 1.2, opacity: 0, immediateRender: true }, "<");
   });
 
   return (
@@ -139,8 +139,6 @@ const Home = () => {
           >
             <PhoneVideo />
             <Hero />
-            <ProductCardGrid/>
-            {/* <Compare firstImage={Nick1} secondImage={Andrew1} showHandlebar={true} /> */}
             <ApertureCardSlider />
             <GridScore />
             <PhoneStats />

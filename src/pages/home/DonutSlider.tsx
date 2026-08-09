@@ -9,6 +9,8 @@ const SEGMENTS = [
   {
     title: "Long-form Editing",
     subtitle: "YouTube, documentaries, podcasts",
+    description:
+      "We transform expert knowledge into high-quality content. From podcasts and interviews to explainers and long-form videos, our editors combine precise storytelling, clean visuals, and thoughtful motion design to make complex ideas clear, engaging, and easy to understand.",
     color: "#86EFAC", // Emerald 300
     lightColor: "#DCFCE7", // Emerald 100
     icon: LaptopMinimalIcon,
@@ -16,6 +18,8 @@ const SEGMENTS = [
   {
     title: "Short-form Editing",
     subtitle: "Reels, Shorts, TikToks",
+    description:
+      "We turn complex ideas and expert insights into concise, engaging short-form content. From long-form repurposing to original edits, we produce professional Shorts, Reels, and TikToks with clear captions, intelligent motion graphics, and supporting b-roll that keeps viewers engaged.",
     color: "#67E8F9", // Cyan 300
     lightColor: "#CFFAFE", // Cyan 100
     icon: Smartphone,
@@ -23,6 +27,8 @@ const SEGMENTS = [
   {
     title: "Social Media Management",
     subtitle: "Growth, strategy & distribution",
+    description:
+      "Beyond content production, we provide end-to-end social media management to build and strengthen your brand across YouTube, Instagram, and X. From content strategy and platform-specific optimization to publishing, community management, and performance tracking, our team manages your social presence with a consistent approach designed to expand your reach, strengthen your authority, and drive long-term brand growth.",
     color: "#F9A8D4", // Pink 300
     lightColor: "#FCE7F3", // Pink 100
     icon: SwatchBookIcon,
@@ -69,6 +75,7 @@ export default function DonutSlider() {
   const badgeRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const descRef = useRef<HTMLParagraphElement>(null);
 
   const [progress, setProgress] = useState(0);
 
@@ -133,6 +140,10 @@ export default function DonutSlider() {
         type: "words,lines",
         mask: "lines",
       });
+      const desc = SplitText.create(descRef.current, {
+        type: "words,lines",
+        mask: "lines",
+      });
 
       const tl = gsap.timeline({
         defaults: {
@@ -177,11 +188,26 @@ export default function DonutSlider() {
             duration: 0.4,
           },
           "-=0.25",
+        )
+        .fromTo(
+          desc.lines,
+          {
+            y: 16,
+            opacity: 0,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.5,
+            stagger: 0.04,
+          },
+          "-=0.2",
         );
       return () => {
         tl.kill();
         title.revert();
         subtitle.revert();
+        desc.revert();
       };
     },
     {
@@ -296,7 +322,16 @@ export default function DonutSlider() {
               </div>
             </div>
           </div>
+
         </div>
+        {/* Description */}
+        <p
+          key={`desc-${activeIndex}`}
+          ref={descRef}
+          className="mt-5 text-sm md:text-base text-center  leading-relaxed text-zinc-500"
+        >
+          {activeSegment.description}
+        </p>
       </div>
     </section>
   );

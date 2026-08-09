@@ -126,60 +126,6 @@ h2 {
   font-style: normal;
 }
 
-.poppins-thin-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 100;
-  font-style: italic;
-}
-
-.poppins-extralight-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 200;
-  font-style: italic;
-}
-
-.poppins-light-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 300;
-  font-style: italic;
-}
-
-.poppins-regular-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 400;
-  font-style: italic;
-}
-
-.poppins-medium-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 500;
-  font-style: italic;
-}
-
-.poppins-semibold-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 600;
-  font-style: italic;
-}
-
-.poppins-bold-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  font-style: italic;
-}
-
-.poppins-extrabold-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 800;
-  font-style: italic;
-}
-
-.poppins-black-italic {
-  font-family: "Poppins", sans-serif;
-  font-weight: 900;
-  font-style: italic;
-}
-
 /* Central Plyr video player */
 .video-player .plyr {
   --plyr-color-main: #ec4899;
@@ -733,7 +679,7 @@ img {
   cursor: pointer;
   transition:
     width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-    background 0.25s ease, ;
+    background 0.25s ease;
   padding: 0;
 }
 
@@ -742,8 +688,6 @@ img {
   border-radius: 4px;
   background: rgba(124, 58, 226, 0.85);
 }
-
-
 
 /* ══════════════════════════════════════
            VISUAL: Delivery
@@ -858,7 +802,7 @@ img {
   font-size: 26px;
   font-weight: 800;
   letter-spacing: -0.04em;
-  color: #14E5E2;
+  color: #14e5e2;
 }
 
 .wf-ca-export-bars {
@@ -871,7 +815,7 @@ img {
 .wf-ca-export-bar {
   height: 6px;
   border-radius: 100px;
-  background: linear-gradient(90deg, #14E5E2, #7C3AE2);
+  background: linear-gradient(90deg, #14e5e2, #7c3ae2);
   animation: wf-bar-pulse 1.4s ease-in-out infinite alternate;
 }
 
@@ -935,12 +879,10 @@ img {
   background: rgba(0, 0, 0, 0.3);
 }
 
-
 /* ══════════════════════════════════════
            ANIMATIONS
         ══════════════════════════════════════ */
 @keyframes wf-float {
-
   0%,
   100% {
     transform: translateY(0);
@@ -964,7 +906,6 @@ img {
 }
 
 @keyframes wf-layer-shift {
-
   0%,
   100% {
     transform: translate(0, 0) rotate(0deg);
@@ -976,7 +917,6 @@ img {
 }
 
 @keyframes wf-layer-shift2 {
-
   0%,
   100% {
     transform: translate(0, 0) rotate(0deg);
@@ -1018,7 +958,7 @@ img {
   }
 
   .wf-panel-right {
-    min-height: 200px;
+    min-height: 300px;
     padding: 28px 22px;
     border-right: none;
     border-top: 1px solid rgba(0, 0, 0, 0.06);
@@ -1035,4 +975,297 @@ img {
 /* gsap.set(el, { visibility: "visible" }) is called in revealEl() in App.tsx */
 .reveal-text {
   visibility: hidden;
+}
+
+/* ══════════════════════════════════════════
+   FOUNDERS SECTION — Light theme
+   ══════════════════════════════════════════ */
+
+.founders-section {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #ffffff;
+  padding: 100px 0 0;
+}
+
+/* ── Ambient blobs ── */
+.founders-blob {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(120px);
+  z-index: 0;
+}
+
+.founders-blob--left {
+  width: 500px;
+  height: 500px;
+  left: -150px;
+  top: 0;
+  background: radial-gradient(circle, rgba(29, 158, 117, 0.1) 0%, transparent 70%);
+}
+
+.founders-blob--right {
+  width: 500px;
+  height: 500px;
+  right: -150px;
+  top: 0;
+  background: radial-gradient(circle, rgba(41, 121, 255, 0.08) 0%, transparent 70%);
+}
+
+.founders-blob--center {
+  width: 700px;
+  height: 400px;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  background: radial-gradient(ellipse, rgba(29, 158, 117, 0.06) 0%, transparent 70%);
+}
+
+/* ── Header ── */
+.founders-header {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 24px 60px;
+}
+
+.founders-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Poppins", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.4);
+  margin-bottom: 20px;
+}
+
+.founders-eyebrow-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #1d9e75;
+  box-shadow: 0 0 8px rgba(29, 158, 117, 0.5);
+  animation: founders-dot-pulse 2s ease-in-out infinite;
+}
+
+@keyframes founders-dot-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.7); }
+}
+
+.founders-heading {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(40px, 6vw, 80px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: #0a0a0a;
+  margin: 0 0 20px;
+}
+
+.founders-heading-accent {
+  font-style: normal;
+  background: linear-gradient(90deg, #1d9e75, #2979ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.founders-subtext {
+  font-family: "Poppins", sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.45);
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ── Row ── */
+.founders-row {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Individual figure ── */
+.founders-figure {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: default;
+}
+
+/* Glow halo at foot of image */
+.founders-glow {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 60px;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.15;
+  transition: opacity 0.5s ease;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.founders-figure:hover .founders-glow {
+  opacity: 0.35;
+}
+
+/* ── Image wrapper — clips to waist ── */
+.founders-img-wrap {
+  position: relative;
+  width: 100%;
+  /* Show top ~65% of the image, hiding legs below waist */
+  height: clamp(320px, 40vw, 520px);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.founders-img {
+  width: 100%;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+  object-position: top center;
+  transform-origin: bottom center;
+  transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: block;
+  /* Show the image starting from the top so we see head→waist */
+  position: relative;
+  top: 0;
+}
+
+.founders-img--flipped {
+  transform: scaleX(-1);
+}
+
+.founders-img--flipped:hover,
+.founders-figure:hover .founders-img--flipped {
+  transform: scaleX(-1) scale(1.03) translateY(-6px);
+}
+
+.founders-figure:hover .founders-img:not(.founders-img--flipped) {
+  transform: scale(1.03) translateY(-6px);
+}
+
+/* ── Label — sits at the very bottom of the img-wrap ── */
+.founders-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  padding: 24px 24px 20px;
+  /* Frosted light gradient that bleeds upward into the image */
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0.97) 0%,
+    rgba(255, 255, 255, 0.85) 45%,
+    transparent 100%
+  );
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: padding 0.4s ease;
+}
+
+.founders-figure:hover .founders-label {
+  padding-bottom: 24px;
+}
+
+.founders-label-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.founders-label-role {
+  font-family: "Poppins", sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  /* color set inline via accent */
+  line-height: 1;
+}
+
+.founders-label-name {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(18px, 2vw, 26px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #0a0a0a;
+  line-height: 1.1;
+}
+
+/* Thin accent bar below name */
+.founders-label-bar {
+  height: 2px;
+  width: 32px;
+  border-radius: 2px;
+  opacity: 0.7;
+  transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+}
+
+.founders-figure:hover .founders-label-bar {
+  width: 64px;
+  opacity: 1;
+}
+
+/* ── Dividers between figures ── */
+.founders-figure + .founders-figure::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 20%;
+  width: 1px;
+  height: 40%;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.08), transparent);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .founders-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 0 20px;
+  }
+
+  .founders-figure {
+    width: 100%;
+    max-width: 340px;
+  }
+
+  .founders-figure + .founders-figure::before {
+    display: none;
+  }
+
+  .founders-img-wrap {
+    height: 340px;
+  }
+
+  .founders-section {
+    padding: 70px 0 0;
+  }
 }

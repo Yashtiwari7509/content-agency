@@ -29,7 +29,7 @@ function PageFloatingStats() {
               </div>
             </div>
 
-            <div className="mt-5 max-w-[280px] text-[12px] leading-relaxed text-gray-500">
+            <div className="mt-5 hidden max-w-[280px] text-[12px] leading-relaxed text-gray-500">
               Every short is engineered to capture attention, hold retention, and turn passive scrolling into measurable reach.
             </div>
           </div>

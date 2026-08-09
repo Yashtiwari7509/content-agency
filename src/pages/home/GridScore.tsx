@@ -22,13 +22,14 @@ const clientsStatsData = [
     colorClass: "bg-slate-100 text-slate-800",
     peakViews: "1.2M",
     newFollowers: "40k",
+    heading: "+18 % - Watchtime",
     barData: [
       { mo: "Jan", k: 170 },
       { mo: "Feb", k: 210 },
       { mo: "Mar", k: 280 },
       { mo: "Apr", k: 390 },
       { mo: "May", k: 510 },
-      { mo: "Jun", k: 700 },
+      { mo: "Jun", k: 1200 },
     ],
     maxK: 300,
   },
@@ -37,6 +38,7 @@ const clientsStatsData = [
     name: "Nick Norwitz",
     niche: "420k peak views/month",
     colorClass: "bg-sky-100 text-sky-800",
+    heading: "350k new subscribers",
     peakViews: "420k",
     newFollowers: "25k",
     barData: [
@@ -54,6 +56,7 @@ const clientsStatsData = [
     name: "Andrew Koutnick",
     niche: "+2x - Click-Through Rate",
     colorClass: "bg-blue-100 text-blue-800",
+    heading: "+3x - Watchtime",
     peakViews: "280k",
     newFollowers: "18k",
     barData: [
@@ -149,7 +152,7 @@ const GridScore = () => {
       repeat: -1,
       duration: 20,
       delay: 3,
-      ease: 'none'
+      ease: "none",
     });
   });
   return (
@@ -173,6 +176,9 @@ const GridScore = () => {
               40
             </h1>
             <h4 className="text-3xl tracking-tight font-semibold reveal-text">Channels Managed</h4>
+            <p className="text-center text-xs w-sm md:text-sm md:w-md px-4 mt-2 text-zinc-600">
+              Healthcare creators served <b>Physicians, dietitians, researchers, and wellness coaches </b> across YouTube and short-form.
+            </p>
           </div>
           <div className="absolute z-0 bottom-0 left-0 size-full">
             <img src={rays} className="size-full" alt="" />
@@ -193,7 +199,7 @@ const GridScore = () => {
               </h2>
               <h4 className="text-6xl ml-16 font-bold">
                 Raw <br />
-                Video <br />
+                Videos <br />
                 Edited
               </h4>
             </div>
@@ -202,31 +208,32 @@ const GridScore = () => {
 
         <div className="bottom-left overflow-hidden">
           <div className="inner-grid w-full h-full">
-            
             <div className="grid-bg-mask">
               <div className="relative grid-circle w-full h-120 mx-auto top-70 absolute -translate-x-1/2 left-1/2">
-                {[youtube, insta, facebook, short, reel, linkedIn, youtube, insta, facebook, short, reel, linkedIn].map((link, index, arr) => {
-                  const total = arr.length;
-                  const radius = 180; // distance from center to each icon
-                  const angle = (360 / total) * index - 90; // start from top, go clockwise
-                  const rad = (angle * Math.PI) / 180;
-                  const x = radius * Math.cos(rad);
-                  const y = radius * Math.sin(rad);
-                  // rotate icon so its "up" points away from center (tangent to circle)
-                  const rotation = angle + 90;
-                  return (
-                    <img
-                      key={index}
-                      src={link}
-                      className="absolute h-18 w-18 icon_png object-cover"
-                      style={{
-                        top: "50%",
-                        left: "50%",
-                        transform: `translate(-50%, -50%) translate(${x}px, ${y}px) rotate(${rotation}deg)`,
-                      }}
-                    />
-                  );
-                })}
+                {[youtube, insta, facebook, short, reel, linkedIn, youtube, insta, facebook, short, reel, linkedIn].map(
+                  (link, index, arr) => {
+                    const total = arr.length;
+                    const radius = 180; // distance from center to each icon
+                    const angle = (360 / total) * index - 90; // start from top, go clockwise
+                    const rad = (angle * Math.PI) / 180;
+                    const x = radius * Math.cos(rad);
+                    const y = radius * Math.sin(rad);
+                    // rotate icon so its "up" points away from center (tangent to circle)
+                    const rotation = angle + 90;
+                    return (
+                      <img
+                        key={index}
+                        src={link}
+                        className="absolute h-18 w-18 icon_png object-cover"
+                        style={{
+                          top: "50%",
+                          left: "50%",
+                          transform: `translate(-50%, -50%) translate(${x}px, ${y}px) rotate(${rotation}deg)`,
+                        }}
+                      />
+                    );
+                  },
+                )}
               </div>
             </div>
             <div id="Marqee-slider-vertical" className="absolute px-3 -top-6 left-0 w-full flex justify-center">
@@ -241,25 +248,18 @@ const GridScore = () => {
             <ReviewSlider />
           </div>
         </div>
-        <div className="bottom-right relative">
+        <div className="bottom-right relative backdrop">
           <div className="inner-grid w-full h-full relative p-6 lg:p-8 flex flex-col justify-between z-10">
             <div className="z-10 relative flex-1 flex flex-col">
-              <div className="inline-flex items-center gap-1.5 text-[10px] tracking-widest uppercase px-2.5 py-1 rounded-full font-semibold mb-4 bg-white text-slate-700 w-fit">
-                Fixed: growth chart, no duplicates
+              <div className="inline-flex items-center gap-1.5 text-md tracking-widest uppercase px-2.5 py-1 rounded-full font-semibold mb-4 bg-primary text-white w-fit">
+                {selectedClient.heading}
               </div>
-
               <div className="flex gap-6 items-end shrink-0">
                 <div>
-                  <div className="font-bold text-3xl font-sans tracking-tight text-gray-900 transition-all duration-300">
+                  <div className="font-bold text-3xl font-sans tracking-tight text-primary transition-all duration-300">
                     {selectedClient.peakViews}
                   </div>
                   <div className="text-xs text-gray-500 mt-1 font-medium">peak views/mo</div>
-                </div>
-                <div>
-                  <div className="font-bold text-3xl font-sans tracking-tight text-gray-900 transition-all duration-300">
-                    {selectedClient.newFollowers}
-                  </div>
-                  <div className="text-xs text-gray-500 mt-1 font-medium">new followers</div>
                 </div>
               </div>
 
@@ -267,7 +267,7 @@ const GridScore = () => {
                 {selectedClient.barData.map((d, i) => (
                   <div key={i} className="flex-1 flex flex-col items-center gap-1.5 h-full justify-end group">
                     <div
-                      className="w-full rounded-t-lg bg-background/80 group-hover:bg-background cursor-pointer relative transition-colors duration-200"
+                      className="w-full rounded-t-full bg-background/80 group-hover:bg-background cursor-pointer relative transition-colors duration-200"
                       style={{ height: `${Math.round((d.k / selectedClient.maxK) * 100)}%` }}
                     >
                       <h2 className="absolute -top-6 left-1/2 -translate-x-1/2 text-[11px] font-bold text-sky-700 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
@@ -280,11 +280,7 @@ const GridScore = () => {
               </div>
             </div>
 
-            <div className="z-10 relative mt-6 shrink-0">
-              <div className="inline-flex items-center gap-1.5 text-[10px] tracking-widest uppercase px-2.5 py-1 rounded-full font-semibold mb-3 bg-white text-slate-700 w-fit">
-                Fixed: real client names on hover
-              </div>
-
+            <div className="z-10 relative mt-10 shrink-0">
               <div className="flex items-center gap-2 flex-wrap">
                 {clientsStatsData.map((client, idx) => (
                   <div
@@ -316,8 +312,7 @@ const GridScore = () => {
               </h1>
             </div>
 
-            <div className="radial-blur-v size-50 absolute bottom-0 right-0 z-0 blur-xl opacity-80 pointer-events-none"></div>
-            <div className="radial-blur-b size-80 absolute top-0 -left-20 z-0 blur-xl opacity-40 pointer-events-none"></div>
+            <div className="radial-blur-v size-50 absolute -bottom-10 right-0 z-0 blur-xl opacity-80 pointer-events-none"></div>
           </div>
         </div>
       </div>

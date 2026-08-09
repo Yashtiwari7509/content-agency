@@ -1,4 +1,4 @@
-import { cloud, gradient } from "@/assets/Image";
+import { aboutLogo, cloud } from "@/assets/Image";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import DrawSVGPlugin from "gsap/DrawSVGPlugin";
@@ -53,27 +53,7 @@ const About = () => {
       },
       "-=3",
     );
-    // gsap.to(".rotate-image2", {
-    //   rotateX: 180,
-    //   transformOrigin: "top top",
-    //   scrollTrigger: {
-    //     trigger: ".pin-about",
-    //     start: "center top",
-    //     end: "+=1000",
-    //     scrub: 0.3,
-    //     // markers: true,
-    //   },
-    // });
-    // gsap.from(".rotate-image", {
-    //   rotateX: -180,
-    //   transformOrigin: "bottom bottom",
-    //   scrollTrigger: {
-    //     trigger: ".pin-about",
-    //     start: "center top",
-    //     end: "+=1000",
-    //     scrub: 0.3,
-    //   },
-    // });
+  
   }, []);
 
   useGSAP(() => {
@@ -122,17 +102,14 @@ const About = () => {
               <div className="content">
                 <span className="badge">
                   <span className="icon-circle">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-                      <path d="M12 2L4 5v6c0 5.25 3.4 9.74 8 11 4.6-1.26 8-5.75 8-11V5l-8-3z" fill="white" />
-                      <path d="M12 8v8M8 12h8" stroke="#2f8ff0" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
+                    <img src={aboutLogo} alt="" />
                   </span>
                   Healthcare Content Agency
                 </span>
 
                 <div className="title flex justify-center items-center">
                   <p className="the">The&nbsp; X</p>
-                  <span className="xpro">pro</span>
+                  <p className="xpro">Pro</p>
                 </div>
 
                 <p className="subtitle">
@@ -155,8 +132,6 @@ const About = () => {
                       <div className="label">First Draft</div>
                     </div>
                   </div>
-
-                  <div className="divider"></div>
 
                   <div className="stat">
                     <span className="icon">
@@ -182,8 +157,6 @@ const About = () => {
                     </div>
                   </div>
 
-                  <div className="divider"></div>
-
                   <div className="stat">
                     <span className="icon">
                       <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
@@ -200,7 +173,6 @@ const About = () => {
                       <div className="label">Revisions</div>
                     </div>
                   </div>
-                  <div className="divider"></div>
 
                   <div className="stat">
                     <span className="icon">
@@ -225,4 +197,3 @@ const About = () => {
 };
 
 export default About;
-

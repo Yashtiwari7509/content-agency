@@ -80,15 +80,6 @@ export default function ContactSection() {
 
   return (
     <section ref={sectionRef} id="contact-section" className="relative w-full  py-24 px-6">
-      {/* Background decoration */}
-      <div
-        className="pointer-events-none absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full opacity-25 blur-3xl"
-        style={{ background: bgAccent }}
-      />
-      <div
-        className="pointer-events-none absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full opacity-20 blur-3xl"
-        style={{ background: bgAccent }}
-      />
 
       {/* Section header */}
       <div className="relative z-10">

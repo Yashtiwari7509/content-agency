@@ -11,6 +11,6 @@ import linkedIn from "./linkedin.webp";
 import youtube from "./youtube.webp";
 import facebook from "./facebook.webp";
 import insta from "./insta.webp";
-import gradient from "./gradient.webp";
+import aboutLogo from "./logoAbout.webp";
 
-export { cloud, rays, mac, starSvg, fb, reel, short, brush, tiktok, linkedIn, facebook, youtube, insta, gradient };
+export { cloud, rays, mac, starSvg, fb, reel, short, brush, tiktok, linkedIn, facebook, youtube, insta, aboutLogo };
