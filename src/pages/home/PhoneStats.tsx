@@ -361,7 +361,7 @@ function PageTabbed() {
   });
 
   return (
-    <div className="w-full max-w-2xl mx-auto mt-auto lg:ml-auto lg:mx-0 lg:w-[672px] mt-10 lg:mt-40 flex flex-col gap-4 pointer-events-auto">
+    <div className="w-full max-w-2xl mx-auto my-auto lg:mt-auto lg:ml-auto lg:mx-0 lg:w-[672px] mt-10 lg:mt-40 flex flex-col gap-4 pointer-events-auto">
       {/* Tab switcher */}
       <div className="flex justify-center lg:justify-end gap-2 flex-wrap">
         {TABS.map((tab) => (
@@ -395,7 +395,7 @@ const PhoneStats = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section ref={sectionRef} className="PhoneStats relative w-screen h-[200vh] pointer-events-none">
+    <section ref={sectionRef} className="PhoneStats relative w-screen h-[180vh] lg:h-[210vh] pointer-events-none">
       <div className="pointer-events-none absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full opacity-25 blur-3xl bg-background" />
       <div className="pointer-events-none absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full opacity-20 blur-3xl bg-background" />
 

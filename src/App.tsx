@@ -15,6 +15,7 @@ import DrawSVGPlugin from "gsap/DrawSVGPlugin";
 import MotionPathPlugin from "gsap/MotionPathPlugin";
 import { SplitText } from "gsap/SplitText";
 import MouseMove from "./components/MouseMove";
+import DesktopOnly from "./components/DesktopOnly";
 import { ContactProvider } from "./components/contact/ContactContext";
 import { ContactModal } from "./components/contact/ContactModal";
 
@@ -141,7 +142,9 @@ function App() {
       <ContactProvider>
         <div ref={mainRef} className="relative w-screen overflow-hidden">
           <NavbarTop />
-          <MouseMove />
+          <DesktopOnly>
+            <MouseMove />
+          </DesktopOnly>
           <ContactModal />
 
           <Routes>

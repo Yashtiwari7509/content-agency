@@ -143,8 +143,7 @@ export function NavbarTop() {
     gsap.to(underlineRef.current, { opacity: 0, duration: 0.2, ease: "power2.inOut", overwrite: "auto" });
   });
 
-  const currentSections =
-    location.pathname === "/about" ? aboutSections : homeSections;
+  const currentSections = location.pathname === "/about" ? aboutSections : homeSections;
 
   const scrollToSection = (link: string) => {
     document.querySelector(link)?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -160,7 +159,14 @@ export function NavbarTop() {
           "duration-700 ease-out",
         )}
       >
-        <Link to="/" className="relative z-20 font-bold flex shrink-0 items-center border px-4 py-2 rounded-full" onClick={(e) => { e.preventDefault(); window.location.href = '/'; }}>
+        <Link
+          to="/"
+          className="relative z-20 font-bold flex shrink-0 items-center border px-4 py-2 rounded-full"
+          onClick={(e) => {
+            e.preventDefault();
+            window.location.href = "/";
+          }}
+        >
           <p className="the">The X</p>
           <p className="xpro">Pro</p>
         </Link>
@@ -261,15 +267,18 @@ export function NavbarTop() {
             "flex items-center justify-between rounded-full px-3 py-2 transition-[background-color,border-color] duration-700 backdrop border border-white/40",
           )}
         >
-          <Link to="/" className="flex items-center px-1 py-1">
-            <img
-              src="https://img.freepik.com/premium-vector/colorful-bird-wing-feather-logo-icon_23758-199.jpg?semt=ais_hybrid&w=740&q=80"
-              alt="logo"
-              width={28}
-              height={28}
-              className="rounded-full"
-            />
+          <Link
+            to="/"
+            className="relative z-20 font-bold flex shrink-0 items-center border px-4 py-2 rounded-full"
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.href = "/";
+            }}
+          >
+            <p className="the">The X</p>
+            <p className="xpro">Pro</p>
           </Link>
+
           <button
             onClick={() => setMobileOpen((v) => !v)}
             className={cn("rounded-full border p-2.5 transition-colors border-white/40", scrolled ? " text-neutral-900" : " text-white")}

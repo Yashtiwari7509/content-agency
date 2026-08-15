@@ -1293,3 +1293,13 @@ img {
   background-clip: text;
   color: transparent;
 }
+/* DesktopOnly utility */
+.desktop-only {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .desktop-only {
+    display: contents;
+  }
+}

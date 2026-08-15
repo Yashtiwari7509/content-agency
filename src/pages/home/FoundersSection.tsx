@@ -69,7 +69,7 @@ export default function FoundersSection() {
             )}
 
             {/* Image + label wrapper */}
-            <div className="relative w-full h-[200px] sm:h-[500px]">
+            <div className="relative w-full h-[450px] sm:h-[500px]">
               <img
                 src={founder.src}
                 alt={founder.name}

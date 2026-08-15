@@ -10,6 +10,7 @@ import Preloader from "./new/Preloader";
 import TeamLineup from "./new/Loader";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import DesktopOnly from "@/components/DesktopOnly";
 
 const ServicesSlider = lazy(() => import("./ServicesSlider"));
 const WorkflowSection = lazy(() => import("./WorkflowSection"));
@@ -122,7 +123,7 @@ const Home = () => {
       .call(unlockScroll)
       .from(".clouds", { y: 200, duration: 1.6, ease: "power4.out" }, "-=.6")
       .from(".text-container", { y: 250, duration: 1, ease: "power4.out" }, "<")
-      .from(".center", { y: 50, scale : 1.2, opacity: 0, immediateRender: true }, "<");
+      .from(".center", { y: 50, scale: 1.2, opacity: 0, immediateRender: true }, "<");
   });
 
   return (
@@ -137,7 +138,9 @@ const Home = () => {
               pointerEvents: ready ? "auto" : "none",
             }}
           >
-            <PhoneVideo />
+            <DesktopOnly>
+              <PhoneVideo />
+            </DesktopOnly>
             <Hero />
             <ApertureCardSlider />
             <GridScore />
