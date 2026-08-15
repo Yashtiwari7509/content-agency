@@ -296,9 +296,9 @@ const GridScore = () => {
                       ref={(el) => {
                         tooltipRefs.current[client.id] = el;
                       }}
-                      className="absolute bottom-[130%] left-1/2 -translate-x-1/2 whitespace-nowrap p-3 backdrop-blur-xs border border-white rounded-2xl"
+                      className="absolute bottom-[130%] left-1/2 -translate-x-1/2 whitespace-nowrap p-3  backdrop bg-black/40 rounded-full"
                     >
-                      <p className="text-gray-900 text-sm mb-0.5">{client.name}</p>
+                      <p className="text-white text-sm mb-0.5">{client.name}</p>
                     </div>
                   </div>
                 ))}

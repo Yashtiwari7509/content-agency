@@ -9,10 +9,16 @@ import AuroraFlair from "./AuroraFlair";
 
 const navItems = [{ name: "About", link: "/about" }];
 
-const contactSections = [
+const homeSections = [
   { name: "Our Score", link: "#score" },
   { name: "Portfolio", link: "#portfolio" },
   { name: "Reviews", link: "#Marqee-Tag" },
+];
+
+// TODO: replace these link values with the actual section IDs on the About page
+const aboutSections = [
+  { name: "Achievements", link: "#acheive" },
+  { name: "Founders", link: "#founders" },
 ];
 
 export function NavbarTop() {
@@ -137,6 +143,9 @@ export function NavbarTop() {
     gsap.to(underlineRef.current, { opacity: 0, duration: 0.2, ease: "power2.inOut", overwrite: "auto" });
   });
 
+  const currentSections =
+    location.pathname === "/about" ? aboutSections : homeSections;
+
   const scrollToSection = (link: string) => {
     document.querySelector(link)?.scrollIntoView({ behavior: "smooth", block: "start" });
     setDropdownOpen(false);
@@ -147,18 +156,13 @@ export function NavbarTop() {
       {/* Desktop */}
       <div
         className={cn(
-          "hidden w-full max-w-5xl items-center backdrop justify-between rounded-full px-6 py-3.5 sm:flex border border-white",
+          "hidden w-full max-w-5xl items-center backdrop justify-between rounded-full px-4 py-3.5 sm:flex border border-white",
           "duration-700 ease-out",
         )}
       >
-        <Link to="/" className="relative z-20 flex shrink-0 items-center">
-          <img
-            src="https://img.freepik.com/premium-vector/colorful-bird-wing-feather-logo-icon_23758-199.jpg?semt=ais_hybrid&w=740&q=80"
-            alt="logo"
-            width={30}
-            height={30}
-            className="rounded-full"
-          />
+        <Link to="/" className="relative z-20 font-bold flex shrink-0 items-center border px-4 py-2 rounded-full" onClick={(e) => { e.preventDefault(); window.location.href = '/'; }}>
+          <p className="the">The X</p>
+          <p className="xpro">Pro</p>
         </Link>
 
         <div
@@ -203,7 +207,7 @@ export function NavbarTop() {
                 ref={dropdownRef}
                 className="z-50 w-30 p-1 rounded-2xl border border-white shadow-2xl backdrop-blur-xl bg-white opacity-0"
               >
-                {contactSections.map((s) => (
+                {currentSections.map((s) => (
                   <span
                     key={s.link}
                     data-drop-item
@@ -293,23 +297,21 @@ export function NavbarTop() {
             </NavLink>
           ))}
 
-          {location.pathname === "/" && (
-            <div className="mt-1 flex flex-col gap-1 cursor-pointer">
-              {contactSections.map((s) => (
-                <span
-                  key={s.link}
-                  data-mobile-item
-                  onClick={() => {
-                    scrollToSection(s.link);
-                    setMobileOpen(false);
-                  }}
-                  className="rounded-xl px-3 py-3 text-base text-neutral-600"
-                >
-                  {s.name}
-                </span>
-              ))}
-            </div>
-          )}
+          <div className="mt-1 flex flex-col gap-1 cursor-pointer">
+            {currentSections.map((s) => (
+              <span
+                key={s.link}
+                data-mobile-item
+                onClick={() => {
+                  scrollToSection(s.link);
+                  setMobileOpen(false);
+                }}
+                className="rounded-xl px-3 py-3 text-base text-neutral-600"
+              >
+                {s.name}
+              </span>
+            ))}
+          </div>
 
           <button
             data-mobile-item

@@ -11,7 +11,6 @@ type Props = {
 export default function ServiceCard({
   title = "Content Booster",
   subtitle = "Agency Feature Set",
-  docs = 0,
   appLabel = "",
   DesignLabel,
 }: Props) {

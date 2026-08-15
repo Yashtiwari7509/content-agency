@@ -883,6 +883,7 @@ img {
            ANIMATIONS
         ══════════════════════════════════════ */
 @keyframes wf-float {
+
   0%,
   100% {
     transform: translateY(0);
@@ -906,6 +907,7 @@ img {
 }
 
 @keyframes wf-layer-shift {
+
   0%,
   100% {
     transform: translate(0, 0) rotate(0deg);
@@ -917,6 +919,7 @@ img {
 }
 
 @keyframes wf-layer-shift2 {
+
   0%,
   100% {
     transform: translate(0, 0) rotate(0deg);
@@ -1055,8 +1058,17 @@ img {
 }
 
 @keyframes founders-dot-pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.7); }
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.5;
+    transform: scale(0.7);
+  }
 }
 
 .founders-heading {
@@ -1177,12 +1189,10 @@ img {
   z-index: 10;
   padding: 24px 24px 20px;
   /* Frosted light gradient that bleeds upward into the image */
-  background: linear-gradient(
-    to top,
-    rgba(255, 255, 255, 0.97) 0%,
-    rgba(255, 255, 255, 0.85) 45%,
-    transparent 100%
-  );
+  background: linear-gradient(to top,
+      rgba(255, 255, 255, 0.97) 0%,
+      rgba(255, 255, 255, 0.85) 45%,
+      transparent 100%);
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -1233,7 +1243,7 @@ img {
 }
 
 /* ── Dividers between figures ── */
-.founders-figure + .founders-figure::before {
+.founders-figure+.founders-figure::before {
   content: "";
   position: absolute;
   left: 0;
@@ -1257,7 +1267,7 @@ img {
     max-width: 340px;
   }
 
-  .founders-figure + .founders-figure::before {
+  .founders-figure+.founders-figure::before {
     display: none;
   }
 
@@ -1268,4 +1278,18 @@ img {
   .founders-section {
     padding: 70px 0 0;
   }
+}
+
+.the {
+  background: linear-gradient(180deg, #0b1b2b, #1c2b3d);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.xpro {
+  background: linear-gradient(180deg, #3fa8f5, #1552c9);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }

@@ -11,8 +11,9 @@ const SEGMENTS = [
     subtitle: "YouTube, documentaries, podcasts",
     description:
       "We transform expert knowledge into high-quality content. From podcasts and interviews to explainers and long-form videos, our editors combine precise storytelling, clean visuals, and thoughtful motion design to make complex ideas clear, engaging, and easy to understand.",
-    color: "#86EFAC", // Emerald 300
-    lightColor: "#DCFCE7", // Emerald 100
+    image: "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzR8fHBob25lfGVufDB8fDB8fHww",
+    color: "#86EFAC",
+    lightColor: "#DCFCE7",
     icon: LaptopMinimalIcon,
   },
   {
@@ -20,8 +21,9 @@ const SEGMENTS = [
     subtitle: "Reels, Shorts, TikToks",
     description:
       "We turn complex ideas and expert insights into concise, engaging short-form content. From long-form repurposing to original edits, we produce professional Shorts, Reels, and TikToks with clear captions, intelligent motion graphics, and supporting b-roll that keeps viewers engaged.",
-    color: "#67E8F9", // Cyan 300
-    lightColor: "#CFFAFE", // Cyan 100
+    image: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=600&auto=format&fit=crop",
+    color: "#67E8F9",
+    lightColor: "#CFFAFE",
     icon: Smartphone,
   },
   {
@@ -29,8 +31,9 @@ const SEGMENTS = [
     subtitle: "Growth, strategy & distribution",
     description:
       "Beyond content production, we provide end-to-end social media management to build and strengthen your brand across YouTube, Instagram, and X. From content strategy and platform-specific optimization to publishing, community management, and performance tracking, our team manages your social presence with a consistent approach designed to expand your reach, strengthen your authority, and drive long-term brand growth.",
-    color: "#F9A8D4", // Pink 300
-    lightColor: "#FCE7F3", // Pink 100
+    image: "https://plus.unsplash.com/premium_photo-1680985551058-2759df426d0d?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODd8fHBob25lfGVufDB8fDB8fHww",
+    color: "#F9A8D4",
+    lightColor: "#FCE7F3",
     icon: SwatchBookIcon,
   },
 ];
@@ -75,7 +78,7 @@ export default function DonutSlider() {
   const badgeRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const descRef = useRef<HTMLParagraphElement>(null);
+  const imgWrapRef = useRef<HTMLDivElement>(null);
 
   const [progress, setProgress] = useState(0);
 
@@ -140,10 +143,6 @@ export default function DonutSlider() {
         type: "words,lines",
         mask: "lines",
       });
-      const desc = SplitText.create(descRef.current, {
-        type: "words,lines",
-        mask: "lines",
-      });
 
       const tl = gsap.timeline({
         defaults: {
@@ -153,61 +152,41 @@ export default function DonutSlider() {
 
       tl.fromTo(
         badgeRef.current,
-        {
-          y: 30,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.4,
-        },
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.4 },
       )
         .fromTo(
           title.lines,
-          {
-            y: 50,
-            opacity: 0,
-          },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.5,
-          },
+          { y: 50, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5 },
           "-=0.15",
         )
         .fromTo(
           subtitle.lines,
-          {
-            y: 20,
-            opacity: 0,
-          },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.4,
-          },
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.4 },
           "-=0.25",
-        )
-        .fromTo(
-          desc.lines,
-          {
-            y: 16,
-            opacity: 0,
-          },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.5,
-            stagger: 0.04,
-          },
-          "-=0.2",
         );
+
+      // Image reveal — clip from bottom
+      if (imgWrapRef.current) {
+        gsap.fromTo(
+          imgWrapRef.current,
+          { clipPath: "inset(100% 0% 0% 0%)", opacity: 0 },
+          {
+            clipPath: "inset(0% 0% 0% 0%)",
+            opacity: 1,
+            duration: 0.8,
+            ease: "power3.out",
+            delay: 0.15,
+          },
+        );
+      }
+
       return () => {
         tl.kill();
         title.revert();
         subtitle.revert();
-        desc.revert();
       };
     },
     {
@@ -229,7 +208,7 @@ export default function DonutSlider() {
   const circumference = 2 * Math.PI * 80;
 
   return (
-    <section ref={sectionRef} className="relative h-[340vh] max-w-5xl mx-auto">
+    <section ref={sectionRef} className="relative h-[350vh] max-w-5xl mx-auto">
       <div className="pin-donut flex flex-col h-screen items-center justify-center pt-8">
         <div className="w-full px-4 sm:px-6 md:px-10">
           <SectionHeader
@@ -324,14 +303,20 @@ export default function DonutSlider() {
           </div>
 
         </div>
-        {/* Description */}
-        <p
-          key={`desc-${activeIndex}`}
-          ref={descRef}
-          className="mt-5 text-sm md:text-base text-center  leading-relaxed text-zinc-500"
+        {/* Slide image — tall portrait */}
+        <div
+          key={`img-${activeIndex}`}
+          ref={imgWrapRef}
+          className="mt-6 mx-auto w-full max-w-5xl px-4 sm:px-6 md:px-10 rounded-2xl"
+          style={{ clipPath: "inset(100% 0% 0% 0%)" }}
         >
-          {activeSegment.description}
-        </p>
+          <img
+            src={activeSegment.image}
+            alt={activeSegment.title}
+            className="w-full h-[260px] sm:h-[340px] md:h-[420px] object-cover object-bottom rounded-2xl"
+            draggable={false}
+          />
+        </div>
       </div>
     </section>
   );

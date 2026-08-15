@@ -121,7 +121,7 @@ export default function WorkCards() {
   );
 
   return (
-    <div ref={containerRef} className="relative w-full px-4 py-16 md:px-6 md:py-24">
+    <div id="acheive" ref={containerRef} className="relative w-full px-4 py-16 md:px-6 md:py-24">
       <div className="mx-auto max-w-5xl">
 
         <div
@@ -132,7 +132,7 @@ export default function WorkCards() {
             label="Why choose us"
             title="Everything a health creator"
             gradientWord="needs"
-            align="left"
+            align="center"
             className="mb-0"
           />
           <span

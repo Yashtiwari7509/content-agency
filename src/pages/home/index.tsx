@@ -122,7 +122,7 @@ const Home = () => {
       .call(unlockScroll)
       .from(".clouds", { y: 200, duration: 1.6, ease: "power4.out" }, "-=.6")
       .from(".text-container", { y: 250, duration: 1, ease: "power4.out" }, "<")
-      .from(".center", { y: 250, scale : 1.2, opacity: 0, immediateRender: true }, "<");
+      .from(".center", { y: 50, scale : 1.2, opacity: 0, immediateRender: true }, "<");
   });
 
   return (

@@ -32,12 +32,7 @@
  *   new AuroraFlairController(host, flair, { ...defaultOpts })
  */
 
-import React, {
-  useRef,
-  useEffect,
-  type ReactElement,
-  type CSSProperties,
-} from "react";
+import { useRef, useEffect, type ReactElement, type CSSProperties } from "react";
 import gsap from "gsap";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -69,8 +64,7 @@ export interface AuroraFlairOptions {
   scaleEase: string;
 }
 
-export interface AuroraFlairProps
-  extends Partial<Omit<AuroraFlairOptions, "colors">> {
+export interface AuroraFlairProps extends Partial<Omit<AuroraFlairOptions, "colors">> {
   /** Single child element that receives the aurora effect */
   children: ReactElement;
   colors?: AuroraFlairColors;
@@ -238,14 +232,8 @@ export class AuroraFlairController {
   /** Map raw mouse coords to % position within the host element */
   private _getXY(e: MouseEvent): { x: number; y: number } {
     const { left, top, width, height } = this.el.getBoundingClientRect();
-    const xT = gsap.utils.pipe(
-      gsap.utils.mapRange(0, width, 0, 100),
-      gsap.utils.clamp(0, 100)
-    ) as (v: number) => number;
-    const yT = gsap.utils.pipe(
-      gsap.utils.mapRange(0, height, 0, 100),
-      gsap.utils.clamp(0, 100)
-    ) as (v: number) => number;
+    const xT = gsap.utils.pipe(gsap.utils.mapRange(0, width, 0, 100), gsap.utils.clamp(0, 100)) as (v: number) => number;
+    const yT = gsap.utils.pipe(gsap.utils.mapRange(0, height, 0, 100), gsap.utils.clamp(0, 100)) as (v: number) => number;
     return { x: xT(e.clientX - left), y: yT(e.clientY - top) };
   }
 
@@ -408,11 +396,7 @@ export function AuroraFlair({
   }, []);
 
   return (
-    <div
-      ref={hostRef}
-      className={`af-host ${className}`.trim()}
-      style={style}
-    >
+    <div ref={hostRef} className={`af-host ${className}`.trim()} style={style}>
       {/* ── Flair layer (aurora orbs) ───────────────────────────────────── */}
       <div ref={flairRef} className="af-flair">
         <span className="af-orb af-orb--a" style={{ background: mergedColors.a }} />
