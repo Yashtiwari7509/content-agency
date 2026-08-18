@@ -30,10 +30,7 @@ interface UsePageLoadResult {
   ready: boolean;
 }
 
-export function usePageLoad({
-  minDuration = 1000,
-  maxWait = 3000,
-}: UsePageLoadOptions = {}): UsePageLoadResult {
+export function usePageLoad({ minDuration = 1000, maxWait = 3000 }: UsePageLoadOptions = {}): UsePageLoadResult {
   const [progress, setProgress] = useState(0);
   const [ready, setReady] = useState(false);
   const startTime = useRef(performance.now());
@@ -78,6 +75,7 @@ export function usePageLoad({
 
     function collectImages() {
       const imgs = document.querySelectorAll<HTMLImageElement>("img");
+      console.log(imgs);
 
       if (imgs.length === 0) {
         // No images at all — done immediately
@@ -85,9 +83,10 @@ export function usePageLoad({
         return;
       }
 
-      imgs.forEach((img) => {
+      imgs.forEach((img, i) => {
         // Skip if we already tracked this element (prevents double-counting)
-        if (tracked.has(img)) return;
+        if (tracked.has(img) || i > 10) return;
+
         tracked.add(img);
 
         totalAssets++;
@@ -131,4 +130,3 @@ export function usePageLoad({
 
   return { progress, ready };
 }
-
