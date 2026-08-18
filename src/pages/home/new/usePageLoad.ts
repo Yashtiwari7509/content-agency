@@ -1,23 +1,25 @@
 import { useEffect, useState } from "react";
 
-// ── Critical images the loader must wait for ──────────────────────
-// Team lineup (Loader.tsx) — these are the big hero images visitors see first
+// ── Critical images: Loader + first 2 sections ──────────────────
+// Loader team lineup (visible during the intro animation)
 import { Andrew1, Chris1, Nick1, Rahul1, Thomas1 } from "@/assets/ClientImage";
-// Hero section DPs — small but visible immediately after the loader lifts
+// Hero section — DPs + cloud bg
 import { A_dp, N_dp, T_dp } from "@/assets/ClientImage";
+import { cloud } from "@/assets/Image";
+// GridScore — the heavy visuals users see right after hero
+import { rays, mac, facebook, youtube } from "@/assets/Image";
 
-/** The images we actually need loaded before we reveal the site. */
+/**
+ * ~12 images across Loader + Hero + GridScore.
+ * Kept lean so the loader doesn't stall.
+ */
 const CRITICAL_SRCS: string[] = [
-  // Loader team lineup (5)
-  Andrew1,
-  Chris1,
-  Nick1,
-  Rahul1,
-  Thomas1,
-  // Hero DPs (3)
-  A_dp,
-  N_dp,
-  T_dp,
+  // Loader team (5)
+  Andrew1, Chris1, Nick1, Rahul1, Thomas1,
+  // Hero (4)
+  A_dp, N_dp, T_dp, cloud,
+  // GridScore key visuals (3)
+  rays, mac, facebook, youtube,
 ];
 
 interface UsePageLoadOptions {
@@ -26,12 +28,10 @@ interface UsePageLoadOptions {
 }
 
 /**
- * Preloads a curated list of critical images and reports real progress.
+ * Preloads critical above-the-fold images and reports real progress.
  *
- * - `progress` goes from 0 → 100 based on how many images have loaded.
- * - `ready` flips to `true` only when **both**:
- *     1. All critical images are loaded (or errored — we don't stall forever).
- *     2. The `minDuration` has elapsed.
+ * - `progress` — 0→100 driven by actual image load events
+ * - `ready` — true when all images loaded AND minDuration elapsed
  */
 export function usePageLoad({ minDuration = 1800 }: UsePageLoadOptions = {}) {
   const [progress, setProgress] = useState(0);
@@ -42,7 +42,6 @@ export function usePageLoad({ minDuration = 1800 }: UsePageLoadOptions = {}) {
     let loaded = 0;
     let cancelled = false;
 
-    // ── min-duration timer ──────────────────────────────────────
     let timerDone = false;
     let allImagesDone = false;
 
@@ -79,11 +78,9 @@ export function usePageLoad({ minDuration = 1800 }: UsePageLoadOptions = {}) {
     CRITICAL_SRCS.forEach((src) => {
       const img = new Image();
       img.onload = () => onImageReady(src);
-      img.onerror = () => onImageReady(src); // count errors too — don't stall the site
+      img.onerror = () => onImageReady(src);
       img.src = src;
 
-      // If the image was already cached, `onload` won't fire in most
-      // browsers. Manually trigger the callback in that case.
       if (img.complete) {
         onImageReady(src);
       }

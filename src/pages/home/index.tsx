@@ -127,7 +127,7 @@ const Home = () => {
   });
 
   return (
-    <Preloader minDuration={2600} onReady={() => {
+    <Preloader minDuration={1800} onReady={() => {
       console.log("ready");
       tl2Ref.current?.paused(false)
     }}>
