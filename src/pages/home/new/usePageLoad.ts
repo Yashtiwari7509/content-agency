@@ -1,132 +1,99 @@
-/**
- * usePageLoad.ts
- *
- * Tracks image loading progress only.
- * Returns a 0–100 progress value and a `ready` boolean.
- *
- * Strategy:
- *  1. Wait one frame for React to render the initial DOM
- *  2. Collect all <img> elements and wait for their load/error events
- *  3. Mark done as soon as all images settle (or safety timeout fires)
- *
- * IMPORTANT: We do NOT wait for the `window.load` event because that
- * blocks on every sub-resource (videos, iframes, fonts, etc.), which
- * is exactly what we want to skip.
- */
+import { useEffect, useState } from "react";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+// ── Critical images the loader must wait for ──────────────────────
+// Team lineup (Loader.tsx) — these are the big hero images visitors see first
+import { Andrew1, Chris1, Nick1, Rahul1, Thomas1 } from "@/assets/ClientImage";
+// Hero section DPs — small but visible immediately after the loader lifts
+import { A_dp, N_dp, T_dp } from "@/assets/ClientImage";
+
+/** The images we actually need loaded before we reveal the site. */
+const CRITICAL_SRCS: string[] = [
+  // Loader team lineup (5)
+  Andrew1,
+  Chris1,
+  Nick1,
+  Rahul1,
+  Thomas1,
+  // Hero DPs (3)
+  A_dp,
+  N_dp,
+  T_dp,
+];
 
 interface UsePageLoadOptions {
-  /** Minimum time (ms) the loader stays visible. Default: 1000 */
+  /** Minimum ms the loader stays visible (lets the intro animation play) */
   minDuration?: number;
-  /** Maximum time (ms) to wait before force-completing. Default: 5000 */
-  maxWait?: number;
 }
 
-interface UsePageLoadResult {
-  /** 0 – 100 */
-  progress: number;
-  /** true once progress hits 100 AND minDuration has elapsed */
-  ready: boolean;
-}
-
-export function usePageLoad({ minDuration = 1000, maxWait = 3000 }: UsePageLoadOptions = {}): UsePageLoadResult {
+/**
+ * Preloads a curated list of critical images and reports real progress.
+ *
+ * - `progress` goes from 0 → 100 based on how many images have loaded.
+ * - `ready` flips to `true` only when **both**:
+ *     1. All critical images are loaded (or errored — we don't stall forever).
+ *     2. The `minDuration` has elapsed.
+ */
+export function usePageLoad({ minDuration = 1800 }: UsePageLoadOptions = {}) {
   const [progress, setProgress] = useState(0);
   const [ready, setReady] = useState(false);
-  const startTime = useRef(performance.now());
-  const hasFinished = useRef(false);
-
-  const markDone = useCallback(() => {
-    if (hasFinished.current) return;
-    hasFinished.current = true;
-
-    setProgress(100);
-    const elapsed = performance.now() - startTime.current;
-    const remaining = Math.max(0, minDuration - elapsed);
-    setTimeout(() => {
-      setReady(true);
-    }, remaining);
-  }, [minDuration]);
 
   useEffect(() => {
-    let isMounted = true;
-    const tracked = new WeakSet<HTMLImageElement>();
+    const total = CRITICAL_SRCS.length;
+    let loaded = 0;
+    let cancelled = false;
 
-    let totalAssets = 0;
-    let loadedAssets = 0;
+    // ── min-duration timer ──────────────────────────────────────
+    let timerDone = false;
+    let allImagesDone = false;
 
-    function tick() {
-      if (!isMounted || hasFinished.current) return;
-      if (totalAssets === 0) {
-        setProgress(0);
-        return;
+    const tryFinish = () => {
+      if (cancelled) return;
+      if (timerDone && allImagesDone) {
+        setProgress(100);
+        setReady(true);
       }
-      const pct = Math.min(99, Math.round((loadedAssets / totalAssets) * 100));
+    };
+
+    const timerId = window.setTimeout(() => {
+      timerDone = true;
+      tryFinish();
+    }, minDuration);
+
+    // ── image preloading ────────────────────────────────────────
+    const counted = new Set<string>();
+
+    const onImageReady = (src: string) => {
+      if (cancelled || counted.has(src)) return;
+      counted.add(src);
+      loaded += 1;
+
+      const pct = Math.round((loaded / total) * 100);
       setProgress(pct);
-    }
 
-    function onAssetSettled() {
-      loadedAssets++;
-      tick();
-      if (loadedAssets >= totalAssets) {
-        markDone();
+      if (loaded >= total) {
+        allImagesDone = true;
+        tryFinish();
       }
-    }
+    };
 
-    function collectImages() {
-      const imgs = document.querySelectorAll<HTMLImageElement>("img");
-      console.log(imgs);
+    CRITICAL_SRCS.forEach((src) => {
+      const img = new Image();
+      img.onload = () => onImageReady(src);
+      img.onerror = () => onImageReady(src); // count errors too — don't stall the site
+      img.src = src;
 
-      if (imgs.length === 0) {
-        // No images at all — done immediately
-        markDone();
-        return;
+      // If the image was already cached, `onload` won't fire in most
+      // browsers. Manually trigger the callback in that case.
+      if (img.complete) {
+        onImageReady(src);
       }
-
-      imgs.forEach((img, i) => {
-        // Skip if we already tracked this element (prevents double-counting)
-        if (tracked.has(img) || i > 10) return;
-
-        tracked.add(img);
-
-        totalAssets++;
-
-        if (img.complete && img.naturalWidth > 0) {
-          // Already loaded
-          loadedAssets++;
-        } else {
-          img.addEventListener("load", onAssetSettled, { once: true });
-          img.addEventListener("error", onAssetSettled, { once: true });
-        }
-      });
-
-      tick();
-
-      // Check if everything was already loaded
-      if (loadedAssets >= totalAssets) {
-        markDone();
-      }
-    }
-
-    // Wait one frame so React has flushed the initial DOM,
-    // then collect all <img> elements
-    const raf = requestAnimationFrame(() => {
-      if (!isMounted) return;
-      collectImages();
     });
 
-    // Safety timeout — never hang forever
-    const safetyTimer = setTimeout(() => {
-      if (!isMounted) return;
-      markDone();
-    }, maxWait);
-
     return () => {
-      isMounted = false;
-      cancelAnimationFrame(raf);
-      clearTimeout(safetyTimer);
+      cancelled = true;
+      window.clearTimeout(timerId);
     };
-  }, [maxWait, markDone]);
+  }, [minDuration]);
 
   return { progress, ready };
 }

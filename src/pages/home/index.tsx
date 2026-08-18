@@ -127,7 +127,10 @@ const Home = () => {
   });
 
   return (
-    <Preloader minDuration={1000} onReady={() => tl2Ref.current?.paused(false)}>
+    <Preloader minDuration={2600} onReady={() => {
+      console.log("ready");
+      tl2Ref.current?.paused(false)
+    }}>
       {({ ready }) => (
         <>
           <TeamLineup />
@@ -138,6 +141,7 @@ const Home = () => {
               pointerEvents: ready ? "auto" : "none",
             }}
           >
+
             <DesktopOnly>
               <PhoneVideo />
             </DesktopOnly>

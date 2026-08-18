@@ -43,16 +43,6 @@ export default defineConfig({
               },
             },
           },
-
-          // ✅ HDR / EXR
-          {
-            urlPattern: ({ url }) => url.pathname.endsWith(".hdr") || url.pathname.endsWith(".exr"),
-            handler: "CacheFirst",
-            options: {
-              cacheName: "textures",
-            },
-          },
-
           // JS & CSS
           {
             urlPattern: ({ request }) => request.destination === "script" || request.destination === "style",
