@@ -5,9 +5,6 @@ import { useEffect, useState } from "react";
 import { Andrew1, Chris1, Nick1, Rahul1, Thomas1 } from "@/assets/ClientImage";
 // Hero section — DPs + cloud bg
 import { A_dp, N_dp, T_dp } from "@/assets/ClientImage";
-import { cloud } from "@/assets/Image";
-// GridScore — the heavy visuals users see right after hero
-import { rays, mac, facebook, youtube } from "@/assets/Image";
 
 /**
  * ~12 images across Loader + Hero + GridScore.
@@ -15,11 +12,15 @@ import { rays, mac, facebook, youtube } from "@/assets/Image";
  */
 const CRITICAL_SRCS: string[] = [
   // Loader team (5)
-  Andrew1, Chris1, Nick1, Rahul1, Thomas1,
+  Andrew1,
+  Chris1,
+  Nick1,
+  Rahul1,
+  Thomas1,
   // Hero (4)
-  A_dp, N_dp, T_dp, cloud,
-  // GridScore key visuals (3)
-  rays, mac, facebook, youtube,
+  A_dp,
+  N_dp,
+  T_dp,
 ];
 
 interface UsePageLoadOptions {

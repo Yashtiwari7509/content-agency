@@ -86,13 +86,13 @@ export default function FoundersSection() {
               </div>
 
               {/* Slide-up info panel */}
-              <div className="absolute inset-x-0 bottom-0 z-10 translate-y-[calc(100%-68px)] transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:translate-y-0">
+              <div className="absolute inset-x-0 bottom-0 z-10 translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] sm:translate-y-[calc(100%-68px)] sm:group-hover:translate-y-0">
                 {/* Peek strip — always visible */}
                 <div className="flex h-17 bg-white/50 items-center justify-between px-5 backdrop-blur-md">
                   <h1 className="text-sm font-extrabold uppercase tracking-[0.22em] opacity-80">{founder.role}</h1>
                   {/* Arrow indicator */}
                   <svg
-                    className="h-4 w-4 -rotate-45 opacity-40 transition-all duration-500 group-hover:rotate-0 group-hover:opacity-100"
+                    className="h-4 w-4 rotate-0 opacity-100 transition-all duration-500 sm:-rotate-45 sm:opacity-40 sm:group-hover:rotate-0 sm:group-hover:opacity-100"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
