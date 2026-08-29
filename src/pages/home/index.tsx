@@ -27,6 +27,16 @@ const Home = () => {
   const [locked, setLocked] = useState(true);
   const readyRef = useRef(false);
 
+  useEffect(() => {
+    const fallbackTimer = window.setTimeout(() => {
+      if (readyRef.current) return;
+      readyRef.current = true;
+      setReady(true);
+    }, 1800);
+
+    return () => window.clearTimeout(fallbackTimer);
+  }, []);
+
   useLayoutEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -135,6 +145,8 @@ const Home = () => {
         style={{
           visibility: ready ? "visible" : "hidden",
           pointerEvents: ready ? "auto" : "none",
+          opacity: ready ? 1 : 0,
+          transition: "opacity 0.3s ease",
         }}
       >
         <DesktopOnly>
