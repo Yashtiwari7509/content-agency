@@ -22,20 +22,11 @@ const SiteFooter = lazy(() => import("./SiteFooter"));
 
 const Home = () => {
   const lenis = useLenis();
-  const [ready, setReady] = useState(false);
+
   const tl1Ref = useRef<GSAPTimeline>(null);
   const [locked, setLocked] = useState(true);
   const readyRef = useRef(false);
 
-  useEffect(() => {
-    const fallbackTimer = window.setTimeout(() => {
-      if (readyRef.current) return;
-      readyRef.current = true;
-      setReady(true);
-    }, 1800);
-
-    return () => window.clearTimeout(fallbackTimer);
-  }, []);
 
   useLayoutEffect(() => {
     if (typeof window === "undefined") return;
@@ -124,9 +115,6 @@ const Home = () => {
         y: "-100vh",
         duration: 1.2,
         ease: "expo.inOut",
-        onStart: () => {
-          setReady(true);
-        },
         onComplete: () => {
           gsap.set(".loader-screen", { display: "none" });
         },
@@ -142,12 +130,6 @@ const Home = () => {
       <TeamLineup />
       <div
         className="w-screen relative"
-        style={{
-          visibility: ready ? "visible" : "hidden",
-          pointerEvents: ready ? "auto" : "none",
-          opacity: ready ? 1 : 0,
-          transition: "opacity 0.3s ease",
-        }}
       >
         <DesktopOnly>
           <PhoneVideo />
