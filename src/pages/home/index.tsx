@@ -6,7 +6,6 @@ import DonutSlider from "./DonutSlider";
 import PhoneVideo from "./new/PhoneVideo";
 import PhoneStats from "./PhoneStats";
 import ApertureCardSlider from "@/components/ApertureCardSlider";
-import Preloader from "./new/Preloader";
 import TeamLineup from "./new/Loader";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -23,8 +22,8 @@ const SiteFooter = lazy(() => import("./SiteFooter"));
 
 const Home = () => {
   const lenis = useLenis();
+  const [ready, setReady] = useState(false);
   const tl1Ref = useRef<GSAPTimeline>(null);
-  const tl2Ref = useRef<GSAPTimeline>(null);
   const [locked, setLocked] = useState(true);
   const readyRef = useRef(false);
 
@@ -102,20 +101,22 @@ const Home = () => {
   };
 
   useGSAP(() => {
-    tl1Ref.current = gsap.timeline({}).from(".img-side", {
-      delay: 0.5,
-      y: 700,
-      duration: 2,
-      ease: "expo.out",
-      stagger: { each: 0.04, from: "center" },
-    });
-
-    tl2Ref.current = gsap
-      .timeline({ paused: true })
+    tl1Ref.current = gsap
+      .timeline({})
+      .from(".img-side", {
+        delay: 0.5,
+        y: 700,
+        duration: 2,
+        ease: "expo.out",
+        stagger: { each: 0.04, from: "center" },
+      })
       .to(".loader-screen", {
         y: "-100vh",
         duration: 1.2,
         ease: "expo.inOut",
+        onStart: () => {
+          setReady(true);
+        },
         onComplete: () => {
           gsap.set(".loader-screen", { display: "none" });
         },
@@ -123,47 +124,39 @@ const Home = () => {
       .call(unlockScroll)
       .from(".clouds", { y: 200, duration: 1.6, ease: "power4.out" }, "-=.6")
       .from(".text-container", { y: 250, duration: 1, ease: "power4.out" }, "<")
-      .from(".center", { y: 50, scale: 1.2, opacity: 0, immediateRender: true }, "<");
+      .from(".center", { y: 20, scale: 1.2, opacity: 0, immediateRender: true }, "<");
   });
 
   return (
-    <Preloader minDuration={1800} onReady={() => {
-      console.log("ready");
-      tl2Ref.current?.paused(false)
-    }}>
-      {({ ready }) => (
-        <>
-          <TeamLineup />
-          <div
-            className="w-screen relative"
-            style={{
-              visibility: ready ? "visible" : "hidden",
-              pointerEvents: ready ? "auto" : "none",
-            }}
-          >
-
-            <DesktopOnly>
-              <PhoneVideo />
-            </DesktopOnly>
-            <Hero />
-            <ApertureCardSlider />
-            <GridScore />
-            <PhoneStats />
-            <DonutSlider />
-            <Suspense fallback={null}>
-              <ServicesSlider />
-              <WorkflowSection />
-              <PortfolioLayout />
-              <VerticalSlider />
-              <MarqueeReviews />
-              <ContactSection />
-              <TeamSection />
-              <SiteFooter />
-            </Suspense>
-          </div>
-        </>
-      )}
-    </Preloader>
+    <>
+      <TeamLineup />
+      <div
+        className="w-screen relative"
+        style={{
+          visibility: ready ? "visible" : "hidden",
+          pointerEvents: ready ? "auto" : "none",
+        }}
+      >
+        <DesktopOnly>
+          <PhoneVideo />
+        </DesktopOnly>
+        <Hero />
+        <ApertureCardSlider />
+        <GridScore />
+        <PhoneStats />
+        <DonutSlider />
+        <Suspense fallback={null}>
+          <ServicesSlider />
+          <WorkflowSection />
+          <PortfolioLayout />
+          <VerticalSlider />
+          <MarqueeReviews />
+          <ContactSection />
+          <TeamSection />
+          <SiteFooter />
+        </Suspense>
+      </div>
+    </>
   );
 };
 
