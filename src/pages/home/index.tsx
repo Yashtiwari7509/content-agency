@@ -101,6 +101,14 @@ const Home = () => {
     setLocked(false);
   };
 
+  useEffect(() => {
+    // Fallback to ensure scrolling is unlocked even if the loader animation gets stuck
+    const fallbackTimer = window.setTimeout(() => {
+      unlockScroll();
+    }, 2500);
+    return () => window.clearTimeout(fallbackTimer);
+  }, []);
+
   useGSAP(() => {
     tl1Ref.current = gsap
       .timeline({})
