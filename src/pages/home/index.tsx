@@ -27,6 +27,14 @@ const Home = () => {
   const [locked, setLocked] = useState(true);
   const readyRef = useRef(false);
 
+  const preventScroll = (e: Event) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+  const preventScrollKeys = (e: KeyboardEvent) => {
+    const keys = ["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "];
+    if (keys.includes(e.key)) e.preventDefault();
+  };
 
   useLayoutEffect(() => {
     if (typeof window === "undefined") return;
@@ -47,25 +55,13 @@ const Home = () => {
     const html = document.documentElement;
     const body = document.body;
 
-    // scrollY is guaranteed 0 here because of the useLayoutEffect above
+    // Keep the native scroll container locked while the intro loader is active.
+    // Avoid fixing the entire body, which is the part Safari can leave in a
+    // permanently stuck state on production builds.
     html.style.overflow = "hidden";
     body.style.overflow = "hidden";
-    body.style.position = "fixed";
-    body.style.top = "0";
-    body.style.left = "0";
-    body.style.right = "0";
-    body.style.width = "100%";
 
     lenis?.stop();
-
-    const preventScroll = (e: Event) => {
-      e.preventDefault();
-      e.stopPropagation();
-    };
-    const preventScrollKeys = (e: KeyboardEvent) => {
-      const keys = ["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "];
-      if (keys.includes(e.key)) e.preventDefault();
-    };
 
     document.addEventListener("wheel", preventScroll, { passive: false });
     document.addEventListener("touchmove", preventScroll, { passive: false });
@@ -74,15 +70,8 @@ const Home = () => {
     return () => {
       html.style.overflow = "";
       body.style.overflow = "";
-      body.style.position = "";
-      body.style.top = "";
-      body.style.left = "";
-      body.style.right = "";
-      body.style.width = "";
       window.scrollTo(0, 0);
 
-      // Re-enable native scroll restoration once the lock is over,
-      // so normal back/forward navigation behaves as expected again.
       if ("scrollRestoration" in window.history) {
         window.history.scrollRestoration = "auto";
       }
@@ -98,6 +87,23 @@ const Home = () => {
   const unlockScroll = () => {
     if (readyRef.current) return;
     readyRef.current = true;
+
+    const html = document.documentElement;
+    const body = document.body;
+
+    html.style.overflow = "";
+    body.style.overflow = "";
+    window.scrollTo(0, 0);
+
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "auto";
+    }
+
+    document.removeEventListener("wheel", preventScroll);
+    document.removeEventListener("touchmove", preventScroll);
+    document.removeEventListener("keydown", preventScrollKeys);
+
+    lenis?.start();
     setLocked(false);
   };
 
