@@ -53,31 +53,19 @@ const About = () => {
       },
       "-=3",
     );
-  
   }, []);
 
   useGSAP(() => {
-    const tl1 = gsap.timeline({
-      defaults: { duration: 1, ease: "power2.inOut" },
-      scrollTrigger: {
-        trigger: ".pin-about",
-        start: "top top",
-        end: "+=2000",
-        scrub: 1,
-        pin: true,
-        pinSpacing: true,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-      },
+    ScrollTrigger.create({
+      trigger: ".pin-about",
+      start: "top top",
+      end: "+=1000",
+      scrub: 1,
+      pin: true,
+      pinSpacing: true,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
     });
-
-    tl1
-      .from("#maskone", { drawSVG: "0%", duration: 2 })
-      .from(".text", { yPercent: 100, duration: 3 }, "-=1.4")
-      .from("#masktwo", { drawSVG: "100% 100%", duration: 2 }, "-=1")
-      .from(".text2", { yPercent: 100, duration: 3 }, "-=1.4")
-      .from("#maskthree", { drawSVG: "100% 100%", duration: 2 }, "-=1")
-      .from(".text3", { yPercent: 100, duration: 3 }, "-=1.4");
   });
 
   return (

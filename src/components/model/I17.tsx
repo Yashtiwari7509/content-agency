@@ -148,7 +148,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
     vid.volume = 0.5;
     if (vid.paused) {
       vid.currentTime = 0; // only reset when actually starting fresh
-      vid.play().catch(() => { }); // swallow AbortError from rapid play/pause races
+      vid.play().catch(() => {}); // swallow AbortError from rapid play/pause races
     }
   };
 
@@ -232,7 +232,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
               scrollTrigger: {
                 trigger: ".PhoneStats",
                 start: "-500px top",
-                end: "bottom top",
+                end: "85% top",
                 scrub: true,
                 onUpdate: () => {
                   invalidate();
@@ -241,30 +241,27 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
             })
             .to(model.position, {
               x: isMobileGSAP ? 0 : 0.7,
-              y: 0,
+              y: -0.1,
               duration: 1,
             })
             .from(model.rotation, { y: "+=" + 2 * Math.PI, duration: 1, ease: "none" }, 0)
-            .from("ho", { duration: 1 })
+            .from("ho", { duration: 0.35 })
             .to(model.position, {
               x: isMobileGSAP ? 0 : -0.7,
-              y: 0,
-              duration: 1,
+              y: -0.1,
+              duration: 1.5,
             })
-            .to(model.rotation, { y: "-=" + Math.PI * 2, duration: 1, ease: "none" }, "<")
-            .to(model.rotation, { duration: 1, ease: "none" })
-            .to(model.position, { x: isMobileGSAP ? 0 : -.7, y: 1.7, duration: 2, ease: "none" })
+            .to(model.rotation, { y: "-=" + Math.PI * 2, duration: 1.5, ease: "none" }, "<")
+            .to(model.rotation, { duration: 0.5, ease: "none" })
+            .to(model.position, { x: isMobileGSAP ? 0 : -0.7, y: 1.7, duration: 1.5, ease: "none" });
         },
       );
+
       const tabbedPageST = ScrollTrigger.create({
         trigger: ".tabbedPage",
         start: "-20% top",
         end: "-10% top",
         scrub: false,
-        // --------------------------------
-        // Entering tabbedPage
-        // uProgress: current → 1
-        // --------------------------------
         onEnter: () => {
           if (!mountedRef.current) return;
           const progress = shaderMaterialRef.current?.uniforms.uProgress;
@@ -281,21 +278,12 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
 
           stopAllVideos();
         },
-
-        // --------------------------------
-        // Leaving tabbedPage from bottom
-        // --------------------------------
         onLeave: () => {
           if (!mountedRef.current) return;
 
           stopAllVideos();
           setIsPlaying(false);
         },
-
-        // --------------------------------
-        // Coming back into tabbedPage
-        // uProgress: current → 1
-        // --------------------------------
         onEnterBack: () => {
           if (!mountedRef.current) return;
 
@@ -313,11 +301,6 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
 
           stopAllVideos();
         },
-
-        // --------------------------------
-        // Scrolling back above tabbedPage
-        // uProgress: current → 0
-        // --------------------------------
         onLeaveBack: () => {
           if (!mountedRef.current) return;
 
@@ -355,124 +338,114 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
       ref={modelRef}
       {...props}
       dispose={null}
-      position={[2, 0, 0]}
-      scale={3.5}
+      position={[2.3, -.1, 0]}
+      scale={8.2}
     >
-      <group scale={0.22} name="Scene">
-        <group name="Sketchfab_model" rotation={[-Math.PI / 2, 0, 0]} scale={10.929}>
-          <group name="root">
-            <group name="GLTF_SceneRootNode" rotation={[Math.PI / 2, 0, 0]}>
-              <group name="Phone_21">
-                <group name="Back_Camera_module001_1">
-                  <group name="Lens001_0">
-                    <mesh name="Object_11" geometry={nodes.Object_11.geometry} material={materials.Glass_Lens} />
-                  </group>
-
-                  <mesh name="Object_5" geometry={nodes.Object_5.geometry} material={materials.Metal_Camera_Frame} />
-                  <mesh name="Object_6" geometry={nodes.Object_6.geometry} material={materials.Plastic_Camera_Frame} />
-                  <mesh name="Object_7" geometry={nodes.Object_7.geometry} material={materials.Glass_Tint} />
-                  <mesh name="Object_8" geometry={nodes.Object_8.geometry} material={materials.Glass} />
-                  <mesh name="Object_9" geometry={nodes.Object_9.geometry} material={materials.Metal_Lens_Frame} />
-                </group>
-                <group name="Back_Camera_module002_3">
-                  <group name="Lens002_2">
-                    <mesh name="Object_19" geometry={nodes.Object_19.geometry} material={materials.Glass_Lens} />
-                  </group>
-                  <mesh name="Object_13" geometry={nodes.Object_13.geometry} material={materials.Metal_Camera_Frame} />
-                  <mesh name="Object_14" geometry={nodes.Object_14.geometry} material={materials.Plastic_Camera_Frame} />
-                  <mesh name="Object_15" geometry={nodes.Object_15.geometry} material={materials.Glass_Tint} />
-                  <mesh name="Object_16" geometry={nodes.Object_16.geometry} material={materials.Glass} />
-                  <mesh name="Object_17" geometry={nodes.Object_17.geometry} material={materials.Metal_Lens_Frame} />
-                </group>
-                <group name="Back_Camera_module003_5">
-                  <group name="Lens003_4">
-                    <mesh name="Object_27" geometry={nodes.Object_27.geometry} material={materials.Glass_Lens} />
-                  </group>
-                  <mesh name="Object_21" geometry={nodes.Object_21.geometry} material={materials.Metal_Camera_Frame} />
-                  <mesh name="Object_22" geometry={nodes.Object_22.geometry} material={materials.Plastic_Camera_Frame} />
-                  <mesh name="Object_23" geometry={nodes.Object_23.geometry} material={materials.Glass_Tint} />
-                  <mesh name="Object_24" geometry={nodes.Object_24.geometry} material={materials.Glass} />
-                  <mesh name="Object_25" geometry={nodes.Object_25.geometry} material={materials.Metal_Lens_Frame} />
-                </group>
-                <group name="Back_Flash_6">
-                  <mesh name="Object_29" geometry={nodes.Object_29.geometry} material={materials.Plastic_Flash} />
-                  <mesh name="Object_30" geometry={nodes.Object_30.geometry} material={materials.material} />
-                  <mesh name="Object_31" geometry={nodes.Object_31.geometry} material={materials.Plastic_Flash_Tint} />
-                </group>
-                <group name="Back_Glass_7">
-                  <mesh name="Object_33" geometry={nodes.Object_33.geometry} material={materials.Frosted_Glass} />
-                  <mesh name="Object_34" geometry={nodes.Object_34.geometry} material={materials.Frosted_Glass_Tint} />
-                </group>
-                <group name="Back_Mic_mesh_8">
-                  <mesh name="Object_36" geometry={nodes.Object_36.geometry} material={materials.Display} />
-                </group>
-                <group name="Body_9">
-                  <mesh name="Object_38" geometry={nodes.Object_38.geometry} material={materials.Metal_Body} />
-                  <mesh name="Object_39" geometry={nodes.Object_39.geometry} material={materials.Plastic_Body_Antena} />
-                  <mesh name="Object_40" geometry={nodes.Object_40.geometry} material={materials.Metal} />
-                </group>
-                <group name="Button_Action_10">
-                  <mesh name="Object_42" geometry={nodes.Object_42.geometry} material={materials.Metal_Body} />
-                </group>
-                <group name="Button_Power_OnOff_11">
-                  <mesh name="Object_44" geometry={nodes.Object_44.geometry} material={materials.Metal_Body} />
-                </group>
-                <group name="Button_Volume_Down_12">
-                  <mesh name="Object_46" geometry={nodes.Object_46.geometry} material={materials.Metal_Body} />
-                </group>
-                <group name="Button_Volume_Up_13">
-                  <mesh name="Object_48" geometry={nodes.Object_48.geometry} material={materials.Metal_Body} />
-                </group>
-                <group name="Camera_Control_14">
-                  <mesh name="Object_50" geometry={nodes.Object_50.geometry} material={materials.Metal} />
-                  <mesh name="Object_51" geometry={nodes.Object_51.geometry} material={materials.Glass_Camera_Control} />
-                </group>
-                <group name="Front_Camera_module_15">
-                  <mesh name="Object_53" geometry={nodes.Object_53.geometry} material={materials.Glass_Lens} />
-                  <mesh name="Object_54" geometry={nodes.Object_54.geometry} material={materials.Plastic_Camera_Frame} />
-                </group>
-                <group name="LIDAR_16">
-                  <mesh name="Object_56" geometry={nodes.Object_56.geometry} material={materials.Metal_Lens_Frame} />
-                </group>
-                <group name="Screen_17">
-                  <mesh
-                    name="Object_58"
-                    // position={[0, 0, 0.003]}
-                    geometry={nodes.Object_58.geometry}
-                    material={materials.Glass_Tint}
-                  />
-                  <mesh
-                    name="Plane"
-                    ref={planeRef}
-                    geometry={nodes.Plane.geometry}
-                    position={[0, 0, 0.003]}
-                    rotation={[Math.PI / 2, Math.PI, 0]}
-                    scale={[0.511 * 0.071, 0, 1.118 * 0.071]}
-                  >
-                    <shaderMaterial
-                      ref={shaderMaterialRef}
-                      // Pass the object directly — NOT spread — so GSAP callbacks
-                      // mutate the exact same uniform objects the GPU holds.
-                      uniforms={uniforms}
-                      vertexShader={vertexShader}
-                      fragmentShader={fragmentShader}
-                      transparent={false}
-                    />
-                  </mesh>
-                </group>
-
-                <group name="Screw_18">
-                  <mesh name="Object_62" geometry={nodes.Object_62.geometry} material={materials.Metal} />
-                </group>
-                <group name="Speaker_mesh_19">
-                  <mesh name="Object_64" geometry={nodes.Object_64.geometry} material={materials.Display} />
-                </group>
-                <group name="USB_C_port_20">
-                  <mesh name="Object_66" geometry={nodes.Object_66.geometry} material={materials.Plastic_Camera_Frame} />
-                </group>
-              </group>
-            </group>
+      <group name="Phone_21">
+        <group name="Back_Camera_module001_1">
+          <group name="Lens001_0">
+            <mesh name="Object_11" geometry={nodes.Object_11.geometry} material={materials.Glass_Lens} />
           </group>
+
+          <mesh name="Object_5" geometry={nodes.Object_5.geometry} material={materials.Metal_Camera_Frame} />
+          <mesh name="Object_6" geometry={nodes.Object_6.geometry} material={materials.Plastic_Camera_Frame} />
+          <mesh name="Object_7" geometry={nodes.Object_7.geometry} material={materials.Glass_Tint} />
+          <mesh name="Object_8" geometry={nodes.Object_8.geometry} material={materials.Glass} />
+          <mesh name="Object_9" geometry={nodes.Object_9.geometry} material={materials.Metal_Lens_Frame} />
+        </group>
+        <group name="Back_Camera_module002_3">
+          <group name="Lens002_2">
+            <mesh name="Object_19" geometry={nodes.Object_19.geometry} material={materials.Glass_Lens} />
+          </group>
+          <mesh name="Object_13" geometry={nodes.Object_13.geometry} material={materials.Metal_Camera_Frame} />
+          <mesh name="Object_14" geometry={nodes.Object_14.geometry} material={materials.Plastic_Camera_Frame} />
+          <mesh name="Object_15" geometry={nodes.Object_15.geometry} material={materials.Glass_Tint} />
+          <mesh name="Object_16" geometry={nodes.Object_16.geometry} material={materials.Glass} />
+          <mesh name="Object_17" geometry={nodes.Object_17.geometry} material={materials.Metal_Lens_Frame} />
+        </group>
+        <group name="Back_Camera_module003_5">
+          <group name="Lens003_4">
+            <mesh name="Object_27" geometry={nodes.Object_27.geometry} material={materials.Glass_Lens} />
+          </group>
+          <mesh name="Object_21" geometry={nodes.Object_21.geometry} material={materials.Metal_Camera_Frame} />
+          <mesh name="Object_22" geometry={nodes.Object_22.geometry} material={materials.Plastic_Camera_Frame} />
+          <mesh name="Object_23" geometry={nodes.Object_23.geometry} material={materials.Glass_Tint} />
+          <mesh name="Object_24" geometry={nodes.Object_24.geometry} material={materials.Glass} />
+          <mesh name="Object_25" geometry={nodes.Object_25.geometry} material={materials.Metal_Lens_Frame} />
+        </group>
+        <group name="Back_Flash_6">
+          <mesh name="Object_29" geometry={nodes.Object_29.geometry} material={materials.Plastic_Flash} />
+          <mesh name="Object_30" geometry={nodes.Object_30.geometry} material={materials.material} />
+          <mesh name="Object_31" geometry={nodes.Object_31.geometry} material={materials.Plastic_Flash_Tint} />
+        </group>
+        <group name="Back_Glass_7">
+          <mesh name="Object_33" geometry={nodes.Object_33.geometry} material={materials.Frosted_Glass} />
+          <mesh name="Object_34" geometry={nodes.Object_34.geometry} material={materials.Frosted_Glass_Tint} />
+        </group>
+        <group name="Back_Mic_mesh_8">
+          <mesh name="Object_36" geometry={nodes.Object_36.geometry} material={materials.Display} />
+        </group>
+        <group name="Body_9">
+          <mesh name="Object_38" geometry={nodes.Object_38.geometry} material={materials.Metal_Body} />
+          <mesh name="Object_39" geometry={nodes.Object_39.geometry} material={materials.Plastic_Body_Antena} />
+          <mesh name="Object_40" geometry={nodes.Object_40.geometry} material={materials.Metal} />
+        </group>
+        <group name="Button_Action_10">
+          <mesh name="Object_42" geometry={nodes.Object_42.geometry} material={materials.Metal_Body} />
+        </group>
+        <group name="Button_Power_OnOff_11">
+          <mesh name="Object_44" geometry={nodes.Object_44.geometry} material={materials.Metal_Body} />
+        </group>
+        <group name="Button_Volume_Down_12">
+          <mesh name="Object_46" geometry={nodes.Object_46.geometry} material={materials.Metal_Body} />
+        </group>
+        <group name="Button_Volume_Up_13">
+          <mesh name="Object_48" geometry={nodes.Object_48.geometry} material={materials.Metal_Body} />
+        </group>
+        <group name="Camera_Control_14">
+          <mesh name="Object_50" geometry={nodes.Object_50.geometry} material={materials.Metal} />
+          <mesh name="Object_51" geometry={nodes.Object_51.geometry} material={materials.Glass_Camera_Control} />
+        </group>
+        <group name="Front_Camera_module_15">
+          <mesh name="Object_53" geometry={nodes.Object_53.geometry} material={materials.Glass_Lens} />
+          <mesh name="Object_54" geometry={nodes.Object_54.geometry} material={materials.Plastic_Camera_Frame} />
+        </group>
+        <group name="LIDAR_16">
+          <mesh name="Object_56" geometry={nodes.Object_56.geometry} material={materials.Metal_Lens_Frame} />
+        </group>
+        <group name="Screen_17">
+          <mesh
+            name="Object_58"
+            // position={[0, 0, 0.003]}
+            geometry={nodes.Object_58.geometry}
+            material={materials.Glass_Tint}
+          />
+          <mesh
+            name="Plane"
+            ref={planeRef}
+            geometry={nodes.Plane.geometry}
+            position={[0, 0, 0.003]}
+            rotation={[Math.PI / 2, Math.PI, 0]}
+            scale={[0.511 * 0.071, 0, 1.118 * 0.071]}
+          >
+            <shaderMaterial
+              ref={shaderMaterialRef}
+              uniforms={uniforms}
+              vertexShader={vertexShader}
+              fragmentShader={fragmentShader}
+              transparent={false}
+            />
+          </mesh>
+        </group>
+
+        <group name="Screw_18">
+          <mesh name="Object_62" geometry={nodes.Object_62.geometry} material={materials.Metal} />
+        </group>
+        <group name="Speaker_mesh_19">
+          <mesh name="Object_64" geometry={nodes.Object_64.geometry} material={materials.Display} />
+        </group>
+        <group name="USB_C_port_20">
+          <mesh name="Object_66" geometry={nodes.Object_66.geometry} material={materials.Plastic_Camera_Frame} />
         </group>
       </group>
     </group>

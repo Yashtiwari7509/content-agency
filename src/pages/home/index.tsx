@@ -142,9 +142,7 @@ const Home = () => {
   return (
     <>
       <TeamLineup />
-      <div
-        className="w-screen relative"
-      >
+      <div className="w-screen relative">
         <DesktopOnly>
           <PhoneVideo />
         </DesktopOnly>

@@ -1,44 +1,6 @@
-import { A_dp, Andrew1, N_dp, Nick1, T_dp, Thomas1 } from "@/assets/ClientImage";
+import { reviews } from "@/constant/client_reviews";
 import { useEffect, useState } from "react";
 
-export type ReviewItem = {
-  id: number;
-  image: string;
-  review: string;
-  name: string;
-  designation: string;
-  avatar: string;
-};
-
-export const reviews: ReviewItem[] = [
-  {
-    id: 1,
-    image: Andrew1,
-    review:
-      "The podcast intros Xpro creates are excellent at hooking viewers right from the start and encouraging them to watch the full episode. One that particularly stood out was the intro for the episode featuring Max as a guest — it captured the moment perfectly and set the tone for the whole conversation.",
-    name: "Andrew Koutnik",
-    designation: "YouTube Creator",
-    avatar: A_dp,
-  },
-  {
-    id: 2,
-    image: Nick1,
-    review:
-      "These guys came on board early in my YouTube journey, back when I had around 55K subscribers, and they've played a big role in helping me break down complex, nerdy concepts into something my audience can easily follow and stay engaged with. Their work is efficient, reliable, and always delivered on time.",
-    name: "Nick Norwitz",
-    designation: "YouTube Creator",
-    avatar: N_dp,
-  },
-  {
-    id: 3,
-    image: Thomas1,
-    review:
-      "The animations you guys created helped me explain complex concepts in a way that truly resonated with my audience. Their attention to detail and creativity is evident, and it's no surprise our community consistently praises their work in the comments.",
-    name: "Thomas Delauer",
-    designation: "YouTube Creator",
-    avatar: T_dp,
-  },
-];
 
 const INTERVAL_MS = 4500;
 

@@ -1,40 +1,10 @@
-"use client";
-
 import { useRef, useState, useCallback, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Compare } from "@/components/compare";
+import { cards, type CardDef } from "@/constant/workflowSection";
 
-// ─── Card definitions ─────────────────────────────────────────────────────────
-
-type CardDef =
-  | {
-    type: "compare";
-    firstImage?: string;
-    secondImage?: string;
-    firstVideo?: string;
-    secondVideo?: string;
-  }
-  | { type: "image"; src: string; alt?: string };
-
-const cards: CardDef[] = [
-  {
-    type: "compare",
-    firstVideo: "https://res.cloudinary.com/decqmmcxq/video/upload/v1781610823/dorian_pod_ir9eke.mp4",
-    secondVideo: "https://res.cloudinary.com/decqmmcxq/video/upload/v1781610824/3_Engazing_Intro_yet9ws.mp4",
-  },
-  {
-    type: "image",
-    src: "https://images.unsplash.com/photo-1780552274419-aeae3c7d66fd?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    alt: "Workflow Preview",
-  },
-  {
-    type: "compare",
-    firstVideo: "https://res.cloudinary.com/decqmmcxq/video/upload/v1781610823/dorian_pod_ir9eke.mp4",
-    secondVideo: "https://res.cloudinary.com/decqmmcxq/video/upload/v1781610824/3_Engazing_Intro_yet9ws.mp4",
-  },
-];
 
 // ─── Per-slot visual properties ───────────────────────────────────────────────
 

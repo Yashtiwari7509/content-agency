@@ -1,42 +1,10 @@
 import { useMemo, useRef, useState } from "react";
 import gsap from "gsap";
-import { LaptopMinimalIcon, Smartphone, SwatchBookIcon } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import { SplitText } from "gsap/SplitText";
 import SectionHeader from "@/components/SectionHeader";
+import { SEGMENTS } from "@/constant/DonultSlider";
 
-const SEGMENTS = [
-  {
-    title: "Long-form Editing",
-    subtitle: "YouTube, documentaries, podcasts",
-    description:
-      "We transform expert knowledge into high-quality content. From podcasts and interviews to explainers and long-form videos, our editors combine precise storytelling, clean visuals, and thoughtful motion design to make complex ideas clear, engaging, and easy to understand.",
-    image: "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzR8fHBob25lfGVufDB8fDB8fHww",
-    color: "#86EFAC",
-    lightColor: "#DCFCE7",
-    icon: LaptopMinimalIcon,
-  },
-  {
-    title: "Short-form Editing",
-    subtitle: "Reels, Shorts, TikToks",
-    description:
-      "We turn complex ideas and expert insights into concise, engaging short-form content. From long-form repurposing to original edits, we produce professional Shorts, Reels, and TikToks with clear captions, intelligent motion graphics, and supporting b-roll that keeps viewers engaged.",
-    image: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=600&auto=format&fit=crop",
-    color: "#67E8F9",
-    lightColor: "#CFFAFE",
-    icon: Smartphone,
-  },
-  {
-    title: "Social Media Management",
-    subtitle: "Growth, strategy & distribution",
-    description:
-      "Beyond content production, we provide end-to-end social media management to build and strengthen your brand across YouTube, Instagram, and X. From content strategy and platform-specific optimization to publishing, community management, and performance tracking, our team manages your social presence with a consistent approach designed to expand your reach, strengthen your authority, and drive long-term brand growth.",
-    image: "https://plus.unsplash.com/premium_photo-1680985551058-2759df426d0d?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODd8fHBob25lfGVufDB8fDB8fHww",
-    color: "#F9A8D4",
-    lightColor: "#FCE7F3",
-    icon: SwatchBookIcon,
-  },
-];
 
 const NUM_SEGMENTS = SEGMENTS.length;
 const GAP_ANGLE = 4;
@@ -112,8 +80,9 @@ export default function DonutSlider() {
         pin: ".pin-donut",
         start: "-10px top",
         end: () => `${window.innerHeight * 2.3}px`,
-        scrub: 2,
+        scrub: 1,
         anticipatePin: 1,
+        invalidateOnRefresh: true,
       },
 
       onUpdate() {
@@ -208,8 +177,8 @@ export default function DonutSlider() {
   const circumference = 2 * Math.PI * 80;
 
   return (
-    <section ref={sectionRef} className="relative h-[350vh] max-w-5xl mx-auto">
-      <div className="pin-donut flex flex-col h-screen items-center justify-center pt-8">
+    <section ref={sectionRef} className="relative h-[330vh] max-w-5xl mx-auto">
+      <div className="pin-donut flex flex-col h-screen items-center justify-center">
         <div className="w-full px-4 sm:px-6 md:px-10">
           <SectionHeader
             label="Our Services"
@@ -302,20 +271,6 @@ export default function DonutSlider() {
             </div>
           </div>
 
-        </div>
-        {/* Slide image — tall portrait */}
-        <div
-          key={`img-${activeIndex}`}
-          ref={imgWrapRef}
-          className="mt-6 mx-auto w-full max-w-5xl px-4 sm:px-6 md:px-10 rounded-2xl"
-          style={{ clipPath: "inset(100% 0% 0% 0%)" }}
-        >
-          <img
-            src={activeSegment.image}
-            alt={activeSegment.title}
-            className="w-full h-[260px] sm:h-[340px] md:h-[420px] object-cover object-bottom rounded-2xl"
-            draggable={false}
-          />
         </div>
       </div>
     </section>

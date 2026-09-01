@@ -4,48 +4,10 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
 import SectionHeader from "@/components/SectionHeader";
-import { Andrew1, Chris1, Nick1, Rahul1, Thomas1 } from "@/assets/ClientImage";
+import { members } from "@/constant/workflowSection";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const members = [
-  {
-    src: Andrew1,
-    alt: "Andrew",
-    name: "Andrew",
-    // scale-x-[-1] moved to imgClassName so the wrapper (and tooltip) stay in normal coordinate space
-    className: "left-[2%] bottom-2 h-[580px] hidden lg:block z-10 w-110 translate-y-10",
-    imgClassName: "scale-x-[-1]",
-  },
-  {
-    src: Thomas1,
-    alt: "Thomas",
-    name: "Thomas",
-    className: "lg:left-[20%] -left-20 bottom-0 w-72 lg:h-[580px] lg:w-120 z-20 translate-y-10",
-    imgClassName: "",
-  },
-  {
-    src: Rahul1,
-    alt: "Rahul",
-    name: "Rahul",
-    className: "left-1/2 -translate-x-1/2 bottom-0 w-80 lg:w-120 lg:h-[620px] z-30 translate-y-10",
-    imgClassName: "",
-  },
-  {
-    src: Nick1,
-    alt: "Nick",
-    name: "Nick",
-    className: "lg:right-[20%] -right-20 bottom-0 lg:h-[570px] z-20 w-70 lg:w-120 translate-y-10",
-    imgClassName: "scale-x-[-1]",
-  },
-  {
-    src: Chris1,
-    alt: "Chris",
-    name: "Chris",
-    className: "right-[10%] bottom-0 h-[580px] hidden lg:block z-10 w-120 translate-y-12",
-    imgClassName: "scale-x-[-1]",
-  },
-];
 
 export default function TeamSection() {
   const sectionRef = useRef<HTMLElement>(null);

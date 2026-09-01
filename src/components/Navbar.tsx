@@ -161,7 +161,7 @@ export function NavbarTop() {
       >
         <Link
           to="/"
-          className="relative z-20 font-bold flex shrink-0 items-center border px-4 py-2 rounded-full"
+          className="relative z-20 font-bold flex text-xl shrink-0 items-center px-2 rounded-full"
           onClick={(e) => {
             e.preventDefault();
             window.location.href = "/";
@@ -269,7 +269,7 @@ export function NavbarTop() {
         >
           <Link
             to="/"
-            className="relative z-20 font-bold flex shrink-0 items-center border px-4 py-2 rounded-full"
+            className="relative z-20 text-xl font-bold flex shrink-0 items-center px-4 py-2 rounded-full"
             onClick={(e) => {
               e.preventDefault();
               window.location.href = "/";

@@ -2,64 +2,9 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { Draggable } from "gsap/Draggable";
 import { useGSAP } from "@gsap/react";
+import { CARDS, type Card } from "@/constant/workflowSection";
 
 gsap.registerPlugin(Draggable);
-
-interface Card {
-    id: number;
-    title: string;
-    subtitle: string;
-    year: string;
-    tag: string;
-    accent: string;
-    light: string;
-    gradientFrom: string;
-    gradientVia: string;
-    gradientTo: string;
-    num: string;
-}
-
-const CARDS: Card[] = [
-    {
-        id: 0,
-        title: "Aurora Borealis",
-        subtitle: "Northern Lights",
-        year: "2024",
-        tag: "Nature",
-        gradientFrom: "#064e3b",
-        gradientVia: "#0f766e",
-        gradientTo: "#164e63",
-        accent: "#5DCAA5",
-        light: "#E1F5EE",
-        num: "01",
-    },
-    {
-        id: 1,
-        title: "Solaris",
-        subtitle: "Beyond The Horizon",
-        year: "2024",
-        tag: "Cosmos",
-        gradientFrom: "#2e1065",
-        gradientVia: "#581c87",
-        gradientTo: "#1e1b4b",
-        accent: "#AFA9EC",
-        light: "#EEEDFE",
-        num: "02",
-    },
-    {
-        id: 2,
-        title: "Ember Drift",
-        subtitle: "Through The Flame",
-        year: "2024",
-        tag: "Fire",
-        gradientFrom: "#431407",
-        gradientVia: "#7f1d1d",
-        gradientTo: "#4c0519",
-        accent: "#F0997B",
-        light: "#FAECE7",
-        num: "03",
-    },
-];
 
 const CARD_W = 320;
 const CARD_H = 440;
@@ -180,17 +125,11 @@ export default function CardSlider() {
     const renderCards = (offset: number) => {
         cardRefs.current.forEach((card, i) => {
             if (!card) return;
-
             const delta = i - offset;
-
             const x = Math.sin(delta * 0.7) * 420;
-
             const z = Math.cos(delta * 0.7) * 350;
-
             const rotateY = -delta * 28;
-
             const scale = gsap.utils.clamp(0.65, 1, 1 - Math.abs(delta) * 0.18);
-
             const opacity = gsap.utils.clamp(0.25, 1, 1 - Math.abs(delta) * 0.3);
 
             gsap.set(card, {
@@ -205,9 +144,7 @@ export default function CardSlider() {
     };
     useGSAP(() => {
         if (!stageRef.current) return;
-
         renderCards(currentIndex.current);
-
         const draggable = Draggable.create(stageRef.current, {
             type: "x",
             autoScroll : 1,

@@ -1,62 +1,11 @@
 import InfiniteSlider from "@/components/InfiniteSlider";
 import ServiceCard from "@/components/serviceCard";
 import SectionHeader from "@/components/SectionHeader";
-import { Video, Sparkles, Music, Palette, Film, Layers, Mic, Zap } from "lucide-react";
+import { services } from "@/constant/workflowSection";
 
 // Each card is 288px wide (w-72) + 24px gap = 312px slot
 const CARD_SLOT_WIDTH = 312;
 const CARD_HEIGHT = 620;
-
-const services = [
-  {
-    title: "VFX Studio",
-    subtitle: "Advanced visual effects",
-    appLabel: "Effects",
-    Icon: Sparkles,
-  },
-  {
-    title: "Motion Graphics",
-    subtitle: "Brand animation",
-    appLabel: "Motion",
-    Icon: Film,
-  },
-  {
-    title: "Color Grading",
-    subtitle: "Scene polish & tone",
-    appLabel: "Color",
-    Icon: Palette,
-  },
-  {
-    title: "Sound Design",
-    subtitle: "Music + SFX layers",
-    appLabel: "Audio",
-    Icon: Music,
-  },
-  {
-    title: "Video Editing",
-    subtitle: "Cut, trim & transitions",
-    appLabel: "Edit",
-    Icon: Video,
-  },
-  {
-    title: "Multi-Layer",
-    subtitle: "Compositing & overlay",
-    appLabel: "Layers",
-    Icon: Layers,
-  },
-  {
-    title: "Voiceover",
-    subtitle: "Studio-quality narration",
-    appLabel: "Voice",
-    Icon: Mic,
-  },
-  {
-    title: "Fast Delivery",
-    subtitle: "48 h turnaround",
-    appLabel: "Speed",
-    Icon: Zap,
-  },
-];
 
 export default function ServicesSlider() {
   return (
