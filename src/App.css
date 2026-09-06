@@ -193,17 +193,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.fixed-text-container::after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 150%;
-  background: white;
-  z-index: 0;
-  filter: blur(20px);
-  top: 0;
-  left: 0;
-}
+
 #Marqee-slider {
   mask-image: linear-gradient(to right, transparent 10%, black 20%, black 80%, transparent 90%);
 }

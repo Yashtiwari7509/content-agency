@@ -232,7 +232,7 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
               scrollTrigger: {
                 trigger: ".PhoneStats",
                 start: "-500px top",
-                end: "85% top",
+                end: "50% top",
                 scrub: true,
                 onUpdate: () => {
                   invalidate();
@@ -249,11 +249,10 @@ export function Model(props: JSX.IntrinsicElements["group"]) {
             .to(model.position, {
               x: isMobileGSAP ? 0 : -0.7,
               y: -0.1,
-              duration: 1.5,
+              duration: 2,
             })
-            .to(model.rotation, { y: "-=" + Math.PI * 2, duration: 1.5, ease: "none" }, "<")
+            .to(model.rotation, { y: "-=" + Math.PI * 2, duration: 2, ease: "none" }, "<")
             .to(model.rotation, { duration: 0.5, ease: "none" })
-            .to(model.position, { x: isMobileGSAP ? 0 : -0.7, y: 1.7, duration: 1.5, ease: "none" });
         },
       );
 

@@ -3,10 +3,10 @@ import { Canvas } from "@react-three/fiber";
 
 const PhoneVideo = () => {
   return (
-    <div className="w-screen h-screen fixed">
+    <div className="w-screen h-screen absolute top-0 canvas-wrapper">
       <Canvas
         id="canvas"
-        className="w-full absolute top-0 h-full pointer-events-auto!  z-10"
+        className="w-full absolute top-0 h-full pointer-events-auto! bg-transparent  z-10"
         dpr={[1, 1.2]}
         camera={{ position: [0, 0, 10], fov: 10 }}
         shadows={false}

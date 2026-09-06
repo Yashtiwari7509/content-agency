@@ -2,6 +2,8 @@ import { useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { cn } from "@/lib/utils";
+import PhoneVideo from "./new/PhoneVideo";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(useGSAP);
 
@@ -393,20 +395,30 @@ function PageTabbed() {
 ───────────────────────────────────────── */
 const PhoneStats = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
+  useGSAP(() => {
+    ScrollTrigger.create({
+      trigger: ".PhoneStats",
+      pin: ".canvas-wrapper",
+      start: "top top",
+      end: "47% top",
+      anticipatePin: 1
+    })
+  })
 
   return (
     <section ref={sectionRef} className="PhoneStats relative w-screen h-[180vh] lg:h-[210vh] pointer-events-none">
+      <PhoneVideo />
       <div className="pointer-events-none absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full opacity-25 blur-3xl bg-background" />
       <div className="pointer-events-none absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full opacity-20 blur-3xl bg-background" />
 
       <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-0 lg:w-[1024px]">
         {/* Page 1 — Section A */}
-        <div className="relative h-screen flex items-center justify-center lg:justify-start">
+        <div className="relative h-screen flex items-center justify-center lg:justify-start pt-30">
           <PageFloatingStats />
         </div>
 
         {/* Page 2 — Sections B / C / D (tabbed) */}
-        <div className="relative h-screen flex justify-center lg:justify-start tabbedPage">
+        <div className="relative h-screen flex justify-center lg:justify-start tabbedPage pt-0">
           <PageTabbed />
         </div>
       </div>

@@ -3,7 +3,6 @@ import HeroCard, { type CardStatsItem } from "@/components/HeroCard";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
-import TypingLoop from "@/components/TypingEffect";
 import { cloud, fb, reel, short } from "@/assets/Image";
 import { A_dp, N_dp, T_dp } from "@/assets/ClientImage";
 
@@ -101,9 +100,16 @@ const Hero = () => {
       </div>
       <Balloons />
 
-      <div className="absolute top-64! text-container text-5xl">
-        <h4 className="font-sans text-xl leading-none">We do</h4>
-        <TypingLoop words={["Video Editing", "Color Grading", "Motion Graphics", "Cinematic Reels"]} />
+      <div className="absolute top-64! text-container flex flex-col items-center gap-5 z-40">
+        {/* Glassmorphism badge */}
+        <div className="flex items-center gap-2 rounded-full border border-white/30 bg-white/15 px-4 py-2 backdrop-blur-md">
+          <span className="text-amber-500 text-sm">✦</span>
+          <p className="text-xs font-semibold tracking-widest uppercase text-foreground">The Content Agency for Health & Performance Experts</p>
+        </div>
+        {/* Hero heading */}
+        <h1 className="text-5xl md:text-7xl font-extrabold text-center leading-tight text-foreground">
+          We Turn Science<br />Into <span className="text-blue-500">Influence.</span>
+        </h1>
       </div>
 
       <div className="absolute h-screen w-screen top-40 md:top-0 center-con">

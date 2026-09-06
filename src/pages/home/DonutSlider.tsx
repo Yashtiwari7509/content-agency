@@ -46,7 +46,6 @@ export default function DonutSlider() {
   const badgeRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const imgWrapRef = useRef<HTMLDivElement>(null);
 
   const [progress, setProgress] = useState(0);
 
@@ -136,22 +135,6 @@ export default function DonutSlider() {
           { y: 0, opacity: 1, duration: 0.4 },
           "-=0.25",
         );
-
-      // Image reveal — clip from bottom
-      if (imgWrapRef.current) {
-        gsap.fromTo(
-          imgWrapRef.current,
-          { clipPath: "inset(100% 0% 0% 0%)", opacity: 0 },
-          {
-            clipPath: "inset(0% 0% 0% 0%)",
-            opacity: 1,
-            duration: 0.8,
-            ease: "power3.out",
-            delay: 0.15,
-          },
-        );
-      }
-
       return () => {
         tl.kill();
         title.revert();
@@ -178,7 +161,7 @@ export default function DonutSlider() {
 
   return (
     <section ref={sectionRef} className="relative h-[330vh] max-w-5xl mx-auto">
-      <div className="pin-donut flex flex-col h-screen items-center justify-center">
+      <div className="pin-donut flex flex-col h-screen justify-center">
         <div className="w-full px-4 sm:px-6 md:px-10">
           <SectionHeader
             label="Our Services"

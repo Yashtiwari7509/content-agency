@@ -296,8 +296,8 @@ export default function ApertureCardSlider({
   );
 
   return (
-    <section ref={containerRef} className={cn("lg:min-h-[800px] overflow-hidden bg-transparent py-8 mt-20", className)}>
-      <div className="flex flex-col items-center gap-10 lg:gap-40">
+    <section ref={containerRef} className={cn("lg:min-h-[800px] relative overflow-hidden bg-transparent py-8 mt-20", className)}>
+      <div className=" flex flex-col items-center gap-10 lg:gap-40">
         <div
           ref={textBlockRef}
           className="flex select-none items-center justify-center whitespace-nowrap text-2xl lg:text-4xl font-medium text-foreground mt-10"
@@ -315,7 +315,7 @@ export default function ApertureCardSlider({
             </span>
           </div>
         </div>
-        <div ref={stageRef} className="relative flex h-[440px] w-full items-center justify-center perspective-distant lg:scale-150">
+        <div ref={stageRef} className="relative flex h-[440px] w-full items-center justify-center perspective-distant lg:scale-150 pointer-events-none">
           <div className="relative h-[390px] w-[220px] transform-3d">
             {cards.map((card, i) => {
               const isLandscape = card.ratio === "16/9";
@@ -336,7 +336,7 @@ export default function ApertureCardSlider({
                     }
                   }}
                   className={cn(
-                    "absolute overflow-hidden rounded-2xl will-change-[transform,filter,opacity] border",
+                    "absolute overflow-hidden rounded-2xl will-change-[transform,filter,opacity] border pointer-events-auto",
                     isLandscape ? "left-1/2 top-1/2 -ml-[170px] -mt-[95.5px] h-[191px] w-[340px] origin-center" : "inset-0 h-full w-full",
                   )}
                   onMouseEnter={pauseOnHover}
@@ -354,32 +354,26 @@ export default function ApertureCardSlider({
                     draggable={false}
                     className="pointer-events-none block h-full w-full select-none object-cover"
                   />
-                  {/* <CardCorner position="tl" />
-                  <CardCorner position="tr" />
-                  <CardCorner position="bl" />
-                  <CardCorner position="br" /> */}
                 </div>
               );
             })}
           </div>
         </div>
-
-        {/* <div className="flex items-center justify-center  gap-3">
-          <div className="flex gap-2">
-            {cards.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                aria-label={`Slide ${i + 1}`}
-                onClick={() => goTo(i)}
-                className={cn(
-                  "h-[7px] w-[7px] cursor-pointer rounded-full border-none bg-border p-0 transition-[background,transform] duration-200",
-                  i === currentIndex && "scale-[1.35] bg-foreground",
-                )}
-              />
-            ))}
-          </div>
-        </div> */}
+      </div>
+      {/* Info button with tooltip — tooltip shows on ⓘ button hover */}
+      <div className="absolute bottom-0 right-[20%] z-50 bg-black rounded-full overflow-visible pointer-events-auto cursor-pointer group">
+        {/* Tooltip */}
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 whitespace-nowrap rounded-lg bg-black/80 px-3 py-1.5 text-xs font-medium text-white shadow-lg backdrop-blur-sm pointer-events-none opacity-0 translate-y-2 transition-all duration-200 group-hover:opacity-100 group-hover:translate-y-0">
+          Hovering on cards will pause slider
+          <div className="absolute top-full left-1/2 -translate-x-1/2 h-0 w-0 border-x-[5px] border-x-transparent border-t-[5px] border-t-black/80" />
+        </div>
+        {/* ⓘ button */}
+        <span
+          aria-label="Card info"
+          className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 bg-white/10 text-lg font-bold text-white backdrop-blur-md transition-colors duration-200"
+        >
+          i
+        </span>
       </div>
     </section>
   );

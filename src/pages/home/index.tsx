@@ -3,13 +3,11 @@ import { useLenis } from "lenis/react";
 import Hero from "./Hero";
 import GridScore from "./GridScore";
 import DonutSlider from "./DonutSlider";
-import PhoneVideo from "./new/PhoneVideo";
 import PhoneStats from "./PhoneStats";
 import ApertureCardSlider from "@/components/ApertureCardSlider";
 import TeamLineup from "./new/Loader";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import DesktopOnly from "@/components/DesktopOnly";
 
 const ServicesSlider = lazy(() => import("./ServicesSlider"));
 const WorkflowSection = lazy(() => import("./WorkflowSection"));
@@ -135,17 +133,14 @@ const Home = () => {
       })
       .call(unlockScroll)
       .from(".clouds", { y: 200, duration: 1.6, ease: "power4.out" }, "-=.6")
-      .from(".text-container", { y: 250, duration: 1, ease: "power4.out" }, "<")
-      .from(".center", { y: 20, scale: 1.2, opacity: 0, immediateRender: true }, "<");
+      .from(".text-container", { y: 50, duration: 1, ease: "power4.out" }, "<")
+      .from(".center", { y: -100, opacity: 0, immediateRender: true }, "<");
   });
 
   return (
     <>
       <TeamLineup />
       <div className="w-screen relative">
-        <DesktopOnly>
-          <PhoneVideo />
-        </DesktopOnly>
         <Hero />
         <ApertureCardSlider />
         <GridScore />
