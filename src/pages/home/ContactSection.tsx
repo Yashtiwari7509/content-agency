@@ -8,12 +8,13 @@ import SectionHeader from "@/components/SectionHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ai } from "@/assets/Image";
 
 gsap.registerPlugin(ScrollTrigger);
 
 type FormStatus = "idle" | "submitting" | "success" | "error";
 
-const initialForm = { name: "", email: "", message: "", service: "" };
+const initialForm = { name: "", email: "", message: "", services: [] as string[] };
 
 const services = ["Video Editing", "Color Grading", "Motion Graphics", "Cinematic Reels", "Thumbnail Design", "Full Channel Management"];
 
@@ -59,10 +60,10 @@ export default function ContactSection() {
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
           access_key: CONTACT_CONFIG.accessKey,
-          subject: `New Inquiry — ${form.service || "General"}`,
+          subject: `New Inquiry — ${form.services.join(", ") || "General"}`,
           from_name: form.name,
           email: form.email,
-          message: `Service: ${form.service}\n\n${form.message}`,
+          message: `Services: ${form.services.join(", ") || "General"}\n\n${form.message}`,
           botcheck: "",
         }),
       });
@@ -80,7 +81,6 @@ export default function ContactSection() {
 
   return (
     <section ref={sectionRef} id="contact-section" className="relative w-full  py-24 px-6">
-
       {/* Section header */}
       <div className="relative z-10">
         <SectionHeader
@@ -90,9 +90,9 @@ export default function ContactSection() {
           description="Tell us about your project and let’s turn your vision into content that converts."
         />
       </div>
-
+      <img src={ai} alt="" className="absolute" />
       {/* Two-column layout */}
-      <div className="max-w-xl mx-auto relative z-10">
+      <div className="max-w-xl mx-auto relative z-10 bg-white">
         <div className="contact-right">
           <div className="rounded-3xl border p-8">
             {status === "success" ? (
@@ -163,10 +163,15 @@ export default function ContactSection() {
                       <Button
                         key={s}
                         type="button"
-                        variant={form.service === s ? "default" : "outline"}
+                        variant={form.services.includes(s) ? "default" : "outline"}
                         size="sm"
-                        className={cn("rounded-full px-3 py-1.5 text-xs font-medium", form.service !== s && "text-gray-500")}
-                        onClick={() => setForm((p) => ({ ...p, service: p.service === s ? "" : s }))}
+                        className={cn("rounded-full px-3 py-1.5 text-xs font-medium", !form.services.includes(s) && "text-gray-500")}
+                        onClick={() =>
+                          setForm((p) => ({
+                            ...p,
+                            services: p.services.includes(s) ? p.services.filter((service) => service !== s) : [...p.services, s],
+                          }))
+                        }
                       >
                         {s}
                       </Button>

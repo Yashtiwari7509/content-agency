@@ -114,7 +114,7 @@ export default function WorkCards() {
               className="gsap-row group relative flex cursor-pointer items-center gap-3 md:gap-6 overflow-hidden rounded-xl px-2 py-6 md:px-4 md:py-8"
             >
               {/* Index — hidden on xs */}
-              <p className="hidden sm:block w-8 md:w-10 shrink-0 text-xs tabular-nums">{p.index}</p>
+              {/* <p className="hidden sm:block w-8 md:w-10 shrink-0 text-xs tabular-nums">{p.index}</p> */}
 
               {/* Title + category */}
               <div className="row-title flex flex-1 flex-col gap-0.5 md:gap-1 min-w-0">

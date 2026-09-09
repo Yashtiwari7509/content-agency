@@ -100,14 +100,14 @@ const Hero = () => {
       </div>
       <Balloons />
 
-      <div className="absolute top-64! text-container flex flex-col items-center gap-5 z-40">
+      <div className="absolute text-container flex flex-col items-center gap-3 sm:gap-4 md:gap-5 z-40 w-full max-w-[90vw] sm:max-w-xl md:max-w-3xl lg:max-w-4xl px-4 sm:px-6 md:px-0">
         {/* Glassmorphism badge */}
-        <div className="flex items-center gap-2 rounded-full border border-white/30 bg-white/15 px-4 py-2 backdrop-blur-md">
-          <span className="text-amber-500 text-sm">✦</span>
-          <p className="text-xs font-semibold tracking-widest uppercase text-foreground">The Content Agency for Health & Performance Experts</p>
+        <div className="flex items-center gap-1.5 whitespace-nowrap sm:gap-2 rounded-full border border-white/30 bg-white/15 px-3 sm:px-4 py-1.5 sm:py-2 backdrop-blur-md">
+          <span className="text-primary text-xs sm:text-sm shrink-0">✦</span>
+          <p className="text-[10px] sm:text-xs font-semibold tracking-wider sm:tracking-widest uppercase text-foreground text-center leading-snug">The Content Agency for Health & Performance Experts</p>
         </div>
         {/* Hero heading */}
-        <h1 className="text-5xl md:text-7xl font-extrabold text-center leading-tight text-foreground">
+        <h1 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-extrabold text-center leading-tight text-foreground">
           We Turn Science<br />Into <span className="text-blue-500">Influence.</span>
         </h1>
       </div>
