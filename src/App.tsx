@@ -140,7 +140,7 @@ function App() {
         root
       />
       <ContactProvider>
-        <div ref={mainRef} className="relative w-screen overflow-hidden">
+        <div ref={mainRef} className="relative w-screen overflow-x-hidden">
           <NavbarTop />
           <DesktopOnly>
             <MouseMove />
