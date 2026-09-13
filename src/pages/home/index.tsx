@@ -24,15 +24,7 @@ const Home = () => {
   const tl1Ref = useRef<GSAPTimeline>(null);
   const [locked, setLocked] = useState(true);
   const unlockedRef = useRef(false); // guards against double-unlock (timeline + fallback both firing)
-
-  const preventScroll = (e: Event) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
-  const preventScrollKeys = (e: KeyboardEvent) => {
-    const keys = ["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "];
-    if (keys.includes(e.key)) e.preventDefault();
-  };
+  const scrollYRef = useRef(0); // remembers scroll position while body is pinned
 
   useLayoutEffect(() => {
     if (typeof window === "undefined") return;
@@ -47,63 +39,48 @@ const Home = () => {
     lenis?.scrollTo(0, { immediate: true });
   }, [lenis]);
 
+  // --- Safari-safe scroll lock: pin body with position:fixed instead of
+  // relying on overflow:hidden + preventDefault, which Safari/iOS ignores
+  // for rubber-band and some touch gestures.
   useEffect(() => {
     if (!locked) return;
 
-    const html = document.documentElement;
     const body = document.body;
-
-    html.style.overflow = "hidden";
-    body.style.overflow = "hidden";
+    scrollYRef.current = window.scrollY;
 
     lenis?.stop();
 
-    document.addEventListener("wheel", preventScroll, { passive: false });
-    document.addEventListener("touchmove", preventScroll, { passive: false });
-    document.addEventListener("keydown", preventScrollKeys, { passive: false });
+    body.style.position = "fixed";
+    body.style.top = `-${scrollYRef.current}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
 
     return () => {
-      html.style.overflow = "";
-      body.style.overflow = "";
-      window.scrollTo(0, 0);
+      body.style.position = "";
+      body.style.top = "";
+      body.style.left = "";
+      body.style.right = "";
+      body.style.width = "";
+
+      window.scrollTo(0, scrollYRef.current);
 
       if ("scrollRestoration" in window.history) {
         window.history.scrollRestoration = "auto";
       }
-
-      document.removeEventListener("wheel", preventScroll);
-      document.removeEventListener("touchmove", preventScroll);
-      document.removeEventListener("keydown", preventScrollKeys);
 
       lenis?.start();
     };
   }, [locked, lenis]);
 
   const unlockScroll = () => {
-    if (unlockedRef.current) return; // already unlocked — avoid double-run from timeline + fallback race
+    if (unlockedRef.current) return; // avoid double-run from timeline + fallback race
     unlockedRef.current = true;
 
-    // Force the overlay out of the way regardless of what triggered this,
-    // so a late/failed animation never leaves it covering the viewport.
+    // Force the overlay out of the way regardless of what triggered this.
     gsap.set(".loader-screen", { display: "none" });
 
-    const html = document.documentElement;
-    const body = document.body;
-
-    html.style.overflow = "auto";
-    body.style.overflow = "auto";
-    window.scrollTo(0, 0);
-
-    if ("scrollRestoration" in window.history) {
-      window.history.scrollRestoration = "auto";
-    }
-
-    document.removeEventListener("wheel", preventScroll);
-    document.removeEventListener("touchmove", preventScroll);
-    document.removeEventListener("keydown", preventScrollKeys);
-
-    lenis?.start();
-    setLocked(false);
+    setLocked(false); // triggers the cleanup above, which un-pins the body
   };
 
   useEffect(() => {
