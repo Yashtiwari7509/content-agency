@@ -23,6 +23,7 @@ const Home = () => {
 
   const tl1Ref = useRef<GSAPTimeline>(null);
   const [locked, setLocked] = useState(true);
+  const unlockedRef = useRef(false); // guards against double-unlock (timeline + fallback both firing)
 
   const preventScroll = (e: Event) => {
     e.preventDefault();
@@ -43,7 +44,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    lenis?.scrollTo(0, { immediate: true }); // instant, not animated — avoids a second source of "current" scroll position
+    lenis?.scrollTo(0, { immediate: true });
   }, [lenis]);
 
   useEffect(() => {
@@ -79,6 +80,13 @@ const Home = () => {
   }, [locked, lenis]);
 
   const unlockScroll = () => {
+    if (unlockedRef.current) return; // already unlocked — avoid double-run from timeline + fallback race
+    unlockedRef.current = true;
+
+    // Force the overlay out of the way regardless of what triggered this,
+    // so a late/failed animation never leaves it covering the viewport.
+    gsap.set(".loader-screen", { display: "none" });
+
     const html = document.documentElement;
     const body = document.body;
 
@@ -99,10 +107,12 @@ const Home = () => {
   };
 
   useEffect(() => {
-    // Fallback to ensure scrolling is unlocked even if the loader animation gets stuck
+    // True fallback — only fires if the GSAP timeline never completes.
+    // Timeline duration: delay(0.5) + img-side(2) + loader-screen(1.2) = 3.7s,
+    // so this must sit comfortably after that.
     const fallbackTimer = setTimeout(() => {
       unlockScroll();
-    }, 2500);
+    }, 4500);
     return () => clearTimeout(fallbackTimer);
   }, []);
 
