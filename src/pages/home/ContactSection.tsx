@@ -8,7 +8,6 @@ import SectionHeader from "@/components/SectionHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ai } from "@/assets/Image";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -90,7 +89,6 @@ export default function ContactSection() {
           description="Tell us about your project and let’s turn your vision into content that converts."
         />
       </div>
-      <img src={ai} alt="" className="absolute" />
       {/* Two-column layout */}
       <div className="max-w-xl mx-auto relative z-10 bg-white">
         <div className="contact-right">

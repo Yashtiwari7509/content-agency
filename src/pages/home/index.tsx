@@ -23,7 +23,6 @@ const Home = () => {
 
   const tl1Ref = useRef<GSAPTimeline>(null);
   const [locked, setLocked] = useState(true);
-  const readyRef = useRef(false);
 
   const preventScroll = (e: Event) => {
     e.preventDefault();
@@ -53,9 +52,6 @@ const Home = () => {
     const html = document.documentElement;
     const body = document.body;
 
-    // Keep the native scroll container locked while the intro loader is active.
-    // Avoid fixing the entire body, which is the part Safari can leave in a
-    // permanently stuck state on production builds.
     html.style.overflow = "hidden";
     body.style.overflow = "hidden";
 
@@ -83,14 +79,11 @@ const Home = () => {
   }, [locked, lenis]);
 
   const unlockScroll = () => {
-    if (readyRef.current) return;
-    readyRef.current = true;
-
     const html = document.documentElement;
     const body = document.body;
 
-    html.style.overflow = "";
-    body.style.overflow = "";
+    html.style.overflow = "auto";
+    body.style.overflow = "auto";
     window.scrollTo(0, 0);
 
     if ("scrollRestoration" in window.history) {
@@ -107,10 +100,10 @@ const Home = () => {
 
   useEffect(() => {
     // Fallback to ensure scrolling is unlocked even if the loader animation gets stuck
-    const fallbackTimer = window.setTimeout(() => {
+    const fallbackTimer = setTimeout(() => {
       unlockScroll();
     }, 2500);
-    return () => window.clearTimeout(fallbackTimer);
+    return () => clearTimeout(fallbackTimer);
   }, []);
 
   useGSAP(() => {
