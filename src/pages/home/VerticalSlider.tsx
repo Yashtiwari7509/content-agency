@@ -126,80 +126,31 @@ const VerticalInfiniteScroll: FC = () => {
 
 const SLIDES: Slide[] = [
   {
-    label: "Brand campaign",
-    bg: "#F1EFE8",
-    content: (
-      <svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-        <rect width="480" height="320" fill="#F1EFE8" />
-        <rect x="60" y="40" width="360" height="200" rx="8" fill="#D3D1C7" />
-        <rect x="80" y="60" width="200" height="12" rx="4" fill="#B4B2A9" />
-        <rect x="80" y="82" width="140" height="8" rx="3" fill="#B4B2A9" />
-        <rect x="80" y="110" width="320" height="100" rx="6" fill="#B4B2A9" />
-        <circle cx="400" cy="140" r="30" fill="#888780" opacity="0.5" />
-        <polygon points="393,128 393,152 412,140" fill="#F1EFE8" />
-        <rect x="80" y="228" width="80" height="28" rx="4" fill="#5F5E5A" />
-        <rect x="80" y="268" width="280" height="8" rx="3" fill="#D3D1C7" />
-        <rect x="80" y="282" width="200" height="8" rx="3" fill="#D3D1C7" />
-      </svg>
-    ),
-  },
-  {
-    label: "Client reel",
-    bg: "#E1F5EE",
-    content: (
-      <svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-        <rect width="480" height="320" fill="#E1F5EE" />
-        <rect x="40" y="30" width="180" height="260" rx="8" fill="#9FE1CB" />
-        <rect x="60" y="50" width="140" height="90" rx="5" fill="#5DCAA5" />
-        <rect x="60" y="155" width="100" height="10" rx="3" fill="#1D9E75" />
-        <rect x="60" y="172" width="75" height="8" rx="3" fill="#5DCAA5" />
-        <rect x="240" y="30" width="200" height="120" rx="8" fill="#9FE1CB" />
-        <rect x="260" y="50" width="160" height="70" rx="5" fill="#5DCAA5" />
-        <circle cx="340" cy="85" r="20" fill="#1D9E75" opacity="0.6" />
-        <polygon points="334,76 334,94 348,85" fill="#E1F5EE" />
-        <rect x="240" y="165" width="200" height="125" rx="8" fill="#9FE1CB" />
-        <rect x="260" y="180" width="160" height="80" rx="5" fill="#5DCAA5" />
-        <rect x="260" y="273" width="100" height="8" rx="3" fill="#1D9E75" />
-      </svg>
-    ),
-  },
-  {
-    label: "Social content",
+    label: "Views & growth",
     bg: "#EEEDFE",
     content: (
-      <svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-        <rect width="480" height="320" fill="#EEEDFE" />
-        <circle cx="240" cy="140" r="90" fill="#CECBF6" />
-        <circle cx="240" cy="140" r="60" fill="#AFA9EC" />
-        <circle cx="240" cy="140" r="35" fill="#7F77DD" />
-        <polygon points="233,128 233,152 252,140" fill="#EEEDFE" />
-        <rect x="60" y="256" width="360" height="2" rx="1" fill="#CECBF6" />
-        <rect x="100" y="272" width="60" height="10" rx="3" fill="#AFA9EC" />
-        <rect x="210" y="272" width="60" height="10" rx="3" fill="#AFA9EC" />
-        <rect x="320" y="272" width="60" height="10" rx="3" fill="#AFA9EC" />
-        <rect x="60" y="30" width="140" height="8" rx="3" fill="#CECBF6" />
-        <rect x="60" y="46" width="90" height="6" rx="3" fill="#CECBF6" />
-      </svg>
+      <video src="https://res.cloudinary.com/decqmmcxq/video/upload/v1792169759/views_fqoyc6.mp4" autoPlay loop muted playsInline className="w-full h-full object-cover rounded-lg" />
     ),
   },
   {
-    label: "Product showcase",
+    label: "Social media",
     bg: "#FAECE7",
     content: (
-      <svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-        <rect width="480" height="320" fill="#FAECE7" />
-        <rect x="40" y="40" width="400" height="240" rx="8" fill="#F5C4B3" />
-        <rect x="60" y="60" width="160" height="200" rx="6" fill="#F0997B" />
-        <rect x="240" y="60" width="180" height="90" rx="6" fill="#F0997B" />
-        <rect x="240" y="166" width="180" height="94" rx="6" fill="#D85A30" opacity="0.5" />
-        <rect x="80" y="180" width="120" height="12" rx="3" fill="#FAECE7" />
-        <rect x="80" y="200" width="80" height="8" rx="3" fill="#FAECE7" opacity="0.7" />
-        <rect x="80" y="230" width="60" height="22" rx="4" fill="#FAECE7" />
-        <rect x="256" y="76" width="140" height="60" rx="4" fill="#FAECE7" opacity="0.4" />
-        <circle cx="270" cy="195" r="14" fill="#FAECE7" opacity="0.6" />
-        <circle cx="300" cy="195" r="14" fill="#FAECE7" opacity="0.4" />
-        <circle cx="330" cy="195" r="14" fill="#FAECE7" opacity="0.4" />
-      </svg>
+      <video src="https://res.cloudinary.com/decqmmcxq/video/upload/v1792169747/social-media_smmbpy.mp4" autoPlay loop muted playsInline className="w-full h-full object-cover rounded-lg" />
+    ),
+  },
+  {
+    label: "Short-form content",
+    bg: "#E1F5EE",
+    content: (
+      <video src="https://res.cloudinary.com/decqmmcxq/video/upload/v1792169768/short-form_conzil.mp4" autoPlay loop muted playsInline className="w-full h-full object-cover rounded-lg" />
+    ),
+  },
+  {
+    label: "Long-form editing",
+    bg: "#F1EFE8",
+    content: (
+      <video src="https://res.cloudinary.com/decqmmcxq/video/upload/v1792169769/long-form_exvxb3.mp4" autoPlay loop muted playsInline className="w-full h-full object-cover rounded-lg" />
     ),
   },
 ];
