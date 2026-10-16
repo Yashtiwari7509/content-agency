@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import Hero from "./Hero";
 import GridScore from "./GridScore";
 import DonutSlider from "./DonutSlider";
@@ -15,10 +15,27 @@ import VerticalSlider from "./VerticalSlider";
 import ContactSection from "./ContactSection";
 import TeamSection from "./TeamSection";
 import SiteFooter from "./SiteFooter";
+import { useLenis } from "lenis/react";
 
 
 const Home = () => {
   const tl1Ref = useRef<GSAPTimeline>(null);
+  const lenisRef = useRef<ReturnType<typeof useLenis>>(null);
+
+  // Always keep lenisRef in sync with the latest instance
+  const lenis = useLenis();
+  lenisRef.current = lenis;
+
+  useEffect(() => {
+    window.history.scrollRestoration = "manual";
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    if (lenis) {
+      lenis.stop();
+    }
+  }, [lenis]);
 
   useGSAP(() => {
     tl1Ref.current = gsap
@@ -34,8 +51,9 @@ const Home = () => {
         y: "-120vh",
         duration: 1.2,
         ease: "expo.inOut",
-        filter : "blur(50px)",
+        filter: "blur(50px)",
         onComplete: () => {
+          lenisRef.current?.start();
           gsap.set(".loader-screen", { display: "none" });
         },
       })
