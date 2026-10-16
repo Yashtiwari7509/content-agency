@@ -14,7 +14,7 @@ export const reviews1 = [
     img: N_dp,
   },
   {
-    name: "Dr. Andrew Huberman",
+    name: "Dr. Andrew koutnik",
     username: "@hubermanlab",
     body: "Fast, reliable, incredibly professional service.",
     img: A_dp,
@@ -47,7 +47,7 @@ export const reviews2 = [
     img: N_dp,
   },
   {
-    name: "Dr. Andrew Huberman",
+    name: "Dr. Andrew koutnik",
     username: "@hubermanlab",
     body: "Every reel feels deeply researched, intentional.",
     img: A_dp,
@@ -80,7 +80,7 @@ export const reviews3 = [
     img: N_dp,
   },
   {
-    name: "Dr. Andrew Huberman",
+    name: "Dr. Andrew koutnik",
     username: "@hubermanlab",
     body: "Loved our podcast, especially that cinematic intro.",
     img: A_dp,
@@ -151,14 +151,14 @@ export const projects: Project[] = [
     category: "Production — Delivery",
     title: "2500+ Videos",
     year: "Counting",
-    image: "https://images.unsplash.com/photo-1574717024453-354056aafa98?q=80&w=1200&auto=format&fit=crop",
+    image: "https://res.cloudinary.com/decqmmcxq/image/upload/v1791996880/workflow1_boft0i.webp",
   },
   {
     index: "02",
     category: "Relationships — Trust",
     title: "50+ Satisfied Clients",
     year: "Clients",
-    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=1200&auto=format&fit=crop",
+    image: "https://res.cloudinary.com/decqmmcxq/image/upload/v1791996880/workflow2_ml3zhy.webp",
   },
   {
     index: "03",
@@ -172,6 +172,6 @@ export const projects: Project[] = [
     category: "YouTube — Management",
     title: "40 Channels Managed",
     year: "Growth",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop",
+    image: "https://res.cloudinary.com/decqmmcxq/image/upload/v1791996880/workflow3_abi5sf.webp",
   },
 ];

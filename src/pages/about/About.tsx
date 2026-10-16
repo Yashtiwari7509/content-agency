@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLenis } from "lenis/react";
 import { useEffect, useRef } from "react";
 import "./about.css";
+import { EyeIcon } from "lucide-react";
 
 gsap.registerPlugin(DrawSVGPlugin, ScrollTrigger);
 
@@ -88,7 +89,7 @@ const About = () => {
                 <div className="glare"></div>
               </div>
               <div className="content">
-                <span className="badge">
+                <span className="badge text-xs tracking-wider">
                   <span className="icon-circle">
                     <img src={aboutLogo} alt="" />
                   </span>
@@ -99,7 +100,7 @@ const About = () => {
                   <p className="the">The&nbsp; X</p>
                   <p className="xpro">Pro</p>
                 </div>
-
+                <p className="text-xs">The Xteriya productions</p>
                 <p className="subtitle">
                   <b>#1</b> Content Agency
                   <br />
@@ -140,25 +141,18 @@ const About = () => {
                       </svg>
                     </span>
                     <div>
-                      <div className="number">1000+</div>
+                      <div className="number">50+</div>
                       <div className="label">Happy Clients</div>
                     </div>
                   </div>
 
                   <div className="stat">
-                    <span className="icon">
-                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                        <path
-                          d="M7 9a3 3 0 100 6 3 3 0 003-3c0-1.5.9-4 4-4a3 3 0 110 6 3 3 0 00-3 3 3 3 0 11-4-2.8"
-                          stroke="#1c6fd6"
-                          strokeWidth="1.6"
-                          strokeLinecap="round"
-                        />
-                      </svg>
-                    </span>
                     <div>
-                      <div className="number">Unlimited</div>
-                      <div className="label">Revisions</div>
+                      <EyeIcon className="text-primary" />
+                    </div>
+                    <div>
+                      <div className="number">100+ million</div>
+                      <div className="label">views</div>
                     </div>
                   </div>
 
@@ -170,8 +164,8 @@ const About = () => {
                       </svg>
                     </span>
                     <div>
-                      <div className="number">Premium</div>
-                      <div className="label">Quality</div>
+                      <div className="number">8+ years</div>
+                      <div className="label">experience</div>
                     </div>
                   </div>
                 </div>

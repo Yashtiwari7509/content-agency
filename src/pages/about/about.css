@@ -181,7 +181,7 @@
   font-size: 110px;
   font-weight: 800;
   line-height: 1;
-  margin: 0 0 28px;
+  margin: 0 0 14px;
   letter-spacing: -2px;
 }
 
@@ -200,9 +200,9 @@
 }
 
 .subtitle {
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 400;
-  margin: 0 0 40px;
+  margin: 10px 0 20px;
   line-height: 1.35;
 }
 

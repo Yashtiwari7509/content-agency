@@ -80,11 +80,6 @@ export default function FoundersSection() {
                 ].join(" ")}
               />
 
-              {/* Index number — top-right badge */}
-              <div className="absolute right-3 top-3 z-20 flex h-7 w-7 items-center justify-center rounded-full border border-black/10 bg-white/70 backdrop-blur-sm">
-                <span className="font-['Poppins'] text-[10px] font-700 tabular-nums text-black/50">0{i + 1}</span>
-              </div>
-
               {/* Slide-up info panel */}
               <div className="absolute inset-x-0 bottom-0 z-10 translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] sm:translate-y-[calc(100%-68px)] sm:group-hover:translate-y-0">
                 {/* Peek strip — always visible */}

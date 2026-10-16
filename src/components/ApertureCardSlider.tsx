@@ -315,7 +315,10 @@ export default function ApertureCardSlider({
             </span>
           </div>
         </div>
-        <div ref={stageRef} className="relative flex h-[440px] w-full items-center justify-center perspective-distant lg:scale-150 pointer-events-none">
+        <div
+          ref={stageRef}
+          className="relative flex h-[440px] w-full items-center justify-center perspective-distant lg:scale-150 pointer-events-none"
+        >
           <div className="relative h-[390px] w-[220px] transform-3d">
             {cards.map((card, i) => {
               const isLandscape = card.ratio === "16/9";
@@ -359,21 +362,23 @@ export default function ApertureCardSlider({
             })}
           </div>
         </div>
-      </div>
-      {/* Info button with tooltip — tooltip shows on ⓘ button hover */}
-      <div className="absolute bottom-0 right-[20%] z-50 bg-black rounded-full overflow-visible pointer-events-auto cursor-pointer group">
-        {/* Tooltip */}
-        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 whitespace-nowrap rounded-lg bg-black/80 px-3 py-1.5 text-xs font-medium text-white shadow-lg backdrop-blur-sm pointer-events-none opacity-0 translate-y-2 transition-all duration-200 group-hover:opacity-100 group-hover:translate-y-0">
-          Hovering on cards will pause slider
-          <div className="absolute top-full left-1/2 -translate-x-1/2 h-0 w-0 border-x-[5px] border-x-transparent border-t-[5px] border-t-black/80" />
+        <div className="w-5xl h-0 relative">
+          {/* Info button with tooltip — tooltip shows on ⓘ button hover */}
+          <div className="absolute bottom-0 right-0 z-50 bg-black rounded-full overflow-visible pointer-events-auto cursor-pointer group">
+            {/* Tooltip */}
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 whitespace-nowrap rounded-lg bg-black/80 px-3 py-1.5 text-xs font-medium text-white shadow-lg backdrop-blur-sm pointer-events-none opacity-0 translate-y-2 transition-all duration-200 group-hover:opacity-100 group-hover:translate-y-0">
+              Hovering on cards will pause slider
+              <div className="absolute top-full left-1/2 -translate-x-1/2 h-0 w-0 border-x-[5px] border-x-transparent border-t-[5px] border-t-black/80" />
+            </div>
+            {/* ⓘ button */}
+            <span
+              aria-label="Card info"
+              className="flex h-4 w-4 items-center justify-center rounded-full border border-black bg-white text-xs font-bold backdrop-blur-md transition-colors duration-200"
+            >
+              i
+            </span>
+          </div>
         </div>
-        {/* ⓘ button */}
-        <span
-          aria-label="Card info"
-          className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 bg-white/10 text-lg font-bold text-white backdrop-blur-md transition-colors duration-200"
-        >
-          i
-        </span>
       </div>
     </section>
   );

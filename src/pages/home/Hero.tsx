@@ -1,9 +1,11 @@
+import AuroraFlair from "@/components/AuroraFlair";
 import Balloons from "@/components/Balloons";
+import { ArrowBigLeft, Contact, Play } from "lucide-react";
 import HeroCard, { type CardStatsItem } from "@/components/HeroCard";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
-import { cloud, fb, reel, short } from "@/assets/Image";
+import { aboutLogo, cloud, fb, reel, short } from "@/assets/Image";
 import { A_dp, N_dp, T_dp } from "@/assets/ClientImage";
 
 const Icons = [{ src: fb }, { src: fb }, { src: short }, { src: short }, { src: reel }, { src: reel }, { src: short }, { src: short }];
@@ -100,16 +102,40 @@ const Hero = () => {
       </div>
       <Balloons />
 
-      <div className="absolute text-container flex flex-col items-center gap-3 sm:gap-4 md:gap-5 z-40 w-full max-w-[90vw] sm:max-w-xl md:max-w-3xl lg:max-w-4xl px-4 sm:px-6 md:px-0">
+      <div className="absolute text-container flex flex-col items-center gap-3 sm:gap-4 md:gap-5 z-40 w-full max-w-[90vw] sm:max-w-xl md:max-w-3xl lg:max-w-4xl px-2 sm:px-6 md:px-0">
         {/* Glassmorphism badge */}
-        <div className="flex items-center gap-1.5 whitespace-nowrap sm:gap-2 rounded-full border border-white/30 bg-white/15 px-3 sm:px-4 py-1.5 sm:py-2 backdrop-blur-md">
-          <span className="text-primary text-xs sm:text-sm shrink-0">✦</span>
-          <p className="text-[10px] sm:text-xs font-semibold tracking-wider sm:tracking-widest uppercase text-foreground text-center leading-snug">The Content Agency for Health & Performance Experts</p>
+        <div className="flex items-center gap-1.5 whitespace-nowrap sm:gap-2 rounded-full border border-white/80 bg-white/90 px-3 sm:px-2 py-1 sm:py-1.5 backdrop-blur-sm">
+          <span className="h-6 w-6">
+            <img src={aboutLogo} alt="" />
+          </span>
+          <p className="text-sm text-foreground text-center leading-snug">
+            The Content Agency for Health & Performance Experts
+          </p>
         </div>
         {/* Hero heading */}
-        <h1 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-extrabold text-center leading-tight text-foreground">
-          We Turn Science<br />Into <span className="text-blue-500">Influence.</span>
+        <h1 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-[900] text-center leading-tight text-foreground">
+          We Turn <span className="text-blue-900">Science</span>  <br /> Into
+          Influence.
         </h1>
+
+        {/* CTA Buttons */}
+        <div className="flex items-center justify-center gap-3 sm:gap-4 mt-2">
+            <AuroraFlair
+            className="relative cursor-pointer overflow-hidden rounded-full border border-white/80 bg-white/80 text-foreground px-6 py-2.5 text-base font-light shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.97]"
+          >
+            <p className="relative z-10 flex items-center rounded-full">
+              Our Work
+            </p>
+          </AuroraFlair>
+          <AuroraFlair
+            className="relative cursor-pointer tracking-tight overflow-hidden rounded-full border border-white/80 bg-background px-6 py-2.5 text-base font-light shadow-sm transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.97]"
+          >
+            <p className="relative z-10 flex items-center ">
+              Contact Us
+            </p>
+          </AuroraFlair>
+        </div>
+
       </div>
 
       <div className="absolute h-screen w-screen top-40 md:top-0 center-con">
@@ -136,7 +162,7 @@ const Hero = () => {
                       transform: `rotate(180deg)`,
                       transformOrigin: "center",
                     }}
-                    className="flex bg-background items-center justify-center size-14 border-2 border-white rounded-lg backdrop"
+                    className="flex bg-background items-center justify-center size-14 border-2 border-white rounded-lg backdrop-blur-sm"
                   >
                     <img src={icon1.src} className="w-6 h-6" alt="" />
                   </div>
@@ -149,7 +175,7 @@ const Hero = () => {
                       transform: `rotate(0deg)`,
                       transformOrigin: "center",
                     }}
-                    className="flex bg-background items-center justify-center size-14 border-2 border-white rounded-lg backdrop"
+                    className="flex bg-background items-center justify-center size-14 border-2 border-white rounded-lg backdrop-blur-sm"
                   >
                     <img src={icon2.src} className="w-6 h-6" alt="" />
                   </div>

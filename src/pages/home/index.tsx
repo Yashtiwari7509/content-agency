@@ -1,5 +1,4 @@
-import { lazy, Suspense, useEffect, useLayoutEffect, useRef } from "react";
-import { useLenis } from "lenis/react";
+import { useRef } from "react";
 import Hero from "./Hero";
 import GridScore from "./GridScore";
 import DonutSlider from "./DonutSlider";
@@ -8,33 +7,18 @@ import ApertureCardSlider from "@/components/ApertureCardSlider";
 import TeamLineup from "./new/Loader";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import ServicesSlider from "./ServicesSlider";
+import WorkflowSection from "./WorkflowSection";
+import PortfolioLayout from "./Portfolio";
+import MarqueeReviews from "./MarqueeReviews";
+import VerticalSlider from "./VerticalSlider";
+import ContactSection from "./ContactSection";
+import TeamSection from "./TeamSection";
+import SiteFooter from "./SiteFooter";
 
-const ServicesSlider = lazy(() => import("./ServicesSlider"));
-const WorkflowSection = lazy(() => import("./WorkflowSection"));
-const PortfolioLayout = lazy(() => import("./Portfolio"));
-const VerticalSlider = lazy(() => import("./VerticalSlider"));
-const MarqueeReviews = lazy(() => import("./MarqueeReviews"));
-const ContactSection = lazy(() => import("./ContactSection"));
-const TeamSection = lazy(() => import("./TeamSection"));
-const SiteFooter = lazy(() => import("./SiteFooter"));
 
 const Home = () => {
-  const lenis = useLenis();
-
   const tl1Ref = useRef<GSAPTimeline>(null);
-
-  useLayoutEffect(() => {
-    if (typeof window === "undefined") return;
-
-    if ("scrollRestoration" in window.history) {
-      window.history.scrollRestoration = "manual";
-    }
-    window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
-    lenis?.scrollTo(0, { immediate: true });
-  }, [lenis]);
 
   useGSAP(() => {
     tl1Ref.current = gsap
@@ -47,9 +31,10 @@ const Home = () => {
         stagger: { each: 0.04, from: "center" },
       })
       .to(".loader-screen", {
-        y: "-100vh",
+        y: "-120vh",
         duration: 1.2,
         ease: "expo.inOut",
+        filter : "blur(50px)",
         onComplete: () => {
           gsap.set(".loader-screen", { display: "none" });
         },
@@ -68,16 +53,14 @@ const Home = () => {
         <GridScore />
         <PhoneStats />
         <DonutSlider />
-        <Suspense fallback={null}>
-          <ServicesSlider />
-          <WorkflowSection />
-          <PortfolioLayout />
-          <VerticalSlider />
-          <MarqueeReviews />
-          <ContactSection />
-          <TeamSection />
-          <SiteFooter />
-        </Suspense>
+        <ServicesSlider />
+        <WorkflowSection />
+        <PortfolioLayout />
+        <VerticalSlider />
+        <MarqueeReviews />
+        <ContactSection />
+        <TeamSection />
+        <SiteFooter />
       </div>
     </>
   );

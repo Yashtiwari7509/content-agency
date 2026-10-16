@@ -77,7 +77,7 @@ export default function DonutSlider() {
       scrollTrigger: {
         trigger: sectionRef.current,
         pin: ".pin-donut",
-        start: "-10px top",
+        start: "-10px 100px",
         end: () => `${window.innerHeight * 2.3}px`,
         scrub: 1,
         anticipatePin: 1,
@@ -160,8 +160,8 @@ export default function DonutSlider() {
   const circumference = 2 * Math.PI * 80;
 
   return (
-    <section ref={sectionRef} className="relative h-[330vh] max-w-5xl mx-auto">
-      <div className="pin-donut flex flex-col h-screen justify-center">
+    <section ref={sectionRef} className="relative max-w-5xl mx-auto">
+      <div className="pin-donut flex flex-col h-screen lg:h-[80vh] justify-center">
         <div className="w-full px-4 sm:px-6 md:px-10">
           <SectionHeader
             label="Our Services"

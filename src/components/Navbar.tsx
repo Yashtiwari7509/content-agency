@@ -161,7 +161,7 @@ export function NavbarTop() {
       >
         <Link
           to="/"
-          className="relative z-20 font-bold flex text-xl shrink-0 items-center px-2 rounded-full"
+          className="relative z-20 font-bold flex text-2xl shrink-0 items-center px-2 rounded-full"
           onClick={(e) => {
             e.preventDefault();
             window.location.href = "/";
@@ -251,10 +251,10 @@ export function NavbarTop() {
         </div>
         <AuroraFlair
           className={cn(
-            "relative shrink-0 cursor-pointer border-white border overflow-hidden rounded-full px-6 py-2.5 text-[13px] font-semibold transition-colors duration-700",
+            "relative shrink-0 cursor-pointer bg-white border-white border overflow-hidden rounded-full px-6 py-2.5 text-[13px] font-semibold transition-colors duration-700",
           )}
         >
-          <h1 onClick={openContact} className="relative z-10">
+          <h1 onClick={openContact} className="relative z-10 rounded-full">
             Book call
           </h1>
         </AuroraFlair>

@@ -200,7 +200,7 @@ export default function ContactSection() {
 
                 <Button
                   type="submit"
-                  className="w-full rounded-full py-4 text-sm font-semibold flex items-center justify-center gap-2"
+                  className="w-full rounded-full py-4 text-sm bg-primary font-light flex items-center justify-center gap-2"
                   disabled={status === "submitting"}
                 >
                   {status === "submitting" ? (
