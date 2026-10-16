@@ -1,6 +1,5 @@
 import AuroraFlair from "@/components/AuroraFlair";
 import Balloons from "@/components/Balloons";
-import { ArrowBigLeft, Contact, Play } from "lucide-react";
 import HeroCard, { type CardStatsItem } from "@/components/HeroCard";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
