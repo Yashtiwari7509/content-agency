@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useCardReveal } from "@/animations/useTextAnimation";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { cn } from "@/lib/utils";
@@ -13,15 +14,17 @@ gsap.registerPlugin(useGSAP);
 
 function PageFloatingStats() {
   const card = "relative overflow-hidden rounded-[28px] border backdrop backdrop";
+  const statsRef = useRef<HTMLDivElement>(null);
+  useCardReveal(statsRef);
 
   return (
     <div className="w-full max-w-2xl">
       {/* Bento Grid */}
-      <div className="grid grid-cols-12 gap-3">
+      <div ref={statsRef} className="grid grid-cols-12 gap-3">
         {/* =====================================================
             HERO CARD
         ====================================================== */}
-        <div className={`${card} col-span-12 min-h-[200px] p-7 md:p-9`}>
+        <div data-reveal="card" className={`${card} col-span-12 min-h-[200px] p-7 md:p-9`}>
           <div className="relative z-10 mt-4 flex justify-between">
             <div>
               <div className="text-[11px] font-medium uppercase tracking-[0.16em] text-gray-400">Avg views per short</div>
@@ -46,7 +49,7 @@ function PageFloatingStats() {
         {/* =====================================================
             RETENTION CARD
         ====================================================== */}
-        <div className={`${card} col-span-6 h-[200px] p-6 md:p-7`}>
+        <div data-reveal="card" className={`${card} col-span-6 h-[200px] p-6 md:p-7`}>
           <div className="relative z-10 flex h-full flex-col justify-between">
             <h3 className="text-[15px] font-semibold tracking-tight text-gray-900">Avg retention</h3>
 
@@ -62,7 +65,7 @@ function PageFloatingStats() {
         {/* =====================================================
             WATCH TIME CARD
         ====================================================== */}
-        <div className={`${card} col-span-6 h-[200px] p-6 md:p-7`}>
+        <div data-reveal="card" className={`${card} col-span-6 h-[200px] p-6 md:p-7`}>
           <div className="relative z-10 flex h-full flex-col justify-between">
             <h3 className="text-[15px] font-semibold tracking-tight text-gray-900">Average watch time</h3>
 
@@ -78,7 +81,7 @@ function PageFloatingStats() {
         {/* =====================================================
             CATEGORY CARD
         ====================================================== */}
-        <div className={`${card} col-span-12 h-[180px] sm:h-[150px] p-7 md:p-8`}>
+        <div data-reveal="card" className={`${card} col-span-12 h-[180px] sm:h-[150px] p-7 md:p-8`}>
           <div className="relative z-10 flex h-full flex-col justify-between sm:flex-row md:items-end">
             <div>
               <h3 className="text-3xl tracking-[-0.04em] text-gray-950 md:text-5xl">Health niche</h3>
@@ -102,7 +105,7 @@ function PageFloatingStats() {
         {/* =====================================================
             OPTIONAL MINI CARD
         ====================================================== */}
-        <div className={`${card} col-span-12 min-h-[120px] p-6`}>
+        <div data-reveal="card" className={`${card} col-span-12 min-h-[120px] p-6`}>
           <div className="flex h-full items-center justify-between">
             <div>
               <h3 className="mt-2 text-3xl md:text-5xl tracking-tight text-gray-950">Consistent growth.</h3>

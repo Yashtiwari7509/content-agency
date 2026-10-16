@@ -53,29 +53,21 @@ export function useCardReveal(scope?: RefObject<HTMLElement | null>) {
       const cards = gsap.utils.toArray<HTMLElement>("[data-reveal='card']", rootRef.current);
       if (!cards.length) return;
 
-      // Group cards by their direct parent so siblings share one ScrollTrigger
-      const groups = new Map<HTMLElement, HTMLElement[]>();
-      cards.forEach((card) => {
-        const parent = card.parentElement ?? card;
-        if (!groups.has(parent)) groups.set(parent, []);
-        groups.get(parent)!.push(card);
-      });
-
-      // Set initial state once (avoids flash of unstyled content)
+      // Set initial state (avoids flash of unstyled content)
       gsap.set(cards, { autoAlpha: 0, y: 60, scale: 0.96 });
 
-      groups.forEach((siblings, parent) => {
-        gsap.to(siblings, {
+      // Each card triggers independently as it enters the viewport
+      cards.forEach((card) => {
+        gsap.to(card, {
           autoAlpha: 1,
           y: 0,
           scale: 1,
           duration: 0.7,
-          stagger: 0.1,
           ease: "power3.out",
 
           scrollTrigger: {
-            trigger: parent,
-            start: "top 85%",
+            trigger: card,
+            start: "top 90%",
             once: true,
           },
         });

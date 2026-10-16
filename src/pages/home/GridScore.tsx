@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import VerticalInfiniteScroll from "@/components/VerticalInfiniteScroll";
 import SectionHeader from "@/components/SectionHeader";
+import { useCardReveal } from "@/animations/useTextAnimation";
 import ReviewSlider from "./ReviewSlider";
 import { facebook, insta, linkedIn, mac, rays, reel, short, starSvg, youtube } from "@/assets/Image";
 // Thomas Delauer - 1.2M peak views/month
@@ -77,6 +78,8 @@ const GridScore = () => {
 
   const [hoveredIndex, setHoveredIndex] = useState<string | null>(null);
   const tooltipRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const gridRef = useRef<HTMLDivElement>(null);
+  useCardReveal(gridRef);
   const isVisibleRef = useRef<Record<string, boolean>>({});
 
   const { contextSafe } = useGSAP(() => {
@@ -164,8 +167,8 @@ const GridScore = () => {
         description="We edit for doctors, dietitians, and researchers who need their science communicated clearly and their channels growing."
       />
 
-      <div className="container max-w-5xl min-h-screen lg:h-240  mx-auto">
-        <div className="top-left relative overflow-hidden">
+      <div ref={gridRef} className="container max-w-5xl min-h-screen lg:h-240  mx-auto">
+        <div data-reveal="card" className="top-left relative overflow-hidden">
           <div className="relative z-10 inner-grid w-full h-full flex flex-col justify-center items-center">
             <img src={starSvg} className="size-30 absolute brightness-110 top-0 right-0 lg:top-10  lg:right-12 rotate-0" alt="" />
             <h1
@@ -185,7 +188,7 @@ const GridScore = () => {
           </div>
         </div>
 
-        <div className="top-right overflow-hidden">
+        <div data-reveal="card" className="top-right overflow-hidden">
           <div className="inner-grid w-full h-full relative ">
             <img
               src={mac}
@@ -206,7 +209,7 @@ const GridScore = () => {
           </div>
         </div>
 
-        <div className="bottom-left overflow-hidden">
+        <div data-reveal="card" className="bottom-left overflow-hidden">
           <div className="inner-grid w-full h-full">
             <div className="grid-bg-mask">
               <div className="relative grid-circle w-full h-120 mx-auto top-70 absolute -translate-x-1/2 left-1/2">
@@ -243,12 +246,12 @@ const GridScore = () => {
             <div className="radial-blur-v size-50 absolute bottom-0  -right-20 z-0 blur-xl "></div>
           </div>
         </div>
-        <div className="middle">
+        <div data-reveal="card" className="middle">
           <div className="inner-grid w-full h-full relative overflow-hidden">
             <ReviewSlider />
           </div>
         </div>
-        <div className="bottom-right relative backdrop">
+        <div data-reveal="card" className="bottom-right relative backdrop">
           <div className="inner-grid w-full h-full relative p-6 lg:p-8 flex flex-col justify-between z-10">
             <div className="z-10 relative flex-1 flex flex-col">
               <div className="inline-flex items-center gap-1.5 text-md tracking-tighter px-2.5 py-1 rounded-full font-semibold mb-4 bg-white border-black/30 border w-fit">
