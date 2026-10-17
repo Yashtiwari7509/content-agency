@@ -129,28 +129,56 @@ const SLIDES: Slide[] = [
     label: "Views & growth",
     bg: "#EEEDFE",
     content: (
-      <video src="https://res.cloudinary.com/decqmmcxq/video/upload/v1792169759/views_fqoyc6.mp4" autoPlay loop muted playsInline className="w-full h-full object-cover rounded-lg" />
+      <video
+        src="https://res.cloudinary.com/decqmmcxq/video/upload/v1792169759/views_fqoyc6.mp4"
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="w-full h-full object-cover rounded-lg aspect-video!"
+      />
     ),
   },
   {
     label: "Social media",
     bg: "#FAECE7",
     content: (
-      <video src="https://res.cloudinary.com/decqmmcxq/video/upload/v1792169747/social-media_smmbpy.mp4" autoPlay loop muted playsInline className="w-full h-full object-cover rounded-lg" />
+      <video
+        src="https://res.cloudinary.com/decqmmcxq/video/upload/v1792169747/social-media_smmbpy.mp4"
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="w-full h-full object-cover rounded-lg aspect-video!"
+      />
     ),
   },
   {
     label: "Short-form content",
     bg: "#E1F5EE",
     content: (
-      <video src="https://res.cloudinary.com/decqmmcxq/video/upload/v1792169768/short-form_conzil.mp4" autoPlay loop muted playsInline className="w-full h-full object-cover rounded-lg" />
+      <video
+        src="https://res.cloudinary.com/decqmmcxq/video/upload/v1792169768/short-form_conzil.mp4"
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="w-full h-full object-cover rounded-lg aspect-video!"
+      />
     ),
   },
   {
     label: "Long-form editing",
     bg: "#F1EFE8",
     content: (
-      <video src="https://res.cloudinary.com/decqmmcxq/video/upload/v1792169769/long-form_exvxb3.mp4" autoPlay loop muted playsInline className="w-full h-full object-cover rounded-lg" />
+      <video
+        src="https://res.cloudinary.com/decqmmcxq/video/upload/v1792169769/long-form_exvxb3.mp4"
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="w-full h-full object-cover rounded-lg aspect-video!"
+      />
     ),
   },
 ];
@@ -167,9 +195,9 @@ const ImageCarousel: FC = () => {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="relative rounded-xl overflow-hidden h-80 border border-gray-200 bg-gray-50">
+      <div className="relative rounded-xl overflow-hidden border aspect-video border-gray-200 bg-gray-50">
         {SLIDES.map((slide, i) => (
-          <div key={i} className="absolute inset-0 transition-opacity duration-700" style={{ opacity: i === current ? 1 : 0 }}>
+          <div key={i} className="absolute inset-0 transition-opacity duration-700 aspect-video" style={{ opacity: i === current ? 1 : 0 }}>
             {slide.content}
             <span className="absolute bottom-4 left-4 bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs font-medium text-gray-500">
               {slide.label}

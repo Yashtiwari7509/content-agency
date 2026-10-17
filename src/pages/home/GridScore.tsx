@@ -55,9 +55,9 @@ const clientsStatsData = [
   {
     id: "AK",
     name: "Andrew Koutnick",
-    niche: "+2x - Click-Through Rate",
+    niche: "+2x Click-Through Rate",
     colorClass: "bg-blue-100 text-blue-800",
-    heading: "+3x - Watchtime",
+    heading: "+3x Watchtime",
     peakViews: "280k",
     newFollowers: "18k",
     barData: [

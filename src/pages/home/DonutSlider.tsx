@@ -77,7 +77,7 @@ export default function DonutSlider() {
       scrollTrigger: {
         trigger: sectionRef.current,
         pin: ".pin-donut",
-        start: "-10px 100px",
+        start: "-10px 80px",
         end: () => `${window.innerHeight * 2.3}px`,
         scrub: 1,
         anticipatePin: 1,

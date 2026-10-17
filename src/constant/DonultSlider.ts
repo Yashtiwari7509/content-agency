@@ -8,7 +8,7 @@ export const SEGMENTS = [
       "We transform expert knowledge into high-quality content. From podcasts and interviews to explainers and long-form videos, our editors combine precise storytelling, clean visuals, and thoughtful motion design to make complex ideas clear, engaging, and easy to understand.",
     image:
       "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzR8fHBob25lfGVufDB8fDB8fHww",
-    color: "#1552c9",
+    color: "#1552c980",
     lightColor: "#1552c910",
     icon: LaptopMinimalIcon,
   },

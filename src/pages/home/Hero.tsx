@@ -111,8 +111,8 @@ const Hero = () => {
           </span>
           <p className="text-sm text-foreground text-center leading-snug">The Content Agency for Health Experts</p>
         </div>
-        <h1 className="hero-anime text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-[900] hero-main-text text-center leading-tight text-foreground">
-          We Turn <span className="text-primary">Science</span> <br /> Into Influence
+        <h1 className="hero-anime text-3xl sm:text-4xl md:text-4xl lg:text-6xl hero-main-text text-center leading-tighter text-foreground">
+          We Turn Science <br /> Into <p className="inline text-primary">Influence</p>
         </h1>
 
         {/* CTA Buttons */}

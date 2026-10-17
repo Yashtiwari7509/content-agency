@@ -147,10 +147,10 @@ const About = () => {
                   </div>
 
                   <div className="stat">
-                    <div>
-                      <EyeIcon className="text-primary" />
+                    <div className="mt-2">
+                      <EyeIcon className="text-[#1c6fd6] size-7" />
                     </div>
-                    <div>
+                    <div className="mt-2">
                       <div className="number">
                         100<sup>+</sup> Million
                       </div>

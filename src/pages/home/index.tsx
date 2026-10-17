@@ -28,6 +28,9 @@ const Home = () => {
   useEffect(() => {
     window.history.scrollRestoration = "manual";
     window.scrollTo(0, 0);
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    }
   }, []);
 
   useEffect(() => {

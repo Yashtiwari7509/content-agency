@@ -1,7 +1,6 @@
 import { reviews } from "@/constant/client_reviews";
 import { useEffect, useState } from "react";
 
-
 const INTERVAL_MS = 4500;
 
 const ReviewSlider = () => {
@@ -27,24 +26,11 @@ const ReviewSlider = () => {
           />
         ))}
       </div>
-
-      <div className="relative min-h-[4.5rem] shrink-0">
-        {reviews.map((item, i) => (
-          <blockquote
-            key={item.id}
-            className="absolute inset-0 text-sm leading-relaxed line-clamp-3 text-gray-600 transition-opacity duration-700 ease-in-out"
-            style={{ opacity: i === current ? 1 : 0 }}
-          >
-            &ldquo;{item.review}&rdquo;
-          </blockquote>
-        ))}
-      </div>
-
       <div className="relative shrink-0 min-h-[3rem]">
         {reviews.map((item, i) => (
           <div
             key={item.id}
-            className="absolute inset-0 flex items-center gap-3 transition-opacity duration-100 ease-out hero-bg-mask"
+            className="absolute inset-0 flex items-center gap-3 transition-opacity duration-100 ease-out"
             style={{ opacity: i === current ? 1 : 0 }}
           >
             <img src={item.avatar} alt={item.name} className="size-10 rounded-full object-cover border-2 border-white shadow-sm" />
@@ -55,8 +41,19 @@ const ReviewSlider = () => {
           </div>
         ))}
       </div>
+      <div className="relative min-h-[4.5rem] shrink-0 mb-6">
+        {reviews.map((item, i) => (
+          <blockquote
+            key={item.id}
+            className="absolute inset-0 text-sm leading-relaxed  text-gray-600 transition-opacity duration-700 ease-in-out"
+            style={{ opacity: i === current ? 1 : 0 }}
+          >
+            {item.review}
+          </blockquote>
+        ))}
+      </div>
 
-      <div className="flex gap-1.5 justify-center pt-1">
+      <div className="flex gap-1.5 justify-center pt-1 mt-4">
         {reviews.map((_, i) => (
           <button
             key={i}

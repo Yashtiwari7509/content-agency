@@ -24,7 +24,7 @@ interface SlotProps {
 
 const DEFAULT_CARDS: CardData[] = [
   {
-    src: "./video.mp4",
+    src: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792171918/shorts_uxlnkc.mp4",
     ratio: "9/16",
   },
   {
@@ -32,7 +32,7 @@ const DEFAULT_CARDS: CardData[] = [
     ratio: "16/9",
   },
   {
-    src: "./video2.mp4",
+    src: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792171929/Reels_bdatr4.mp4",
     ratio: "9/16",
   },
   {

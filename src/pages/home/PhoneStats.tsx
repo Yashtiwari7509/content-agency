@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import { cn } from "@/lib/utils";
 import PhoneVideo from "./new/PhoneVideo";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import DesktopOnly from "@/components/DesktopOnly";
 
 gsap.registerPlugin(useGSAP);
 
@@ -153,8 +154,9 @@ function PanelB() {
         {steps.map((s, i) => (
           <div key={i}>
             <div
-              className={`rounded-[14px] border px-4 py-3 text-[11px] font-medium leading-relaxed transition-all duration-300 ${s.accent ? "border-primary/30  text-primary" : "border-black/10 text-gray-700"
-                }`}
+              className={`rounded-[14px] border px-4 py-3 text-[11px] font-medium leading-relaxed transition-all duration-300 ${
+                s.accent ? "border-primary/30  text-primary" : "border-black/10 text-gray-700"
+              }`}
             >
               {s.label}
             </div>
@@ -227,8 +229,9 @@ function PanelC() {
             <div className="h-px w-4 flex-shrink-0 bg-black" />
 
             <div
-              className={`flex-1 rounded-[12px] border px-3 py-2 transition-all duration-300 ${c.active ? "border-black/[0.06] group-hover:bg-primary/[0.03]" : "border-black/[0.04] bg-black/[0.01] opacity-60"
-                }`}
+              className={`flex-1 rounded-[12px] border px-3 py-2 transition-all duration-300 ${
+                c.active ? "border-black/[0.06] group-hover:bg-primary/[0.03]" : "border-black/[0.04] bg-black/[0.01] opacity-60"
+              }`}
             >
               <div className="text-[11px] font-semibold text-gray-800">{c.title}</div>
               <div className="mt-0.5 text-[9px] leading-relaxed text-gray-400">{c.sub}</div>
@@ -366,17 +369,18 @@ function PageTabbed() {
   });
 
   return (
-    <div className="w-full max-w-2xl mx-auto my-auto lg:mt-auto lg:ml-auto lg:mx-0 lg:w-[672px] mt-10 lg:mt-40 flex flex-col gap-4 pointer-events-auto">
+    <div className="w-full max-w-2xl ml-auto mt-34 pointer-events-auto">
       {/* Tab switcher */}
-      <div className="flex justify-center lg:justify-end gap-2 flex-wrap">
+      <div className="flex justify-center lg:justify-end gap-2 flex-wrap mb-2">
         {TABS.map((tab) => (
           <button
             key={tab.id}
             onPointerEnter={() => switchTab(tab.id)}
-            className={`rounded-full px-4 py-[6px] text-[11px] font-medium tracking-wide border transition-all duration-200 cursor-pointer ${active === tab.id
-              ? "bg-gray-900 text-white border-gray-900"
-              : "bg-transparent text-gray-500 border-black/15 hover:border-gray-400 hover:text-gray-700"
-              }`}
+            className={`rounded-full px-4 py-[6px] text-[11px] font-medium tracking-wide border transition-all duration-200 cursor-pointer ${
+              active === tab.id
+                ? "bg-gray-900 text-white border-gray-900"
+                : "bg-transparent text-gray-500 border-black/15 hover:border-gray-400 hover:text-gray-700"
+            }`}
           >
             {tab.label}
           </button>
@@ -404,13 +408,15 @@ const PhoneStats = () => {
       pin: ".canvas-wrapper",
       start: "top top",
       end: "47% top",
-      anticipatePin: 1
-    })
-  })
+      anticipatePin: 1,
+    });
+  });
 
   return (
-    <section ref={sectionRef} className="PhoneStats relative w-screen h-[180vh] lg:h-[210vh] pointer-events-none">
-      <PhoneVideo />
+    <section ref={sectionRef} className="PhoneStats relative w-screen h-[190vh] lg:h-[210vh] pointer-events-none">
+      <DesktopOnly>
+        <PhoneVideo />
+      </DesktopOnly>
       <div className="pointer-events-none absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full opacity-25 blur-3xl bg-background" />
       <div className="pointer-events-none absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full opacity-20 blur-3xl bg-background" />
 
@@ -421,7 +427,7 @@ const PhoneStats = () => {
         </div>
 
         {/* Page 2 — Sections B / C / D (tabbed) */}
-        <div className="relative h-screen flex justify-center lg:justify-start tabbedPage pt-0">
+        <div className="relative h-screen flex  tabbedPage pt-0">
           <PageTabbed />
         </div>
       </div>

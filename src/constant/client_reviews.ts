@@ -112,7 +112,7 @@ export const reviews: ReviewItem[] = [
     id: 1,
     image: Andrew1,
     review:
-      "The podcast intros Xpro creates are excellent at hooking viewers right from the start and encouraging them to watch the full episode. One that particularly stood out was the intro for the episode featuring Max as a guest — it captured the moment perfectly and set the tone for the whole conversation.",
+      "Their Reels have significantly improved retention on my Instagram page, and their podcast editing is equally impressive. The team consistently delivers high-quality work.",
     name: "Andrew Koutnik",
     designation: "YouTube Creator",
     avatar: A_dp,
@@ -121,7 +121,7 @@ export const reviews: ReviewItem[] = [
     id: 2,
     image: Nick1,
     review:
-      "These guys came on board early in my YouTube journey, back when I had around 55K subscribers, and they've played a big role in helping me break down complex, nerdy concepts into something my audience can easily follow and stay engaged with. Their work is efficient, reliable, and always delivered on time.",
+      "They’ve been with me since 55K subscribers, turning complex concepts into engaging content with consistent, reliable, on-time delivery.",
     name: "Nick Norwitz",
     designation: "YouTube Creator",
     avatar: N_dp,
@@ -130,7 +130,7 @@ export const reviews: ReviewItem[] = [
     id: 3,
     image: Thomas1,
     review:
-      "The animations you guys created helped me explain complex concepts in a way that truly resonated with my audience. Their attention to detail and creativity is evident, and it's no surprise our community consistently praises their work in the comments.",
+      "The animations made complex concepts easy to understand, with creativity and attention to detail that our community consistently praises.",
     name: "Thomas Delauer",
     designation: "YouTube Creator",
     avatar: T_dp,
