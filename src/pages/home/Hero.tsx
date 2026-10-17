@@ -18,7 +18,7 @@ const CardStatsData: CardStatsItem[] = [
       },
       {
         label: "Subscribe",
-        value: "4M+",
+        value: "4M",
       },
     ],
     heroCard: true,
@@ -34,7 +34,7 @@ const CardStatsData: CardStatsItem[] = [
       },
       {
         label: "Subscribe",
-        value: "1M+",
+        value: "1M",
       },
     ],
     heroCard: true,
@@ -50,7 +50,7 @@ const CardStatsData: CardStatsItem[] = [
       },
       {
         label: "follower",
-        value: "80k+",
+        value: "80k",
       },
     ],
     heroCard: true,
@@ -81,6 +81,7 @@ const Hero = () => {
         stagger: 0.4,
         delay: 2,
       });
+
       return () => {
         heroTlRef.current?.kill();
       };
@@ -102,39 +103,27 @@ const Hero = () => {
       <Balloons />
 
       <div className="absolute text-container flex flex-col items-center gap-3 sm:gap-4 md:gap-5 z-40 w-full max-w-[90vw] sm:max-w-xl md:max-w-3xl lg:max-w-4xl px-2 sm:px-6 md:px-0">
+        {/* Hero heading */}
         {/* Glassmorphism badge */}
-        <div className="flex items-center gap-1.5 whitespace-nowrap sm:gap-2 rounded-full border border-white/80 bg-white/90 px-3 sm:px-2 py-1 sm:py-1.5 backdrop-blur-sm">
+        <div className="hero-anime flex items-center gap-1.5 whitespace-nowrap sm:gap-2 rounded-full border border-white/80 bg-background/10 uppercase px-3 sm:px-2 py-1 sm:py-1.5 backdrop-blur-sm">
           <span className="h-6 w-6">
             <img src={aboutLogo} alt="" />
           </span>
-          <p className="text-sm text-foreground text-center leading-snug">
-            The Content Agency for Health & Performance Experts
-          </p>
+          <p className="text-sm text-foreground text-center leading-snug">The Content Agency for Health Experts</p>
         </div>
-        {/* Hero heading */}
-        <h1 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-[900] text-center leading-tight text-foreground">
-          We Turn <span className="text-blue-900">Science</span>  <br /> Into
-          Influence.
+        <h1 className="hero-anime text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-[900] hero-main-text text-center leading-tight text-foreground">
+          We Turn <span className="text-primary">Science</span> <br /> Into Influence
         </h1>
 
         {/* CTA Buttons */}
-        <div className="flex items-center justify-center gap-3 sm:gap-4 mt-2">
-            <AuroraFlair
-            className="relative cursor-pointer overflow-hidden rounded-full border border-white/80 bg-white/80 text-foreground px-6 py-2.5 text-base font-light shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.97]"
-          >
-            <p className="relative z-10 flex items-center rounded-full">
-              Our Work
-            </p>
+        <div className="hero-anime flex items-center justify-center gap-3 sm:gap-4 mt-2">
+          <AuroraFlair className="relative cursor-pointer overflow-hidden rounded-full border border-white/80 bg-white/80 text-foreground px-6 py-2.5 text-base font-light shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.97]">
+            <p className="relative z-10 flex items-center rounded-full">Our Work</p>
           </AuroraFlair>
-          <AuroraFlair
-            className="relative cursor-pointer tracking-tight overflow-hidden rounded-full border border-white/80 bg-background px-6 py-2.5 text-base font-light shadow-sm transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.97]"
-          >
-            <p className="relative z-10 flex items-center ">
-              Contact Us
-            </p>
+          <AuroraFlair className="relative cursor-pointer tracking-tight overflow-hidden rounded-full border border-white/80 bg-background px-6 py-2.5 text-base font-light shadow-sm transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.97]">
+            <p className="relative z-10 flex items-center ">Contact Us</p>
           </AuroraFlair>
         </div>
-
       </div>
 
       <div className="absolute h-screen w-screen top-40 md:top-0 center-con">

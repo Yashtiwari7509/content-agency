@@ -38,22 +38,6 @@ export default function PortfolioLayout() {
             pinSpacing: false,
             anticipatePin: 1,
           });
-
-          // As the NEXT card scrolls over this one: shrink + slight rotate
-          // if (!isLast) {
-          //   gsap.to(card, {
-          //     scale: 0.94,
-          //     rotate: -1.5,
-          //     transformOrigin: "50% 0%",
-          //     ease: "none",
-          //     scrollTrigger: {
-          //       trigger: cards[i + 1],
-          //       start: `top ${PIN_TOP + 80}`,
-          //       end: `top ${PIN_TOP}`,
-          //       scrub: true,
-          //     },
-          //   });
-          // }
         });
       });
 

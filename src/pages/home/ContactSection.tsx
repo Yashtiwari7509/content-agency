@@ -17,24 +17,6 @@ const initialForm = { name: "", email: "", message: "", services: [] as string[]
 
 const services = ["Video Editing", "Color Grading", "Motion Graphics", "Cinematic Reels", "Thumbnail Design", "Full Channel Management"];
 
-// const contactInfo = [
-//   {
-//     icon: Mail,
-//     label: "Email us",
-//     value: "hello@contentagency.com",
-//   },
-//   {
-//     icon: Phone,
-//     label: "Call us",
-//     value: "+1 (555) 000-0000",
-//   },
-//   {
-//     icon: MapPin,
-//     label: "Located in",
-//     value: "Remote — Worldwide",
-//   },
-// ];
-
 export default function ContactSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [form, setForm] = useState(initialForm);

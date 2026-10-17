@@ -36,7 +36,7 @@ export default function TeamSection() {
     const halfWidth = event.currentTarget.offsetWidth / 2;
     const offsetX = event.nativeEvent.offsetX - halfWidth;
     const rotate = gsap.utils.mapRange(-halfWidth, halfWidth, -18, 18, offsetX);
-    const translateX = gsap.utils.mapRange(-halfWidth, halfWidth, -50, 50, offsetX);
+    const translateX = gsap.utils.mapRange(-halfWidth, halfWidth, -120, 100, offsetX);
     gsap.to(tooltip, {
       x: translateX,
       rotation: rotate,

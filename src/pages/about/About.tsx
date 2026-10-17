@@ -89,12 +89,10 @@ const About = () => {
                 <div className="glare"></div>
               </div>
               <div className="content">
-                <span className="badge text-xs tracking-wider">
-                  <span className="icon-circle">
-                    <img src={aboutLogo} alt="" />
-                  </span>
+                <p className="px-2 py-1.5 rounded-full text-xs font-light tracking-wider bg-background/10 backdrop border border-white mb-4 uppercase w-fit mx-auto flex justify-center items-center gap-2">
+                  <img className="h-6 w-6" src={aboutLogo} alt="" />
                   Healthcare Content Agency
-                </span>
+                </p>
 
                 <div className="title flex justify-center items-center">
                   <p className="the">The&nbsp; X</p>
@@ -141,7 +139,9 @@ const About = () => {
                       </svg>
                     </span>
                     <div>
-                      <div className="number">50+</div>
+                      <div className="number">
+                        50<sup>+</sup>
+                      </div>
                       <div className="label">Happy Clients</div>
                     </div>
                   </div>
@@ -151,7 +151,9 @@ const About = () => {
                       <EyeIcon className="text-primary" />
                     </div>
                     <div>
-                      <div className="number">100+ million</div>
+                      <div className="number">
+                        100<sup>+</sup> Million
+                      </div>
                       <div className="label">views</div>
                     </div>
                   </div>
@@ -164,7 +166,9 @@ const About = () => {
                       </svg>
                     </span>
                     <div>
-                      <div className="number">8+ years</div>
+                      <div className="number">
+                        8<sup>+</sup> years
+                      </div>
                       <div className="label">experience</div>
                     </div>
                   </div>

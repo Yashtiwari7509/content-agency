@@ -1281,7 +1281,7 @@ img {
 }
 
 .xpro {
-  background: linear-gradient(180deg, #3fa8f5, oklch(48.044% 0.19497 261.977));
+  background: linear-gradient(180deg, #3fa8f5, #1552c9);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

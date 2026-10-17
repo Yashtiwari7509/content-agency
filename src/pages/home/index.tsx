@@ -17,7 +17,6 @@ import TeamSection from "./TeamSection";
 import SiteFooter from "./SiteFooter";
 import { useLenis } from "lenis/react";
 
-
 const Home = () => {
   const tl1Ref = useRef<GSAPTimeline>(null);
   const lenisRef = useRef<ReturnType<typeof useLenis>>(null);
@@ -58,8 +57,8 @@ const Home = () => {
         },
       })
       .from(".clouds", { y: 200, duration: 1.6, ease: "power4.out" }, "-=.6")
-      .from(".text-container", { y: 50, duration: 1, ease: "power4.out" }, "<")
-      .from(".center", { y: -100, opacity: 0, immediateRender: true }, "<");
+      .from(".hero-anime", { y: 50, duration: 1, ease: "power4.out", stagger: 0.05 }, "<")
+      .from(".center", { y: 100, opacity: 0, immediateRender: true }, "<");
   });
 
   return (
