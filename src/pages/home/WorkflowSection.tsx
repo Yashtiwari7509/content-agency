@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, type ReactNode, type Ref, type CSSProperties } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -40,21 +40,7 @@ const STEPS: Step[] = [
     body: "Client uploads raw footage — long-form podcast, talking head, or screen-record — directly to our secure project drive.",
     metric: "< 1hr",
     metricLabel: "Avg. upload window",
-    visual: (
-      <div className="wf-visual-upload">
-        <div className="wf-drive-box">
-          <div className="wf-drive-icon">
-            <Video size={28} strokeWidth={1.5} />
-          </div>
-          <div className="wf-drive-lines">
-            <span />
-            <span />
-            <span />
-          </div>
-          <div className="wf-drive-badge">RAW</div>
-        </div>
-      </div>
-    ),
+    visual: <UploadVisual accent="#1D9E75" />,
   },
   {
     id: 2,
@@ -68,16 +54,7 @@ const STEPS: Step[] = [
     body: "We cut dead air, restructure for retention, and lock the story arc — crafting a tight edit that holds attention to the last second.",
     metric: "3–5×",
     metricLabel: "Avg. watchtime boost",
-    visual: (
-      <div className="wf-visual-cut">
-        <div className="wf-timeline-track">
-          {[60, 40, 75, 30, 55, 80, 45, 65].map((h, i) => (
-            <div key={i} className="wf-track-clip" style={{ height: `${h}%`, animationDelay: `${i * 0.08}s` }} />
-          ))}
-        </div>
-        <div className="wf-playhead" />
-      </div>
-    ),
+    visual: <CutVisual accent="#2979FF" />,
   },
   {
     id: 3,
@@ -91,15 +68,7 @@ const STEPS: Step[] = [
     body: "Adding science visuals, study citations, motion graphics and health-topic B-roll that turns dry data into cinematic credibility.",
     metric: "12+",
     metricLabel: "Graphics per video",
-    visual: (
-      <div className="wf-visual-broll">
-        <div className="wf-layer wf-layer-1" />
-        <div className="wf-layer wf-layer-2" />
-        <div className="wf-layer wf-layer-3">
-          <span>B•ROLL</span>
-        </div>
-      </div>
-    ),
+    visual: <BrollVisual accent="#F59E0B" />,
   },
   {
     id: 4,
@@ -131,18 +100,7 @@ const STEPS: Step[] = [
     body: "Final file delivered to your drive within the agreed SLA. Upload-ready format, caption file, and thumbnail included.",
     metric: "48h",
     metricLabel: "Guaranteed turnaround",
-    visual: (
-      <div className="wf-visual-delivery">
-        <div className="wf-check-ring">
-          <CheckCircle2 size={40} strokeWidth={1.5} />
-        </div>
-        <div className="wf-delivery-pills">
-          <span>MP4</span>
-          <span>SRT</span>
-          <span>PNG</span>
-        </div>
-      </div>
-    ),
+    visual: <DeliveryVisual accent="#EF4444" />,
   },
 ];
 
@@ -299,10 +257,10 @@ export default function WorkflowSection() {
                 style={
                   isActive
                     ? {
-                      background: s.tagBg,
-                      color: s.tagColor,
-                      borderColor: s.accentColor + "66",
-                    }
+                        background: s.tagBg,
+                        color: s.tagColor,
+                        borderColor: s.accentColor + "66",
+                      }
                     : {}
                 }
                 onMouseEnter={() => activateStep(i)}
@@ -379,3 +337,415 @@ export default function WorkflowSection() {
     </section>
   );
 }
+
+type VP = { accent: string };
+
+/* ------------------------------------------------------------------ */
+/* Shared: looping timeline that only runs while on screen             */
+/* DOM is authored in its FINAL state, so reduced-motion = static.     */
+/* ------------------------------------------------------------------ */
+function useLoop(build: (tl: gsap.core.Timeline, q: gsap.utils.SelectorFunc) => void) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const tl = gsap.timeline({
+        repeat: -1,
+        repeatDelay: 1.2,
+        scrollTrigger: {
+          trigger: ref.current,
+          start: "top 90%",
+          end: "bottom 5%",
+          toggleActions: "play pause resume pause",
+        },
+      });
+      build(tl, gsap.utils.selector(ref));
+    },
+    { scope: ref },
+  );
+
+  return ref;
+}
+
+function Stage({ accent, r, children }: { accent: string; r: Ref<HTMLDivElement>; children: ReactNode }) {
+  return (
+    <div
+      ref={r}
+      style={{ "--a": accent } as CSSProperties}
+      className="relative flex aspect-[4/3] w-full flex-col overflow-hidden rounded-2xl bg-[#0b0c0e] p-5 text-white ring-1 ring-white/10"
+    >
+      {children}
+    </div>
+  );
+}
+
+const fmt = (s: number) => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(Math.round(s % 60)).padStart(2, "0")}`;
+
+/* ------------------------------------------------------------------ */
+/* 01  Raw footage — waveform fills as the file uploads                */
+/* ------------------------------------------------------------------ */
+const BARS = Array.from({ length: 56 }, (_, i) => 16 + 76 * Math.abs(Math.sin(i * 0.71) * Math.cos(i * 0.23)));
+
+const Bars = ({ cls }: { cls: string }) => (
+  <div className="absolute inset-0 flex items-center gap-[3px]">
+    {BARS.map((h, i) => (
+      <span key={i} data-bar className={`flex-1 rounded-full ${cls}`} style={{ height: `${h}%` }} />
+    ))}
+  </div>
+);
+
+export function UploadVisual({ accent }: VP) {
+  const r = useLoop((tl, q) => {
+    const pct = { v: 0 };
+    tl.fromTo(q("[data-bar]"), { scaleY: 0 }, { scaleY: 1, duration: 0.7, ease: "power3.out", stagger: 0.008 })
+      .fromTo(
+        q("[data-fill]"),
+        { clipPath: "inset(0 100% 0 0)" },
+        { clipPath: "inset(0 0% 0 0)", duration: 2.4, ease: "power2.inOut" },
+        0.9,
+      )
+      .fromTo(
+        pct,
+        { v: 0 },
+        {
+          v: 100,
+          duration: 2.4,
+          ease: "power2.inOut",
+          onUpdate: () => {
+            const el = q("[data-pct]")[0];
+            if (el) el.textContent = `${Math.round(pct.v)}%`;
+          },
+        },
+        0.9,
+      )
+      .fromTo(q("[data-done]"), { autoAlpha: 0, y: 6 }, { autoAlpha: 1, y: 0, duration: 0.4 }, 3.3)
+      .to({}, { duration: 1 });
+  });
+
+  return (
+    <Stage accent={accent} r={r}>
+      <div className="flex items-baseline justify-between text-[11px] text-white/45">
+        <p>podcast_ep42_RAW.mov</p>
+        <p>2.4 GB</p>
+      </div>
+
+      <div className="relative my-auto h-28">
+        <Bars cls="bg-white/15" />
+        <div data-fill className="absolute inset-0">
+          <Bars cls="bg-[var(--a)]" />
+        </div>
+      </div>
+
+      <div className="flex items-end justify-between">
+        <span data-pct className="text-5xl font-light leading-none tracking-tight tabular-nums">
+          100%
+        </span>
+        <span data-done className="text-xs text-[var(--a)]">
+          Received
+        </span>
+      </div>
+    </Stage>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* 02  Cut & structure — playhead scans, dead air collapses            */
+/* ------------------------------------------------------------------ */
+const SEGS = [
+  { n: 14, dead: false },
+  { n: 6, dead: true },
+  { n: 20, dead: false },
+  { n: 9, dead: true },
+  { n: 16, dead: false },
+  { n: 7, dead: true },
+  { n: 22, dead: false },
+  { n: 6, dead: true },
+];
+
+const HATCH = "repeating-linear-gradient(135deg, rgba(255,255,255,.16) 0 2px, transparent 2px 7px)";
+
+const Track = ({ audio }: { audio?: boolean }) => (
+  <div className="flex h-11 w-full overflow-hidden rounded-md bg-white/[0.03]">
+    {SEGS.map((s, i) => (
+      <div
+        key={i}
+        data-seg={s.dead ? "dead" : "live"}
+        style={{
+          flexGrow: s.n,
+          flexBasis: 0,
+          ...(s.dead ? { backgroundImage: HATCH } : { background: "var(--a)" }),
+        }}
+        className={s.dead ? "" : `shadow-[inset_-2px_0_0_#0b0c0e] ${audio ? "opacity-40" : "opacity-90"}`}
+      />
+    ))}
+  </div>
+);
+
+export function CutVisual({ accent }: VP) {
+  const r = useLoop((tl, q) => {
+    const t = { v: 3720 };
+    tl.fromTo(q("[data-playhead]"), { left: "0%", autoAlpha: 1 }, { left: "100%", duration: 2.4, ease: "none" })
+      .to(q("[data-playhead]"), { autoAlpha: 0, duration: 0.2 }, ">")
+      .to(
+        q("[data-seg=dead]"),
+        {
+          flexGrow: 0,
+          opacity: 0,
+          duration: 0.6,
+          ease: "power3.inOut",
+          stagger: 0.14,
+        },
+        ">0.1",
+      )
+      .fromTo(
+        t,
+        { v: 3720 },
+        {
+          v: 3720 * 0.72,
+          duration: 1.2,
+          ease: "power3.inOut",
+          onUpdate: () => {
+            const el = q("[data-rt]")[0];
+            if (el) el.textContent = fmt(t.v);
+          },
+        },
+        "<",
+      )
+      .fromTo(q("[data-saved]"), { autoAlpha: 0, y: 6 }, { autoAlpha: 1, y: 0, duration: 0.4 }, ">-0.1")
+      .to({}, { duration: 1 });
+  });
+
+  return (
+    <Stage accent={accent} r={r}>
+      <div className="flex items-end justify-between">
+        <div>
+          <div className="text-[11px] text-white/45">Runtime</div>
+          <div data-rt className="font-mono text-4xl font-light tracking-tight tabular-nums">
+            44:38
+          </div>
+        </div>
+        <span data-saved className="text-xs text-[var(--a)]">
+          28% dead air cut
+        </span>
+      </div>
+
+      <div className="relative my-auto space-y-1.5">
+        <Track />
+        <Track audio />
+        <div data-playhead className="pointer-events-none absolute -bottom-2 -top-2 w-px bg-white" style={{ left: "100%", opacity: 0 }}>
+          <span className="absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 bg-white" />
+        </div>
+      </div>
+
+      <div className="flex justify-between text-[11px] text-white/35">
+        <span>Video</span>
+        <span>Audio</span>
+      </div>
+    </Stage>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* 03  B-roll & graphics — overlays wipe onto a frame                  */
+/* ------------------------------------------------------------------ */
+const CLIPS = [
+  { row: 0, left: "6%", w: "26%" },
+  { row: 1, left: "30%", w: "34%" },
+  { row: 2, left: "58%", w: "30%" },
+];
+
+export function BrollVisual({ accent }: VP) {
+  const r = useLoop((tl, q) => {
+    const wipe = { clipPath: "inset(0 100% 0 0)" };
+    const open = { clipPath: "inset(0 0% 0 0)", duration: 0.6, ease: "power3.out" };
+    const clips = q("[data-clip]");
+
+    tl.fromTo(q("[data-ov=cite]"), wipe, open, 0.3)
+      .fromTo(clips[0], { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.out" }, 0.3)
+      .fromTo(q("[data-ov=chart]"), wipe, open, 1.1)
+      .fromTo(clips[1], { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.out" }, 1.1)
+      .fromTo(q("[data-line]"), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1.2, ease: "power2.inOut" }, 1.4)
+      .fromTo(q("[data-ov=lower]"), wipe, open, 2.2)
+      .fromTo(clips[2], { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.out" }, 2.2)
+      .to([q("[data-ov]"), clips], { autoAlpha: 0, duration: 0.4 }, 4.2)
+      .set([q("[data-ov]"), clips], { autoAlpha: 1 }, ">");
+  });
+
+  return (
+    <Stage accent={accent} r={r}>
+      <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-gradient-to-b from-white/[0.08] to-white/[0.02] ring-1 ring-white/10">
+        <svg viewBox="0 0 100 100" className="absolute bottom-0 left-1/2 h-[90%] -translate-x-1/2 text-white/[0.12]" fill="currentColor">
+          <circle cx="50" cy="34" r="14" />
+          <path d="M18 100c0-22 14-34 32-34s32 12 32 34z" />
+        </svg>
+
+        <div
+          data-ov="cite"
+          className="absolute left-3 top-3 rounded-md bg-black/60 px-2 py-1.5 text-[10px] leading-tight ring-1 ring-white/10 backdrop-blur"
+        >
+          <div className="text-white/90">Cell Metabolism, 2023</div>
+          <div className="text-white/45">n = 4,210</div>
+        </div>
+
+        <div data-ov="chart" className="absolute right-3 top-3 w-[40%] rounded-md bg-black/60 p-2 ring-1 ring-white/10 backdrop-blur">
+          <svg viewBox="0 0 100 40" className="w-full">
+            <path d="M0 38H100M0 26H100M0 14H100" stroke="rgba(255,255,255,.08)" strokeWidth="0.5" fill="none" />
+            <path
+              data-line
+              d="M2 34C20 32 30 28 45 20S75 8 98 4"
+              pathLength={1}
+              strokeDasharray={1}
+              strokeDashoffset={0}
+              stroke="var(--a)"
+              strokeWidth="2"
+              strokeLinecap="round"
+              fill="none"
+            />
+          </svg>
+          <div className="mt-1 text-[9px] text-white/50">Autophagy markers</div>
+        </div>
+
+        <div data-ov="lower" className="absolute bottom-3 left-3 flex items-stretch gap-2">
+          <span className="w-0.5 rounded-full bg-[var(--a)]" />
+          <div className="text-[11px] leading-tight">
+            <div className="font-medium">16:8 fasting</div>
+            <div className="text-white/50">What the data shows</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-auto space-y-1.5">
+        {[0, 1, 2].map((row) => (
+          <div key={row} className="relative h-2 rounded-full bg-white/[0.06]">
+            {CLIPS.filter((c) => c.row === row).map((c) => (
+              <span
+                key={c.left}
+                data-clip
+                className="absolute inset-y-0 origin-left rounded-full bg-[var(--a)]"
+                style={{ left: c.left, width: c.w }}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
+    </Stage>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* 04  Captions — only if your step 4 is captions/polish; swap freely  */
+/* ------------------------------------------------------------------ */
+const WORDS = ["Fasting", "changes", "how", "your", "cells", "repair", "themselves."];
+
+export function CaptionsVisual({ accent }: VP) {
+  const r = useLoop((tl, q) => {
+    const w = q("[data-w]");
+    tl.set(w, { color: "rgba(255,255,255,.25)", backgroundColor: "rgba(0,0,0,0)" });
+    w.forEach((el, i) => {
+      const t = 0.4 + i * 0.42;
+      tl.to(el, { color: "#0b0c0e", backgroundColor: accent, duration: 0.12 }, t).to(
+        el,
+        { color: "#ffffff", backgroundColor: "rgba(0,0,0,0)", duration: 0.25 },
+        t + 0.38,
+      );
+    });
+    tl.to({}, { duration: 1 });
+  });
+
+  return (
+    <Stage accent={accent} r={r}>
+      <div className="font-mono text-[11px] text-white/40">00:01:12,400 → 00:01:15,100</div>
+      <div className="my-auto flex flex-wrap gap-x-1 gap-y-2 text-[28px] font-medium leading-tight tracking-tight">
+        {WORDS.map((word) => (
+          <span key={word} data-w className="rounded-md px-1.5 text-white">
+            {word}
+          </span>
+        ))}
+      </div>
+    </Stage>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* 05  Delivery — ring closes, files land                              */
+/* ------------------------------------------------------------------ */
+const FILES = [
+  { ext: "MP4", name: "episode_final", size: "1.2 GB" },
+  { ext: "SRT", name: "captions", size: "48 KB" },
+  { ext: "PNG", name: "thumbnail", size: "860 KB" },
+];
+
+export function DeliveryVisual({ accent }: VP) {
+  const r = useLoop((tl, q) => {
+    tl.fromTo(q("[data-ring]"), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.9, ease: "power2.inOut" })
+      .fromTo(q("[data-tick]"), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.4, ease: "power2.out" }, ">-0.1")
+      .fromTo(q("[data-title]"), { autoAlpha: 0, x: -8 }, { autoAlpha: 1, x: 0, duration: 0.5, ease: "power3.out" }, "<")
+      .fromTo(q("[data-file]"), { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.5, ease: "power3.out", stagger: 0.14 }, ">-0.1")
+      .to({}, { duration: 1.6 });
+  });
+
+  return (
+    <Stage accent={accent} r={r}>
+      <div className="flex items-center gap-4">
+        <svg viewBox="0 0 80 80" className="h-16 w-16 shrink-0">
+          <circle
+            data-ring
+            cx="40"
+            cy="40"
+            r="34"
+            fill="none"
+            stroke="var(--a)"
+            strokeWidth="2"
+            pathLength={1}
+            strokeDasharray={1}
+            strokeDashoffset={0}
+            transform="rotate(-90 40 40)"
+          />
+          <path
+            data-tick
+            d="M27 41l9 9 17-19"
+            fill="none"
+            stroke="#fff"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            pathLength={1}
+            strokeDasharray={1}
+            strokeDashoffset={0}
+          />
+        </svg>
+        <div data-title>
+          <div className="text-2xl font-light tracking-tight">Delivered</div>
+          <div className="text-xs text-white/45">Within the 48h window</div>
+        </div>
+      </div>
+
+      <ul className="mt-auto space-y-2">
+        {FILES.map((f) => (
+          <li
+            key={f.ext}
+            data-file
+            className="flex items-center justify-between rounded-lg bg-white/[0.05] px-3 py-2.5 text-sm ring-1 ring-white/10"
+          >
+            <p className="flex items-center gap-3">
+              <p className="rounded bg-[var(--a)] px-1.5 py-0.5 text-[10px] font-semibold text-black">{f.ext}</p>
+              {f.name}
+            </p>
+            <p className="text-xs text-white/40">{f.size}</p>
+          </li>
+        ))}
+      </ul>
+    </Stage>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Usage in STEPS                                                      */
+/*                                                                     */
+/*   visual: <UploadVisual   accent="#1D9E75" />   // step 1           */
+/*   visual: <CutVisual      accent="#2979FF" />   // step 2           */
+/*   visual: <BrollVisual    accent="#F59E0B" />   // step 3           */
+/*   visual: <CaptionsVisual accent="#8B5CF6" />   // step 4 (optional) */
+/*   visual: <DeliveryVisual accent="#EF4444" />   // step 5           */
+/* ------------------------------------------------------------------ */
