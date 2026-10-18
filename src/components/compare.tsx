@@ -42,6 +42,8 @@ export const Compare = ({
   const sliderRef = useRef<HTMLDivElement>(null);
   const dividerRef = useRef<HTMLDivElement>(null);
   const clipRef = useRef<HTMLDivElement>(null);
+  const firstVideoRef = useRef<HTMLVideoElement>(null);
+  const secondVideoRef = useRef<HTMLVideoElement>(null);
 
   const isDraggingRef = useRef(false);
   const percentRef = useRef(initialSliderPercentage);
@@ -100,6 +102,76 @@ export const Compare = ({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (!firstVideo || !secondVideo) return;
+
+    const first = firstVideoRef.current;
+    const second = secondVideoRef.current;
+    if (!first || !second) return;
+
+    const syncTime = () => {
+      if (!Number.isFinite(first.duration) || !Number.isFinite(second.duration) || second.duration <= 0) return;
+
+      const targetTime = first.currentTime % second.duration;
+      if (Math.abs(second.currentTime - targetTime) > 0.1) {
+        second.currentTime = targetTime;
+      }
+    };
+
+    const playBoth = () => {
+      if (
+        first.readyState < HTMLMediaElement.HAVE_FUTURE_DATA ||
+        second.readyState < HTMLMediaElement.HAVE_FUTURE_DATA
+      ) {
+        return;
+      }
+
+      syncTime();
+      [first, second].forEach((video) => {
+        if (video.paused) {
+          void video.play().catch((error: unknown) => {
+            console.error("Unable to play comparison video", error);
+          });
+        }
+      });
+    };
+
+    const pauseBoth = () => {
+      first.pause();
+      second.pause();
+    };
+
+    const pausePeer = (video: HTMLVideoElement) => {
+      const peer = video === first ? second : first;
+      if (!peer.paused) peer.pause();
+    };
+    const pauseFirstPeer = () => pausePeer(first);
+    const pauseSecondPeer = () => pausePeer(second);
+
+    first.addEventListener("timeupdate", syncTime);
+    first.addEventListener("canplay", playBoth);
+    second.addEventListener("canplay", playBoth);
+    first.addEventListener("waiting", pauseBoth);
+    second.addEventListener("waiting", pauseBoth);
+    first.addEventListener("play", playBoth);
+    second.addEventListener("play", playBoth);
+    first.addEventListener("pause", pauseFirstPeer);
+    second.addEventListener("pause", pauseSecondPeer);
+    playBoth();
+
+    return () => {
+      first.removeEventListener("timeupdate", syncTime);
+      first.removeEventListener("canplay", playBoth);
+      second.removeEventListener("canplay", playBoth);
+      first.removeEventListener("waiting", pauseBoth);
+      second.removeEventListener("waiting", pauseBoth);
+      first.removeEventListener("play", playBoth);
+      second.removeEventListener("play", playBoth);
+      first.removeEventListener("pause", pauseFirstPeer);
+      second.removeEventListener("pause", pauseSecondPeer);
+    };
+  }, [firstVideo, secondVideo]);
 
   function mouseEnterHandler() {
     stopAutoplay();
@@ -182,10 +254,11 @@ export const Compare = ({
       {/* Base layer: second image/video, always full size underneath */}
       {secondVideo ? (
         <video
+          ref={secondVideoRef}
           className={cn("absolute inset-0 z-[19] w-full h-full object-cover select-none", secondImageClassname)}
           src={secondVideo}
           poster={secondVideoPoster}
-          autoPlay
+          autoPlay={!firstVideo}
           muted
           loop
           playsInline
@@ -209,10 +282,11 @@ export const Compare = ({
         <div ref={clipRef} className="absolute inset-0 z-20 overflow-hidden pointer-events-none bg-white" style={clipStyle}>
           {firstVideo ? (
             <video
+              ref={firstVideoRef}
               className={cn("absolute inset-0 w-full h-full object-cover select-none", firstImageClassName)}
               src={firstVideo}
               poster={firstVideoPoster}
-              autoPlay
+              autoPlay={!secondVideo}
               muted
               loop
               playsInline

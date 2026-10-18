@@ -1,6 +1,5 @@
 import { Video, Sparkles, Music, Palette, Film, Layers, Mic, Zap } from "lucide-react";
 import { Andrew1, Chris1, Nick1, Rahul1, Thomas1 } from "@/assets/ClientImage";
-import { a_after, a_before } from "@/assets/Image";
 
 export const services = [
   {
@@ -63,7 +62,7 @@ export const members = [
   {
     src: Thomas1,
     alt: "Thomas",
-    name: "Dr. Thomas DeLauer",
+    name: "Thomas DeLauer",
     className: "lg:left-[22%] -left-20 bottom-0 lg:w-[350px]! w-72 lg:h-[580px] z-20 translate-y-10",
     imgClassName: "object-center",
   },
@@ -160,17 +159,17 @@ export type CardDef =
 export const cards: CardDef[] = [
   {
     type: "compare",
-    firstVideo: "https://res.cloudinary.com/decqmmcxq/video/upload/v1781610823/dorian_pod_ir9eke.mp4",
-    secondVideo: "https://res.cloudinary.com/decqmmcxq/video/upload/v1781610824/3_Engazing_Intro_yet9ws.mp4",
+    firstVideo: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792318036/nick_before_uijept.mp4",
+    secondVideo: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792318040/nick_after_ezjvvz.mp4",
   },
   {
     type: "compare",
-    firstImage: a_before,
-    secondImage: a_after,
+    firstVideo: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792318029/thomas_before_ekbbme.mp4",
+    secondVideo: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792318032/thomas_after_cmppmv.mp4",
   },
   {
     type: "compare",
-    firstVideo: "https://res.cloudinary.com/decqmmcxq/video/upload/v1781610823/dorian_pod_ir9eke.mp4",
-    secondVideo: "https://res.cloudinary.com/decqmmcxq/video/upload/v1781610824/3_Engazing_Intro_yet9ws.mp4",
+    firstVideo: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792318015/andrew_before_fgdfs8.mp4",
+    secondVideo: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792318028/andrew_after_fjptca.mp4",
   },
 ];
