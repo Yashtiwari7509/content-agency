@@ -23,7 +23,7 @@ const clientsStatsData = [
     colorClass: "bg-slate-100 text-slate-800",
     peakViews: "1.2M",
     newFollowers: "40k",
-    heading: "+18 % Watchtime",
+    heading: "+18% Watchtime",
     barData: [
       { mo: "Jan", k: 170 },
       { mo: "Feb", k: 210 },
@@ -39,7 +39,7 @@ const clientsStatsData = [
     name: "Nick Norwitz",
     niche: "420k peak views/month",
     colorClass: "bg-sky-100 text-sky-800",
-    heading: "350k new subscribers",
+    heading: "350k New Subscribers",
     peakViews: "420k",
     newFollowers: "25k",
     barData: [
@@ -54,7 +54,7 @@ const clientsStatsData = [
   },
   {
     id: "AK",
-    name: "Andrew Koutnick",
+    name: "Andrew Koutnik",
     niche: "+2x Click-Through Rate",
     colorClass: "bg-blue-100 text-blue-800",
     heading: "+3x Watchtime",
@@ -164,7 +164,7 @@ const GridScore = () => {
         label="Stats"
         title="Our Success"
         gradientWord="Score"
-        description="We edit for doctors, dietitians, and researchers who need their science communicated clearly and their channels growing."
+        description="We’ve collaborated with physicians, dietitians, researchers, and wellness coaches across the globe, turning their expertise into compelling content for YouTube and short-form platforms."
       />
 
       <div ref={gridRef} className="container max-w-5xl min-h-screen lg:h-240  mx-auto">
@@ -180,7 +180,7 @@ const GridScore = () => {
             </h1>
             <h4 className="text-3xl tracking-tight font-semibold reveal-text">Channels Managed</h4>
             <p className="text-center text-xs w-sm md:text-sm md:w-md px-4 mt-2 text-zinc-600">
-              Healthcare creators served <b>Physicians, dietitians, researchers, and wellness coaches </b> across YouTube and short-form.
+              Trusted by health experts worldwide to build, manage, and grow their content brands.
             </p>
           </div>
           <div className="absolute z-0 bottom-0 left-0 size-full">
@@ -242,7 +242,9 @@ const GridScore = () => {
             <div id="Marqee-slider-vertical" className="absolute px-3 -top-6 left-0 w-full flex justify-center">
               <VerticalInfiniteScroll />
             </div>
-            <h4 className="absolute z-10 px-4 text-left bottom-10 font-semibold text-3xl w-full">Platform handled by our Agency</h4>
+            <h4 className="absolute z-10 px-4 text-left bottom-2 md:bottom-10 font-semibold text-3xl w-full">
+              Platform handled by our Agency
+            </h4>
             <div className="radial-blur-v size-50 absolute bottom-0  -right-20 z-0 blur-xl "></div>
           </div>
         </div>
@@ -254,15 +256,13 @@ const GridScore = () => {
         <div data-reveal="card" className="bottom-right relative backdrop">
           <div className="inner-grid w-full h-full relative p-6 lg:p-8 flex flex-col justify-between z-10">
             <div className="z-10 relative flex-1 flex flex-col">
-              <div className="inline-flex items-center gap-1.5 text-md tracking-tighter px-2.5 py-1 rounded-full font-semibold mb-4 bg-white border-black/30 border w-fit">
+              <div className="inline-flex items-center gap-1.5 text-md tracking-tighter px-2.5 py-1 rounded-full -translate-x-3 font-semibold mb-4 bg-white border-black/30 border w-fit">
                 {selectedClient.heading}
               </div>
               <div className="flex gap-6 items-end shrink-0">
                 <div>
-                  <div className="font-bold text-3xl font-sans tracking-tight transition-all duration-300">
-                    {selectedClient.peakViews}
-                  </div>
-                  <div className="text-xs text-gray-500 mt-1 font-medium">peak views/mo</div>
+                  <div className="font-bold text-3xl font-sans tracking-tight transition-all duration-300">{selectedClient.peakViews}</div>
+                  <div className="text-xs text-gray-500 font-medium">peak views/mo</div>
                 </div>
               </div>
 
@@ -308,11 +308,11 @@ const GridScore = () => {
                 <span className="text-xs font-medium text-black ml-2">+ 36 more</span>
               </div>
 
-              <h1 className="text-3xl text-gray-900 leading-tighter mt-5 tracking-tighter">
+              <h4 className="text-3xl text-gray-900 font-semibold mt-5">
                 Our clients
                 <br />
                 speak for us.
-              </h1>
+              </h4>
             </div>
 
             <div className="radial-blur-v size-50 absolute -bottom-10 right-0 z-0 blur-xl opacity-80 pointer-events-none"></div>

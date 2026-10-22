@@ -68,36 +68,38 @@ export default function DonutSlider() {
   }, [fills]);
 
   useGSAP(() => {
-    const state = { progress: 0 };
+    const mm = gsap.matchMedia();
 
-    const tween = gsap.to(state, {
-      progress: 1,
-      ease: "none",
+    const createSliderAnimation = (start: string) => {
+      const state = { progress: 0 };
 
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        pin: ".pin-donut",
-        start: "-10px 80px",
-        end: () => `${window.innerHeight * 2.3}px`,
-        scrub: 1,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-      },
+      gsap.to(state, {
+        progress: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          pin: ".pin-donut",
+          start,
+          end: () => `${window.innerHeight * 2.3}px`,
+          scrub: 1,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
+        onUpdate() {
+          setProgress(state.progress);
 
-      onUpdate() {
-        setProgress(state.progress);
-
-        gsap.set(wheelRef.current, {
-          rotate: state.progress * 540,
-          transformOrigin: "50% 50%",
-        });
-      },
-    });
-
-    return () => {
-      tween.scrollTrigger?.kill();
-      tween.kill();
+          gsap.set(wheelRef.current, {
+            rotate: state.progress * 540,
+            transformOrigin: "50% 50%",
+          });
+        },
+      });
     };
+
+    mm.add("(max-width: 767px)", () => createSliderAnimation("top top"));
+    mm.add("(min-width: 768px)", () => createSliderAnimation("-10px 80px"));
+
+    return () => mm.revert();
   }, []);
 
   useGSAP(
@@ -161,7 +163,7 @@ export default function DonutSlider() {
 
   return (
     <section ref={sectionRef} className="relative max-w-5xl mx-auto">
-      <div className="pin-donut flex flex-col h-screen lg:h-[80vh] justify-center">
+      <div className="pin-donut flex flex-col min-h-screen pb-10 lg:h-[80vh] justify-center">
         <div className="w-full px-4 sm:px-6 md:px-10">
           <SectionHeader
             label="Our Services"

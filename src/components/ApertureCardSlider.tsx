@@ -367,7 +367,7 @@ export default function ApertureCardSlider({
           <div className="absolute bottom-0 right-0 z-50 bg-black rounded-full overflow-visible pointer-events-auto cursor-pointer group">
             {/* Tooltip */}
             <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 whitespace-nowrap rounded-lg bg-black/80 px-3 py-1.5 text-xs font-medium text-white shadow-lg backdrop-blur-sm pointer-events-none opacity-0 translate-y-2 transition-all duration-200 group-hover:opacity-100 group-hover:translate-y-0">
-              Hovering on cards will pause slider
+              Hover over a card to pause the carousel.
               <div className="absolute top-full left-1/2 -translate-x-1/2 h-0 w-0 border-x-[5px] border-x-transparent border-t-[5px] border-t-black/80" />
             </div>
             {/* ⓘ button */}

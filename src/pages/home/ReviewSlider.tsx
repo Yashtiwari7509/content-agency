@@ -1,4 +1,5 @@
 import { reviews } from "@/constant/client_reviews";
+import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
 const INTERVAL_MS = 4500;
@@ -21,7 +22,10 @@ const ReviewSlider = () => {
             key={item.id}
             src={item.image}
             alt=""
-            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out"
+            className={cn(
+              "absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out",
+              i === 1 && "object-top!",
+            )}
             style={{ opacity: i === current ? 1 : 0 }}
           />
         ))}

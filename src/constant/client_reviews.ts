@@ -15,7 +15,7 @@ export const reviews1 = [
   },
   {
     name: "Dr. Andrew koutnik",
-    username: "@hubermanlab",
+    username: "@andrewkoutnikphd",
     body: "Fast, reliable, incredibly professional service.",
     img: A_dp,
   },
@@ -48,7 +48,7 @@ export const reviews2 = [
   },
   {
     name: "Dr. Andrew koutnik",
-    username: "@hubermanlab",
+    username: "@andrewkoutnikphd",
     body: "Every reel feels deeply researched, intentional.",
     img: A_dp,
   },
@@ -81,7 +81,7 @@ export const reviews3 = [
   },
   {
     name: "Dr. Andrew koutnik",
-    username: "@hubermanlab",
+    username: "@andrewkoutnikphd",
     body: "Loved our podcast, especially that cinematic intro.",
     img: A_dp,
   },
@@ -113,8 +113,8 @@ export const reviews: ReviewItem[] = [
     image: Andrew1,
     review:
       "Their Reels have significantly improved retention on my Instagram page, and their podcast editing is equally impressive. The team consistently delivers high-quality work.",
-    name: "Andrew Koutnik",
-    designation: "YouTube Creator",
+    name: "Dr. Andrew Koutnik",
+    designation: "Performance Scientist",
     avatar: A_dp,
   },
   {
@@ -122,7 +122,7 @@ export const reviews: ReviewItem[] = [
     image: Nick1,
     review:
       "They’ve been with me since 55K subscribers, turning complex concepts into engaging content with consistent, reliable, on-time delivery.",
-    name: "Nick Norwitz",
+    name: "Dr. Nick Norwitz",
     designation: "YouTube Creator",
     avatar: N_dp,
   },

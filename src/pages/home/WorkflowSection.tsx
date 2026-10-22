@@ -297,9 +297,9 @@ export default function WorkflowSection() {
               <p className="wf-panel-body">{step.body}</p>
 
               {/* Metric */}
-              <div className="wf-metric-chip border-white!">
+              <div className="wf-metric-chip w-fit flex gap-2 justify-center items-center">
                 <span className="wf-metric-value">{step.metric}</span>
-                <span className="wf-metric-label">{step.metricLabel}</span>
+                <p className={"wf-metric-label p-2 border rounded-full"}>{step.metricLabel}</p>
               </div>
 
               {/* Navigation arrows */}
@@ -337,11 +337,14 @@ export default function WorkflowSection() {
     </section>
   );
 }
-
 type VP = { accent: string };
 
+const INK = "#0f1114";
+/** accent at p% opacity, works with the --a CSS var */
+const tint = (p: number) => `color-mix(in srgb, var(--a) ${p}%, transparent)`;
+
 /* ------------------------------------------------------------------ */
-/* Shared: looping timeline that only runs while on screen             */
+/* Shared                                                              */
 /* DOM is authored in its FINAL state, so reduced-motion = static.     */
 /* ------------------------------------------------------------------ */
 function useLoop(build: (tl: gsap.core.Timeline, q: gsap.utils.SelectorFunc) => void) {
@@ -368,29 +371,48 @@ function useLoop(build: (tl: gsap.core.Timeline, q: gsap.utils.SelectorFunc) => 
   return ref;
 }
 
+/** Accent-tinted dot-grid canvas the visuals sit on */
 function Stage({ accent, r, children }: { accent: string; r: Ref<HTMLDivElement>; children: ReactNode }) {
   return (
     <div
       ref={r}
-      style={{ "--a": accent } as CSSProperties}
-      className="relative flex aspect-[4/3] w-full flex-col overflow-hidden rounded-2xl bg-[#0b0c0e] p-5 text-white ring-1 ring-white/10"
+      aria-hidden
+      style={
+        {
+          "--a": accent,
+          color: INK,
+          backgroundColor: "color-mix(in srgb, var(--a) 7%, white)",
+          backgroundImage: "radial-gradient(color-mix(in srgb, var(--a) 28%, transparent) 1px, transparent 1.2px)",
+          backgroundSize: "16px 16px",
+        } as CSSProperties
+      }
+      className="relative flex aspect-[4/3] w-full flex-col gap-3 overflow-hidden rounded-2xl p-4 ring-1 ring-black/[0.06]"
     >
       {children}
     </div>
   );
 }
 
+/** White raised surface */
+const Card = ({ children, className = "" }: { children: ReactNode; className?: string }) => (
+  <div
+    className={`rounded-xl bg-white shadow-[0_1px_0_rgba(0,0,0,.04),0_14px_30px_-14px_rgba(15,17,20,.28)] ring-1 ring-black/[0.05] ${className}`}
+  >
+    {children}
+  </div>
+);
+
 const fmt = (s: number) => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(Math.round(s % 60)).padStart(2, "0")}`;
 
 /* ------------------------------------------------------------------ */
 /* 01  Raw footage — waveform fills as the file uploads                */
 /* ------------------------------------------------------------------ */
-const BARS = Array.from({ length: 56 }, (_, i) => 16 + 76 * Math.abs(Math.sin(i * 0.71) * Math.cos(i * 0.23)));
+const BARS = Array.from({ length: 52 }, (_, i) => 16 + 76 * Math.abs(Math.sin(i * 0.71) * Math.cos(i * 0.23)));
 
-const Bars = ({ cls }: { cls: string }) => (
+const Bars = ({ fill }: { fill: string }) => (
   <div className="absolute inset-0 flex items-center gap-[3px]">
     {BARS.map((h, i) => (
-      <span key={i} data-bar className={`flex-1 rounded-full ${cls}`} style={{ height: `${h}%` }} />
+      <span key={i} data-bar className="flex-1 rounded-full" style={{ height: `${h}%`, background: fill }} />
     ))}
   </div>
 );
@@ -405,6 +427,7 @@ export function UploadVisual({ accent }: VP) {
         { clipPath: "inset(0 0% 0 0)", duration: 2.4, ease: "power2.inOut" },
         0.9,
       )
+      .fromTo(q("[data-prog]"), { scaleX: 0 }, { scaleX: 1, duration: 2.4, ease: "power2.inOut" }, 0.9)
       .fromTo(
         pct,
         { v: 0 },
@@ -419,32 +442,53 @@ export function UploadVisual({ accent }: VP) {
         },
         0.9,
       )
-      .fromTo(q("[data-done]"), { autoAlpha: 0, y: 6 }, { autoAlpha: 1, y: 0, duration: 0.4 }, 3.3)
+      .fromTo(q("[data-done]"), { autoAlpha: 0, scale: 0.9 }, { autoAlpha: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, 3.3)
       .to({}, { duration: 1 });
   });
 
   return (
     <Stage accent={accent} r={r}>
-      <div className="flex items-baseline justify-between text-[11px] text-white/45">
-        <p>podcast_ep42_RAW.mov</p>
-        <p>2.4 GB</p>
-      </div>
-
-      <div className="relative my-auto h-28">
-        <Bars cls="bg-white/15" />
-        <div data-fill className="absolute inset-0">
-          <Bars cls="bg-[var(--a)]" />
+      <Card className="flex flex-1 flex-col p-4">
+        <div className="flex items-center gap-3">
+          <div className="grid h-9 w-9 place-items-center rounded-lg" style={{ background: tint(14) }}>
+            <svg
+              viewBox="0 0 24 24"
+              className="h-4.5 w-4.5 h-[18px] w-[18px]"
+              fill="none"
+              stroke="var(--a)"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <rect x="3" y="6" width="13" height="12" rx="2.5" />
+              <path d="m16 10.5 5-3v9l-5-3z" />
+            </svg>
+          </div>
+          <div className="min-w-0 flex-1 leading-tight">
+            <div className="truncate text-[13px] font-medium">podcast_ep42_RAW.mov</div>
+            <div className="text-[11px] text-black/45">2.4 GB · Project drive</div>
+          </div>
+          <span data-done className="rounded-full px-2.5 py-1 text-[11px] font-medium" style={{ background: tint(14) }}>
+            Received
+          </span>
         </div>
-      </div>
 
-      <div className="flex items-end justify-between">
-        <span data-pct className="text-5xl font-light leading-none tracking-tight tabular-nums">
-          100%
-        </span>
-        <span data-done className="text-xs text-[var(--a)]">
-          Received
-        </span>
-      </div>
+        <div className="relative my-auto h-24">
+          <Bars fill="rgba(15,17,20,.12)" />
+          <div data-fill className="absolute inset-0">
+            <Bars fill="var(--a)" />
+          </div>
+        </div>
+
+        <div className="flex items-end justify-between">
+          <span data-pct className="text-4xl font-light leading-none tracking-tight tabular-nums">
+            100%
+          </span>
+          <div className="mb-1.5 h-1 w-1/2 overflow-hidden rounded-full bg-black/[0.07]">
+            <div data-prog className="h-full origin-left rounded-full bg-[var(--a)]" />
+          </div>
+        </div>
+      </Card>
     </Stage>
   );
 }
@@ -463,10 +507,10 @@ const SEGS = [
   { n: 6, dead: true },
 ];
 
-const HATCH = "repeating-linear-gradient(135deg, rgba(255,255,255,.16) 0 2px, transparent 2px 7px)";
+const HATCH = "repeating-linear-gradient(135deg, rgba(15,17,20,.16) 0 2px, transparent 2px 7px)";
 
 const Track = ({ audio }: { audio?: boolean }) => (
-  <div className="flex h-11 w-full overflow-hidden rounded-md bg-white/[0.03]">
+  <div className="flex h-10 w-full overflow-hidden rounded-lg bg-black/[0.04]">
     {SEGS.map((s, i) => (
       <div
         key={i}
@@ -474,9 +518,9 @@ const Track = ({ audio }: { audio?: boolean }) => (
         style={{
           flexGrow: s.n,
           flexBasis: 0,
-          ...(s.dead ? { backgroundImage: HATCH } : { background: "var(--a)" }),
+          ...(s.dead ? { backgroundImage: HATCH } : { background: audio ? tint(38) : "var(--a)" }),
         }}
-        className={s.dead ? "" : `shadow-[inset_-2px_0_0_#0b0c0e] ${audio ? "opacity-40" : "opacity-90"}`}
+        className={s.dead ? "" : "shadow-[inset_-2px_0_0_#fff]"}
       />
     ))}
   </div>
@@ -487,17 +531,7 @@ export function CutVisual({ accent }: VP) {
     const t = { v: 3720 };
     tl.fromTo(q("[data-playhead]"), { left: "0%", autoAlpha: 1 }, { left: "100%", duration: 2.4, ease: "none" })
       .to(q("[data-playhead]"), { autoAlpha: 0, duration: 0.2 }, ">")
-      .to(
-        q("[data-seg=dead]"),
-        {
-          flexGrow: 0,
-          opacity: 0,
-          duration: 0.6,
-          ease: "power3.inOut",
-          stagger: 0.14,
-        },
-        ">0.1",
-      )
+      .to(q("[data-seg=dead]"), { flexGrow: 0, opacity: 0, duration: 0.6, ease: "power3.inOut", stagger: 0.14 }, ">0.1")
       .fromTo(
         t,
         { v: 3720 },
@@ -512,36 +546,42 @@ export function CutVisual({ accent }: VP) {
         },
         "<",
       )
-      .fromTo(q("[data-saved]"), { autoAlpha: 0, y: 6 }, { autoAlpha: 1, y: 0, duration: 0.4 }, ">-0.1")
+      .fromTo(q("[data-saved]"), { autoAlpha: 0, scale: 0.9 }, { autoAlpha: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, ">-0.1")
       .to({}, { duration: 1 });
   });
 
   return (
     <Stage accent={accent} r={r}>
-      <div className="flex items-end justify-between">
-        <div>
-          <div className="text-[11px] text-white/45">Runtime</div>
-          <div data-rt className="font-mono text-4xl font-light tracking-tight tabular-nums">
-            44:38
+      <Card className="flex flex-1 flex-col p-4">
+        <div className="flex items-start justify-between">
+          <div className="leading-none">
+            <div className="mb-1.5 text-[11px] text-black/45">Runtime</div>
+            <div data-rt className="text-4xl font-light tracking-tight tabular-nums">
+              44:38
+            </div>
+          </div>
+          <span data-saved className="rounded-full px-2.5 py-1 text-[11px] font-medium" style={{ background: tint(14) }}>
+            28% dead air cut
+          </span>
+        </div>
+
+        <div className="relative my-auto space-y-1.5">
+          <Track />
+          <Track audio />
+          <div
+            data-playhead
+            className="pointer-events-none absolute -bottom-2 -top-2 w-px"
+            style={{ left: "100%", opacity: 0, background: INK }}
+          >
+            <span className="absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45" style={{ background: INK }} />
           </div>
         </div>
-        <span data-saved className="text-xs text-[var(--a)]">
-          28% dead air cut
-        </span>
-      </div>
 
-      <div className="relative my-auto space-y-1.5">
-        <Track />
-        <Track audio />
-        <div data-playhead className="pointer-events-none absolute -bottom-2 -top-2 w-px bg-white" style={{ left: "100%", opacity: 0 }}>
-          <span className="absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 bg-white" />
+        <div className="flex justify-between text-[11px] text-black/40">
+          <span>Video</span>
+          <span>Audio</span>
         </div>
-      </div>
-
-      <div className="flex justify-between text-[11px] text-white/35">
-        <span>Video</span>
-        <span>Audio</span>
-      </div>
+      </Card>
     </Stage>
   );
 }
@@ -574,23 +614,29 @@ export function BrollVisual({ accent }: VP) {
 
   return (
     <Stage accent={accent} r={r}>
-      <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-gradient-to-b from-white/[0.08] to-white/[0.02] ring-1 ring-white/10">
-        <svg viewBox="0 0 100 100" className="absolute bottom-0 left-1/2 h-[90%] -translate-x-1/2 text-white/[0.12]" fill="currentColor">
+      <div
+        className="relative aspect-video w-full overflow-hidden rounded-xl shadow-[0_14px_30px_-14px_rgba(15,17,20,.28)] ring-1 ring-black/[0.06]"
+        style={{ background: `linear-gradient(160deg, ${tint(26)}, ${tint(8)}), #fff` }}
+      >
+        <svg viewBox="0 0 100 100" className="absolute bottom-0 left-1/2 h-[92%] -translate-x-1/2" fill="var(--a)" fillOpacity="0.22">
           <circle cx="50" cy="34" r="14" />
           <path d="M18 100c0-22 14-34 32-34s32 12 32 34z" />
         </svg>
 
         <div
           data-ov="cite"
-          className="absolute left-3 top-3 rounded-md bg-black/60 px-2 py-1.5 text-[10px] leading-tight ring-1 ring-white/10 backdrop-blur"
+          className="absolute left-3 top-3 rounded-lg bg-white px-2.5 py-1.5 text-[10px] leading-tight shadow-[0_6px_16px_-8px_rgba(15,17,20,.35)] ring-1 ring-black/[0.05]"
         >
-          <div className="text-white/90">Cell Metabolism, 2023</div>
-          <div className="text-white/45">n = 4,210</div>
+          <div className="font-medium">Cell Metabolism, 2023</div>
+          <div className="text-black/45">n = 4,210</div>
         </div>
 
-        <div data-ov="chart" className="absolute right-3 top-3 w-[40%] rounded-md bg-black/60 p-2 ring-1 ring-white/10 backdrop-blur">
+        <div
+          data-ov="chart"
+          className="absolute right-3 top-3 w-[40%] rounded-lg bg-white p-2 shadow-[0_6px_16px_-8px_rgba(15,17,20,.35)] ring-1 ring-black/[0.05]"
+        >
           <svg viewBox="0 0 100 40" className="w-full">
-            <path d="M0 38H100M0 26H100M0 14H100" stroke="rgba(255,255,255,.08)" strokeWidth="0.5" fill="none" />
+            <path d="M0 38H100M0 26H100M0 14H100" stroke="rgba(15,17,20,.08)" strokeWidth="0.5" fill="none" />
             <path
               data-line
               d="M2 34C20 32 30 28 45 20S75 8 98 4"
@@ -598,26 +644,29 @@ export function BrollVisual({ accent }: VP) {
               strokeDasharray={1}
               strokeDashoffset={0}
               stroke="var(--a)"
-              strokeWidth="2"
+              strokeWidth="2.2"
               strokeLinecap="round"
               fill="none"
             />
           </svg>
-          <div className="mt-1 text-[9px] text-white/50">Autophagy markers</div>
+          <div className="mt-1 text-[9px] text-black/50">Autophagy markers</div>
         </div>
 
-        <div data-ov="lower" className="absolute bottom-3 left-3 flex items-stretch gap-2">
+        <div
+          data-ov="lower"
+          className="absolute bottom-3 left-3 flex items-stretch gap-2 rounded-lg bg-white py-1.5 pl-2 pr-3 shadow-[0_6px_16px_-8px_rgba(15,17,20,.35)] ring-1 ring-black/[0.05]"
+        >
           <span className="w-0.5 rounded-full bg-[var(--a)]" />
           <div className="text-[11px] leading-tight">
             <div className="font-medium">16:8 fasting</div>
-            <div className="text-white/50">What the data shows</div>
+            <div className="text-black/50">What the data shows</div>
           </div>
         </div>
       </div>
 
-      <div className="mt-auto space-y-1.5">
+      <Card className="mt-auto space-y-1.5 px-3 py-2.5">
         {[0, 1, 2].map((row) => (
-          <div key={row} className="relative h-2 rounded-full bg-white/[0.06]">
+          <div key={row} className="relative h-2 rounded-full bg-black/[0.06]">
             {CLIPS.filter((c) => c.row === row).map((c) => (
               <span
                 key={c.left}
@@ -628,7 +677,7 @@ export function BrollVisual({ accent }: VP) {
             ))}
           </div>
         ))}
-      </div>
+      </Card>
     </Stage>
   );
 }
@@ -641,12 +690,12 @@ const WORDS = ["Fasting", "changes", "how", "your", "cells", "repair", "themselv
 export function CaptionsVisual({ accent }: VP) {
   const r = useLoop((tl, q) => {
     const w = q("[data-w]");
-    tl.set(w, { color: "rgba(255,255,255,.25)", backgroundColor: "rgba(0,0,0,0)" });
+    tl.set(w, { color: "rgba(15,17,20,.2)", backgroundColor: "rgba(255,255,255,0)" });
     w.forEach((el, i) => {
       const t = 0.4 + i * 0.42;
-      tl.to(el, { color: "#0b0c0e", backgroundColor: accent, duration: 0.12 }, t).to(
+      tl.to(el, { color: "#ffffff", backgroundColor: accent, duration: 0.12 }, t).to(
         el,
-        { color: "#ffffff", backgroundColor: "rgba(0,0,0,0)", duration: 0.25 },
+        { color: INK, backgroundColor: "rgba(255,255,255,0)", duration: 0.25 },
         t + 0.38,
       );
     });
@@ -655,14 +704,16 @@ export function CaptionsVisual({ accent }: VP) {
 
   return (
     <Stage accent={accent} r={r}>
-      <div className="font-mono text-[11px] text-white/40">00:01:12,400 → 00:01:15,100</div>
-      <div className="my-auto flex flex-wrap gap-x-1 gap-y-2 text-[28px] font-medium leading-tight tracking-tight">
-        {WORDS.map((word) => (
-          <span key={word} data-w className="rounded-md px-1.5 text-white">
-            {word}
-          </span>
-        ))}
-      </div>
+      <Card className="flex flex-1 flex-col p-4">
+        <div className="text-[11px] tabular-nums text-black/40">00:01:12,400 → 00:01:15,100</div>
+        <div className="my-auto flex flex-wrap gap-x-1 gap-y-2 text-[28px] font-medium leading-tight tracking-tight">
+          {WORDS.map((word) => (
+            <span key={word} data-w className="rounded-md px-1.5" style={{ color: INK }}>
+              {word}
+            </span>
+          ))}
+        </div>
+      </Card>
     </Stage>
   );
 }
@@ -687,65 +738,61 @@ export function DeliveryVisual({ accent }: VP) {
 
   return (
     <Stage accent={accent} r={r}>
-      <div className="flex items-center gap-4">
-        <svg viewBox="0 0 80 80" className="h-16 w-16 shrink-0">
-          <circle
-            data-ring
-            cx="40"
-            cy="40"
-            r="34"
-            fill="none"
-            stroke="var(--a)"
-            strokeWidth="2"
-            pathLength={1}
-            strokeDasharray={1}
-            strokeDashoffset={0}
-            transform="rotate(-90 40 40)"
-          />
-          <path
-            data-tick
-            d="M27 41l9 9 17-19"
-            fill="none"
-            stroke="#fff"
-            strokeWidth="3"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            pathLength={1}
-            strokeDasharray={1}
-            strokeDashoffset={0}
-          />
-        </svg>
-        <div data-title>
-          <div className="text-2xl font-light tracking-tight">Delivered</div>
-          <div className="text-xs text-white/45">Within the 48h window</div>
+      <Card className="flex flex-1 flex-col p-4">
+        <div className="flex items-center gap-3">
+          <svg viewBox="0 0 80 80" className="h-14 w-14 shrink-0">
+            <circle cx="40" cy="40" r="34" fill="var(--a)" fillOpacity="0.12" />
+            <circle
+              data-ring
+              cx="40"
+              cy="40"
+              r="34"
+              fill="none"
+              stroke="var(--a)"
+              strokeWidth="3"
+              strokeLinecap="round"
+              pathLength={1}
+              strokeDasharray={1}
+              strokeDashoffset={0}
+              transform="rotate(-90 40 40)"
+            />
+            <path
+              data-tick
+              d="M27 41l9 9 17-19"
+              fill="none"
+              stroke="var(--a)"
+              strokeWidth="4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              pathLength={1}
+              strokeDasharray={1}
+              strokeDashoffset={0}
+            />
+          </svg>
+          <div data-title className="leading-tight">
+            <div className="text-xl font-medium tracking-tight">Delivered</div>
+            <div className="text-xs text-black/45">Within the 48h window</div>
+          </div>
         </div>
-      </div>
 
-      <ul className="mt-auto space-y-2">
-        {FILES.map((f) => (
-          <li
-            key={f.ext}
-            data-file
-            className="flex items-center justify-between rounded-lg bg-white/[0.05] px-3 py-2.5 text-sm ring-1 ring-white/10"
-          >
-            <p className="flex items-center gap-3">
-              <p className="rounded bg-[var(--a)] px-1.5 py-0.5 text-[10px] font-semibold text-black">{f.ext}</p>
-              {f.name}
-            </p>
-            <p className="text-xs text-white/40">{f.size}</p>
-          </li>
-        ))}
-      </ul>
+        <ul className="mt-auto space-y-1.5">
+          {FILES.map((f) => (
+            <li
+              key={f.ext}
+              data-file
+              className="flex items-center justify-between rounded-lg bg-black/[0.03] px-3 py-2 text-[13px] ring-1 ring-black/[0.04]"
+            >
+              <div className="flex items-center gap-3">
+                <span className="rounded px-1.5 py-0.5 text-[10px] font-semibold" style={{ background: tint(18) }}>
+                  {f.ext}
+                </span>
+                <span>{f.name}</span>
+              </div>
+              <span className="text-xs text-black/40">{f.size}</span>
+            </li>
+          ))}
+        </ul>
+      </Card>
     </Stage>
   );
 }
-
-/* ------------------------------------------------------------------ */
-/* Usage in STEPS                                                      */
-/*                                                                     */
-/*   visual: <UploadVisual   accent="#1D9E75" />   // step 1           */
-/*   visual: <CutVisual      accent="#2979FF" />   // step 2           */
-/*   visual: <BrollVisual    accent="#F59E0B" />   // step 3           */
-/*   visual: <CaptionsVisual accent="#8B5CF6" />   // step 4 (optional) */
-/*   visual: <DeliveryVisual accent="#EF4444" />   // step 5           */
-/* ------------------------------------------------------------------ */

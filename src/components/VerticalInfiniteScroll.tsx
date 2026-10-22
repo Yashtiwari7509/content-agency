@@ -43,8 +43,8 @@ const NotificationItem: FC<{ notification: Notification; index: number }> = ({ n
 
   return (
     <div className={`flex items-end gap-2 px-3 py-1.5 will-change-transform w-full ${isSender ? "flex-row-reverse" : "flex-row"}`}>
-      <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${isSender ? "bg-primary" : "bg-gray-100"}`}>
-        <Icon className={`w-3.5 h-3.5 ${isSender ? "text-white" : "text-gray-600"}`} />
+      <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${isSender ? "bg-background/50" : "bg-gray-100"}`}>
+        <Icon className={`w-3.5 h-3.5 ${isSender ? "text-gray-600" : "text-gray-600"}`} />
       </div>
 
       <div className={`flex flex-col gap-1 max-w-[75%] ${isSender ? "items-end" : "items-start"}`}>

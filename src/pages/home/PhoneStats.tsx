@@ -31,7 +31,7 @@ function PageFloatingStats() {
               <div className="text-[11px] font-medium uppercase tracking-[0.16em] text-gray-400">Avg views per short</div>
               <div className="mt-3 items-end gap-3 flex">
                 <p className="text-[48px] leading-[0.85] tracking-[-0.06em] text-gray-950 md:text-[64px]">210k</p>
-                <p className="mb-1 text-[11px] uppercase tracking-wider text-primary">Views</p>
+                <p className="mb-1 text-[11px] uppercase tracking-wider text-background">Views</p>
               </div>
             </div>
 
@@ -42,7 +42,7 @@ function PageFloatingStats() {
 
           {/* Bottom metric */}
           <div className="absolute bottom-7 right-7 z-10 text-right">
-            <div className="text-[11px] text-primary">+340%</div>
+            <div className="text-[11px] text-background">+340%</div>
             <div className="mt-1 text-[9px] uppercase tracking-[0.15em] text-gray-400">Since we took over</div>
           </div>
         </div>
@@ -57,7 +57,7 @@ function PageFloatingStats() {
             <p className="text-[48px] leading-none tracking-[-0.05em] text-gray-950 md:text-[58px]">67%</p>
 
             <div className="mt-3 flex items-center gap-2">
-              <div className="rounded-full bg-background/10 px-2 py-1 text-[9px] uppercase tracking-wider text-primary">+39%</div>
+              <div className="rounded-full bg-background/10 px-2 py-1 text-[9px] uppercase tracking-wider text-background">+39%</div>
               <div className="text-[10px] text-gray-400">vs 28% avg</div>
             </div>
           </div>
@@ -75,7 +75,7 @@ function PageFloatingStats() {
               <sup className="text-[13px] font-semibold text-gray-400">sec</sup>
             </div>
 
-            <div className="mt-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-primary">Full views</div>
+            <div className="mt-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-background">Full views</div>
           </div>
         </div>
 
@@ -113,7 +113,7 @@ function PageFloatingStats() {
             </div>
 
             <div className="text-right">
-              <p className="text-[24px] tracking-tight text-primary">4.8×</p>
+              <p className="text-[24px] tracking-tight text-background">4.8×</p>
               <div className="mt-1 text-[9px] uppercase tracking-[0.14em] text-gray-400">Organic reach</div>
             </div>
           </div>
@@ -155,7 +155,7 @@ function PanelB() {
           <div key={i}>
             <div
               className={`rounded-[14px] border px-4 py-3 text-[11px] font-medium leading-relaxed transition-all duration-300 ${
-                s.accent ? "border-primary/30  text-primary" : "border-black/10 text-gray-700"
+                s.accent ? "border-primary/30  text-background" : "border-black/10 text-gray-700"
               }`}
             >
               {s.label}
@@ -207,7 +207,7 @@ function PanelC() {
 
   return (
     <div className={card}>
-      <div className="pointer-events-none absolute -bottom-20 -left-20 h-44 w-44 rounded-full bg-primary/[0.05] blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-20 -left-20 h-44 w-44 rounded-full bg-background/[0.05] blur-3xl" />
 
       {/* Header */}
       <div className="relative z-10 mb-7 flex items-start justify-between">
@@ -225,12 +225,12 @@ function PanelC() {
       <div className="relative z-10 flex flex-col gap-[9px]">
         {content.map((c, i) => (
           <div key={i} className="flex items-center gap-2">
-            <div className={`h-[7px] w-[7px] flex-shrink-0 rounded-full ${c.active ? "bg-primary" : "bg-black/15"}`} />
+            <div className={`h-[7px] w-[7px] flex-shrink-0 rounded-full ${c.active ? "bg-background" : "bg-black/15"}`} />
             <div className="h-px w-4 flex-shrink-0 bg-black" />
 
             <div
               className={`flex-1 rounded-[12px] border px-3 py-2 transition-all duration-300 ${
-                c.active ? "border-black/[0.06] group-hover:bg-primary/[0.03]" : "border-black/[0.04] bg-black/[0.01] opacity-60"
+                c.active ? "border-black/[0.06] group-hover:bg-background/[0.03]" : "border-black/[0.04] bg-black/[0.01] opacity-60"
               }`}
             >
               <div className="text-[11px] font-semibold text-gray-800">{c.title}</div>
@@ -246,7 +246,7 @@ function PanelC() {
 
         <div className="mt-4 flex items-center justify-between">
           <div className="text-[9px] font-semibold uppercase tracking-[0.14em] text-gray-400">Editing system</div>
-          <div className="text-[10px] font-semibold text-primary">Optimized</div>
+          <div className="text-[10px] font-semibold text-background">Optimized</div>
         </div>
       </div>
     </div>
@@ -291,19 +291,19 @@ function PanelD() {
 
         {/* After */}
         <div>
-          <div className="mb-4 text-[9px] font-semibold uppercase tracking-[0.14em] text-primary">After</div>
+          <div className="mb-4 text-[9px] font-semibold uppercase tracking-[0.14em] text-background">After</div>
 
           <div className="flex h-20 items-end gap-[4px]">
             {after.map((h, i) => (
               <div
                 key={i}
-                className="flex-1 rounded-t-[3px] bg-primary transition-all duration-500 group-hover:opacity-80"
+                className="flex-1 rounded-t-[3px] bg-background transition-all duration-500 group-hover:opacity-80"
                 style={{ height: `${h}%` }}
               />
             ))}
           </div>
 
-          <div className="mt-3 text-[11px] font-semibold text-primary">Avg retention: 67%</div>
+          <div className="mt-3 text-[11px] font-semibold text-background">Avg retention: 67%</div>
           <p className="mt-3 text-[11px] leading-relaxed text-gray-500">Tight cuts, captions, health B-roll, strong hook.</p>
         </div>
       </div>
@@ -318,7 +318,7 @@ function PanelD() {
             <p className="mt-1 text-[28px] font-semibold tracking-[-0.05em] text-gray-950">+45%</p>
           </div>
 
-          <div className="text-right text-[11px] font-semibold text-primary">
+          <div className="text-right text-[11px] font-semibold text-background">
             Better content.
             <br />
             Better performance.
@@ -413,7 +413,7 @@ const PhoneStats = () => {
   });
 
   return (
-    <section ref={sectionRef} className="PhoneStats relative w-screen h-[190vh] lg:h-[210vh] pointer-events-none">
+    <section ref={sectionRef} className="PhoneStats relative w-screen h-[210vh] pointer-events-none">
       <DesktopOnly>
         <PhoneVideo />
       </DesktopOnly>

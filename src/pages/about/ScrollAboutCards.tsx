@@ -115,7 +115,7 @@ export default function WorkCards() {
             >
 
               {/* Title + category */}
-              <div className="row-title flex flex-1 flex-col gap-0.5 md:gap-1 min-w-0">
+              <div className="row-title flex relative z-20 flex-1 flex-col gap-0.5 md:gap-1 min-w-0">
                 <h3 className="text-lg sm:text-2xl md:text-[2rem] font-semibold leading-snug tracking-[-0.025em] truncate">{p.title}</h3>
                 <p className="text-[11px] uppercase tracking-[0.15em]">{p.category}</p>
               </div>
@@ -124,7 +124,7 @@ export default function WorkCards() {
               <p className="shrink-0 text-xs tracking-[0.12em] capitalize">{p.year}</p>
 
               {/* Reveal image — gsap-img ← queried by useGSAP, no ref needed */}
-              <div className="gsap-img pointer-events-none absolute right-0 top-1/2 h-40 w-56 -translate-y-1/2 overflow-hidden rounded-xl md:block">
+              <div className="gsap-img z-0 pointer-events-none absolute right-0 top-1/2 h-40 hidden md:w-72 -translate-y-1/2 overflow-hidden rounded-xl md:block">
                 <img src={p.image} alt="" className="h-full w-full object-cover" draggable={false} />
               </div>
 

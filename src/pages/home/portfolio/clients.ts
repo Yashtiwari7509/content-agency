@@ -6,7 +6,7 @@ export const portfolioClients: PortfolioClient[] = [
   {
     id: "thomas-delauer",
     name: "Thomas DeLauer",
-    handle: "@ThomasDeLauer",
+    handle: "@ThomasDeLauerOfficial",
     role: "4M+ subscribers",
     avatar: Thomas1,
     gifUrl: "https://res.cloudinary.com/decqmmcxq/video/upload/v1781610817/thomas_gif_video_ijkltg.mp4",
@@ -40,7 +40,7 @@ export const portfolioClients: PortfolioClient[] = [
   {
     id: "nick-norwitz",
     name: "Nick Norwitz",
-    handle: "@NickNorwitz",
+    handle: "@nicknorwitzMDPhD",
     role: "1M+ subscribers",
     avatar: Nick1,
     gifUrl: "https://res.cloudinary.com/decqmmcxq/video/upload/v1781610782/nick_video_for_gif_gdgvzs.mp4",
@@ -64,7 +64,7 @@ export const portfolioClients: PortfolioClient[] = [
   {
     id: "andrew-koutnik",
     name: "Andrew Koutnik",
-    handle: "@AndrewKoutnik",
+    handle: "@andrewkoutnikphd",
     role: "80k+ followers",
     avatar: Andrew1,
     gifUrl: "https://res.cloudinary.com/decqmmcxq/video/upload/v1781610818/2_Inrange_pod_intro_wyzula.mp4",

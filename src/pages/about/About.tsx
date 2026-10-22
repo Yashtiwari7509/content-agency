@@ -56,19 +56,6 @@ const About = () => {
     );
   }, []);
 
-  useGSAP(() => {
-    ScrollTrigger.create({
-      trigger: ".pin-about",
-      start: "top top",
-      end: "+=1000",
-      scrub: 1,
-      pin: true,
-      pinSpacing: true,
-      anticipatePin: 1,
-      invalidateOnRefresh: true,
-    });
-  });
-
   return (
     <div className="relative w-screen flex">
       <div className="w-full bg-background absolute top-0 z-0 hero-bg-mask h-[clamp(700px,100vh,800px)]"></div>
@@ -89,7 +76,7 @@ const About = () => {
                 <div className="glare"></div>
               </div>
               <div className="content">
-                <p className="px-2 py-1.5 rounded-full text-xs font-light tracking-wider bg-background/10 backdrop border border-white mb-4 uppercase w-fit mx-auto flex justify-center items-center gap-2">
+                <p className="px-2 py-1.5 rounded-full text-xs font-light tracking-wider bg-white/80 backdrop border border-background mb-4 uppercase w-fit mx-auto flex justify-center items-center gap-2">
                   <img className="h-6 w-6" src={aboutLogo} alt="" />
                   Healthcare Content Agency
                 </p>
@@ -154,7 +141,7 @@ const About = () => {
                       <div className="number">
                         100<sup>+</sup> Million
                       </div>
-                      <div className="label">views</div>
+                      <div className="label">Views</div>
                     </div>
                   </div>
 
@@ -167,9 +154,9 @@ const About = () => {
                     </span>
                     <div>
                       <div className="number">
-                        8<sup>+</sup> years
+                        8<sup>+</sup> Years
                       </div>
-                      <div className="label">experience</div>
+                      <div className="label">Of Experience</div>
                     </div>
                   </div>
                 </div>
