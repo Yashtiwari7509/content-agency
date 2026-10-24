@@ -4,13 +4,13 @@ import HeroCard, { type CardStatsItem } from "@/components/HeroCard";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
-import { aboutLogo, cloud, fb, reel, short } from "@/assets/Image";
+import { aboutLogo, cloud, fb, insta, reel, short, youtube } from "@/assets/Image";
 import { A_dp, N_dp, T_dp } from "@/assets/ClientImage";
 
 const Icons = [{ src: fb }, { src: fb }, { src: short }, { src: short }, { src: reel }, { src: reel }, { src: short }, { src: short }];
 const CardStatsData: CardStatsItem[] = [
   {
-    top: [T_dp, short],
+    top: [T_dp, youtube],
     bottom: [
       {
         label: "DeLauer",
@@ -26,7 +26,7 @@ const CardStatsData: CardStatsItem[] = [
     alignmentCss: window.innerWidth < 600 ? "40% 20%" : "30% 15%",
   },
   {
-    top: [N_dp, short],
+    top: [N_dp, youtube],
     bottom: [
       {
         label: "Norwitz",
@@ -42,7 +42,7 @@ const CardStatsData: CardStatsItem[] = [
     alignmentCss: window.innerWidth < 600 ? "40% 80%" : "30% 85%",
   },
   {
-    top: [A_dp, reel],
+    top: [A_dp, insta],
     bottom: [
       {
         label: "Koutnik",

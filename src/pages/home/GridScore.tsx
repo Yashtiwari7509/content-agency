@@ -307,7 +307,7 @@ const GridScore = () => {
                     </div>
                   </div>
                 ))}
-                <span className="text-xs font-medium text-black ml-2">+ 36 more</span>
+                <span className="text-xs font-medium text-black ml-1">more<sup>+</sup></span>
               </div>
 
               <h4 className="text-3xl text-gray-900 font-semibold mt-5">

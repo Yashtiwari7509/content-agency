@@ -14,7 +14,8 @@ gsap.registerPlugin(useGSAP);
 ───────────────────────────────────────── */
 
 function PageFloatingStats() {
-  const card = "relative overflow-hidden rounded-[28px] border backdrop backdrop";
+  const card =
+    "relative overflow-hidden rounded-[28px] border backdrop backdrop transition-[scale,border-color,background-color] duration-500 ease-out hover:scale-[1.015] hover:border-background/50";
   const statsRef = useRef<HTMLDivElement>(null);
   useCardReveal(statsRef);
 
@@ -124,8 +125,10 @@ function PageFloatingStats() {
 }
 
 function PanelB() {
-  const card = "group relative min-h-[440px] overflow-hidden rounded-[28px] border p-6 md:p-7 flex flex-col backdrop";
-  const pill = "rounded-full border border-black/10 bg-white/60 px-3 py-2 text-[10px] font-semibold text-gray-700";
+  const card =
+    "group relative min-h-[440px] overflow-hidden rounded-[28px] border p-6 md:p-7 flex flex-col backdrop transition-[scale,border-color,background-color] duration-500 ease-out hover:scale-[1.015] hover:border-background/50";
+  const pill =
+    "rounded-full border border-black/10 bg-white/60 px-3 py-2 text-[10px] font-semibold text-gray-700 transition-colors duration-300 hover:border-background/40 hover:bg-background/10 hover:text-background";
 
   const steps = [
     { label: "1x long-form podcast (60 min)", accent: true },
@@ -154,8 +157,7 @@ function PanelB() {
         {steps.map((s, i) => (
           <div key={i}>
             <div
-              className={`rounded-[14px] border px-4 py-3 text-[11px] font-medium leading-relaxed transition-all duration-300 ${
-                s.accent ? "border-primary/30  text-background" : "border-black/10 text-gray-700"
+              className={`rounded-[14px] border px-4 py-3 text-[11px] font-medium leading-relaxed transition-colors duration-300 hover:border-background/40 hover:bg-background/[0.06] 
               }`}
             >
               {s.label}
@@ -163,7 +165,7 @@ function PanelB() {
 
             {i < steps.length - 1 && (
               <div className="flex h-5 justify-center">
-                <svg width="10" height="16" viewBox="0 0 10 16" fill="none" className="opacity-20">
+                <svg width="10" height="16" viewBox="0 0 10 16" fill="none" className="opacity-50 mt-1">
                   <path d="M5 0v11M1 7l4 8 4-8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
@@ -195,7 +197,8 @@ function PanelB() {
 }
 
 function PanelC() {
-  const card = "group relative min-h-[440px] overflow-hidden rounded-[28px] border p-6 md:p-7 flex flex-col backdrop";
+  const card =
+    "group relative min-h-[440px] overflow-hidden rounded-[28px] border p-6 md:p-7 flex flex-col backdrop transition-[scale,border-color,background-color] duration-500 ease-out hover:scale-[1.015] hover:border-background/50";
 
   const content = [
     { title: "Strong hook (0–3s)", sub: "Pattern interrupt for health audience", active: true },
@@ -225,13 +228,11 @@ function PanelC() {
       <div className="relative z-10 flex flex-col gap-[9px]">
         {content.map((c, i) => (
           <div key={i} className="flex items-center gap-2">
-            <div className={`h-[7px] w-[7px] flex-shrink-0 rounded-full ${c.active ? "bg-background" : "bg-black/15"}`} />
+            <div className={`h-[7px] w-[7px] flex-shrink-0 rounded-full bg-background`} />
             <div className="h-px w-4 flex-shrink-0 bg-black" />
 
             <div
-              className={`flex-1 rounded-[12px] border px-3 py-2 transition-all duration-300 ${
-                c.active ? "border-black/[0.06] group-hover:bg-background/[0.03]" : "border-black/[0.04] bg-black/[0.01] opacity-60"
-              }`}
+              className={`flex-1 rounded-[12px] border px-3 py-2 transition-colors duration-300 hover:border-background/40 hover:bg-background/[0.06] }`}
             >
               <div className="text-[11px] font-semibold text-gray-800">{c.title}</div>
               <div className="mt-0.5 text-[9px] leading-relaxed text-gray-400">{c.sub}</div>
@@ -254,7 +255,8 @@ function PanelC() {
 }
 
 function PanelD() {
-  const card = "group relative min-h-[440px] overflow-hidden rounded-[28px] border p-6 md:p-7 flex flex-col backdrop";
+  const card =
+    "group relative min-h-[440px] overflow-hidden rounded-[28px] border p-6 md:p-7 flex flex-col backdrop transition-[scale,border-color,background-color] duration-500 ease-out hover:scale-[1.015] hover:border-background/50";
 
   const before = [30, 50, 40, 20, 35, 15, 28];
   const after = [90, 95, 88, 85, 80, 82, 78];
@@ -376,10 +378,10 @@ function PageTabbed() {
           <button
             key={tab.id}
             onPointerEnter={() => switchTab(tab.id)}
-            className={`rounded-full px-4 py-[6px] text-[11px] font-medium tracking-wide border transition-all duration-200 cursor-pointer ${
+            className={`rounded-full px-4 py-[6px] text-[11px] font-medium tracking-wide border transition-[scale,color,background-color,border-color] duration-300 cursor-pointer hover:scale-[1.04] active:scale-[0.97] ${
               active === tab.id
-                ? "bg-gray-900 text-white border-gray-900"
-                : "bg-transparent text-gray-500 border-black/15 hover:border-gray-400 hover:text-gray-700"
+                ? "bg-background text-white border-background"
+                : "bg-transparent text-gray-500 border-black/15 hover:border-background/50 hover:bg-background/[0.06] hover:text-background"
             }`}
           >
             {tab.label}

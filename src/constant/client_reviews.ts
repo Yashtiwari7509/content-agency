@@ -123,7 +123,7 @@ export const reviews: ReviewItem[] = [
     review:
       "They’ve been with me since 55K subscribers, turning complex concepts into engaging content with consistent, reliable, on-time delivery.",
     name: "Dr. Nick Norwitz",
-    designation: "YouTube Creator",
+    designation: "Health Researcher and Scientist",
     avatar: N_dp,
   },
   {
@@ -132,7 +132,7 @@ export const reviews: ReviewItem[] = [
     review:
       "The animations made complex concepts easy to understand, with creativity and attention to detail that our community consistently praises.",
     name: "Thomas Delauer",
-    designation: "YouTube Creator",
+    designation: "Fitness and Nutrition Expert",
     avatar: T_dp,
   },
 ];
