@@ -95,10 +95,10 @@ const Hero = () => {
     <section ref={heroRef} id="hero-section" className="w-screen h-[clamp(700px,100vh,800px)] relative top-0 overflow-hidden">
       <div className="h-full w-full bg-background absolute top-0 z-0 hero-bg-mask"></div>
       <div className="absolute clouds top-5 left-1/3 z-0">
-        <img src={cloud} width={300} height={200} alt="" />
+        <img src={cloud} width={300} height={200} alt="" loading="lazy" />
       </div>
       <div className="absolute clouds top-32 left-2/4 z-20">
-        <img src={cloud} width={300} height={200} alt="" />
+        <img src={cloud} width={300} height={200} alt="" loading="lazy" />
       </div>
       <Balloons />
 
@@ -107,17 +107,19 @@ const Hero = () => {
         {/* Glassmorphism badge */}
         <div className="hero-anime flex items-center gap-1.5 whitespace-nowrap sm:gap-2 border border-background rounded-full  bg-white/80 uppercase px-3 sm:px-2 py-1 sm:py-1.5 backdrop-blur-sm">
           <span className="h-6 w-6">
-            <img src={aboutLogo} alt="" />
+            <img src={aboutLogo} alt="" loading="lazy" />
           </span>
-          <p className="text-sm text-foreground text-bold text-center leading-snug ">The Content Agency for Health Experts</p>
+          <p className="text-sm text-foreground text-bold w-78 leading-snug ">
+            The Content Agency for <TypeClip />
+          </p>
         </div>
         <h1 className="hero-anime text-3xl sm:text-4xl md:text-4xl lg:text-7xl hero-main-text text-center leading-tighter text-foreground">
           We Turn Science <br /> Into <p className="inline text-primary">Influence.</p>
         </h1>
 
         {/* CTA Buttons */}
-        <div className="hero-anime flex items-center justify-center gap-3 sm:gap-4 mt-2">
-          <AuroraFlair className="relative cursor-pointer overflow-hidden rounded-[15px] border border-primary/80  bg-primary/80 text-white px-6 py-2.5 text-base font-light shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.97]">
+        <div className="hero-anime flex items-center justify-center gap-3 sm:gap-4 mt-6">
+          <AuroraFlair className="relative cursor-pointer overflow-hidden rounded-full border border-primary/80  bg-primary/80 text-white px-6 py-2.5 text-base font-light shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.97]">
             <p className="relative z-10 flex items-center rounded-full">View Work</p>
           </AuroraFlair>
           <AuroraFlair className="relative cursor-pointer tracking-tight overflow-hidden rounded-full border border-white/80 bg-white/80 px-6 py-2.5 text-base font-light shadow-sm transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.97]">
@@ -152,7 +154,7 @@ const Hero = () => {
                     }}
                     className="flex bg-background items-center justify-center size-14 border-2 border-white rounded-lg backdrop-blur-sm"
                   >
-                    <img src={icon1.src} className="w-6 h-6" alt="" />
+                    <img src={icon1.src} className="w-6 h-6" alt="" loading="lazy" />
                   </div>
                 </div>
 
@@ -165,7 +167,7 @@ const Hero = () => {
                     }}
                     className="flex bg-background items-center justify-center size-14 border-2 border-white rounded-lg backdrop-blur-sm"
                   >
-                    <img src={icon2.src} className="w-6 h-6" alt="" />
+                    <img src={icon2.src} className="w-6 h-6" alt="" loading="lazy" />
                   </div>
                 </div>
               </div>
@@ -183,3 +185,58 @@ const Hero = () => {
 };
 
 export default Hero;
+
+const WORDS = ["Health Experts", "Researchers", "Doctors", "Scientists", "Physician"];
+
+function TypeClip() {
+  const wrapRef = useRef<any>(null);
+  const textRef = useRef<any>(null);
+  const caretRef = useRef<any>(null);
+
+  useGSAP(
+    () => {
+      const wrap = wrapRef.current!;
+      const text = textRef.current!;
+
+      gsap.set(wrap, { "--p": 0 });
+
+      // caret blink
+      gsap.to(caretRef.current, {
+        opacity: 0,
+        duration: 0.5,
+        repeat: -1,
+        yoyo: true,
+        ease: "steps(1)",
+      });
+
+      const tl = gsap.timeline({ repeat: -1, delay: 3 });
+
+      WORDS.forEach((word) => {
+        tl.call(() => {
+          text.textContent = word; // swapped while width is 0%, so nothing is visible
+        })
+          // slow "typing" reveal
+          .to(wrap, {
+            "--p": 1,
+            duration: word.length * 0.09,
+            ease: "none", // use `steps(${word.length})` for a char-by-char feel
+          })
+          // hold
+          .to(wrap, { "--p": 1, duration: 1.4 })
+          // fast delete
+          .to(wrap, { "--p": 0, duration: 0.35, ease: "power3.in" })
+          .to(wrap, { duration: 0.15 });
+      });
+    },
+    { scope: wrapRef },
+  );
+
+  return (
+    <p ref={wrapRef} className="relative inline-block align-bottom">
+      <p ref={textRef} className="inline-block" style={{ clipPath: "inset(0 calc((1 - var(--p)) * 100%) 0 0)" }}>
+        {WORDS[0]}
+      </p>
+      <p ref={caretRef} className="absolute top-[10%] bottom-[10%] w-[2px] bg-foreground" style={{ left: "calc(var(--p) * 100%)" }} />
+    </p>
+  );
+}

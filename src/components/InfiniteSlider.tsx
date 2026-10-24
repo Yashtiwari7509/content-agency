@@ -196,7 +196,7 @@ const InfiniteSlider = ({
                       className="cursor-pointer h-full inside-card overflow-hidden rounded-xl bg-white border p-4"
                     >
                       <div className="flex flex-row items-center gap-2">
-                        <img className="rounded-full" width="32" height="32" alt={review.name} src={review.img} />
+                        <img className="rounded-full" width="32" height="32" alt={review.name} src={review.img} loading="lazy" />
                         <div className="flex flex-col">
                           <figcaption className="text-sm font-medium dark:text-white">{review.name}</figcaption>
                           <p className="text-xs font-light dark:text-white/40">{review.username}</p>

@@ -22,6 +22,7 @@ const ReviewSlider = () => {
             key={item.id}
             src={item.image}
             alt=""
+            loading="lazy"
             className={cn(
               "absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out",
               i === 1 && "object-top!",
@@ -37,7 +38,7 @@ const ReviewSlider = () => {
             className="absolute inset-0 flex items-center gap-3 transition-opacity duration-100 ease-out"
             style={{ opacity: i === current ? 1 : 0 }}
           >
-            <img src={item.avatar} alt={item.name} className="size-10 rounded-full object-cover border-2 border-white shadow-sm" />
+            <img src={item.avatar} alt={item.name} loading="lazy" className="size-10 rounded-full object-cover border-2 border-white shadow-sm" />
             <div>
               <p className="text-sm font-semibold text-gray-900 leading-tight">{item.name}</p>
               <p className="text-xs text-gray-500">{item.designation}</p>

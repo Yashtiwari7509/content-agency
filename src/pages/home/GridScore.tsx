@@ -170,7 +170,7 @@ const GridScore = () => {
       <div ref={gridRef} className="container max-w-5xl min-h-screen lg:h-240  mx-auto">
         <div data-reveal="card" className="top-left relative overflow-hidden">
           <div className="relative z-10 inner-grid w-full h-full flex flex-col justify-center items-center">
-            <img src={starSvg} className="size-30 absolute brightness-110 top-0 right-0 lg:top-10  lg:right-12 rotate-0" alt="" />
+            <img src={starSvg} className="size-30 absolute brightness-110 top-0 right-0 lg:top-10  lg:right-12 rotate-0" alt="" loading="lazy" />
             <h1
               id="grid-num"
               style={{ filter: "drop-shadow(1px -1px 10px skyblue)" }}
@@ -184,7 +184,7 @@ const GridScore = () => {
             </p>
           </div>
           <div className="absolute z-0 bottom-0 left-0 size-full">
-            <img src={rays} className="size-full" alt="" />
+            <img src={rays} className="size-full" alt="" loading="lazy" />
           </div>
         </div>
 
@@ -195,6 +195,7 @@ const GridScore = () => {
               style={{ filter: "drop-shadow(0px -1px 20px black)" }}
               className="size-full absolute top-6 -right-42  object-contain rotate-0"
               alt=""
+              loading="lazy"
             />
             <div className="pt-5">
               <h2 style={{ WebkitTextStroke: "1px black" }} className="text-8xl ml-16 font-bold text-transparent">
@@ -227,6 +228,7 @@ const GridScore = () => {
                       <img
                         key={index}
                         src={link}
+                        loading="lazy"
                         className="absolute h-18 w-18 icon_png object-cover"
                         style={{
                           top: "50%",

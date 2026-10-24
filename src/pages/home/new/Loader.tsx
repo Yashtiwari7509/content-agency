@@ -14,6 +14,7 @@ const TeamLineup = () => {
                 key={index}
                 src={member.src}
                 alt={member.alt}
+                loading="lazy"
                 className={cn(`absolute object-contain w-auto object-center img-side`, member.className)}
               />
             ))}

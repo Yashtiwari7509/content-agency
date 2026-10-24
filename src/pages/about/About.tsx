@@ -61,10 +61,10 @@ const About = () => {
       <div className="w-full bg-background absolute top-0 z-0 hero-bg-mask h-[clamp(700px,100vh,800px)]"></div>
       <section className="absolute w-full top-0 z-0 h-[70vh]">
         <div className="absolute clouds top-50 left-1/3 z-0">
-          <img src={cloud} width={300} height={200} alt="" />
+          <img src={cloud} width={300} height={200} alt="" loading="lazy" />
         </div>
         <div className="absolute clouds top-30 left-2/4 z-0">
-          <img src={cloud} width={300} height={200} alt="" />
+          <img src={cloud} width={300} height={200} alt="" loading="lazy" />
         </div>
       </section>
 
@@ -77,7 +77,7 @@ const About = () => {
               </div>
               <div className="content">
                 <p className="px-2 py-1.5 rounded-full text-xs font-light tracking-wider bg-white/80 backdrop border border-background mb-4 uppercase w-fit mx-auto flex justify-center items-center gap-2">
-                  <img className="h-6 w-6" src={aboutLogo} alt="" />
+                  <img className="h-6 w-6" src={aboutLogo} alt="" loading="lazy" />
                   Healthcare Content Agency
                 </p>
 

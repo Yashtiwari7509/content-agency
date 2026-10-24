@@ -73,6 +73,7 @@ export default function FoundersSection() {
               <img
                 src={founder.src}
                 alt={founder.name}
+                loading="lazy"
                 className={[
                   "absolute bottom-0 left-1/2 pt-3 -translate-x-1/2 w-full max-w-[270px] sm:max-w-none sm:w-auto sm:h-full object-contain object-bottom",
                   "transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]",

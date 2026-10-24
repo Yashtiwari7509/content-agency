@@ -27,6 +27,7 @@ const HeroCard = ({ card, id }: { card: CardStatsItem; id: string }) => {
           <div key={i} className="size-15 shrink-0 rounded-xl overflow-hidden p-2 bg-gray-50/40">
             <img
               src={img}
+              loading="lazy"
               // style={{ scale: i === 1 ? 1.3 : 1 }}
               className="object-cover overflow-hidden rounded-lg w-full h-full"
               alt=""

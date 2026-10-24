@@ -40,7 +40,7 @@ const PhotoSlider = ({ photos, altPrefix, intervalMs = 3500 }: PhotoSliderProps)
       >
         {photos.map((src, i) => (
           <div key={src + i} className="relative h-full w-full shrink-0">
-            <img src={src} alt={`${altPrefix} ${i + 1}`} className="h-full w-full object-cover" draggable={false} />
+            <img src={src} alt={`${altPrefix} ${i + 1}`} loading="lazy" className="h-full w-full object-cover" draggable={false} />
           </div>
         ))}
       </div>

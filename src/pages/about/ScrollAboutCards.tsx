@@ -125,7 +125,7 @@ export default function WorkCards() {
 
               {/* Reveal image — gsap-img ← queried by useGSAP, no ref needed */}
               <div className="gsap-img z-0 pointer-events-none absolute right-0 top-1/2 h-40 hidden md:w-72 -translate-y-1/2 overflow-hidden rounded-xl md:block">
-                <img src={p.image} alt="" className="h-full w-full object-cover" draggable={false} />
+                <img src={p.image} alt="" className="h-full w-full object-cover" draggable={false} loading="lazy" />
               </div>
 
               {/* Bottom rule */}

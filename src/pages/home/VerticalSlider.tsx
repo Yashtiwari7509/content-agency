@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState, type FC } from "react";
 import { Camera, TrendingUp, Calendar, ThumbsUp, Video, BarChart2, Star, type LucideIcon } from "lucide-react";
 import SectionHeader from "@/components/SectionHeader";
+import LazyVideo from "@/components/LazyVideo";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -15,7 +16,7 @@ interface Notification {
 interface Slide {
   label: string;
   bg: string;
-  content: React.ReactNode;
+  videoSrc: string;
 }
 
 // ─── Data ────────────────────────────────────────────────────────────────────
@@ -128,58 +129,22 @@ const SLIDES: Slide[] = [
   {
     label: "Views & growth",
     bg: "#EEEDFE",
-    content: (
-      <video
-        src="https://res.cloudinary.com/decqmmcxq/video/upload/v1792169759/views_fqoyc6.mp4"
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="w-full h-full object-cover rounded-lg aspect-video!"
-      />
-    ),
+    videoSrc: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792169759/views_fqoyc6.mp4",
   },
   {
     label: "Social media",
     bg: "#FAECE7",
-    content: (
-      <video
-        src="https://res.cloudinary.com/decqmmcxq/video/upload/v1792169747/social-media_smmbpy.mp4"
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="w-full h-full object-cover rounded-lg aspect-video!"
-      />
-    ),
+    videoSrc: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792169747/social-media_smmbpy.mp4",
   },
   {
     label: "Short-form content",
     bg: "#E1F5EE",
-    content: (
-      <video
-        src="https://res.cloudinary.com/decqmmcxq/video/upload/v1792169768/short-form_conzil.mp4"
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="w-full h-full object-cover rounded-lg aspect-video!"
-      />
-    ),
+    videoSrc: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792169768/short-form_conzil.mp4",
   },
   {
     label: "Long-form editing",
     bg: "#F1EFE8",
-    content: (
-      <video
-        src="https://res.cloudinary.com/decqmmcxq/video/upload/v1792169769/long-form_exvxb3.mp4"
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="w-full h-full object-cover rounded-lg aspect-video!"
-      />
-    ),
+    videoSrc: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792169769/long-form_exvxb3.mp4",
   },
 ];
 
@@ -198,7 +163,15 @@ const ImageCarousel: FC = () => {
       <div className="relative rounded-xl overflow-hidden border aspect-video border-gray-200 bg-gray-50">
         {SLIDES.map((slide, i) => (
           <div key={i} className="absolute inset-0 transition-opacity duration-700 aspect-video" style={{ opacity: i === current ? 1 : 0 }}>
-            {slide.content}
+            <LazyVideo
+              src={slide.videoSrc}
+              autoPlay={i === current}
+              isActive={i === current}
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover rounded-lg aspect-video!"
+            />
             <span className="absolute bottom-4 left-4 bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs font-medium text-gray-500">
               {slide.label}
             </span>

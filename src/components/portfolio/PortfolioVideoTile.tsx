@@ -13,6 +13,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import type { PortfolioVideo } from "./types";
+import LazyVideo from "@/components/LazyVideo";
 
 interface PortfolioVideoTileProps {
   video: PortfolioVideo;
@@ -60,10 +61,11 @@ const PortfolioVideoTile = ({ video, playbackId, label, wasDragged }: PortfolioV
               src={thumbnail}
               alt=""
               draggable={false}
+              loading="lazy"
               className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
             />
           ) : (
-            <video
+            <LazyVideo
               src={video.src}
               muted
               playsInline

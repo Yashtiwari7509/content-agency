@@ -60,6 +60,7 @@ function CardContent({ card }: { card: CardDef }) {
     <img
       src={(card as { type: "image"; src: string; alt?: string }).src}
       alt={(card as { type: "image"; src: string; alt?: string }).alt ?? "Slide"}
+      loading="lazy"
       className="w-full h-full object-cover rounded-2xl"
       draggable={false}
     />

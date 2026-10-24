@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Images, Sparkles } from "lucide-react";
 import PhotoSlider from "./PhotoSlider";
+import LazyVideo from "@/components/LazyVideo";
 // import { isPlayableVideoSrc } from "@/components/video/videoSource";
 
 interface PortfolioMediaCardProps {
@@ -20,7 +21,7 @@ const PortfolioMediaCard = ({ gifUrl, photos, clientName }: PortfolioMediaCardPr
         {showGallery ? (
           <PhotoSlider photos={photos} altPrefix={clientName} />
         ) : (
-          <video src={gifUrl} autoPlay muted loop playsInline preload="none" className="w-full object-cover aspect-video! rounded-2xl" />
+          <LazyVideo src={gifUrl} autoPlay muted loop playsInline preload="none" className="w-full object-cover aspect-video! rounded-2xl" />
         )}
 
         <button

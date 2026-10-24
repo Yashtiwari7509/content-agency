@@ -144,6 +144,7 @@ export default function TeamSection() {
             <img
               src={member.src}
               alt={member.alt}
+              loading="lazy"
               className={cn("w-full h-full object-contain object-center pointer-events-none select-none", member.imgClassName)}
             />
           </div>

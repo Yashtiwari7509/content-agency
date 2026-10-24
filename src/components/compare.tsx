@@ -2,6 +2,7 @@ import React, { useRef, useCallback, useEffect } from "react";
 import gsap from "gsap";
 import { cn } from "@/lib/utils";
 import { Scan } from "lucide-react";
+import LazyVideo from "@/components/LazyVideo";
 
 interface CompareProps {
   // Provide either the *Image or the *Video prop for each side — if both
@@ -253,7 +254,7 @@ export const Compare = ({
     >
       {/* Base layer: second image/video, always full size underneath */}
       {secondVideo ? (
-        <video
+        <LazyVideo
           ref={secondVideoRef}
           className={cn("absolute inset-0 z-[19] w-full h-full object-cover select-none", secondImageClassname)}
           src={secondVideo}
@@ -269,6 +270,7 @@ export const Compare = ({
           className={cn("absolute inset-0 z-[19] w-full h-full object-cover select-none", secondImageClassname)}
           alt="second image"
           src={secondImage}
+          loading="lazy"
           draggable={false}
         />
       ) : null}
@@ -281,7 +283,7 @@ export const Compare = ({
       {firstVideo || firstImage ? (
         <div ref={clipRef} className="absolute inset-0 z-20 overflow-hidden pointer-events-none bg-white" style={clipStyle}>
           {firstVideo ? (
-            <video
+            <LazyVideo
               ref={firstVideoRef}
               className={cn("absolute inset-0 w-full h-full object-cover select-none", firstImageClassName)}
               src={firstVideo}
@@ -296,6 +298,7 @@ export const Compare = ({
             <img
               alt="first image"
               src={firstImage}
+              loading="lazy"
               className={cn("absolute inset-0 w-full h-full object-cover select-none", firstImageClassName)}
               draggable={false}
             />
