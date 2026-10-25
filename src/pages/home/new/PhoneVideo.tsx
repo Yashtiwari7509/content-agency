@@ -1,5 +1,6 @@
-import { Model, type ModelNavHandle } from "@/components/model/I17";
+import { IphoneS, type ModelNavHandle } from "@/components/model/Iphone";
 import { Canvas } from "@react-three/fiber";
+import { ArrowDown, ArrowUp } from "lucide-react";
 import { useRef, useState, useCallback, useEffect } from "react";
 
 const PhoneVideo = () => {
@@ -42,57 +43,44 @@ const PhoneVideo = () => {
   const isLast = total > 0 && currentIndex === total - 1;
 
   return (
-    <div className="w-screen h-screen absolute top-0 canvas-wrapper">
-      <Canvas
-        id="canvas"
-        className="w-full absolute top-0 h-full pointer-events-auto! bg-transparent z-10"
-        dpr={[1, 1.2]}
-        camera={{ position: [0, 0, 10], fov: 10 }}
-        shadows={false}
-        frameloop="demand"
-      >
-        <Model ref={modelRef} />
-        <pointLight />
-        <pointLight intensity={50} position={[-1, 2, 3]} />
-      </Canvas>
+    <>
+      <div className="w-screen h-screen absolute top-0 canvas-wrapper">
+        <Canvas
+          id="canvas"
+          className="w-full absolute top-0 h-full pointer-events-auto! bg-transparent z-10"
+          dpr={[1, 1.2]}
+          camera={{ position: [0, 0, 10], fov: 10 }}
+          shadows={false}
+          frameloop="demand"
+        >
+          {/* <Model ref={modelRef} /> */}
+          <IphoneS ref={modelRef} />
+          <pointLight />
+          <pointLight intensity={50} position={[-1, 2, 3]} />
+        </Canvas>
+      </div>
 
-      {/* ── Reel Navigation Overlay ── */}
-      <div className="reel-nav-overlay">
+      {/* ── Reel Navigation Overlay — outside canvas stacking context ── */}
+      <div className="fixed bottom-10 left-1/2 -translate-x-1/2 w-20 h-10 flex justify-between z-[999] pointer-events-auto">
         <button
-          className={`reel-nav-btn reel-nav-up ${isFirst ? "reel-nav-disabled" : ""}`}
+          className={`p-1 border rounded-full size-8 flex justify-center items-center pointer-events-auto ${isFirst ? "pointer-events-none opacity-10" : "cursor-pointer"}`}
           onClick={handlePrev}
           disabled={isFirst}
           aria-label="Previous video"
         >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path
-              d="M10 4L3 12h14L10 4z"
-              fill="currentColor"
-            />
-          </svg>
+          <ArrowUp />
         </button>
 
-        <div className="reel-nav-indicator">
-          <span className="reel-nav-current">{currentIndex + 1}</span>
-          <span className="reel-nav-separator">/</span>
-          <span className="reel-nav-total">{total}</span>
-        </div>
-
         <button
-          className={`reel-nav-btn reel-nav-down ${isLast ? "reel-nav-disabled" : ""}`}
+          className={`p-1 rounded-full border size-8 flex justify-center items-center pointer-events-auto ${isLast ? "pointer-events-none opacity-10" : "cursor-pointer"}`}
           onClick={handleNext}
           disabled={isLast}
           aria-label="Next video"
         >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path
-              d="M10 16L3 8h14L10 16z"
-              fill="currentColor"
-            />
-          </svg>
+          <ArrowDown />
         </button>
       </div>
-    </div>
+    </>
   );
 };
 
