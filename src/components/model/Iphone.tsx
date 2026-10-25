@@ -494,17 +494,53 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
                 onUpdate: () => {
                   invalidate();
                 },
+                onEnter: () => {
+                  gsap.to("#phone-nav-btns", {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.4,
+                    ease: "power2.out",
+                    pointerEvents: "auto",
+                  });
+                },
+                onLeave: () => {
+                  gsap.to("#phone-nav-btns", {
+                    opacity: 0,
+                    y: 10,
+                    duration: 0.3,
+                    ease: "power2.in",
+                    pointerEvents: "none",
+                  });
+                },
+                onLeaveBack: () => {
+                  gsap.to("#phone-nav-btns", {
+                    opacity: 0,
+                    y: 10,
+                    duration: 0.3,
+                    ease: "power2.in",
+                    pointerEvents: "none",
+                  });
+                },
+                onEnterBack: () => {
+                  gsap.to("#phone-nav-btns", {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.4,
+                    ease: "power2.out",
+                    pointerEvents: "auto",
+                  });
+                },
               },
             })
             .to(model.position, {
-              x: isMobileGSAP ? 0 : 0.7,
+              x: isMobileGSAP ? 0 : 0.75,
               y: -0.1,
               duration: 1,
             })
             .from(model.rotation, { y: "+=" + 2 * Math.PI, duration: 1, ease: "none" }, 0)
             .from("ho", { duration: 0.35 })
             .to(model.position, {
-              x: isMobileGSAP ? 0 : -0.7,
+              x: isMobileGSAP ? 0 : -0.75,
               y: -0.1,
               duration: 2,
             })

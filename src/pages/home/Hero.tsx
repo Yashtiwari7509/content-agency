@@ -105,11 +105,11 @@ const Hero = () => {
       <div className="absolute text-container flex flex-col items-center gap-3 sm:gap-4 md:gap-5 z-40 w-full max-w-[90vw] sm:max-w-xl md:max-w-3xl lg:max-w-4xl px-2 sm:px-6 md:px-0">
         {/* Hero heading */}
         {/* Glassmorphism badge */}
-        <div className="hero-anime flex items-center gap-1.5 whitespace-nowrap sm:gap-2 border border-background rounded-full  bg-white/80 uppercase px-3 sm:px-2 py-1 sm:py-1.5 backdrop-blur-sm">
+        <div className="hero-anime flex items-center gap-1.5 whitespace-nowrap sm:gap-2 border border-background rounded-full  bg-white/80 uppercase px-1 sm:px-2 py-1 sm:py-1.5 backdrop-blur-sm">
           <span className="h-6 w-6">
             <img src={aboutLogo} alt="" loading="lazy" />
           </span>
-          <p className="text-sm text-foreground text-bold w-78 leading-snug ">
+          <p className="text-sm text-foreground font-light w-78 leading-snug ">
             The Content Agency for <TypeClip />
           </p>
         </div>
@@ -118,12 +118,12 @@ const Hero = () => {
         </h1>
 
         {/* CTA Buttons */}
-        <div className="hero-anime flex items-center justify-center gap-3 sm:gap-4 mt-6">
-          <AuroraFlair className="relative cursor-pointer overflow-hidden rounded-full border border-primary/80  bg-primary/80 text-white px-6 py-2.5 text-base font-light shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.97]">
+        <div className="hero-anime flex items-center justify-center gap-2 sm:gap-4 mt-2 sm:mt-3">
+          <AuroraFlair className="relative cursor-pointer overflow-hidden rounded-full border border-primary/80 bg-primary/80 text-white px-4 py-2 sm:px-6 sm:py-2.5 text-sm sm:text-base font-light shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.97]">
             <p className="relative z-10 flex items-center rounded-full">View Work</p>
           </AuroraFlair>
-          <AuroraFlair className="relative cursor-pointer tracking-tight overflow-hidden rounded-full border border-white/80 bg-white/80 px-6 py-2.5 text-base font-light shadow-sm transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.97]">
-            <p className="relative z-10 flex items-center ">Contact Us → </p>
+          <AuroraFlair className="relative cursor-pointer tracking-tight overflow-hidden rounded-full border border-white/80 bg-white/80 px-4 py-2 sm:px-6 sm:py-2.5 text-sm sm:text-base font-light shadow-sm transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.97]">
+            <p className="relative z-10 flex items-center">Contact Us →</p>
           </AuroraFlair>
         </div>
       </div>

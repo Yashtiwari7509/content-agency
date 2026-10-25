@@ -19,6 +19,50 @@ function PageFloatingStats() {
   const statsRef = useRef<HTMLDivElement>(null);
   useCardReveal(statsRef);
 
+  // ── Count-up animations ──────────────────────────────────────────────────
+  useGSAP(() => {
+    const trigger = { trigger: statsRef.current, start: "top 85%", once: true };
+
+    // 210k — views
+    const views = { val: 0 };
+    gsap.to(views, {
+      val: 210,
+      duration: 2,
+      ease: "power2.out",
+      scrollTrigger: trigger,
+      onUpdate() {
+        const el = document.getElementById("stat-views");
+        if (el) el.textContent = Math.round(views.val) + "k";
+      },
+    });
+
+    // 67% — retention
+    const retentionProxy = { val: 0 };
+    gsap.to(retentionProxy, {
+      val: 67,
+      duration: 2,
+      ease: "power2.out",
+      scrollTrigger: trigger,
+      onUpdate() {
+        const el = document.getElementById("stat-retention");
+        if (el) el.textContent = Math.round(retentionProxy.val) + "%";
+      },
+    });
+
+    // 47 — watch time
+    const watchProxy = { val: 0 };
+    gsap.to(watchProxy, {
+      val: 47,
+      duration: 2,
+      ease: "power2.out",
+      scrollTrigger: trigger,
+      onUpdate() {
+        const el = document.getElementById("stat-watch");
+        if (el) el.textContent = Math.round(watchProxy.val).toString();
+      },
+    });
+  });
+
   return (
     <div className="w-full max-w-2xl">
       {/* Bento Grid */}
@@ -31,7 +75,7 @@ function PageFloatingStats() {
             <div>
               <div className="text-[11px] font-medium uppercase tracking-[0.16em] text-gray-400">Avg views per short</div>
               <div className="mt-3 items-end gap-3 flex">
-                <p className="text-[48px] leading-[0.85] tracking-[-0.06em] text-gray-950 md:text-[64px]">210k</p>
+                <p id="stat-views" className="text-[48px] leading-[0.85] tracking-[-0.06em] text-gray-950 md:text-[64px]">0k</p>
                 <p className="mb-1 text-[11px] uppercase tracking-wider text-background">Views</p>
               </div>
             </div>
@@ -55,7 +99,7 @@ function PageFloatingStats() {
           <div className="relative z-10 flex h-full flex-col justify-between">
             <h3 className="text-[15px] font-semibold tracking-tight text-gray-900">Avg retention</h3>
 
-            <p className="text-[48px] leading-none tracking-[-0.05em] text-gray-950 md:text-[58px]">67%</p>
+            <p id="stat-retention" className="text-[48px] leading-none tracking-[-0.05em] text-gray-950 md:text-[58px]">0%</p>
 
             <div className="mt-3 flex items-center gap-2">
               <div className="rounded-full bg-background/10 px-2 py-1 text-[9px] uppercase tracking-wider text-background">+39%</div>
@@ -72,7 +116,7 @@ function PageFloatingStats() {
             <h3 className="text-[15px] font-semibold tracking-tight text-gray-900">Average watch time</h3>
 
             <div className="flex items-baseline gap-2">
-              <p className="text-[52px] leading-none tracking-[-0.05em] text-gray-950 md:text-[62px]">47</p>
+              <p id="stat-watch" className="text-[52px] leading-none tracking-[-0.05em] text-gray-950 md:text-[62px]">0</p>
               <sup className="text-[13px] font-semibold text-gray-400">sec</sup>
             </div>
 
@@ -415,7 +459,7 @@ const PhoneStats = () => {
   });
 
   return (
-    <section ref={sectionRef} className="PhoneStats relative w-screen h-[210vh] pointer-events-none">
+    <section ref={sectionRef} className="PhoneStats relative w-screen h-[190vh] lg:h-[210vh] pointer-events-none">
       <DesktopOnly>
         <PhoneVideo />
       </DesktopOnly>

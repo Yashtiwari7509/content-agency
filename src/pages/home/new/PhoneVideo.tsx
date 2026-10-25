@@ -1,24 +1,14 @@
 import { IphoneS, type ModelNavHandle } from "@/components/model/Iphone";
 import { Canvas } from "@react-three/fiber";
 import { ArrowDown, ArrowUp } from "lucide-react";
-import { useRef, useState, useCallback, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 
 const PhoneVideo = () => {
   const modelRef = useRef<ModelNavHandle>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [total, setTotal] = useState(0);
 
-  // Sync index from the model after each nav
-  const syncIndex = useCallback(() => {
-    if (!modelRef.current) return;
-    // Small delay so the transition completes before we read
-    requestAnimationFrame(() => {
-      setCurrentIndex(modelRef.current?.getIndex() ?? 0);
-    });
-  }, []);
-
   useEffect(() => {
-    // Once the model mounts, grab the total
     const timer = setTimeout(() => {
       if (modelRef.current) {
         setTotal(modelRef.current.getTotal());
@@ -28,9 +18,14 @@ const PhoneVideo = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  const syncIndex = () => {
+    requestAnimationFrame(() => {
+      setCurrentIndex(modelRef.current?.getIndex() ?? 0);
+    });
+  };
+
   const handlePrev = () => {
     modelRef.current?.goPrev();
-    // Wait for transition animation to finish before syncing
     setTimeout(syncIndex, 700);
   };
 
@@ -53,31 +48,38 @@ const PhoneVideo = () => {
           shadows={false}
           frameloop="demand"
         >
-          {/* <Model ref={modelRef} /> */}
           <IphoneS ref={modelRef} />
           <pointLight />
           <pointLight intensity={50} position={[-1, 2, 3]} />
         </Canvas>
       </div>
 
-      {/* ── Reel Navigation Overlay — outside canvas stacking context ── */}
-      <div className="fixed bottom-10 left-1/2 -translate-x-1/2 w-20 h-10 flex justify-between z-[999] pointer-events-auto">
+
+      <div
+        id="phone-nav-btns"
+        style={{ opacity: 0, pointerEvents: "none" }}
+        className="fixed bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 flex justify-between gap-2 sm:gap-3 z-[9999] bg-white/10 backdrop p-1.5 sm:p-2 px-2.5 sm:px-3 rounded-full border"
+      >
         <button
-          className={`p-1 border rounded-full size-8 flex justify-center items-center pointer-events-auto ${isFirst ? "pointer-events-none opacity-10" : "cursor-pointer"}`}
+          className={`p-0.5 sm:p-1 border rounded-full size-7 sm:size-8 flex justify-center items-center bg-white pointer-events-auto ${
+            isFirst ? "pointer-events-none opacity-10" : "cursor-pointer"
+          }`}
           onClick={handlePrev}
           disabled={isFirst}
           aria-label="Previous video"
         >
-          <ArrowUp />
+          <ArrowUp className="size-3.5 sm:size-4" />
         </button>
 
         <button
-          className={`p-1 rounded-full border size-8 flex justify-center items-center pointer-events-auto ${isLast ? "pointer-events-none opacity-10" : "cursor-pointer"}`}
+          className={`p-0.5 sm:p-1 rounded-full border size-7 sm:size-8 flex justify-center items-center bg-white pointer-events-auto ${
+            isLast ? "pointer-events-none opacity-10" : "cursor-pointer"
+          }`}
           onClick={handleNext}
           disabled={isLast}
           aria-label="Next video"
         >
-          <ArrowDown />
+          <ArrowDown className="size-3.5 sm:size-4" />
         </button>
       </div>
     </>
