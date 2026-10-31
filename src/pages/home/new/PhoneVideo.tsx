@@ -52,35 +52,56 @@ const PhoneVideo = () => {
           <pointLight />
           <pointLight intensity={50} position={[-1, 2, 3]} />
         </Canvas>
-      </div>
-
-
-      <div
-        id="phone-nav-btns"
-        style={{ opacity: 0, pointerEvents: "none" }}
-        className="fixed bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 flex justify-between gap-2 sm:gap-3 z-[9999] bg-white/10 backdrop p-1.5 sm:p-2 px-2.5 sm:px-3 rounded-full border"
-      >
-        <button
-          className={`p-0.5 sm:p-1 border rounded-full size-7 sm:size-8 flex justify-center items-center bg-white pointer-events-auto ${
-            isFirst ? "pointer-events-none opacity-10" : "cursor-pointer"
-          }`}
-          onClick={handlePrev}
-          disabled={isFirst}
-          aria-label="Previous video"
+        <div
+          id="phone-nav-btns-1"
+          style={{ opacity: 0, transform: 'translateX(80px)' }}
+          className="absolute right-38 top-1/3 w-fit h-20 flex flex-col justify-between gap-2 z-[9999] bg-white/10 backdrop p-1.5 px-2.5 rounded-full border"
         >
-          <ArrowUp className="size-3.5 sm:size-4" />
-        </button>
+          <button
+            className={`p-0.5 border rounded-full size-7 flex justify-center items-center bg-white pointer-events-auto ${isFirst ? "pointer-events-none opacity-10" : "cursor-pointer"
+              }`}
+            onClick={handlePrev}
+            disabled={isFirst}
+            aria-label="Previous video"
+          >
+            <ArrowUp className="size-3.5" />
+          </button>
 
-        <button
-          className={`p-0.5 sm:p-1 rounded-full border size-7 sm:size-8 flex justify-center items-center bg-white pointer-events-auto ${
-            isLast ? "pointer-events-none opacity-10" : "cursor-pointer"
-          }`}
-          onClick={handleNext}
-          disabled={isLast}
-          aria-label="Next video"
+          <button
+            className={`p-0.5 rounded-full border size-7 flex justify-center items-center bg-white pointer-events-auto ${isLast ? "pointer-events-none opacity-10" : "cursor-pointer"
+              }`}
+            onClick={handleNext}
+            disabled={isLast}
+            aria-label="Next video"
+          >
+            <ArrowDown className="size-3.5" />
+          </button>
+        </div>
+        <div
+          id="phone-nav-btns-2"
+          style={{ opacity: 0, transform: 'translateX(-80px)' }}
+          className="absolute left-38 top-1/3 w-fit h-20 flex flex-col justify-between gap-2 z-[9999] bg-white/10 backdrop p-1.5 px-2.5 rounded-full border"
         >
-          <ArrowDown className="size-3.5 sm:size-4" />
-        </button>
+          <button
+            className={`p-0.5 border rounded-full size-7 flex justify-center items-center bg-white pointer-events-auto ${isFirst ? "pointer-events-none opacity-10" : "cursor-pointer"
+              }`}
+            onClick={handlePrev}
+            disabled={isFirst}
+            aria-label="Previous video"
+          >
+            <ArrowUp className="size-3.5" />
+          </button>
+
+          <button
+            className={`p-0.5 rounded-full border size-7 flex justify-center items-center bg-white pointer-events-auto ${isLast ? "pointer-events-none opacity-10" : "cursor-pointer"
+              }`}
+            onClick={handleNext}
+            disabled={isLast}
+            aria-label="Next video"
+          >
+            <ArrowDown className="size-3.5" />
+          </button>
+        </div>
       </div>
     </>
   );

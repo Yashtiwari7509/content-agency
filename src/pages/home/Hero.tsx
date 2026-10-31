@@ -109,8 +109,8 @@ const Hero = () => {
           <span className="h-6 w-6">
             <img src={aboutLogo} alt="" loading="lazy" />
           </span>
-          <p className="text-sm text-foreground font-light w-78 leading-snug ">
-            The Content Agency for <TypeClip />
+          <p className="text-sm text-foreground font-light w-76 leading-snug ">
+            #1 Content Agency for <TypeClip />
           </p>
         </div>
         <h1 className="hero-anime text-3xl sm:text-4xl md:text-4xl lg:text-7xl hero-main-text text-center leading-tighter text-foreground">
@@ -186,7 +186,7 @@ const Hero = () => {
 
 export default Hero;
 
-const WORDS = ["Health Experts", "Researchers", "Doctors", "Scientists", "Physician"];
+const WORDS = ["Health Experts", "Researchers", "Doctors", "Scientists", "Physicians"];
 
 function TypeClip() {
   const wrapRef = useRef<any>(null);
@@ -224,7 +224,7 @@ function TypeClip() {
           // hold
           .to(wrap, { "--p": 1, duration: 1.4 })
           // fast delete
-          .to(wrap, { "--p": 0, duration: 0.35, ease: "power3.in" })
+          .to(wrap, { "--p": 0, duration: 0.55, ease: "power3.in" })
           .to(wrap, { duration: 0.15 });
       });
     },

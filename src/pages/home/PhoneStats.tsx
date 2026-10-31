@@ -188,7 +188,7 @@ function PanelB() {
       <div className="relative z-10 mb-8 flex items-start justify-between">
         <div>
           <div className="text-[11px] font-medium uppercase tracking-[0.16em] text-gray-400">Content Engine</div>
-          <h3 className="mt-2 text-3xl md:text-5xl font-semibold tracking-tight text-gray-900">One → Many</h3>
+          <h3 className="mt-2 text-3xl md:text-5xl font-semibold tracking-tight text-gray-900">Clipping</h3>
         </div>
 
         <div className="flex h-8 w-8 items-center justify-center rounded-full border border-black/10 text-[11px] font-semibold text-gray-400">
@@ -459,7 +459,7 @@ const PhoneStats = () => {
   });
 
   return (
-    <section ref={sectionRef} className="PhoneStats relative w-screen h-[190vh] lg:h-[210vh] pointer-events-none">
+    <section ref={sectionRef} id="phone-section" className="PhoneStats relative w-screen h-[190vh] lg:h-[210vh] pointer-events-none">
       <DesktopOnly>
         <PhoneVideo />
       </DesktopOnly>

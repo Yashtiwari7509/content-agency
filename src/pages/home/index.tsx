@@ -57,14 +57,14 @@ const Home = () => {
       .to(".loader-screen", {
         y: "-120vh",
         duration: 1.2,
-        ease: "expo.inOut",
+        ease: "expo.in",
         filter: "blur(50px)",
         onComplete: () => {
           lenisRef.current?.start();
           gsap.set(".loader-screen", { display: "none" });
         },
       })
-      .from(".clouds", { y: 200, duration: 1.6, ease: "power4.out" }, "-=.6")
+      .from(".clouds", { y: 200, duration: 1.6, ease: "power4.out" }, "-=.1")
       .from(".hero-anime", { y: 50, duration: 1, ease: "power4.out", stagger: 0.05 }, "<")
       .from(".center", { y: 100, opacity: 0, immediateRender: true }, "<");
   });

@@ -481,6 +481,27 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
         (context) => {
           const { isMobileGSAP } = context.conditions as { isMobileGSAP: boolean };
 
+          // ── Nav-button timelines (paused) ──────────────────────────────
+          // btn1 = right-side buttons, btn2 = left-side buttons
+          const btn1 = document.getElementById("phone-nav-btns-1");
+          const btn2 = document.getElementById("phone-nav-btns-2");
+
+          const btn1TL = gsap
+            .timeline({ paused: true })
+            .fromTo(
+              btn1,
+              { opacity: 0, x: 80, pointerEvents: "none" },
+              { opacity: 1, x: 0, pointerEvents: "auto", duration: 0.4, ease: "power3.out" },
+            );
+
+          const btn2TL = gsap
+            .timeline({ paused: true })
+            .fromTo(
+              btn2,
+              { opacity: 0, x: -80, pointerEvents: "none" },
+              { opacity: 1, x: 0, pointerEvents: "auto", duration: 0.4, ease: "power3.out" },
+            );
+
           tl1Ref.current = gsap
             .timeline({
               defaults: {
@@ -495,40 +516,16 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
                   invalidate();
                 },
                 onEnter: () => {
-                  gsap.to("#phone-nav-btns", {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.4,
-                    ease: "power2.out",
-                    pointerEvents: "auto",
-                  });
+                  btn1TL.play();
                 },
                 onLeave: () => {
-                  gsap.to("#phone-nav-btns", {
-                    opacity: 0,
-                    y: 10,
-                    duration: 0.3,
-                    ease: "power2.in",
-                    pointerEvents: "none",
-                  });
-                },
-                onLeaveBack: () => {
-                  gsap.to("#phone-nav-btns", {
-                    opacity: 0,
-                    y: 10,
-                    duration: 0.3,
-                    ease: "power2.in",
-                    pointerEvents: "none",
-                  });
+                  btn1TL.reverse();
                 },
                 onEnterBack: () => {
-                  gsap.to("#phone-nav-btns", {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.4,
-                    ease: "power2.out",
-                    pointerEvents: "auto",
-                  });
+                  btn1TL.play();
+                },
+                onLeaveBack: () => {
+                  btn1TL.reverse();
                 },
               },
             })
@@ -552,11 +549,15 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
           // Leaving back above tabbedPage → switch back to Section A (resets to index 0).
           const tabbedPageST = ScrollTrigger.create({
             trigger: ".tabbedPage",
-            start: "-20% top",
-            end: "-10% top",
+            start: "-60% top",
+            end: "-50% top",
             scrub: false,
             onEnter: () => {
               if (!mountedRef.current) return;
+
+              // Swap nav buttons: btn1 out, btn2 in
+              btn1TL.reverse();
+              btn2TL.play();
 
               // Switch to Section B — always restarts from index 0
               switchToSection(1);
@@ -574,11 +575,16 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
             },
             onLeave: () => {
               if (!mountedRef.current) return;
+              // Leaving below tabbedPage — hide btn2
+              // btn2TL.reverse();
               stopAllVideos();
               setIsPlaying(false);
             },
             onEnterBack: () => {
               if (!mountedRef.current) return;
+
+              // Re-entering tabbedPage from below — btn2 back in
+              btn2TL.play();
 
               // Re-entering tabbedPage from below — restart Section B from index 0
               switchToSection(1);
@@ -596,6 +602,10 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
             },
             onLeaveBack: () => {
               if (!mountedRef.current) return;
+
+              // Swap nav buttons back: btn2 out, btn1 in
+              btn2TL.reverse();
+              btn1TL.play();
 
               // Scrolled back above tabbedPage — restore Section A from index 0
               switchToSection(0);
@@ -615,6 +625,8 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
 
           return () => {
             stopAllVideos();
+            btn1TL.kill();
+            btn2TL.kill();
             tabbedPageST.kill(); // <-- critical
           };
         },

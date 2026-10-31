@@ -7,7 +7,15 @@ import { cn } from "@/lib/utils";
 import { useContact } from "@/components/contact/ContactContext";
 import AuroraFlair from "./AuroraFlair";
 
+// ─── Data ────────────────────────────────────────────────────────────────────
+
 const navItems = [{ name: "About", link: "/about" }];
+
+const servicesItems = [
+  { name: "Short Form Video Editing", link: "#phone-section" },
+  { name: "Long Form Video Editing", link: "#portfolio" },
+  { name: "Social Media Management", link: "#our-impact" },
+];
 
 const homeSections = [
   { name: "Our Score", link: "#score" },
@@ -21,24 +29,83 @@ const aboutSections = [
   { name: "Founders", link: "#founders" },
 ];
 
+// ─── NavDropdown ──────────────────────────────────────────────────────────────
+
+type DropdownItem = { name: string; link: string };
+
+interface NavDropdownProps {
+  /** The label shown in the trigger button */
+  label: string;
+  items: DropdownItem[];
+  /** Called by the parent to register the trigger button ref for underline tracking */
+  buttonRef?: (el: HTMLButtonElement | null) => void;
+  onOpen?: () => void;
+  /** Width class for the panel, e.g. "w-44" */
+  panelWidth?: string;
+  /** Optional click handler per item (overrides default href navigation) */
+  onItemClick?: (item: DropdownItem) => void;
+}
+
+function NavDropdown({ label, items, buttonRef, onOpen, panelWidth = "w-44", onItemClick }: NavDropdownProps) {
+  return (
+    <div className="group relative" onMouseEnter={() => onOpen?.()}>
+      <button
+        ref={buttonRef}
+        className="flex items-center gap-1 px-4 py-2 select-none"
+      >
+        <span>{label}</span>
+        <ChevronDown className="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-180" />
+      </button>
+
+      {/* Invisible bridge so moving to the panel doesn't close the dropdown */}
+      <div className="absolute left-0 top-full h-3 w-full" />
+
+      <div
+        className={cn(
+          "absolute left-0 top-full mt-3 z-50 p-1 rounded-2xl border border-white bg-white",
+          "opacity-0 scale-[0.97] pointer-events-none whitespace-nowrap",
+          "transition-[opacity,transform] duration-150 ease-out",
+          "group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto",
+          panelWidth,
+        )}
+      >
+        {items.map((item) => (
+          <a
+            key={item.name}
+            href={item.link}
+            onClick={(e) => {
+              if (onItemClick) {
+                e.preventDefault();
+                onItemClick(item);
+              }
+            }}
+            className="block cursor-pointer rounded-xl font-light px-3.5 py-2.5 text-[13px] transition-colors hover:bg-black hover:text-white"
+          >
+            {item.name}
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── NavbarTop ────────────────────────────────────────────────────────────────
+
 export function NavbarTop() {
   const [scrolled, setScrolled] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const { openContact } = useContact();
 
-  const linksRowRef = useRef<HTMLDivElement>(null); // the row the underline is measured against
+  const linksRowRef = useRef<HTMLDivElement>(null);
   const underlineRef = useRef<HTMLDivElement>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const linkRefs = useRef<Record<string, HTMLElement | null>>({});
 
   const { contextSafe } = useGSAP();
 
-  // Close both menus on route change
+  // Close mobile menu on route change
   useEffect(() => {
-    setDropdownOpen(false);
     setMobileOpen(false);
   }, [location.pathname]);
 
@@ -49,41 +116,7 @@ export function NavbarTop() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // dropdown: fade/slide the card in, stagger its items
-  useGSAP(() => {
-    if (!dropdownRef.current) return;
-    const items = dropdownRef.current.querySelectorAll("[data-drop-item]");
-
-    // Kill any in-flight tweens first so rapid open/close toggles
-    // (fast mouse movement across the navbar) can't leave the panel
-    // stuck at a leftover mid-animation opacity.
-    gsap.killTweensOf(dropdownRef.current);
-    gsap.killTweensOf(items);
-
-    if (dropdownOpen) {
-      gsap.fromTo(
-        dropdownRef.current,
-        { opacity: 0, y: -8, scale: 0.98 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "power3.out", overwrite: "auto" },
-      );
-      gsap.fromTo(
-        items,
-        { opacity: 0, y: -6 },
-        { opacity: 1, y: 0, duration: 0.3, stagger: 0.04, delay: 0.05, ease: "power2.out", overwrite: "auto" },
-      );
-    } else {
-      gsap.to(dropdownRef.current, {
-        opacity: 0,
-        y: -8,
-        scale: 0.98,
-        duration: 0.2,
-        ease: "power2.in",
-        overwrite: "auto",
-      });
-    }
-  }, [dropdownOpen]);
-
-  // mobile menu
+  // Mobile menu animation
   useGSAP(() => {
     if (!mobileMenuRef.current) return;
     const items = mobileMenuRef.current.querySelectorAll("[data-mobile-item]");
@@ -120,7 +153,7 @@ export function NavbarTop() {
     }
   }, [mobileOpen]);
 
-  // hover underline — measured with getBoundingClientRect so it's independent of any
+  // Hover underline — measured with getBoundingClientRect so it's independent of any
   // nested "relative" wrappers (this was the source of the mispositioning before)
   const moveUnderlineTo = contextSafe((key: string) => {
     const el = linkRefs.current[key];
@@ -146,9 +179,12 @@ export function NavbarTop() {
   const currentSections = location.pathname === "/about" ? aboutSections : homeSections;
 
   const scrollToSection = (link: string) => {
+
     document.querySelector(link)?.scrollIntoView({ behavior: "smooth", block: "start" });
-    setDropdownOpen(false);
+
   };
+
+  const isHome = location.pathname === "/";
 
   return (
     <div className="fixed inset-x-0 top-6 z-50 flex w-screen justify-center px-4">
@@ -176,7 +212,6 @@ export function NavbarTop() {
           onMouseLeave={() => {
             // Mouse truly left the entire nav links area (including dropdown panel)
             hideUnderline();
-            setDropdownOpen(false);
           }}
           className="relative flex items-center gap-1 text-[13px] font-medium tracking-wide"
         >
@@ -185,50 +220,43 @@ export function NavbarTop() {
             className="pointer-events-none absolute bottom-1 top-1/2 -translate-y-1/2 h-10 rounded-full bg-white opacity-0 -z-10"
           />
 
-          {/* Explore dropdown — opens on pointer-enter, closes on pointer-leave */}
-          <div
-            className="relative"
-            onMouseEnter={() => {
-              setDropdownOpen(true);
-              moveUnderlineTo("explore");
-            }}
-            onMouseLeave={() => setDropdownOpen(false)}
-          >
-            <button
-              ref={(el) => {
-                linkRefs.current.explore = el;
-              }}
-              className="flex items-center gap-1 px-4 py-2 select-none"
-            >
-              <span>Explore</span>
-              <ChevronDown className={cn("h-3.5 w-3.5 transition-transform duration-300", dropdownOpen && "rotate-180")} />
-            </button>
+          {/* Services dropdown — home route only */}
+          {isHome && (
+            <NavDropdown
+              label="Services"
+              items={servicesItems}
+              panelWidth="w-60"
+              buttonRef={(el) => { linkRefs.current.services = el; }}
+              onOpen={() => moveUnderlineTo("services")}
+              onItemClick={(item) => scrollToSection(item.link)}
+            />
+          )}
 
-            <div
-              className="absolute left-0 top-full pt-2"
-              style={{ pointerEvents: dropdownOpen ? "all" : "none" }}
-              onMouseEnter={() => setDropdownOpen(true)} // defensive: confirm open if hovered directly
+          {/* Explore dropdown */}
+          <NavDropdown
+            label="Explore"
+            items={currentSections}
+            panelWidth="w-36"
+            buttonRef={(el) => { linkRefs.current.explore = el; }}
+            onOpen={() => moveUnderlineTo("explore")}
+            onItemClick={(item) => scrollToSection(item.link)}
+          />
+          {isHome && (
+            <NavLink
+               ref={(el) => {
+                linkRefs.current["portfolio"] = el;
+              }}
+              onMouseEnter={() => {
+                moveUnderlineTo("portfolio");
+              }}
+              to={"#portfolio"}
+              viewTransition
+              className="px-4 py-2"
             >
-              <div
-                ref={dropdownRef}
-                className="z-50 w-30 p-1 rounded-2xl border border-white shadow-2xl backdrop-blur-xl bg-white opacity-0"
-              >
-                {currentSections.map((s) => (
-                  <span
-                    key={s.link}
-                    data-drop-item
-                    onClick={() => {
-                      scrollToSection(s.link);
-                      setDropdownOpen(false);
-                    }}
-                    className="block cursor-pointer rounded-xl px-3.5 py-2.5 text-[13px] text-neutral-600 transition-colors hover:bg-black hover:text-white"
-                  >
-                    {s.name}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
+              <span>Portfolio</span>
+            </NavLink>
+          )}
+
 
           {navItems.map((item) => (
             <NavLink
@@ -237,8 +265,6 @@ export function NavbarTop() {
                 linkRefs.current[item.link] = el;
               }}
               onMouseEnter={() => {
-                // Moving to a regular nav link dismisses the explore dropdown immediately
-                setDropdownOpen(false);
                 moveUnderlineTo(item.link);
               }}
               to={item.link}
