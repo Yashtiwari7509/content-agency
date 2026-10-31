@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import LazyImage from "@/components/LazyImage";
 
 type CardBottom = {
   label: string;
@@ -25,7 +26,7 @@ const HeroCard = ({ card, id }: { card: CardStatsItem; id: string }) => {
       <div className="inner1 flex w-full h-18  justify-around p-2 items-center gap-2 relative">
         {card.top.map((img, i) => (
           <div key={i} className="size-15 shrink-0 rounded-xl overflow-hidden p-2 bg-gray-50/40">
-            <img
+            <LazyImage
               src={img}
               loading="lazy"
               // style={{ scale: i === 1 ? 1.3 : 1 }}

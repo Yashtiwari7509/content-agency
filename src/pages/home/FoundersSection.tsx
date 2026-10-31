@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Rahul1, Yash, Harsh } from "@/assets/ClientImage";
 import SectionHeader from "@/components/SectionHeader";
+import LazyImage from "@/components/LazyImage";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -70,7 +71,7 @@ export default function FoundersSection() {
 
             {/* Image + label wrapper */}
             <div className="relative w-full h-[450px] sm:h-[500px]">
-              <img
+              <LazyImage
                 src={founder.src}
                 alt={founder.name}
                 loading="lazy"

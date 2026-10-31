@@ -4,6 +4,7 @@ import { useRef, useEffect, useState, type FC } from "react";
 import { Camera, TrendingUp, Calendar, ThumbsUp, Video, BarChart2, Star, type LucideIcon } from "lucide-react";
 import SectionHeader from "@/components/SectionHeader";
 import LazyVideo from "@/components/LazyVideo";
+import { SLIDES } from "@/constant/workflowSection";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -13,11 +14,6 @@ interface Notification {
   bold: string; // portion of text to bold
 }
 
-interface Slide {
-  label: string;
-  bg: string;
-  videoSrc: string;
-}
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
@@ -125,29 +121,6 @@ const VerticalInfiniteScroll: FC = () => {
 
 // ─── Image Carousel ───────────────────────────────────────────────────────────
 
-const SLIDES: Slide[] = [
-  {
-    label: "Views & growth",
-    bg: "#EEEDFE",
-    videoSrc: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792169759/views_fqoyc6.mp4",
-  },
-  {
-    label: "Social media",
-    bg: "#FAECE7",
-    videoSrc: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792169747/social-media_smmbpy.mp4",
-  },
-  {
-    label: "Short-form content",
-    bg: "#E1F5EE",
-    videoSrc: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792169768/short-form_conzil.mp4",
-  },
-  {
-    label: "Long-form editing",
-    bg: "#F1EFE8",
-    videoSrc: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792169769/long-form_exvxb3.mp4",
-  },
-];
-
 const ImageCarousel: FC = () => {
   const [current, setCurrent] = useState(0);
 
@@ -201,8 +174,8 @@ const ImageCarousel: FC = () => {
 
 const VerticalSlider: FC = () => {
   return (
-    <section id="our-impact" className="bg-white px-8 pb-40 mx-auto">
-      <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+    <section id="our-impact" className="bg-white px-8 mx-auto">
+      <div className="max-w-5xl mx-auto grid grid-cols-1 mb-40 lg:grid-cols-2 gap-12 items-start">
         {/* Left — copy + notification feed */}
         <div className="flex flex-col gap-6">
           <SectionHeader

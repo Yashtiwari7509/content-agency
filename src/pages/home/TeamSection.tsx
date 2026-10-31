@@ -5,6 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
 import SectionHeader from "@/components/SectionHeader";
 import { members } from "@/constant/workflowSection";
+import LazyImage from "@/components/LazyImage";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -141,7 +142,7 @@ export default function TeamSection() {
             </div>
 
             {/* The actual image — only the img gets the flip, not the wrapper */}
-            <img
+            <LazyImage
               src={member.src}
               alt={member.alt}
               loading="lazy"

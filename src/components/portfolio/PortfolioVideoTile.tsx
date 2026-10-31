@@ -13,7 +13,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import type { PortfolioVideo } from "./types";
-import LazyVideo from "@/components/LazyVideo";
+import LazyImage from "@/components/LazyImage";
 
 interface PortfolioVideoTileProps {
   video: PortfolioVideo;
@@ -57,7 +57,7 @@ const PortfolioVideoTile = ({ video, playbackId, label, wasDragged }: PortfolioV
       >
         <div className="relative aspect-video w-full overflow-hidden">
           {thumbnail ? (
-            <img
+            <LazyImage
               src={thumbnail}
               alt=""
               draggable={false}
@@ -65,14 +65,7 @@ const PortfolioVideoTile = ({ video, playbackId, label, wasDragged }: PortfolioV
               className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
             />
           ) : (
-            <LazyVideo
-              src={video.src}
-              muted
-              playsInline
-              preload="metadata"
-              className="h-full w-full object-cover"
-              aria-hidden
-            />
+            <div className="h-full w-full bg-gradient-to-br from-slate-950 via-slate-800 to-indigo-950" aria-hidden />
           )}
 
           {/* {<div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/15 to-black/10" />} */}

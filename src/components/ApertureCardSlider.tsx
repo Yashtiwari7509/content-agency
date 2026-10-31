@@ -4,6 +4,7 @@ import { useGSAP } from "@gsap/react";
 import { cn } from "@/lib/utils";
 import { brush } from "@/assets/Image";
 import LazyVideo from "@/components/LazyVideo";
+import LazyImage from "@/components/LazyImage";
 
 type SlotName = "far-left" | "left" | "center" | "right" | "far-right";
 
@@ -305,7 +306,7 @@ export default function ApertureCardSlider({
         >
           <h1>{prefix}</h1>
           <div className="relative h-8 w-20 lg:w-40">
-            <img src={brush} className="absolute shrink-0 lg:-top-10 -top-2 left-2 -z-10" alt="" loading="lazy" />
+            <LazyImage src={brush} className="absolute shrink-0 lg:-top-10 -top-2 left-2 -z-10" alt="" loading="lazy" />
             <span
               key={currentIndex}
               ref={activeWordRef}

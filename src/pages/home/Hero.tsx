@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { useRef } from "react";
 import { aboutLogo, cloud, fb, insta, reel, short, youtube } from "@/assets/Image";
 import { A_dp, N_dp, T_dp } from "@/assets/ClientImage";
+import LazyImage from "@/components/LazyImage";
 
 const Icons = [{ src: fb }, { src: fb }, { src: short }, { src: short }, { src: reel }, { src: reel }, { src: short }, { src: short }];
 const CardStatsData: CardStatsItem[] = [
@@ -95,10 +96,10 @@ const Hero = () => {
     <section ref={heroRef} id="hero-section" className="w-screen h-[clamp(700px,100vh,800px)] relative top-0 overflow-hidden">
       <div className="h-full w-full bg-background absolute top-0 z-0 hero-bg-mask"></div>
       <div className="absolute clouds top-5 left-1/3 z-0">
-        <img src={cloud} width={300} height={200} alt="" loading="lazy" />
+        <LazyImage src={cloud} width={300} height={200} alt="" loading="lazy" />
       </div>
       <div className="absolute clouds top-32 left-2/4 z-20">
-        <img src={cloud} width={300} height={200} alt="" loading="lazy" />
+        <LazyImage src={cloud} width={300} height={200} alt="" loading="lazy" />
       </div>
       <Balloons />
 
@@ -107,7 +108,7 @@ const Hero = () => {
         {/* Glassmorphism badge */}
         <div className="hero-anime flex items-center gap-1.5 whitespace-nowrap sm:gap-2 border border-background rounded-full  bg-white/80 uppercase px-1 sm:px-2 py-1 sm:py-1.5 backdrop-blur-sm">
           <span className="h-6 w-6">
-            <img src={aboutLogo} alt="" loading="lazy" />
+            <LazyImage src={aboutLogo} alt="" loading="lazy" />
           </span>
           <p className="text-sm text-foreground font-light w-76 leading-snug ">
             #1 Content Agency for <TypeClip />
@@ -166,7 +167,7 @@ const Hero = () => {
                     }}
                     className="flex bg-background items-center justify-center size-14 border-2 border-white rounded-lg backdrop-blur-sm"
                   >
-                    <img src={icon1.src} className="w-6 h-6" alt="" loading="lazy" />
+                    <LazyImage src={icon1.src} className="w-6 h-6" alt="" loading="lazy" />
                   </div>
                 </div>
 
@@ -179,7 +180,7 @@ const Hero = () => {
                     }}
                     className="flex bg-background items-center justify-center size-14 border-2 border-white rounded-lg backdrop-blur-sm"
                   >
-                    <img src={icon2.src} className="w-6 h-6" alt="" loading="lazy" />
+                    <LazyImage src={icon2.src} className="w-6 h-6" alt="" loading="lazy" />
                   </div>
                 </div>
               </div>

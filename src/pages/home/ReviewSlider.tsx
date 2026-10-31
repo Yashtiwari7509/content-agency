@@ -1,6 +1,7 @@
 import { reviews } from "@/constant/client_reviews";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
+import LazyImage from "@/components/LazyImage";
 
 const INTERVAL_MS = 4500;
 
@@ -18,7 +19,7 @@ const ReviewSlider = () => {
     <div className="w-full h-full flex flex-col px-4 py-5 gap-3">
       <div className="relative flex-1 min-h-0 rounded-xl overflow-hidden hero-bg-mask">
         {reviews.map((item, i) => (
-          <img
+          <LazyImage
             key={item.id}
             src={item.image}
             alt=""
@@ -38,7 +39,7 @@ const ReviewSlider = () => {
             className="absolute inset-0 flex items-center gap-3 transition-opacity duration-100 ease-out"
             style={{ opacity: i === current ? 1 : 0 }}
           >
-            <img src={item.avatar} alt={item.name} loading="lazy" className="size-10 rounded-full object-cover border-2 border-white shadow-sm" />
+            <LazyImage src={item.avatar} alt={item.name} loading="lazy" className="size-10 rounded-full object-cover border-2 border-white shadow-sm" />
             <div>
               <p className="text-sm font-semibold text-gray-900 leading-tight">{item.name}</p>
               <p className="text-xs text-gray-500">{item.designation}</p>

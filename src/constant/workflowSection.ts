@@ -148,12 +148,12 @@ export const CARDS: Card[] = [
 
 export type CardDef =
   | {
-    type: "compare";
-    firstImage?: string;
-    secondImage?: string;
-    firstVideo?: string;
-    secondVideo?: string;
-  }
+      type: "compare";
+      firstImage?: string;
+      secondImage?: string;
+      firstVideo?: string;
+      secondVideo?: string;
+    }
   | { type: "image"; src: string; alt?: string };
 
 export const cards: CardDef[] = [
@@ -171,5 +171,33 @@ export const cards: CardDef[] = [
     type: "compare",
     firstVideo: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792318015/andrew_before_fgdfs8.mp4",
     secondVideo: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792318028/andrew_after_fjptca.mp4",
+  },
+];
+
+interface Slide {
+  label: string;
+  bg: string;
+  videoSrc: string;
+}
+export const SLIDES: Slide[] = [
+  {
+    label: "Views & growth",
+    bg: "#EEEDFE",
+    videoSrc: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792169759/views_fqoyc6.mp4",
+  },
+  {
+    label: "Social media",
+    bg: "#FAECE7",
+    videoSrc: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792169747/social-media_smmbpy.mp4",
+  },
+  {
+    label: "Short-form content",
+    bg: "#E1F5EE",
+    videoSrc: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792169768/short-form_conzil.mp4",
+  },
+  {
+    label: "Long-form editing",
+    bg: "#F1EFE8",
+    videoSrc: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792169769/long-form_exvxb3.mp4",
   },
 ];

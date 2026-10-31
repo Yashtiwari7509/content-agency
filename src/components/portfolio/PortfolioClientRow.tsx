@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import type { PortfolioClient } from "./types";
 import PortfolioMediaCard from "./PortfolioMediaCard";
 import PortfolioVideosCard from "./PortfolioVideosCard";
+import LazyImage from "@/components/LazyImage";
 
 interface PortfolioClientRowProps {
   client: PortfolioClient;
@@ -18,7 +19,7 @@ const PortfolioClientRow = ({ client }: PortfolioClientRowProps) => {
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <div className="h-14 w-14 shrink-0 overflow-hidden rounded-full border-2 border-gray-100 ring-2">
-            <img src={client.avatar} alt={client.name} loading="lazy" className="h-full w-full object-cover" />
+            <LazyImage src={client.avatar} alt={client.name} loading="lazy" className="h-full w-full object-cover" />
           </div>
           <div>
             <h3 className="text-xl font-semibold text-gray-900">{client.name}</h3>

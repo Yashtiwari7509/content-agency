@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { cn } from "@/lib/utils";
 import { Scan } from "lucide-react";
 import LazyVideo from "@/components/LazyVideo";
+import LazyImage from "@/components/LazyImage";
 
 interface CompareProps {
   // Provide either the *Image or the *Video prop for each side — if both
@@ -266,7 +267,7 @@ export const Compare = ({
           preload="auto"
         />
       ) : secondImage ? (
-        <img
+        <LazyImage
           className={cn("absolute inset-0 z-[19] w-full h-full object-cover select-none", secondImageClassname)}
           alt="second image"
           src={secondImage}
@@ -295,7 +296,7 @@ export const Compare = ({
               preload="auto"
             />
           ) : (
-            <img
+            <LazyImage
               alt="first image"
               src={firstImage}
               loading="lazy"

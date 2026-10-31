@@ -3,6 +3,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Compare } from "@/components/compare";
+import LazyImage from "@/components/LazyImage";
 import { cards, type CardDef } from "@/constant/workflowSection";
 
 
@@ -57,7 +58,7 @@ function CardContent({ card }: { card: CardDef }) {
     );
   }
   return (
-    <img
+    <LazyImage
       src={(card as { type: "image"; src: string; alt?: string }).src}
       alt={(card as { type: "image"; src: string; alt?: string }).alt ?? "Slide"}
       loading="lazy"
