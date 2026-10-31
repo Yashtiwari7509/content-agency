@@ -83,7 +83,6 @@ export default function DonutSlider() {
           end: () => `${window.innerHeight * 2.3}px`,
           scrub: 1,
           anticipatePin: 1,
-          invalidateOnRefresh: true,
         },
         onUpdate() {
           setProgress(state.progress);

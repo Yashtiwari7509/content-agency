@@ -5,12 +5,12 @@ import { ArrowUpRight, Instagram, Youtube, Twitter, Linkedin } from "lucide-reac
 
 gsap.registerPlugin(ScrollTrigger);
 
-const socials = [
-  { icon: Instagram, label: "Instagram", href: "#" },
-  { icon: Youtube, label: "YouTube", href: "#" },
-  { icon: Twitter, label: "X / Twitter", href: "#" },
-  { icon: Linkedin, label: "LinkedIn", href: "#" },
-];
+// const socials = [
+//   { icon: Instagram, label: "Instagram", href: "#" },
+//   { icon: Youtube, label: "YouTube", href: "#" },
+//   { icon: Twitter, label: "X / Twitter", href: "#" },
+//   { icon: Linkedin, label: "LinkedIn", href: "#" },
+// ];
 
 // const navLinks = [
 //   { label: "Home", href: "/" },
@@ -43,7 +43,7 @@ export default function SiteFooter() {
           </div>
           <div className="flex items-center gap-5">
             {/* Social icons */}
-            <div className="flex gap-3">
+            {/* <div className="flex gap-3">
               {socials.map((s) => (
                 <a
                   key={s.label}
@@ -54,7 +54,7 @@ export default function SiteFooter() {
                   <s.icon size={14} className="text-gray-500 group-hover:text-black transition-colors duration-200" />
                 </a>
               ))}
-            </div>
+            </div> */}
             {/* CTA button */}
             <a
               href="#contact-section"

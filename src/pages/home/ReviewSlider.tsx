@@ -25,7 +25,7 @@ const ReviewSlider = () => {
             loading="lazy"
             className={cn(
               "absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out",
-              i === 1 && "object-top!",
+              i === 1 && "object-top! scale-x-[-1]",
             )}
             style={{ opacity: i === current ? 1 : 0 }}
           />

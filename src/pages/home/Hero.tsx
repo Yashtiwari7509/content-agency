@@ -114,7 +114,19 @@ const Hero = () => {
           </p>
         </div>
         <h1 className="hero-anime text-3xl sm:text-4xl md:text-4xl lg:text-7xl hero-main-text text-center leading-tighter text-foreground">
-          We Turn Science <br /> Into <p className="inline text-primary">Influence.</p>
+          We Turn Science <br /> Into{" "}
+          <p className="relative inline-block text-primary">
+            Influence.
+            <svg width="240" height="110" viewBox="0 0 1492 193" fill="none" className="absolute -bottom-16 right-0">
+              {" "}
+              <path
+                d="M28.5063 100.874C28.5063 100.874 658.006 -46.1257 1463.51 78.8743"
+                stroke-width="37"
+                stroke-linecap="round"
+                className="stroke-green-100"
+              />
+            </svg>
+          </p>
         </h1>
 
         {/* CTA Buttons */}

@@ -149,7 +149,7 @@
 .ellipse {
   position: absolute;
 
-  background: radial-gradient(84.8% 84.8% at 70.93% 15.2%, #00e3ff 0%, #ffffff 100%)
+  background: radial-gradient(84.8% 84.8% at 70.93% 15.2%, #00ffb3 0%, #ffffff 100%)
     /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
   background: radial-gradient(84.8% 84.8% at 70.93% 15.2%, color(display-p3 0 0.875 0.996) 0%, color(display-p3 1 1 1) 100%)
     /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;

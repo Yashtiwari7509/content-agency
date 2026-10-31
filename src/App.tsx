@@ -18,6 +18,7 @@ import { ContactProvider } from "./components/contact/ContactContext";
 import { ContactModal } from "./components/contact/ContactModal";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, Draggable, InertiaPlugin, DrawSVGPlugin, MotionPathPlugin, SplitText);
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 function App() {
   const mainRef = useRef(null);
