@@ -61,10 +61,10 @@ const About = () => {
     <div className="relative w-screen flex">
       <div className="w-full bg-background absolute top-0 z-0 hero-bg-mask h-[clamp(700px,100vh,800px)]"></div>
       <section className="absolute w-full top-0 z-0 h-[70vh]">
-        <div className="absolute clouds top-50 left-1/3 z-0">
+        <div className="absolute clouds top-40 left-1/7 z-0">
           <LazyImage src={cloud} width={300} height={200} alt="" loading="lazy" />
         </div>
-        <div className="absolute clouds top-30 left-2/4 z-0">
+        <div className="absolute clouds top-30 right-1/7 z-0">
           <LazyImage src={cloud} width={300} height={200} alt="" loading="lazy" />
         </div>
       </section>
@@ -128,7 +128,7 @@ const About = () => {
                     </span>
                     <div>
                       <div className="number">
-                        50<sup>+</sup>
+                        40<sup>+</sup>
                       </div>
                       <div className="label">Happy Clients</div>
                     </div>
@@ -140,7 +140,7 @@ const About = () => {
                     </div>
                     <div className="mt-2">
                       <div className="number">
-                        100<sup>+</sup> Million
+                        15<sup>+</sup> Million
                       </div>
                       <div className="label">Views</div>
                     </div>

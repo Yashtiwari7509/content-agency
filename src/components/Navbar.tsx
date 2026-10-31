@@ -12,14 +12,13 @@ import AuroraFlair from "./AuroraFlair";
 const navItems = [{ name: "About", link: "/about" }];
 
 const servicesItems = [
-  { name: "Short Form Video Editing", link: "#phone-section" },
-  { name: "Long Form Video Editing", link: "#portfolio" },
+  { name: "Short-Form Video Editing", link: "#phone-section" },
+  { name: "Long-Form Video Editing", link: "#portfolio" },
   { name: "Social Media Management", link: "#our-impact" },
 ];
 
 const homeSections = [
   { name: "Our Score", link: "#score" },
-  { name: "Portfolio", link: "#portfolio" },
   { name: "Reviews", link: "#Marqee-Tag" },
 ];
 
@@ -49,11 +48,8 @@ interface NavDropdownProps {
 function NavDropdown({ label, items, buttonRef, onOpen, panelWidth = "w-44", onItemClick }: NavDropdownProps) {
   return (
     <div className="group relative" onMouseEnter={() => onOpen?.()}>
-      <button
-        ref={buttonRef}
-        className="flex items-center gap-1 px-4 py-2 select-none"
-      >
-        <span>{label}</span>
+      <button ref={buttonRef} className="flex items-center gap-1 px-4 py-2 select-none">
+        <p>{label}</p>
         <ChevronDown className="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-180" />
       </button>
 
@@ -179,9 +175,7 @@ export function NavbarTop() {
   const currentSections = location.pathname === "/about" ? aboutSections : homeSections;
 
   const scrollToSection = (link: string) => {
-
     document.querySelector(link)?.scrollIntoView({ behavior: "smooth", block: "start" });
-
   };
 
   const isHome = location.pathname === "/";
@@ -226,7 +220,9 @@ export function NavbarTop() {
               label="Services"
               items={servicesItems}
               panelWidth="w-60"
-              buttonRef={(el) => { linkRefs.current.services = el; }}
+              buttonRef={(el) => {
+                linkRefs.current.services = el;
+              }}
               onOpen={() => moveUnderlineTo("services")}
               onItemClick={(item) => scrollToSection(item.link)}
             />
@@ -237,26 +233,28 @@ export function NavbarTop() {
             label="Explore"
             items={currentSections}
             panelWidth="w-36"
-            buttonRef={(el) => { linkRefs.current.explore = el; }}
+            buttonRef={(el) => {
+              linkRefs.current.explore = el;
+            }}
             onOpen={() => moveUnderlineTo("explore")}
             onItemClick={(item) => scrollToSection(item.link)}
           />
           {isHome && (
             <NavLink
-               ref={(el) => {
+              ref={(el) => {
                 linkRefs.current["portfolio"] = el;
               }}
               onMouseEnter={() => {
                 moveUnderlineTo("portfolio");
               }}
-              to={"#portfolio"}
+              to="#"
+              onClick={() => scrollToSection("#portfolio")}
               viewTransition
               className="px-4 py-2"
             >
-              <span>Portfolio</span>
+              <p>Portfolio</p>
             </NavLink>
           )}
-
 
           {navItems.map((item) => (
             <NavLink
@@ -271,7 +269,7 @@ export function NavbarTop() {
               viewTransition
               className="px-4 py-2"
             >
-              <span>{item.name}</span>
+              <p>{item.name}</p>
             </NavLink>
           ))}
         </div>
@@ -328,13 +326,13 @@ export function NavbarTop() {
               onClick={() => setMobileOpen(false)}
               className="rounded-xl px-3 text-lg text-neutral-800"
             >
-              <span>{item.name}</span>
+              <p>{item.name}</p>
             </NavLink>
           ))}
 
           <div className="mt-1 flex flex-col gap-1 cursor-pointer">
             {currentSections.map((s) => (
-              <span
+              <p
                 key={s.link}
                 data-mobile-item
                 onClick={() => {
@@ -344,7 +342,7 @@ export function NavbarTop() {
                 className="rounded-xl px-3 py-3 text-base text-neutral-600"
               >
                 {s.name}
-              </span>
+              </p>
             ))}
           </div>
 

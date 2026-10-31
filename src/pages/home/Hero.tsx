@@ -4,7 +4,7 @@ import HeroCard, { type CardStatsItem } from "@/components/HeroCard";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
-import { aboutLogo, cloud, fb, insta, reel, short, youtube } from "@/assets/Image";
+import { aboutLogo, fb, insta, reel, short, youtube } from "@/assets/Image";
 import { A_dp, N_dp, T_dp } from "@/assets/ClientImage";
 import LazyImage from "@/components/LazyImage";
 
@@ -95,12 +95,6 @@ const Hero = () => {
   return (
     <section ref={heroRef} id="hero-section" className="w-screen h-[clamp(700px,100vh,800px)] relative top-0 overflow-hidden">
       <div className="h-full w-full bg-background absolute top-0 z-0 hero-bg-mask"></div>
-      <div className="absolute clouds top-5 left-1/3 z-0">
-        <LazyImage src={cloud} width={300} height={200} alt="" loading="lazy" />
-      </div>
-      <div className="absolute clouds top-32 left-2/4 z-20">
-        <LazyImage src={cloud} width={300} height={200} alt="" loading="lazy" />
-      </div>
       <Balloons />
 
       <div className="absolute text-container flex flex-col items-center gap-3 sm:gap-4 md:gap-5 z-40 w-full max-w-[90vw] sm:max-w-xl md:max-w-3xl lg:max-w-4xl px-2 sm:px-6 md:px-0">
@@ -115,19 +109,7 @@ const Hero = () => {
           </p>
         </div>
         <h1 className="hero-anime text-3xl sm:text-4xl md:text-4xl lg:text-7xl hero-main-text text-center leading-tighter text-foreground">
-          We Turn Science <br /> Into{" "}
-          <p className="relative inline-block text-primary">
-            Influence.
-            <svg width="240" height="110" viewBox="0 0 1492 193" fill="none" className="absolute -bottom-16 right-0">
-              {" "}
-              <path
-                d="M28.5063 100.874C28.5063 100.874 658.006 -46.1257 1463.51 78.8743"
-                stroke-width="37"
-                stroke-linecap="round"
-                className="stroke-green-100"
-              />
-            </svg>
-          </p>
+          We Turn Science <br /> Into <p className="relative inline-block text-primary">Influence.</p>
         </h1>
 
         {/* CTA Buttons */}

@@ -65,7 +65,7 @@ export const portfolioClients: PortfolioClient[] = [
     id: "andrew-koutnik",
     name: "Andrew Koutnik",
     handle: "@andrewkoutnikphd",
-    role: "80k+ followers",
+    role: "100k+ followers",
     avatar: Andrew1,
     gifUrl: "https://res.cloudinary.com/decqmmcxq/video/upload/v1781610818/2_Inrange_pod_intro_wyzula.mp4",
     photos: [

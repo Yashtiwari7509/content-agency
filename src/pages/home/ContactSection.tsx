@@ -145,7 +145,7 @@ export default function ContactSection() {
                         type="button"
                         variant={form.services.includes(s) ? "default" : "outline"}
                         size="sm"
-                        className={cn("rounded-full px-3 py-1.5 text-xs font-medium", !form.services.includes(s) && "text-gray-500")}
+                        className={cn("rounded-full px-3 py-1.5 text-xs bg-background  font-medium", !form.services.includes(s) && "text-gray-500")}
                         onClick={() =>
                           setForm((p) => ({
                             ...p,
@@ -182,7 +182,7 @@ export default function ContactSection() {
 
                 <Button
                   type="submit"
-                  className="w-full rounded-full py-4 text-sm bg-primary font-light flex items-center justify-center gap-2"
+                  className="w-full rounded-full py-4 text-sm bg-background hover:bg-background font-light flex items-center justify-center gap-2"
                   disabled={status === "submitting"}
                 >
                   {status === "submitting" ? (

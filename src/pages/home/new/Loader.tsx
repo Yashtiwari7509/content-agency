@@ -2,10 +2,9 @@ import { members } from "@/constant/workflowSection";
 import { cn } from "@/lib/utils";
 import LazyImage from "@/components/LazyImage";
 
-
 const TeamLineup = () => {
   return (
-    <section style={{ willChange: "transform,auto" }} className="top-0 h-screen w-screen inset-0 z-2000 fixed bg-white loader-screen">
+    <section style={{ willChange: "transform,auto" }} className="top-0 h-dvh w-screen inset-0 z-2000 fixed bg-white loader-screen">
       <div className="w-screen h-screen  overflow-hidden">
         {/* Team images */}
         <div className="relative lg:max-w-360 max-w-xl h-full mx-auto loader-images">

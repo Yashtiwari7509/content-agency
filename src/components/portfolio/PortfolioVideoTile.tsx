@@ -87,9 +87,9 @@ const PortfolioVideoTile = ({ video, playbackId, label, wasDragged }: PortfolioV
             </button>
           </span>
 
-          {video.title && (
+          {/* {video.title && (
             <span className="absolute bottom-0 left-0 right-0 px-3 py-2.5 text-sm font-medium text-white">{video.title}</span>
-          )}
+          )} */}
         </div>
       </div>
 
