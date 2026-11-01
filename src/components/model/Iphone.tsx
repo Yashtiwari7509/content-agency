@@ -82,17 +82,18 @@ type GLTFResult = GLTF & {
 // ─── Section A: videos shown in the hero / first section ──────────────────────
 // Arrow buttons navigate within this array while activeSectionRef === 0.
 const SECTION_A_VIDEOS = [
-  "./video.mp4",
-  "https://res.cloudinary.com/decqmmcxq/video/upload/v1792171929/Reels_bdatr4.mp4",
-  "./video2.mp4",
+  "https://res.cloudinary.com/vngznh0k/video/upload/v1793551500/Nick_Mots-C_2.mp4",
+  "https://res.cloudinary.com/vngznh0k/video/upload/v1793551495/Spermidine_Reel_Thomas.mp4",
+  "https://res.cloudinary.com/vngznh0k/video/upload/v1793551477/Fix_Reel_V01.mp4",
+  "https://res.cloudinary.com/vngznh0k/video/upload/v1793551445/The_Final_Ground_Beef.mp4",
 ];
 
 // ─── Section B: videos shown in tabbedPage / PhoneStats section ───────────────
 // When the scroll enters tabbedPage this resets to index 0 every time.
 // Arrow buttons navigate within this array while activeSectionRef === 1.
 const SECTION_B_VIDEOS = [
-  "https://res.cloudinary.com/decqmmcxq/video/upload/v1792171918/shorts_uxlnkc.mp4",
-  "https://res.cloudinary.com/decqmmcxq/video/upload/v1792171929/Reels_bdatr4.mp4",
+  "https://res.cloudinary.com/vngznh0k/video/upload/v1793551515/Glp1s_Final_V01.mp4",
+  "https://res.cloudinary.com/vngznh0k/video/upload/v1793551578/Andrew_Trailer_Vertical.mp4",
 ];
 
 // ─── Navigation handle exposed to parent ───────────────────────────────────────
@@ -242,7 +243,7 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
     });
 
     vid.muted = false;
-    vid.volume = 0.5;
+    vid.volume = 1;
     if (vid.paused) {
       vid.currentTime = 0;
       vid.play().catch(() => { }); // swallow AbortError

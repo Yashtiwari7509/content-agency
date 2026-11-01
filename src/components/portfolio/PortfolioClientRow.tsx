@@ -1,4 +1,4 @@
-import { ExternalLink, Youtube } from "lucide-react";
+import { ExternalLink, Instagram, Youtube } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { PortfolioClient } from "./types";
 import PortfolioMediaCard from "./PortfolioMediaCard";
@@ -13,6 +13,15 @@ interface PortfolioClientRowProps {
 const PortfolioClientRow = ({ client }: PortfolioClientRowProps) => {
   const media = <PortfolioMediaCard gifUrl={client.gifUrl} photos={client.photos} clientName={client.name} clientId={client.id} />;
   const videos = <PortfolioVideosCard videos={client.videos} clientName={client.name} clientId={client.id} />;
+
+  const isInstagram = client.platform === "instagram" || client.url?.includes("instagram.com") || client.id === "andrew-koutnik";
+  const profileUrl =
+    client.url ||
+    (isInstagram
+      ? `https://www.instagram.com/${client.handle.replace(/^@/, "")}`
+      : `https://youtube.com/${client.handle}`);
+  const Icon = isInstagram ? Instagram : Youtube;
+  const label = isInstagram ? "Instagram" : "Youtube";
 
   return (
     <article className="flex flex-col gap-6 p-4 bg-white mb-10 pb-0">
@@ -29,13 +38,13 @@ const PortfolioClientRow = ({ client }: PortfolioClientRowProps) => {
           </div>
         </div>
         <a
-          href={`https://youtube.com/${client.handle}`}
+          href={profileUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:border-gray-300 hover:bg-gray-50"
         >
-          <Youtube className="h-4 w-4" />
-          Channel
+          <Icon className="h-4 w-4" />
+          {label}
           <ExternalLink className="h-3.5 w-3.5 text-gray-400" />
         </a>
       </header>

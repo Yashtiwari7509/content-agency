@@ -54,12 +54,13 @@ const PhoneVideo = () => {
         </Canvas>
         <div
           id="phone-nav-btns-1"
-          style={{ opacity: 0, transform: 'translateX(80px)' }}
+          style={{ opacity: 0, transform: "translateX(80px)" }}
           className="absolute right-38 top-1/3 w-fit h-20 flex flex-col justify-between gap-2 z-[9999] bg-white/10 backdrop p-1.5 px-2.5 rounded-full border"
         >
           <button
-            className={`p-0.5 border rounded-full size-7 flex justify-center items-center bg-white pointer-events-auto ${isFirst ? "pointer-events-none opacity-10" : "cursor-pointer"
-              }`}
+            className={`p-0.5 border rounded-full size-7 flex justify-center items-center bg-white pointer-events-auto ${
+              isFirst ? "pointer-events-none opacity-10" : "cursor-pointer"
+            }`}
             onClick={handlePrev}
             disabled={isFirst}
             aria-label="Previous video"
@@ -68,8 +69,9 @@ const PhoneVideo = () => {
           </button>
 
           <button
-            className={`p-0.5 rounded-full border size-7 flex justify-center items-center bg-white pointer-events-auto ${isLast ? "pointer-events-none opacity-10" : "cursor-pointer"
-              }`}
+            className={`p-0.5 rounded-full border size-7 flex justify-center items-center bg-white pointer-events-auto ${
+              isLast ? "pointer-events-none opacity-10" : "cursor-pointer"
+            }`}
             onClick={handleNext}
             disabled={isLast}
             aria-label="Next video"
@@ -79,12 +81,13 @@ const PhoneVideo = () => {
         </div>
         <div
           id="phone-nav-btns-2"
-          style={{ opacity: 0, transform: 'translateX(-80px)' }}
+          style={{ opacity: 0, transform: "translateX(-80px)" }}
           className="absolute left-38 top-1/3 w-fit h-20 flex flex-col justify-between gap-2 z-[9999] bg-white/10 backdrop p-1.5 px-2.5 rounded-full border"
         >
           <button
-            className={`p-0.5 border rounded-full size-7 flex justify-center items-center bg-white pointer-events-auto ${isFirst ? "pointer-events-none opacity-10" : "cursor-pointer"
-              }`}
+            className={`p-0.5 border rounded-full size-7 flex justify-center items-center bg-white pointer-events-auto ${
+              isFirst ? "pointer-events-none opacity-10" : "cursor-pointer"
+            }`}
             onClick={handlePrev}
             disabled={isFirst}
             aria-label="Previous video"
@@ -93,8 +96,9 @@ const PhoneVideo = () => {
           </button>
 
           <button
-            className={`p-0.5 rounded-full border size-7 flex justify-center items-center bg-white pointer-events-auto ${isLast ? "pointer-events-none opacity-10" : "cursor-pointer"
-              }`}
+            className={`p-0.5 rounded-full border size-7 flex justify-center items-center bg-white pointer-events-auto ${
+              isLast ? "pointer-events-none opacity-10" : "cursor-pointer"
+            }`}
             onClick={handleNext}
             disabled={isLast}
             aria-label="Next video"

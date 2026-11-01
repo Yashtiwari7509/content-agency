@@ -26,19 +26,19 @@ interface SlotProps {
 
 const DEFAULT_CARDS: CardData[] = [
   {
-    src: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792171918/shorts_uxlnkc.mp4",
+    src: "https://res.cloudinary.com/vngznh0k/video/upload/v1793551242/Reels.mp4",
     ratio: "9/16",
   },
   {
-    src: "https://res.cloudinary.com/decqmmcxq/video/upload/v1781610823/dorian_pod_ir9eke.mp4",
+    src: "https://res.cloudinary.com/vngznh0k/video/upload/v1793550926/Long_Form.mp4",
     ratio: "16/9",
   },
   {
-    src: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792171929/Reels_bdatr4.mp4",
+    src: "https://res.cloudinary.com/vngznh0k/video/upload/v1793551278/Shorts.mp4",
     ratio: "9/16",
   },
   {
-    src: "https://res.cloudinary.com/decqmmcxq/video/upload/v1781610824/3_Engazing_Intro_yet9ws.mp4",
+    src: "https://res.cloudinary.com/vngznh0k/video/upload/v1793550839/Pod_Gif.mp4",
     ratio: "16/9",
   },
 ];

@@ -108,9 +108,9 @@ const Hero = () => {
           <span className="h-6 w-6">
             <LazyImage src={aboutLogo} alt="" loading="lazy" />
           </span>
-          <p className="text-sm text-foreground font-light w-76 leading-snug ">
+          <div className="text-sm text-foreground font-light w-76 leading-snug ">
             #1 Content Agency for <TypeClip />
-          </p>
+          </div>
         </div>
         <h1 className="hero-anime text-3xl sm:text-4xl md:text-4xl lg:text-7xl hero-main-text text-center leading-tighter text-foreground">
           We Turn Science <br /> Into <p className="relative inline-block text-primary">Influence.</p>
@@ -237,11 +237,11 @@ function TypeClip() {
   );
 
   return (
-    <p ref={wrapRef} className="relative inline-block align-bottom">
+    <h4 ref={wrapRef} className="relative inline-block align-bottom">
       <p ref={textRef} className="inline-block" style={{ clipPath: "inset(0 calc((1 - var(--p)) * 100%) 0 0)" }}>
         {WORDS[0]}
       </p>
       <p ref={caretRef} className="absolute top-[10%] bottom-[10%] w-[2px] bg-foreground" style={{ left: "calc(var(--p) * 100%)" }} />
-    </p>
+    </h4>
   );
 }

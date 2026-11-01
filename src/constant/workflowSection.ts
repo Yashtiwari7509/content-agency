@@ -159,18 +159,18 @@ export type CardDef =
 export const cards: CardDef[] = [
   {
     type: "compare",
-    firstVideo: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792318036/nick_before_uijept.mp4",
-    secondVideo: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792318040/nick_after_ezjvvz.mp4",
+    firstVideo: "https://res.cloudinary.com/vngznh0k/video/upload/v1793554240/Nick_Before.mp4",
+    secondVideo: "https://res.cloudinary.com/vngznh0k/video/upload/v1793554247/Nick_After.mp4",
   },
   {
     type: "compare",
-    firstVideo: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792318029/thomas_before_ekbbme.mp4",
-    secondVideo: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792318032/thomas_after_cmppmv.mp4",
+    firstVideo: "https://res.cloudinary.com/vngznh0k/video/upload/v1793554242/Thomas_Before.mp4",
+    secondVideo: "https://res.cloudinary.com/vngznh0k/video/upload/v1793554241/Thomas_After.mp4",
   },
   {
     type: "compare",
-    firstVideo: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792318015/andrew_before_fgdfs8.mp4",
-    secondVideo: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792318028/andrew_after_fjptca.mp4",
+    firstVideo: "https://res.cloudinary.com/vngznh0k/video/upload/v1793554237/Andrew_Before.mp4",
+    secondVideo: "https://res.cloudinary.com/vngznh0k/video/upload/v1793554244/Andrew_After.mp4",
   },
 ];
 

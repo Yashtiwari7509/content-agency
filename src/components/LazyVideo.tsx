@@ -1,5 +1,5 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, type VideoHTMLAttributes } from "react";
-import { LOADING_VIDEO_POSTER } from "@/components/video/videoSource";
+import { longPre } from "@/assets/Image";
 
 type LazyVideoProps = VideoHTMLAttributes<HTMLVideoElement> & {
   src: string;
@@ -20,7 +20,7 @@ const LazyVideo = forwardRef<HTMLVideoElement, LazyVideoProps>(
       const loadAndPlay = () => {
         if (loadedSrcRef.current !== src) {
           video.src = src;
-          video.poster = poster ?? LOADING_VIDEO_POSTER;
+          video.poster = poster ?? longPre;
           loadedSrcRef.current = src;
           return;
         }
@@ -53,7 +53,7 @@ const LazyVideo = forwardRef<HTMLVideoElement, LazyVideoProps>(
       return () => observer.disconnect();
     }, [autoPlay, isActive, poster, src]);
 
-    return <video ref={videoRef} {...props} poster={poster ?? LOADING_VIDEO_POSTER} autoPlay={autoPlay && isActive} />;
+    return <video ref={videoRef} {...props} poster={poster ?? longPre} autoPlay={autoPlay && isActive} />;
   },
 );
 

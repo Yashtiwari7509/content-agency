@@ -3,7 +3,8 @@ import { Plyr as PlyrComponent } from "plyr-react";
 import type { APITypes, PlyrInstance, PlyrOptions } from "plyr-react";
 import "plyr-react/plyr.css";
 import { cn } from "@/lib/utils";
-import { buildPlyrSource, getVideoProvider, isPlayableVideoSrc, LOADING_VIDEO_POSTER } from "./videoSource";
+import { longPre } from "@/assets/Image";
+import { buildPlyrSource, getVideoProvider, isPlayableVideoSrc } from "./videoSource";
 import { useVideoPlaybackOptional } from "./VideoPlaybackContext";
 
 export type VideoPlayerVariant = "default" | "preview" | "theater";
@@ -71,7 +72,7 @@ const VideoPlayer = ({ src, poster, title, variant = "default", className, label
   const innerRef = useRef<APITypes>(null);
   const playback = useVideoPlaybackOptional();
 
-  const source = useMemo(() => buildPlyrSource(src, poster ?? LOADING_VIDEO_POSTER), [src, poster]);
+  const source = useMemo(() => buildPlyrSource(src, poster ?? longPre), [src, poster]);
   const isYoutube = getVideoProvider(src) === "youtube";
 
   const options = useMemo<PlyrOptions>(

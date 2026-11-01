@@ -11,6 +11,8 @@ export interface PortfolioClient {
   handle: string;
   role: string;
   avatar: string;
+  platform?: "youtube" | "instagram";
+  url?: string;
   /** Preview media — image, looping video (.mp4), or YouTube / Vimeo URL */
   gifUrl: string;
   photos: string[];

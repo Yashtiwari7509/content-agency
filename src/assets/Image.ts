@@ -14,5 +14,26 @@ import insta from "./insta.webp";
 import aboutLogo from "./logoAbout.webp";
 import a_before from "./andrew_before.jpg";
 import a_after from "./andrew_after.jpg";
+import longPre from "./longPreloader.webp";
+import shortPre from "./shortsPreloader.webp";
 
-export { cloud, rays, mac, starSvg, fb, reel, short, brush, tiktok, linkedIn, facebook, youtube, insta, aboutLogo, a_before, a_after };
+export {
+  cloud,
+  rays,
+  mac,
+  starSvg,
+  fb,
+  reel,
+  short,
+  brush,
+  tiktok,
+  linkedIn,
+  facebook,
+  youtube,
+  insta,
+  aboutLogo,
+  a_before,
+  a_after,
+  longPre,
+  shortPre,
+};
