@@ -68,6 +68,7 @@ export interface AuroraFlairProps extends Partial<Omit<AuroraFlairOptions, "colo
   /** Single child element that receives the aurora effect */
   children: ReactElement;
   colors?: AuroraFlairColors;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
   /** Extra class names applied to the outermost wrapper div */
   className?: string;
   /** Inline styles applied to the outermost wrapper div */
@@ -115,6 +116,8 @@ export const AURORA_FLAIR_CSS = /* css */ `
     position: relative;
     z-index: 2;
     display: inherit;
+    width: 100%;
+    flex: 1 1 auto;
     align-items: inherit;
     justify-content: inherit;
   }
@@ -347,6 +350,7 @@ export function AuroraFlair({
   scaleEase = DEFAULTS.scaleEase,
   className = "",
   style,
+  onClick,
 }: AuroraFlairProps) {
   const hostRef = useRef<HTMLDivElement>(null);
   const flairRef = useRef<HTMLDivElement>(null);
@@ -396,7 +400,24 @@ export function AuroraFlair({
   }, []);
 
   return (
-    <div ref={hostRef} className={`af-host ${className}`.trim()} style={style}>
+    <div
+      ref={hostRef}
+      className={`af-host ${className}`.trim()}
+      style={style}
+      onClick={onClick}
+      onKeyDown={
+        onClick
+          ? (event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                event.currentTarget.click();
+              }
+            }
+          : undefined
+      }
+      role={onClick ? "button" : undefined}
+      tabIndex={onClick ? 0 : undefined}
+    >
       {/* ── Flair layer (aurora orbs) ───────────────────────────────────── */}
       <div ref={flairRef} className="af-flair">
         <span className="af-orb af-orb--a" style={{ background: mergedColors.a }} />

@@ -92,6 +92,10 @@ const Hero = () => {
     },
   );
 
+  const scrollToSection = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <section ref={heroRef} id="hero-section" className="w-screen h-[clamp(700px,100vh,800px)] relative top-0 overflow-hidden">
       <div className="h-full w-full bg-background absolute top-0 z-0 hero-bg-mask"></div>
@@ -114,10 +118,16 @@ const Hero = () => {
 
         {/* CTA Buttons */}
         <div className="hero-anime flex items-center justify-center gap-2 sm:gap-4 mt-2 sm:mt-3">
-          <AuroraFlair className="relative cursor-pointer overflow-hidden rounded-full border border-primary/80 bg-primary/80 text-white px-4 py-2 sm:px-6 sm:py-2.5 text-sm sm:text-base font-light shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.97]">
+          <AuroraFlair
+            onClick={() => scrollToSection("portfolio")}
+            className="relative cursor-pointer overflow-hidden rounded-full border border-primary/80 bg-primary/80 px-4 py-2 text-sm text-white sm:px-6 sm:py-2.5 sm:text-base font-light shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.97]"
+          >
             <p className="relative z-10 flex items-center rounded-full">View Work</p>
           </AuroraFlair>
-          <AuroraFlair className="relative cursor-pointer tracking-tight overflow-hidden rounded-full border border-white/80 bg-white/80 px-4 py-2 sm:px-6 sm:py-2.5 text-sm sm:text-base font-light shadow-sm transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.97]">
+          <AuroraFlair
+            onClick={() => scrollToSection("contact-section")}
+            className="relative cursor-pointer tracking-tight overflow-hidden rounded-full border border-white/80 bg-white/80 px-4 py-2 sm:px-6 sm:py-2.5 text-sm sm:text-base font-light shadow-sm transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.97]"
+          >
             <p className="relative z-10 flex items-center">Contact Us →</p>
           </AuroraFlair>
         </div>

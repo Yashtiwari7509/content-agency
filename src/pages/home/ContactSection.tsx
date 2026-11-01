@@ -1,13 +1,14 @@
 import { useState, useRef, type FormEvent } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { CheckCircle2, Loader2, ArrowRight } from "lucide-react";
+import { CheckCircle2, Loader2 } from "lucide-react";
 import { CONTACT_CONFIG } from "@/config/contact";
 import { cn } from "@/lib/utils";
 import SectionHeader from "@/components/SectionHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import AuroraFlair from "@/components/AuroraFlair";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -113,7 +114,7 @@ export default function ContactSection() {
                       value={form.name}
                       disabled={status === "submitting"}
                       onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
-                      className="bg-slate-50"
+                      className=" font-light"
                     />
                   </div>
 
@@ -130,7 +131,7 @@ export default function ContactSection() {
                       value={form.email}
                       disabled={status === "submitting"}
                       onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
-                      className="bg-slate-50"
+                      className=" font-light"
                     />
                   </div>
                 </div>
@@ -145,7 +146,10 @@ export default function ContactSection() {
                         type="button"
                         variant={form.services.includes(s) ? "default" : "outline"}
                         size="sm"
-                        className={cn("rounded-full px-3 py-1.5 text-xs bg-background  font-medium", !form.services.includes(s) && "text-gray-500")}
+                        className={cn(
+                          "rounded-full px-3 py-1.5 text-xs bg-background hover:bg-background/70 transition-colors text-shadow-2xs hover:border-background  font-light",
+                          !form.services.includes(s) && "text-gray-500 bg-white hover:bg-white",
+                        )}
                         onClick={() =>
                           setForm((p) => ({
                             ...p,
@@ -172,7 +176,7 @@ export default function ContactSection() {
                     value={form.message}
                     disabled={status === "submitting"}
                     onChange={(e) => setForm((p) => ({ ...p, message: e.target.value }))}
-                    className="min-h-[120px] w-full rounded-md border border-input bg-slate-50 px-3 py-2 text-sm outline-none transition-all resize-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                    className="min-h-30 font-light w-full rounded-md border border-input  px-3 py-2 text-sm outline-none transition-all resize-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
                   />
                 </div>
 
@@ -180,23 +184,22 @@ export default function ContactSection() {
                   <p className="rounded-2xl bg-red-50 px-4 py-3 text-sm font-light text-red-600">{errorMessage}</p>
                 )}
 
-                <Button
-                  type="submit"
-                  className="w-full rounded-full py-4 text-sm bg-background hover:bg-background font-light flex items-center justify-center gap-2"
-                  disabled={status === "submitting"}
-                >
-                  {status === "submitting" ? (
-                    <>
-                      <Loader2 className="size-4 animate-spin" />
-                      Sending…
-                    </>
-                  ) : (
-                    <>
-                      Send Message
-                      <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-                    </>
-                  )}
-                </Button>
+                <AuroraFlair className="relative flex w-full rounded-full overflow-hidden cursor-pointer">
+                  <button
+                    type="submit"
+                    className="w-full bg-transparent cursor-pointer relative rounded-full py-4 text-sm  text-black hover:bg-transparent font-light flex items-center justify-center"
+                    disabled={status === "submitting"}
+                  >
+                    {status === "submitting" ? (
+                      <>
+                        <Loader2 className="size-4 animate-spin" />
+                        Sending…
+                      </>
+                    ) : (
+                      <>Send Message →</>
+                    )}
+                  </button>
+                </AuroraFlair>
               </form>
             )}
           </div>

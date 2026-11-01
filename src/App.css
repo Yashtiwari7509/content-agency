@@ -295,7 +295,7 @@
 }
 
 .c-text {
-  background-image: linear-gradient(20deg, hsl(0, 0%, 100%) 2%, hsl(181, 84%, 49%) 31%, hsl(0, 0%, 100%) 100%);
+  background-image: linear-gradient(20deg, hsl(0, 0%, 100%) 2%, var(--background) 31%, hsl(0, 0%, 100%) 100%);
   /* background: url("https://static.vecteezy.com/system/resources/thumbnails/011/499/552/small_2x/light-blue-blurry-triangle-texture-vector.jpg"); */
   background-clip: text;
   -webkit-background-clip: text;

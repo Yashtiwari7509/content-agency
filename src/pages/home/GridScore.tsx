@@ -184,7 +184,7 @@ const GridScore = () => {
               Trusted by health experts worldwide to build, manage, and grow their content brands.
             </p>
           </div>
-          <div className="absolute z-0 bottom-0 left-0 size-full">
+          <div className="absolute z-0 bottom-0 left-0 size-full opacity-45">
             <LazyImage src={rays} className="size-full" alt="" loading="lazy" />
           </div>
         </div>
@@ -248,7 +248,7 @@ const GridScore = () => {
             <h4 className="absolute z-10 px-4 text-left bottom-2 md:bottom-10 font-semibold text-3xl w-full">
               Platform handled by our Agency
             </h4>
-            <div className="radial-blur-v size-50 absolute bottom-0  -right-20 z-0 blur-xl "></div>
+            {/* <div className="radial-blur-v size-50 absolute bottom-0  -right-20 z-0 blur-xl "></div> */}
           </div>
         </div>
         <div data-reveal="card" className="middle">
@@ -302,9 +302,9 @@ const GridScore = () => {
                       ref={(el) => {
                         tooltipRefs.current[client.id] = el;
                       }}
-                      className="absolute bottom-[130%] left-1/2 -translate-x-1/2 whitespace-nowrap p-3  backdrop bg-black/40 rounded-full"
+                      className="absolute bottom-[130%] left-1/2 -translate-x-1/2 whitespace-nowrap p-3  backdrop bg-white/80 border rounded-full"
                     >
-                      <p className="text-white text-sm mb-0.5">{client.name}</p>
+                      <p className="text-black text-sm font-light mb-0.5">{client.name}</p>
                     </div>
                   </div>
                 ))}
@@ -317,8 +317,7 @@ const GridScore = () => {
                 speak for us.
               </h4>
             </div>
-
-            <div className="radial-blur-v size-50 absolute -bottom-10 right-0 z-0 blur-xl opacity-80 pointer-events-none"></div>
+            {/* <div className="radial-blur-v size-50 absolute -bottom-10 right-0 z-0 blur-xl opacity-80 pointer-events-none"></div> */}
           </div>
         </div>
       </div>

@@ -509,7 +509,7 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
               },
               scrollTrigger: {
                 trigger: ".PhoneStats",
-                start: "-500px top",
+                start: "-400px top",
                 end: "50% top",
                 scrub: true,
                 onUpdate: () => {

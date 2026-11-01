@@ -175,7 +175,10 @@ export function NavbarTop() {
   const currentSections = location.pathname === "/about" ? aboutSections : homeSections;
 
   const scrollToSection = (link: string) => {
-    document.querySelector(link)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    document.querySelector(link)?.scrollIntoView({
+      behavior: "smooth",
+      block: link === "#our-impact" ? "center" : "start",
+    });
   };
 
   const isHome = location.pathname === "/";
