@@ -82,9 +82,8 @@ type GLTFResult = GLTF & {
 // ─── Section A: videos shown in the hero / first section ──────────────────────
 // Arrow buttons navigate within this array while activeSectionRef === 0.
 const SECTION_A_VIDEOS = [
-  "https://res.cloudinary.com/vngznh0k/video/upload/v1793551500/Nick_Mots-C_2.mp4",
   "https://res.cloudinary.com/vngznh0k/video/upload/v1793551495/Spermidine_Reel_Thomas.mp4",
-  "https://res.cloudinary.com/vngznh0k/video/upload/v1793551477/Fix_Reel_V01.mp4",
+  "https://res.cloudinary.com/vngznh0k/video/upload/v1793551500/Nick_Mots-C_2.mp4",
   "https://res.cloudinary.com/vngznh0k/video/upload/v1793551445/The_Final_Ground_Beef.mp4",
 ];
 
@@ -92,6 +91,7 @@ const SECTION_A_VIDEOS = [
 // When the scroll enters tabbedPage this resets to index 0 every time.
 // Arrow buttons navigate within this array while activeSectionRef === 1.
 const SECTION_B_VIDEOS = [
+  "https://res.cloudinary.com/vngznh0k/video/upload/v1793551477/Fix_Reel_V01.mp4",
   "https://res.cloudinary.com/vngznh0k/video/upload/v1793551515/Glp1s_Final_V01.mp4",
   "https://res.cloudinary.com/vngznh0k/video/upload/v1793551578/Andrew_Trailer_Vertical.mp4",
 ];
@@ -191,7 +191,7 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
 
         // Autoplay first video immediately (muted, so browsers allow it)
         if (isFirstVideo) {
-          vid.play().catch(() => {});
+          vid.play().catch(() => { });
         }
       }
       return videoTexturesRef.current.get(key)!;
@@ -308,7 +308,7 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
       const firstVid = videoElementsRef.current.get(poolKey(section, 0));
       if (firstVid) {
         firstVid.muted = true;
-        firstVid.play().catch(() => {});
+        firstVid.play().catch(() => { });
       }
 
       // Pre-load the second video of the new section
@@ -317,13 +317,13 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
     [getVideoTextureSectioned, snapToTexture, stopAllVideos],
   );
 
-  // ── Navigation: next / prev (scoped to the active section) ────────────────
+  // ── Navigation: next / prev (scoped to the active section, wraps around) ───
   const goNext = useCallback(() => {
     if (isTransitioningRef.current) return;
     const section = activeSectionRef.current;
+    const urls = urlsForSection(section);
     const currentIdx = activeIndexRef.current;
-    const nextIdx = currentIdx + 1;
-    if (nextIdx >= urlsForSection(section).length) return; // already at end
+    const nextIdx = (currentIdx + 1) % urls.length;
 
     isTransitioningRef.current = true;
     // When leaving index 0, pause its looping video
@@ -369,8 +369,18 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
         isTransitioningRef.current = false;
         invalidate();
 
+        // If we landed on index 0, resume its looping playback (muted)
+        if (nextIdx === 0) {
+          const firstVid = videoElementsRef.current.get(poolKey(section, 0));
+          if (firstVid) {
+            firstVid.muted = true;
+            firstVid.currentTime = 0;
+            firstVid.play().catch(() => {});
+          }
+        }
+
         // Pre-load adjacent video in the same section
-        getVideoTextureSectioned(section, nextIdx + 1);
+        getVideoTextureSectioned(section, (nextIdx + 1) % urls.length);
       },
     });
   }, [stopAllVideos, getVideoTextureSectioned]);
@@ -378,9 +388,9 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
   const goPrev = useCallback(() => {
     if (isTransitioningRef.current) return;
     const section = activeSectionRef.current;
+    const urls = urlsForSection(section);
     const currentIdx = activeIndexRef.current;
-    const prevIdx = currentIdx - 1;
-    if (prevIdx < 0) return; // already at start
+    const prevIdx = (currentIdx - 1 + urls.length) % urls.length;
 
     isTransitioningRef.current = true;
     // When leaving index 0, pause its looping video
@@ -428,18 +438,18 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
         isTransitioningRef.current = false;
         invalidate();
 
-        // If we landed back on index 0, resume its looping playback (muted)
+        // If we landed on index 0, resume its looping playback (muted)
         if (prevIdx === 0) {
           const firstVid = videoElementsRef.current.get(poolKey(section, 0));
           if (firstVid) {
             firstVid.muted = true;
             firstVid.currentTime = 0;
-            firstVid.play().catch(() => {});
+            firstVid.play().catch(() => { });
           }
         }
 
         // Pre-load adjacent video in the same section
-        getVideoTextureSectioned(section, prevIdx - 1);
+        getVideoTextureSectioned(section, (prevIdx - 1 + urls.length) % urls.length);
       },
     });
   }, [stopAllVideos, getVideoTextureSectioned]);
