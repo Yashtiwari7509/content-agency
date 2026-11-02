@@ -70,7 +70,7 @@ function PageFloatingStats() {
         {/* =====================================================
             HERO CARD
         ====================================================== */}
-        <div data-reveal="card" className={`${card} col-span-12 min-h-[200px] p-7 md:p-9`}>
+        <div data-reveal="card" className={`${card} col-span-12 min-h-50 p-7 md:p-9`}>
           <div className="relative z-10 mt-4 flex justify-between">
             <div>
               <div className="text-[11px] font-medium uppercase tracking-[0.16em] text-gray-400">Avg views per short</div>
@@ -459,12 +459,16 @@ const PhoneStats = () => {
   });
 
   return (
-    <section ref={sectionRef} id="phone-section" className="PhoneStats relative w-screen h-[190vh] lg:h-[210vh] pointer-events-none">
+    <section
+      ref={sectionRef}
+      id="phone-section"
+      className="PhoneStats relative w-screen h-[190vh] lg:h-[210vh] pointer-events-none pb-20 md:pb-0"
+    >
       <DesktopOnly>
         <PhoneVideo />
       </DesktopOnly>
 
-      <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-0 lg:w-[1024px]">
+      <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-0 lg:w-5xl">
         {/* Page 1 — Section A */}
         <div className="relative h-screen flex items-center justify-center lg:justify-start pt-30">
           <PageFloatingStats />

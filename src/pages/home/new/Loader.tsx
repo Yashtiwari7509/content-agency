@@ -24,9 +24,9 @@ const TeamLineup = () => {
         <div className="absolute bottom-0 left-0 z-60 w-screen h-[20vh] prBlur" />
       </div>
       <div className="absolute bottom-0 left-0 z-60 w-screen h-[20vh] prBlur" />
-      <div className="bg-linear-to-b from-white to-transparent h-[20vh] w-screen absolute translate-y-0"></div>
-      <div className="bg-linear-to-b from-white to-transparent h-[20vh] w-screen absolute translate-y-0"></div>
-      <div className="bg-linear-to-b from-white to-transparent h-[20vh] w-screen absolute translate-y-0"></div>
+      <div className="bg-linear-to-t bottom-0 from-white to-transparent h-[20vh] w-screen absolute translate-y-30"></div>
+      <div className="bg-linear-to-t bottom-0 from-white to-transparent h-[20vh] w-screen absolute translate-y-30"></div>
+      <div className="bg-linear-to-t bottom-0 from-white to-transparent h-[20vh] w-screen absolute translate-y-30"></div>
     </section>
   );
 };

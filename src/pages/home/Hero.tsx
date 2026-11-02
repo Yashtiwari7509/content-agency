@@ -133,7 +133,7 @@ const Hero = () => {
         </div>
       </div>
 
-      <div className="absolute h-screen w-screen top-40 md:top-0 center-con">
+      <div className="absolute h-screen w-screen top-40 lg:top-0 center-con">
         <div className="center  relative flex items-center w-[30vw] shrink-0 aspect-square justify-center border-2 border-white  rounded-full overflow-visible pointer-events-none">
           {Array.from({ length: Icons.length / 2 }).map((_, i) => {
             const angle = i * (360 / (Icons.length / 3));
