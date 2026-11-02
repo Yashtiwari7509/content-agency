@@ -108,13 +108,13 @@ export interface ModelNavHandle {
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 /** Create a <video> element configured for texture use */
-function createVideoElement(src: string): HTMLVideoElement {
+function createVideoElement(src: string, loop = false): HTMLVideoElement {
   const vid = document.createElement("video");
   vid.src = src;
   vid.crossOrigin = "anonymous";
   vid.playsInline = true;
   vid.muted = true;
-  vid.loop = false;
+  vid.loop = loop;
   vid.preload = "auto";
   vid.setAttribute("playsinline", "");
   return vid;
@@ -182,10 +182,17 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
 
       const key = poolKey(section, index);
       if (!videoTexturesRef.current.has(key)) {
-        const vid = createVideoElement(urls[index]);
+        // index 0 of each section loops & autoplays
+        const isFirstVideo = index === 0;
+        const vid = createVideoElement(urls[index], isFirstVideo);
         const tex = createVideoTexture(vid);
         videoElementsRef.current.set(key, vid);
         videoTexturesRef.current.set(key, tex);
+
+        // Autoplay first video immediately (muted, so browsers allow it)
+        if (isFirstVideo) {
+          vid.play().catch(() => {});
+        }
       }
       return videoTexturesRef.current.get(key)!;
     },
@@ -220,9 +227,15 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
   uniformsRef.current = uniforms;
 
   // ── Video controls ─────────────────────────────────────────────────────
-  const stopAllVideos = useCallback(() => {
-    videoElementsRef.current.forEach((vid) => {
+  const stopAllVideos = useCallback((/** If true, also stops the looping first videos */ includeLooping = false) => {
+    videoElementsRef.current.forEach((vid, key) => {
       if (vid && "pause" in vid) {
+        // Don't stop first videos (index 0) of either section unless explicitly asked
+        if (!includeLooping && (key & 0xffff) === 0) {
+          // Keep it playing but muted (it loops silently on its own)
+          vid.muted = true;
+          return;
+        }
         vid.pause();
         vid.muted = true;
       }
@@ -234,19 +247,28 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
     const vid = videoElementsRef.current.get(activeKey);
     if (!vid) return;
 
-    // Pause all others
+    // Pause all others (except looping first videos which stay muted)
     videoElementsRef.current.forEach((v, key) => {
       if (key !== activeKey && v && !v.paused) {
-        v.pause();
-        v.muted = true;
+        if ((key & 0xffff) === 0) {
+          v.muted = true; // keep looping silently
+        } else {
+          v.pause();
+          v.muted = true;
+        }
       }
     });
 
     vid.muted = false;
     vid.volume = 1;
     if (vid.paused) {
-      vid.currentTime = 0;
-      vid.play().catch(() => { }); // swallow AbortError
+      // First video (index 0) is already looping — just resume if somehow paused
+      if (activeIndexRef.current === 0) {
+        vid.play().catch(() => { });
+      } else {
+        vid.currentTime = 0;
+        vid.play().catch(() => { }); // swallow AbortError
+      }
     }
   }, []);
 
@@ -274,11 +296,19 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
 
       activeSectionRef.current = section;
       activeIndexRef.current = 0;
-      stopAllVideos();
+      // Stop everything including looping videos from the other section
+      stopAllVideos(true);
 
       const firstTex = getVideoTextureSectioned(section, 0);
       if (firstTex) {
         snapToTexture(firstTex);
+      }
+
+      // Start the first video of the new section looping (muted autoplay)
+      const firstVid = videoElementsRef.current.get(poolKey(section, 0));
+      if (firstVid) {
+        firstVid.muted = true;
+        firstVid.play().catch(() => {});
       }
 
       // Pre-load the second video of the new section
@@ -296,6 +326,11 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
     if (nextIdx >= urlsForSection(section).length) return; // already at end
 
     isTransitioningRef.current = true;
+    // When leaving index 0, pause its looping video
+    if (currentIdx === 0) {
+      const firstVid = videoElementsRef.current.get(poolKey(section, 0));
+      if (firstVid) firstVid.pause();
+    }
     stopAllVideos();
 
     const mat = shaderMaterialRef.current;
@@ -348,6 +383,11 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
     if (prevIdx < 0) return; // already at start
 
     isTransitioningRef.current = true;
+    // When leaving index 0, pause its looping video
+    if (currentIdx === 0) {
+      const firstVid = videoElementsRef.current.get(poolKey(section, 0));
+      if (firstVid) firstVid.pause();
+    }
     stopAllVideos();
 
     const mat = shaderMaterialRef.current;
@@ -387,6 +427,16 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
         mat.uniformsNeedUpdate = true;
         isTransitioningRef.current = false;
         invalidate();
+
+        // If we landed back on index 0, resume its looping playback (muted)
+        if (prevIdx === 0) {
+          const firstVid = videoElementsRef.current.get(poolKey(section, 0));
+          if (firstVid) {
+            firstVid.muted = true;
+            firstVid.currentTime = 0;
+            firstVid.play().catch(() => {});
+          }
+        }
 
         // Pre-load adjacent video in the same section
         getVideoTextureSectioned(section, prevIdx - 1);
@@ -455,7 +505,7 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
     mountedRef.current = true;
     return () => {
       mountedRef.current = false;
-      stopAllVideos();
+      stopAllVideos(true);
       if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
       // Dispose all textures
       videoTexturesRef.current.forEach((tex) => tex.dispose());
@@ -625,7 +675,7 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
           });
 
           return () => {
-            stopAllVideos();
+            stopAllVideos(true);
             btn1TL.kill();
             btn2TL.kill();
             tabbedPageST.kill(); // <-- critical
@@ -634,7 +684,7 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
       );
 
       return () => {
-        stopAllVideos();
+        stopAllVideos(true);
         gsap.ticker.remove(tickerCallback);
         mm.revert();
       };
