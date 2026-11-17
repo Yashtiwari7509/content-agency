@@ -58,7 +58,7 @@ function NavDropdown({ label, items, buttonRef, onOpen, panelWidth = "w-44", onI
 
       <div
         className={cn(
-          "absolute left-0 top-full mt-3 z-50 p-1 rounded-2xl border border-white bg-white",
+          "absolute left-0 top-full mt-3 z-50 p-1 rounded-2xl border-black/10 border bg-white",
           "opacity-0 scale-[0.97] pointer-events-none whitespace-nowrap",
           "transition-[opacity,transform] duration-150 ease-out",
           "group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto",

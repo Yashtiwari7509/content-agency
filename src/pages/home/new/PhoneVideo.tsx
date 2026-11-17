@@ -23,7 +23,7 @@ const PhoneVideo = () => {
           dpr={[1, 1.2]}
           camera={{ position: [0, 0, 10], fov: 10 }}
           shadows={false}
-          frameloop="demand"
+          frameloop="always"
         >
           <IphoneS ref={modelRef} />
           <pointLight />

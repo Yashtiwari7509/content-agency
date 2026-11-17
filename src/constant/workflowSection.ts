@@ -183,21 +183,21 @@ export const SLIDES: Slide[] = [
   {
     label: "Views & growth",
     bg: "#EEEDFE",
-    videoSrc: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792169759/views_fqoyc6.mp4",
+    videoSrc: "https://res.cloudinary.com/vngznh0k/video/upload/v1794905800/views.mp4",
   },
   {
     label: "Social media",
     bg: "#FAECE7",
-    videoSrc: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792169747/social-media_smmbpy.mp4",
+    videoSrc: "https://res.cloudinary.com/vngznh0k/video/upload/v1794905796/social-media.mp4",
   },
   {
     label: "Short-form content",
     bg: "#E1F5EE",
-    videoSrc: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792169768/short-form_conzil.mp4",
+    videoSrc: "https://res.cloudinary.com/vngznh0k/video/upload/v1794905808/short-form.mp4",
   },
   {
     label: "Long-form editing",
     bg: "#F1EFE8",
-    videoSrc: "https://res.cloudinary.com/decqmmcxq/video/upload/v1792169769/long-form_exvxb3.mp4",
+    videoSrc: "https://res.cloudinary.com/vngznh0k/video/upload/v1794905817/long-form.mp4",
   },
 ];

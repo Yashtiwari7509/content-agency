@@ -6,7 +6,7 @@ import type { GLTF } from "three-stdlib";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { invalidate } from "@react-three/fiber";
+import { invalidate, useFrame } from "@react-three/fiber";
 
 gsap.registerPlugin(ScrollTrigger);
 // @ts-ignore
@@ -82,19 +82,22 @@ type GLTFResult = GLTF & {
 // ─── Section A: videos shown in the hero / first section ──────────────────────
 // Arrow buttons navigate within this array while activeSectionRef === 0.
 const SECTION_A_VIDEOS = [
+  "https://res.cloudinary.com/vngznh0k/video/upload/v1793551242/Reels.mp4",
   "https://res.cloudinary.com/vngznh0k/video/upload/v1793551495/Spermidine_Reel_Thomas.mp4",
-  "https://res.cloudinary.com/vngznh0k/video/upload/v1793551500/Nick_Mots-C_2.mp4",
   "https://res.cloudinary.com/vngznh0k/video/upload/v1793551445/The_Final_Ground_Beef.mp4",
+  "https://res.cloudinary.com/vngznh0k/video/upload/v1793551477/Fix_Reel_V01.mp4",
 ];
 
 // ─── Section B: videos shown in tabbedPage / PhoneStats section ───────────────
 // When the scroll enters tabbedPage this resets to index 0 every time.
 // Arrow buttons navigate within this array while activeSectionRef === 1.
 const SECTION_B_VIDEOS = [
-  "https://res.cloudinary.com/vngznh0k/video/upload/v1793551477/Fix_Reel_V01.mp4",
+  "https://res.cloudinary.com/vngznh0k/video/upload/v1793551278/Shorts.mp4",
+  "https://res.cloudinary.com/vngznh0k/video/upload/v1793551500/Nick_Mots-C_2.mp4",
   "https://res.cloudinary.com/vngznh0k/video/upload/v1793551515/Glp1s_Final_V01.mp4",
   "https://res.cloudinary.com/vngznh0k/video/upload/v1793551578/Andrew_Trailer_Vertical.mp4",
 ];
+
 
 // ─── Navigation handle exposed to parent ───────────────────────────────────────
 export interface ModelNavHandle {
@@ -166,6 +169,9 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
    */
   const activeIndexRef = useRef(0);
   const isTransitioningRef = useRef(false);
+  // Holds the contextSafe wrapper from useGSAP so callbacks outside the hook
+  // can schedule gsap animations inside the correct GSAP context.
+  const contextSafeRef = useRef<(<T extends (...args: never[]) => unknown>(fn: T) => T) | null>(null);
 
   /** Encode a (section, index) pair into a single pool key */
   const poolKey = (section: 0 | 1, index: number) => (section << 16) | index;
@@ -189,10 +195,7 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
         videoElementsRef.current.set(key, vid);
         videoTexturesRef.current.set(key, tex);
 
-        // Autoplay first video immediately (muted, so browsers allow it)
-        if (isFirstVideo) {
-          vid.play().catch(() => { });
-        }
+
       }
       return videoTexturesRef.current.get(key)!;
     },
@@ -262,13 +265,8 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
     vid.muted = false;
     vid.volume = 1;
     if (vid.paused) {
-      // First video (index 0) is already looping — just resume if somehow paused
-      if (activeIndexRef.current === 0) {
-        vid.play().catch(() => { });
-      } else {
-        vid.currentTime = 0;
-        vid.play().catch(() => { }); // swallow AbortError
-      }
+      // Resume from where the video left off — never restart on re-hover
+      vid.play().catch(() => { }); // swallow AbortError
     }
   }, []);
 
@@ -290,7 +288,7 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
       // Kill any in-progress transition so snapToTexture is clean
       if (isTransitioningRef.current) {
         const uProgress = shaderMaterialRef.current?.uniforms.uProgress;
-        if (uProgress) gsap.killTweensOf(uProgress);
+        if (uProgress) (contextSafeRef.current ?? ((fn: () => void) => fn))(() => gsap.killTweensOf(uProgress))();
         isTransitioningRef.current = false;
       }
 
@@ -354,7 +352,7 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
     mat.uniforms.uProgress.value = 0;
     mat.uniformsNeedUpdate = true;
 
-    gsap.to(mat.uniforms.uProgress, {
+    (contextSafeRef.current ?? ((fn: () => void) => fn))(() => gsap.to(mat.uniforms.uProgress, {
       value: 1,
       duration: 0.6,
       ease: "power2.inOut",
@@ -382,7 +380,7 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
         // Pre-load adjacent video in the same section
         getVideoTextureSectioned(section, (nextIdx + 1) % urls.length);
       },
-    });
+    }))();
   }, [stopAllVideos, getVideoTextureSectioned]);
 
   const goPrev = useCallback(() => {
@@ -423,7 +421,7 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
     mat.uniforms.uProgress.value = 1;
     mat.uniformsNeedUpdate = true;
 
-    gsap.to(mat.uniforms.uProgress, {
+    (contextSafeRef.current ?? ((fn: () => void) => fn))(() => gsap.to(mat.uniforms.uProgress, {
       value: 0,
       duration: 0.6,
       ease: "power2.inOut",
@@ -451,7 +449,7 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
         // Pre-load adjacent video in the same section
         getVideoTextureSectioned(section, (prevIdx - 1 + urls.length) % urls.length);
       },
-    });
+    }))();
   }, [stopAllVideos, getVideoTextureSectioned]);
 
   // ── Expose nav handle to parent ────────────────────────────────────────
@@ -510,6 +508,8 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+
+
   // Stop all videos and mark as unmounted when navigating away
   useEffect(() => {
     mountedRef.current = true;
@@ -524,8 +524,10 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
     };
   }, []);
 
-  useGSAP(
+
+  const { contextSafe } = useGSAP(
     () => {
+      contextSafeRef.current = contextSafe;
       const tickerCallback = () => invalidate();
       gsap.ticker.add(tickerCallback);
       const model = modelRef.current;
@@ -701,6 +703,31 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
     },
     { dependencies: [] },
   );
+
+  // ── First-frame init + ongoing canvas repaints ────────────────────────────
+  // On the very first R3F frame the shaderMaterialRef is guaranteed to be set.
+  // We call snapToTexture() here (just like switchToSection does) to properly
+  // initialise the material — this sets uniformsNeedUpdate=true so Three.js
+  // uploads the uniform values to the GPU and shows the video.
+  // We also play the video here to avoid any render-phase / SSR timing issues.
+  const hasInited = useRef(false);
+  useFrame(() => {
+    if (!hasInited.current && shaderMaterialRef.current && initialTex0) {
+      hasInited.current = true;
+      // Play section A video 0 (muted autoplay is always allowed by browsers)
+      const vid = videoElementsRef.current.get(poolKey(0, 0));
+      if (vid && vid.paused) { vid.muted = true; vid.play().catch(() => {}); }
+      // Force material to upload uniforms to GPU and trigger a repaint
+      snapToTexture(initialTex0);
+    }
+    // Keep calling invalidate() every frame while any video is playing so the
+    // VideoTexture refreshes on screen (needed with frameloop="demand")
+    const loopVid = videoElementsRef.current.get(poolKey(activeSectionRef.current, 0));
+    const activeVid = videoElementsRef.current.get(poolKey(activeSectionRef.current, activeIndexRef.current));
+    if ((loopVid && !loopVid.paused) || (activeVid && !activeVid.paused)) {
+      invalidate();
+    }
+  });
 
   return (
     <group

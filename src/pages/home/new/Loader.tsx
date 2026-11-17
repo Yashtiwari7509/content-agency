@@ -5,7 +5,7 @@ import LazyImage from "@/components/LazyImage";
 const TeamLineup = () => {
   return (
     <section style={{ willChange: "transform,auto" }} className="top-0 h-dvh w-screen inset-0 z-2000 fixed bg-white loader-screen">
-      <div className="w-screen h-screen  overflow-hidden">
+      <div className="w-screen h-dvh  overflow-hidden">
         {/* Team images */}
         <div className="relative lg:max-w-360 max-w-xl h-full mx-auto loader-images">
           <div className="w-full h-full absolute">
@@ -21,7 +21,7 @@ const TeamLineup = () => {
           </div>
         </div>
         {/* Bottom Blur */}
-        <div className="absolute bottom-0 left-0 z-60 w-screen h-[20vh] prBlur" />
+        <div className="absolute bottom-2 left-0 z-60 w-screen h-[20vh] prBlur" />
       </div>
       <div className="absolute bottom-0 left-0 z-60 w-screen h-[20vh] prBlur" />
       <div className="bg-linear-to-t bottom-0 from-white to-transparent h-[20vh] w-screen absolute translate-y-30"></div>
