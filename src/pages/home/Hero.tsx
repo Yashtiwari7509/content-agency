@@ -6,7 +6,6 @@ import gsap from "gsap";
 import { useRef } from "react";
 import { aboutLogo, fb, insta, reel, short, youtube } from "@/assets/Image";
 import { A_dp, N_dp, T_dp } from "@/assets/ClientImage";
-import LazyImage from "@/components/LazyImage";
 
 const Icons = [{ src: fb }, { src: fb }, { src: short }, { src: short }, { src: reel }, { src: reel }, { src: short }, { src: short }];
 const CardStatsData: CardStatsItem[] = [
@@ -106,13 +105,13 @@ const Hero = () => {
         {/* Glassmorphism badge */}
         <div className="hero-anime flex items-center gap-1.5 whitespace-nowrap sm:gap-2 border border-background rounded-full  bg-white/80 uppercase px-1 sm:px-2 py-1 sm:py-1.5 backdrop-blur-sm">
           <span className="h-6 w-6">
-            <LazyImage src={aboutLogo} alt="" loading="lazy" />
+            <img src={aboutLogo} alt="" loading="lazy" />
           </span>
           <div className="text-sm text-foreground font-light w-76 leading-snug ">
             #1 Content Agency for <TypeClip />
           </div>
         </div>
-        <h1 className="hero-anime text-3xl sm:text-4xl md:text-4xl lg:text-7xl hero-main-text text-center leading-tighter text-foreground">
+        <h1 className="hero-anime text-3xl sm:text-4xl md:text-4xl lg:text-6xl hero-main-text text-center leading-tighter text-foreground">
           We Turn Science <br /> Into <p className="relative inline-block text-primary">Influence.</p>
         </h1>
 
@@ -159,7 +158,7 @@ const Hero = () => {
                     }}
                     className="flex bg-background items-center justify-center size-14 border-2 border-white rounded-lg backdrop-blur-sm"
                   >
-                    <LazyImage src={icon1.src} className="w-6 h-6" alt="" loading="lazy" />
+                    <img src={icon1.src} className="w-6 h-6" alt="" loading="lazy" />
                   </div>
                 </div>
 
@@ -172,7 +171,7 @@ const Hero = () => {
                     }}
                     className="flex bg-background items-center justify-center size-14 border-2 border-white rounded-lg backdrop-blur-sm"
                   >
-                    <LazyImage src={icon2.src} className="w-6 h-6" alt="" loading="lazy" />
+                    <img src={icon2.src} className="w-6 h-6" alt="" loading="lazy" />
                   </div>
                 </div>
               </div>

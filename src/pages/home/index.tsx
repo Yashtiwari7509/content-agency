@@ -44,7 +44,7 @@ const Home = () => {
       })
       .to(".loader-screen", {
         y: "-120vh",
-        duration: 1.2,
+        duration: 1,
         ease: "expo.in",
         filter: "blur(50px)",
         onComplete: () => {
@@ -52,7 +52,7 @@ const Home = () => {
           gsap.set(".loader-screen", { display: "none" });
         },
       })
-      .from(".hero-anime", { y: 50, duration: 1, ease: "power4.out", stagger: 0.1 }, "-=.1")
+      .from(".hero-anime", { y: 50, duration: 1, ease: "power4.out", stagger: 0.1 }, "-=.05")
       .from(".center", { y: 100, opacity: 0, immediateRender: true }, "<");
   });
 

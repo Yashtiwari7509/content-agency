@@ -11,6 +11,8 @@ const LazyImage = forwardRef<HTMLImageElement, ImgHTMLAttributes<HTMLImageElemen
       ref={ref}
       src={src}
       {...props}
+      loading="lazy"
+      decoding="async"
       className={cn(isLoading && "bg-gray-200", className)}
       style={{
         ...style,

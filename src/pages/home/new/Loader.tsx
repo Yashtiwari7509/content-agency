@@ -1,6 +1,5 @@
 import { members } from "@/constant/workflowSection";
 import { cn } from "@/lib/utils";
-import LazyImage from "@/components/LazyImage";
 
 const TeamLineup = () => {
   return (
@@ -10,7 +9,7 @@ const TeamLineup = () => {
         <div className="relative lg:max-w-360 max-w-xl h-full mx-auto loader-images">
           <div className="w-full h-full absolute">
             {members.map((member, index) => (
-              <LazyImage
+              <img
                 key={index}
                 src={member.src}
                 alt={member.alt}
