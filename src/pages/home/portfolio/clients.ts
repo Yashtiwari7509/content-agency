@@ -12,10 +12,10 @@ export const portfolioClients: PortfolioClient[] = [
     avatar: Thomas1,
     gifUrl: "https://res.cloudinary.com/vngznh0k/video/upload/v1793552952/Thomas_Gif_Video.mp4",
     photos: [
-      "https://res.cloudinary.com/decqmmcxq/image/upload/v1781610775/Screenshot_33_cip7ce.png",
-      "https://res.cloudinary.com/decqmmcxq/image/upload/v1781610768/Screenshot_34_awewqe.png",
-      "https://res.cloudinary.com/decqmmcxq/image/upload/v1781610771/Screenshot_123_mhqjuj.png",
-      "https://res.cloudinary.com/decqmmcxq/image/upload/v1781610774/Screenshot_25_clj4v8.png",
+      "https://res.cloudinary.com/vngznh0k/image/upload/v1793552870/Screenshot_33.png",
+      "https://res.cloudinary.com/vngznh0k/image/upload/v1793552863/Screenshot_34.png",
+      "https://res.cloudinary.com/vngznh0k/image/upload/v1793552865/Screenshot_123.png",
+      "https://res.cloudinary.com/vngznh0k/image/upload/v1793552868/Screenshot_25.png",
     ],
     videos: [
       {
@@ -51,13 +51,13 @@ export const portfolioClients: PortfolioClient[] = [
     avatar: Nick1,
     gifUrl: "https://res.cloudinary.com/vngznh0k/video/upload/v1793552769/Nick_Video_For_Gif.mp4",
     photos: [
-      "https://res.cloudinary.com/decqmmcxq/image/upload/v1781610775/Screenshot_52_vgj5x7.png",
-      "https://res.cloudinary.com/decqmmcxq/image/upload/v1781610775/Screenshot_39_ade8js.png",
-      "https://res.cloudinary.com/decqmmcxq/image/upload/v1781610774/Screenshot_43_neeqyb.png",
-      "https://res.cloudinary.com/decqmmcxq/image/upload/v1781610774/Screenshot_58_lbljkj.png",
-      "https://res.cloudinary.com/decqmmcxq/image/upload/v1781610766/Screenshot_104_ejnlj1.png",
-      "https://res.cloudinary.com/decqmmcxq/image/upload/v1781610769/Screenshot_54_nz6ibg.png",
-      "https://res.cloudinary.com/decqmmcxq/image/upload/v1781610769/Screenshot_46_ytjnuz.png",
+      "https://res.cloudinary.com/vngznh0k/image/upload/v1793552742/Last.png",
+      "https://res.cloudinary.com/vngznh0k/image/upload/v1793552738/Screenshot_58.png",
+      "https://res.cloudinary.com/vngznh0k/image/upload/v1793552732/Screenshot_49.png",
+      "https://res.cloudinary.com/vngznh0k/image/upload/v1793552731/Screenshot_53.png",
+      "https://res.cloudinary.com/vngznh0k/image/upload/v1793552726/Screenshot_39.png",
+      "https://res.cloudinary.com/vngznh0k/image/upload/v1793552724/Screenshot_52.png",
+      "https://res.cloudinary.com/vngznh0k/image/upload/v1793552682/Screenshot_104.png",
     ],
     videos: [
       { src: "https://res.cloudinary.com/vngznh0k/video/upload/v1793552800/1.mp4", title: "Short-form" },
@@ -78,9 +78,9 @@ export const portfolioClients: PortfolioClient[] = [
     gifUrl: "https://res.cloudinary.com/vngznh0k/video/upload/v1793552434/Andrew_Gif_Video.mp4",
     photos: [
       "https://res.cloudinary.com/vngznh0k/image/upload/v1793552342/Screenshot_63.png",
-      "https://res.cloudinary.com/vngznh0k/image/upload/v1793552205/Screenshot_66.png",
       "https://res.cloudinary.com/vngznh0k/image/upload/v1793552206/Screenshot_64.png",
       "https://res.cloudinary.com/vngznh0k/image/upload/v1793552208/Screenshot_101.png",
+      "https://res.cloudinary.com/vngznh0k/image/upload/v1793552210/Screenshot_129.png",
       "https://res.cloudinary.com/vngznh0k/image/upload/v1793552210/Screenshot_129.png",
     ],
     videos: [
