@@ -17,11 +17,6 @@ import TeamSection from "./TeamSection";
 import SiteFooter from "./SiteFooter";
 import { useLenis } from "lenis/react";
 
-// Disable browser scroll restoration before any render (fixes Shift+Ctrl+R)
-if (typeof window !== "undefined") {
-  window.history.scrollRestoration = "manual";
-}
-
 const Home = () => {
   const tl1Ref = useRef<GSAPTimeline>(null);
   const lenisRef = useRef<ReturnType<typeof useLenis>>(null);
@@ -29,13 +24,6 @@ const Home = () => {
   // Always keep lenisRef in sync with the latest instance
   const lenis = useLenis();
   lenisRef.current = lenis;
-
-  useEffect(() => {
-    // Reset all scroll containers to top immediately on mount
-    window.scrollTo(0, 0);
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
-  }, []);
 
   useEffect(() => {
     if (lenis) {
