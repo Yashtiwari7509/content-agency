@@ -151,14 +151,14 @@ export const projects: Project[] = [
     category: "Production — Delivery",
     title: "2500+ Videos",
     year: "Counting",
-    image: "https://res.cloudinary.com/decqmmcxq/image/upload/v1791996880/workflow1_boft0i.webp",
+    image: "https://res.cloudinary.com/vngznh0k/image/upload/v1794905017/ChatGPT_Image_Sep_23_2026_05_54_02_PM.png",
   },
   {
     index: "02",
     category: "Relationships — Trust",
     title: "50+ Satisfied Clients",
     year: "Partnerships",
-    image: "https://res.cloudinary.com/decqmmcxq/image/upload/v1791996880/workflow2_ml3zhy.webp",
+    image: "https://res.cloudinary.com/vngznh0k/image/upload/v1794905017/ChatGPT_Image_Sep_23_2026_05_45_54_PM.png",
   },
   {
     index: "03",
@@ -172,6 +172,6 @@ export const projects: Project[] = [
     category: "Growth — Management",
     title: "40+ Pages Managed",
     year: "Strategy",
-    image: "https://res.cloudinary.com/decqmmcxq/image/upload/v1791996880/workflow3_abi5sf.webp",
+    image: "https://res.cloudinary.com/vngznh0k/image/upload/v1794905017/ChatGPT_Image_Sep_23_2026_05_31_31_PM.png",
   },
 ];

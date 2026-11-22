@@ -168,6 +168,8 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
    */
   const activeIndexRef = useRef(0);
   const isTransitioningRef = useRef(false);
+  /** True while the pointer is over the 3D group (desktop only). */
+  const isHoveringRef = useRef(false);
   // Holds the contextSafe wrapper from useGSAP so callbacks outside the hook
   // can schedule gsap animations inside the correct GSAP context.
   const contextSafeRef = useRef<(<T extends (...args: never[]) => unknown>(fn: T) => T) | null>(null);
@@ -244,6 +246,19 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
     });
   }, []);
 
+  /**
+   * Play the video at the given section+index.
+   * - index 0: always muted, loops (loop flag already set on creation).
+   * - index 1+: muted initially; hover will unmute if the user is already over the model.
+   */
+  const playVideoAt = useCallback((section: 0 | 1, index: number) => {
+    const key = poolKey(section, index);
+    const vid = videoElementsRef.current.get(key);
+    if (!vid) return;
+    vid.muted = true; // always start muted; hover unmutes index 1+
+    vid.play().catch(() => {});
+  }, []);
+
   // ── Immediately snap the shader to display a given texture (no wipe) ──────
   const snapToTexture = useCallback((tex: THREE.VideoTexture) => {
     const mat = shaderMaterialRef.current;
@@ -276,17 +291,13 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
         snapToTexture(firstTex);
       }
 
-      // Start the first video of the new section looping (muted autoplay)
-      const firstVid = videoElementsRef.current.get(poolKey(section, 0));
-      if (firstVid) {
-        firstVid.muted = true;
-        firstVid.play().catch(() => { });
-      }
+      // Start the first video of the new section looping (always muted)
+      playVideoAt(section, 0);
 
       // Pre-load the second video of the new section
       getVideoTextureSectioned(section, 1);
     },
-    [getVideoTextureSectioned, snapToTexture, stopAllVideos],
+    [getVideoTextureSectioned, snapToTexture, stopAllVideos, playVideoAt],
   );
 
   // ── Navigation: next / prev (scoped to the active section, wraps around) ───
@@ -298,12 +309,9 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
     const nextIdx = (currentIdx + 1) % urls.length;
 
     isTransitioningRef.current = true;
-    // When leaving index 0, pause its looping video
-    if (currentIdx === 0) {
-      const firstVid = videoElementsRef.current.get(poolKey(section, 0));
-      if (firstVid) firstVid.pause();
-    }
-    stopAllVideos();
+    // Pause the current video before transitioning
+    const currentVid = videoElementsRef.current.get(poolKey(section, currentIdx));
+    if (currentVid) { currentVid.pause(); currentVid.muted = true; }
 
     const mat = shaderMaterialRef.current;
     if (!mat) {
@@ -320,6 +328,10 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
       isTransitioningRef.current = false;
       return;
     }
+
+    // Start playing the next video muted so it's ready when the wipe lands
+    const nextVid = videoElementsRef.current.get(poolKey(section, nextIdx));
+    if (nextVid) { nextVid.muted = true; nextVid.play().catch(() => {}); }
 
     mat.uniforms.uTexture.value = nextTex; // destination (revealed at uProgress=1)
     mat.uniforms.uTexture2.value = currentTex; // source (visible now at uProgress=0)
@@ -341,8 +353,8 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
         isTransitioningRef.current = false;
         invalidate();
 
-        // If we landed on index 0, resume its looping playback (muted)
         if (nextIdx === 0) {
+          // Returned to index 0 — always muted loop
           const firstVid = videoElementsRef.current.get(poolKey(section, 0));
           if (firstVid) {
             firstVid.muted = true;
@@ -350,12 +362,18 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
             firstVid.play().catch(() => {});
           }
         }
+        // index 1+ video is already playing (started before the wipe);
+        // if the pointer is currently over the model, unmute it now.
+        else if (isHoveringRef.current) {
+          const vid = videoElementsRef.current.get(poolKey(section, nextIdx));
+          if (vid) { vid.muted = false; vid.volume = 1; }
+        }
 
         // Pre-load adjacent video in the same section
         getVideoTextureSectioned(section, (nextIdx + 1) % urls.length);
       },
     }))();
-  }, [stopAllVideos, getVideoTextureSectioned]);
+  }, [getVideoTextureSectioned]);
 
   const goPrev = useCallback(() => {
     if (isTransitioningRef.current) return;
@@ -365,12 +383,9 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
     const prevIdx = (currentIdx - 1 + urls.length) % urls.length;
 
     isTransitioningRef.current = true;
-    // When leaving index 0, pause its looping video
-    if (currentIdx === 0) {
-      const firstVid = videoElementsRef.current.get(poolKey(section, 0));
-      if (firstVid) firstVid.pause();
-    }
-    stopAllVideos();
+    // Pause the current video before transitioning
+    const currentVid = videoElementsRef.current.get(poolKey(section, currentIdx));
+    if (currentVid) { currentVid.pause(); currentVid.muted = true; }
 
     const mat = shaderMaterialRef.current;
     if (!mat) {
@@ -389,6 +404,10 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
       isTransitioningRef.current = false;
       return;
     }
+
+    // Start playing the prev video muted so it's ready when the wipe lands
+    const prevVid = videoElementsRef.current.get(poolKey(section, prevIdx));
+    if (prevVid) { prevVid.muted = true; prevVid.play().catch(() => {}); }
 
     mat.uniforms.uTexture.value = currentTex; // visible at uProgress=1 (no flash)
     mat.uniforms.uTexture2.value = prevTex; // destination (revealed at uProgress=0)
@@ -410,8 +429,8 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
         isTransitioningRef.current = false;
         invalidate();
 
-        // If we landed on index 0, resume its looping playback (muted)
         if (prevIdx === 0) {
+          // Returned to index 0 — always muted loop; reset time for clean restart
           const firstVid = videoElementsRef.current.get(poolKey(section, 0));
           if (firstVid) {
             firstVid.muted = true;
@@ -419,12 +438,17 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
             firstVid.play().catch(() => { });
           }
         }
+        // index 1+ video is already playing; unmute if pointer is over the model
+        else if (isHoveringRef.current) {
+          const vid = videoElementsRef.current.get(poolKey(section, prevIdx));
+          if (vid) { vid.muted = false; vid.volume = 1; }
+        }
 
         // Pre-load adjacent video in the same section
         getVideoTextureSectioned(section, (prevIdx - 1 + urls.length) % urls.length);
       },
     }))();
-  }, [stopAllVideos, getVideoTextureSectioned]);
+  }, [getVideoTextureSectioned]);
 
   // ── Expose nav handle to parent ────────────────────────────────────────
   useImperativeHandle(
@@ -438,48 +462,56 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
     [goNext, goPrev],
   );
 
-  // ── Hover to unmute / mute array[0] of the active section ─────────────
+  // ── Hover to unmute / mute the active video (index 1+ only) ──────────
   const hoverTimeoutRef = useRef<number | null>(null);
 
-  /** Unmute the index-0 video of the active section (it always loops/autoplays). */
-  const unmuteFirstVideo = useCallback(() => {
-    const key = poolKey(activeSectionRef.current, 0);
-    const vid = videoElementsRef.current.get(key);
-    if (vid) {
-      vid.muted = false;
-      vid.volume = 1;
-    }
+  /**
+   * Unmute the currently active video — but only when it is NOT index 0.
+   * Index 0 of every section must always stay muted.
+   */
+  const unmuteActiveVideo = useCallback(() => {
+    const section = activeSectionRef.current;
+    const index = activeIndexRef.current;
+    if (index === 0) return; // index 0 is always muted
+    const vid = videoElementsRef.current.get(poolKey(section, index));
+    if (vid) { vid.muted = false; vid.volume = 1; }
   }, []);
 
-  /** Mute the index-0 video of the active section. */
-  const muteFirstVideo = useCallback(() => {
-    const key = poolKey(activeSectionRef.current, 0);
-    const vid = videoElementsRef.current.get(key);
+  /** Mute the currently active video (called on pointer leave). */
+  const muteActiveVideo = useCallback(() => {
+    const section = activeSectionRef.current;
+    const index = activeIndexRef.current;
+    if (index === 0) return; // index 0 is always muted — nothing to do
+    const vid = videoElementsRef.current.get(poolKey(section, index));
     if (vid) vid.muted = true;
   }, []);
 
   const handlePointerEnter = () => {
     if (isMobile) return;
+    isHoveringRef.current = true;
     if (hoverTimeoutRef.current) {
       clearTimeout(hoverTimeoutRef.current);
       hoverTimeoutRef.current = null;
     }
-    unmuteFirstVideo();
+    unmuteActiveVideo();
   };
 
   const handlePointerLeave = () => {
     if (isMobile) return;
+    isHoveringRef.current = false;
     hoverTimeoutRef.current = window.setTimeout(() => {
-      muteFirstVideo();
+      muteActiveVideo();
       hoverTimeoutRef.current = null;
     }, 120);
   };
 
   const handleClick = () => {
     if (!isMobile) return;
-    // Toggle mute on tap for mobile
-    const key = poolKey(activeSectionRef.current, 0);
-    const vid = videoElementsRef.current.get(key);
+    // Toggle mute on tap for mobile — only for index 1+ videos
+    const section = activeSectionRef.current;
+    const index = activeIndexRef.current;
+    if (index === 0) return; // index 0 is always muted on mobile too
+    const vid = videoElementsRef.current.get(poolKey(section, index));
     if (vid) vid.muted = !vid.muted;
   };
 
