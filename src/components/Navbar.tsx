@@ -317,48 +317,95 @@ export function NavbarTop() {
         {/* Mobile menu — starts hidden and non-interactive; GSAP controls visibility on open/close */}
         <div
           ref={mobileMenuRef}
-          className="fixed inset-x-4 top-24 z-50 flex flex-col justify-center items-center rounded-3 bg-white/95 p-4 opacity-0 rounded-2xl backdrop-blur-2xl"
+          className="fixed inset-x-4 top-24 z-50 rounded-2xl bg-white/95 backdrop-blur-2xl opacity-0 overflow-hidden"
           style={{ visibility: "hidden", pointerEvents: "none" }}
         >
-          {navItems.map((item) => (
-            <NavLink
-              key={item.link}
-              data-mobile-item
-              to={item.link}
-              viewTransition
-              onClick={() => setMobileOpen(false)}
-              className="rounded-xl px-3 text-lg text-neutral-800"
-            >
-              <p>{item.name}</p>
-            </NavLink>
-          ))}
+          <div className="p-5 flex flex-col gap-5">
 
-          <div className="mt-1 flex flex-col gap-1 cursor-pointer">
-            {currentSections.map((s) => (
-              <p
-                key={s.link}
-                data-mobile-item
-                onClick={() => {
-                  scrollToSection(s.link);
-                  setMobileOpen(false);
-                }}
-                className="rounded-xl px-3 py-3 text-base text-neutral-600"
-              >
-                {s.name}
+            {/* ── Pages ─────────────────────────────────────── */}
+            <div data-mobile-item>
+              <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-neutral-400">
+                Pages
               </p>
-            ))}
-          </div>
+              <div className="flex flex-wrap gap-x-1 gap-y-1">
+                <NavLink
+                  to="/"
+                  viewTransition
+                  onClick={() => setMobileOpen(false)}
+                  className="rounded-full border border-neutral-200 px-3 py-1 text-[13px] font-medium text-neutral-700 hover:bg-neutral-100 transition-colors"
+                >
+                  Home
+                </NavLink>
+                {navItems.map((item) => (
+                  <NavLink
+                    key={item.link}
+                    to={item.link}
+                    viewTransition
+                    onClick={() => setMobileOpen(false)}
+                    className="rounded-full border border-neutral-200 px-3 py-1 text-[13px] font-medium text-neutral-700 hover:bg-neutral-100 transition-colors"
+                  >
+                    {item.name}
+                  </NavLink>
+                ))}
+                {isHome && (
+                  <button
+                    onClick={() => { scrollToSection("#portfolio"); setMobileOpen(false); }}
+                    className="rounded-full border border-neutral-200 px-3 py-1 text-[13px] font-medium text-neutral-700 hover:bg-neutral-100 transition-colors"
+                  >
+                    Portfolio
+                  </button>
+                )}
+              </div>
+            </div>
 
-          <button
-            data-mobile-item
-            onClick={() => {
-              setMobileOpen(false);
-              openContact();
-            }}
-            className="mt-3 rounded-full w-full cursor-pointer bg-neutral-900 px-6 py-3 text-sm  text-white"
-          >
-            Book call
-          </button>
+            {/* ── Services (home only) ───────────────────────── */}
+            {isHome && (
+              <div data-mobile-item>
+                <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-neutral-400">
+                  Services
+                </p>
+                <div className="flex flex-wrap gap-x-1 gap-y-1">
+                  {servicesItems.map((s) => (
+                    <button
+                      key={s.link}
+                      onClick={() => { scrollToSection(s.link); setMobileOpen(false); }}
+                      className="rounded-full border border-neutral-200 px-3 py-1 text-[13px] font-medium text-neutral-700 hover:bg-neutral-100 transition-colors"
+                    >
+                      {s.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* ── Explore ───────────────────────────────────── */}
+            <div data-mobile-item>
+              <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-neutral-400">
+                Explore
+              </p>
+              <div className="flex flex-wrap gap-x-1 gap-y-1">
+                {currentSections.map((s) => (
+                  <button
+                    key={s.link}
+                    onClick={() => { scrollToSection(s.link); setMobileOpen(false); }}
+                    className="rounded-full border border-neutral-200 px-3 py-1 text-[13px] font-medium text-neutral-700 hover:bg-neutral-100 transition-colors"
+                  >
+                    {s.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* ── CTA ───────────────────────────────────────── */}
+            <button
+              data-mobile-item
+              onClick={() => { setMobileOpen(false); openContact(); }}
+              className="w-full rounded-full bg-neutral-900 px-6 py-3 text-[13px] font-semibold text-white transition-opacity hover:opacity-80"
+            >
+              Book call
+            </button>
+
+          </div>
         </div>
       </div>
     </div>

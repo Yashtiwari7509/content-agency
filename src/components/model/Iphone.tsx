@@ -148,7 +148,6 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
   const shaderMaterialRef = useRef<THREE.ShaderMaterial>(null);
   const planeRef = useRef<THREE.PlaneGeometry>(null);
 
-  const [isPlaying, setIsPlaying] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const mountedRef = useRef(true);
 
@@ -243,31 +242,6 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
         vid.muted = true;
       }
     });
-  }, []);
-
-  const playActiveVideo = useCallback(() => {
-    const activeKey = poolKey(activeSectionRef.current, activeIndexRef.current);
-    const vid = videoElementsRef.current.get(activeKey);
-    if (!vid) return;
-
-    // Pause all others (except looping first videos which stay muted)
-    videoElementsRef.current.forEach((v, key) => {
-      if (key !== activeKey && v && !v.paused) {
-        if ((key & 0xffff) === 0) {
-          v.muted = true; // keep looping silently
-        } else {
-          v.pause();
-          v.muted = true;
-        }
-      }
-    });
-
-    vid.muted = false;
-    vid.volume = 1;
-    if (vid.paused) {
-      // Resume from where the video left off — never restart on re-hover
-      vid.play().catch(() => { }); // swallow AbortError
-    }
   }, []);
 
   // ── Immediately snap the shader to display a given texture (no wipe) ──────
@@ -464,8 +438,25 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
     [goNext, goPrev],
   );
 
-  // ── Hover / click to play active video ─────────────────────────────────
+  // ── Hover to unmute / mute array[0] of the active section ─────────────
   const hoverTimeoutRef = useRef<number | null>(null);
+
+  /** Unmute the index-0 video of the active section (it always loops/autoplays). */
+  const unmuteFirstVideo = useCallback(() => {
+    const key = poolKey(activeSectionRef.current, 0);
+    const vid = videoElementsRef.current.get(key);
+    if (vid) {
+      vid.muted = false;
+      vid.volume = 1;
+    }
+  }, []);
+
+  /** Mute the index-0 video of the active section. */
+  const muteFirstVideo = useCallback(() => {
+    const key = poolKey(activeSectionRef.current, 0);
+    const vid = videoElementsRef.current.get(key);
+    if (vid) vid.muted = true;
+  }, []);
 
   const handlePointerEnter = () => {
     if (isMobile) return;
@@ -473,30 +464,23 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
       clearTimeout(hoverTimeoutRef.current);
       hoverTimeoutRef.current = null;
     }
-    if (isPlaying) return;
-    playActiveVideo();
-    setIsPlaying(true);
+    unmuteFirstVideo();
   };
 
   const handlePointerLeave = () => {
     if (isMobile) return;
     hoverTimeoutRef.current = window.setTimeout(() => {
-      stopAllVideos();
-      setIsPlaying(false);
+      muteFirstVideo();
       hoverTimeoutRef.current = null;
     }, 120);
   };
 
   const handleClick = () => {
     if (!isMobile) return;
-
-    if (isPlaying) {
-      stopAllVideos();
-      setIsPlaying(false);
-    } else {
-      playActiveVideo();
-      setIsPlaying(true);
-    }
+    // Toggle mute on tap for mobile
+    const key = poolKey(activeSectionRef.current, 0);
+    const vid = videoElementsRef.current.get(key);
+    if (vid) vid.muted = !vid.muted;
   };
 
   useEffect(() => {
@@ -633,15 +617,12 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
                 ease: "power2.inOut",
                 onUpdate: invalidate,
               });
-
-              setIsPlaying(false);
             },
             onLeave: () => {
               if (!mountedRef.current) return;
               // Leaving below tabbedPage — hide btn2
               // btn2TL.reverse();
               stopAllVideos();
-              setIsPlaying(false);
             },
             onEnterBack: () => {
               if (!mountedRef.current) return;
@@ -660,8 +641,6 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
                 ease: "power2.inOut",
                 onUpdate: invalidate,
               });
-
-              setIsPlaying(false);
             },
             onLeaveBack: () => {
               if (!mountedRef.current) return;
@@ -681,8 +660,6 @@ export const IphoneS = forwardRef<ModelNavHandle, JSX.IntrinsicElements["group"]
                 ease: "power2.inOut",
                 onUpdate: invalidate,
               });
-
-              setIsPlaying(false);
             },
           });
 
